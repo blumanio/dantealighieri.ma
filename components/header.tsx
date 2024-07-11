@@ -4,7 +4,8 @@ import {
   FacebookIcon,
   InstagramIcon,
   YoutubeIcon,
-  TiktokIcon
+  TiktokIcon,
+  WhatsAppIcon
 } from './SocialIcons.js'
 
 const Header = () => {
@@ -14,22 +15,46 @@ const Header = () => {
         <div className='flex flex-col items-center justify-between py-2 md:flex-row'>
           <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
             <a href='tel:05 2560-6262' className='flex items-center font-sans'>
-              <PhoneIcon className='mr-1 h-4 w-4' />
-              <span>05 2560-6262</span>
+              <WhatsAppIcon className='mr-1 h-4 w-4' />
+              <span>+39 389 196 9024</span>
             </a>
             <a
-              href='mailto:contact@tawjeeh.ma'
+              href='mailto:elaammari.consulting@gmail.com'
               className='flex items-center font-sans'
             >
               <EnvelopeIcon className='mr-1 h-4 w-4' />
-              <span>contact@tawjeeh.ma</span>
+              <span>elaammari.consulting@gmail.com</span>
             </a>
           </div>
           <div className='mt-2 flex space-x-4 md:mt-0'>
-            <FacebookIcon className='h-5 w-5' />
-            <InstagramIcon className='h-5 w-5' />
-            <YoutubeIcon className='h-5 w-5' />
-            <TiktokIcon className='h-5 w-5' />
+            <a
+              href='https://www.facebook.com/etudesenitalie'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <FacebookIcon className='h-5 w-5' />
+            </a>
+            <a
+              href='https://www.instagram.com/dantealighieri.ma/'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <InstagramIcon className='h-5 w-5' />
+            </a>
+            {/* <a
+              href='https://youtube.com'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <YoutubeIcon className='h-5 w-5' />
+            </a>
+            <a
+              href='https://tiktok.com'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <TiktokIcon className='h-5 w-5' />
+            </a> */}
           </div>
         </div>
       </div>

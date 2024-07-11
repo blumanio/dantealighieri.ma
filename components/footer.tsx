@@ -13,14 +13,14 @@ const Footer = () => {
           {' '}
           <span>® 2024</span> DanteAlighieri.ma
         </p>
-        <Link to='/' spy={true} smooth={true} className='cursor-pointer'>
+        {/* <Link to='/' spy={true} smooth={true} className='cursor-pointer'>
           <Image
             src='/dante wall.svg'
             width={54.08}
             height={336.65}
             alt='logo'
           />
-        </Link>
+        </Link> */}
         <Social />
       </div>
     </section>
