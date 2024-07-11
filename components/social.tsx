@@ -1,5 +1,13 @@
 import { FaGithub, FaYoutube, FaStackOverflow } from 'react-icons/fa'
 import Link from 'next/link'
+import {
+  FacebookIcon,
+  InstagramIcon,
+  YoutubeIcon,
+  TiktokIcon,
+  WhatsAppIcon
+} from './SocialIcons.js'
+import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 
 const socialLinks = [
   {
@@ -18,16 +26,19 @@ const socialLinks = [
 const Social = () => {
   return (
     <div className='flex gap-6'>
-      {socialLinks.map((item, index) => (
-        <Link
-          target='_blank'
-          href={item.path}
-          key={index}
-          className='duration-3000 flex size-10 items-center justify-center rounded-full border-2 border-blue text-blue hover:bg-blue/20 hover:transition-all'
+      <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
+        <a href='tel:05 2560-6262' className='flex items-center font-sans'>
+          <WhatsAppIcon className='mr-1 h-4 w-4' />
+          <span>+39 389 196 9024</span>
+        </a>
+        <a
+          href='mailto:elaammari.consulting@gmail.com'
+          className='flex items-center font-sans'
         >
-          {item.icon}
-        </Link>
-      ))}
+          <EnvelopeIcon className='mr-1 h-4 w-4' />
+          <span>elaammari.consulting@gmail.com</span>
+        </a>
+      </div>
     </div>
   )
 }
