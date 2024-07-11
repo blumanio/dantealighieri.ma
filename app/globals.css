@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-background text-textSecondary font-body leading-relaxed;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-textPrimary;
+  }
+  span {
+    position: relative;
+  }
+  .under-line::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 0;
+    width: 60px;
+    height: 7px;
+    background-color: #285143;
+    border-radius: 10px;
+  }
+}
+/* Add this CSS to your styles file or a style tag */
+.highlight-red {
+  border-radius: 1em 0 1em 0;
+  background-image: linear-gradient(
+    -100deg,
+    rgba(206, 17, 38, 0.2),
+    /* Red */ rgba(206, 17, 38, 0.7) 95%,
+    rgba(206, 17, 38, 0.1)
+  );
+  /* Add hand-drawn effect */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5em;
+}
+
+.highlight-yellow {
+  border-radius: 1em 0 1em 0;
+  background-image: linear-gradient(
+    -100deg,
+    rgba(255, 255, 255, 0.2),
+    /* White */ rgba(255, 255, 255, 0.7) 95%,
+    rgba(255, 255, 255, 0.1)
+  );
+  /* Add hand-drawn effect */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5em;
+}
+
+.highlight-green {
+  border-radius: 1em 0 1em 0;
+  background-image: linear-gradient(
+    -100deg,
+    rgba(0, 146, 70, 0.2),
+    /* Green */ rgba(0, 146, 70, 0.7) 95%,
+    rgba(0, 146, 70, 0.1)
+  );
+  /* Add hand-drawn effect */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5em;
+}
+
+.marker-highlight-green {
+  background-image: linear-gradient(transparent 70%, rgba(0, 146, 70, 0.5) 70%);
+  display: inline;
+}
+
+.marker-highlight-white {
+  background-image: linear-gradient(
+    transparent 70%,
+    rgba(255, 255, 255, 0.5) 70%
+  );
+  display: inline;
+}
+
+.marker-highlight-red {
+  background-image: linear-gradient(
+    transparent 70%,
+    rgba(206, 17, 38, 0.5) 70%
+  );
+  display: inline;
+}
