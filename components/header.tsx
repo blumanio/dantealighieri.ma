@@ -15,11 +15,11 @@ const Header = () => {
         <div className='flex flex-col items-center justify-between py-2 md:flex-row'>
           <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
             <a
-              href='tel:+39 389 196 9024'
+              href='tel:+39 351 900 0615'
               className='flex items-center font-sans'
             >
               <WhatsAppIcon className='mr-1 h-4 w-4' />
-              <span>+39 389 196 9024</span>
+              <span>+39 351 900 0615</span>
             </a>
             <a
               href='mailto:elaammari.consulting@gmail.com'
