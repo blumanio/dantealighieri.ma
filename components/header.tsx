@@ -4,7 +4,7 @@ import {
   FacebookIcon,
   InstagramIcon,
   YoutubeIcon,
-  TiktokIcon,
+  LinkedInIcon,
   WhatsAppIcon
 } from './SocialIcons.js'
 
@@ -30,6 +30,13 @@ const Header = () => {
             </a>
           </div>
           <div className='mt-2 flex space-x-4 md:mt-0'>
+            <a
+              href='https://www.linkedin.com/in/mohamedelaammari/'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <LinkedInIcon className='h-5 w-5' />
+            </a>
             <a
               href='https://www.facebook.com/etudesenitalie'
               target='_blank'
