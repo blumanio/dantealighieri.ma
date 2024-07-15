@@ -97,4 +97,7 @@
   .headerDesktop {
     display: none;
   }
+  .signature {
+    display: none;
+  }
 }
