@@ -15,12 +15,12 @@ const Hero = () => {
               We equip our students with the right tools needed in a competitive
               job market.
             </p>
-            <Link
+            {/*<Link
               href='/consultation'
               className='mb-8 inline-block rounded-md bg-teal-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-teal-700 md:text-lg'
             >
               Get a Consultation
-            </Link>
+            </Link>*/}
             <ul className='space-y-2 text-slate-700'>
               <li className='flex items-center'>
                 <svg

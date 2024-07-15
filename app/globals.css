@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-textSecondary font-body leading-relaxed;
+    @apply bg-background font-body leading-relaxed text-textSecondary;
   }
   h1,
   h2,
@@ -92,4 +92,9 @@
     rgba(206, 17, 38, 0.5) 70%
   );
   display: inline;
+}
+@media screen and (max-width: 768px) {
+  .headerDesktop {
+    display: none;
+  }
 }
