@@ -61,3 +61,53 @@ export const LinkedInIcon = ({ className }) => (
     <path d='M22.23 0H1.77C.79 0 0 .774 0 1.73v20.54C0 23.227.79 24 1.77 24h20.46c.98 0 1.77-.773 1.77-1.73V1.73C24 .774 23.21 0 22.23 0zM7.12 20.452H3.56V9h3.56v11.452zM5.34 7.773a2.063 2.063 0 110-4.125 2.063 2.063 0 010 4.125zM20.452 20.452h-3.56v-5.69c0-1.356-.027-3.105-1.89-3.105-1.892 0-2.18 1.48-2.18 3.004v5.79h-3.56V9h3.42v1.563h.05c.478-.9 1.64-1.848 3.375-1.848 3.61 0 4.28 2.372 4.28 5.457v6.28z' />
   </svg>
 )
+
+export const DanteAlighieriLogo = ({ className }) => (
+  <svg
+    className={className}
+    viewBox='0 0 300 100'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <defs>
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&amp;family=Roboto:wght@300&amp;display=swap');
+      </style>
+    </defs>
+
+    <text
+      x='150'
+      y='50'
+      fontFamily="'Roboto Condensed', sans-serif"
+      fontSize='34'
+      fontWeight='700'
+      fill='currentColor'
+      textAnchor='middle'
+    >
+      DANTEALIGHIERI.MA
+    </text>
+
+    <text
+      x='150'
+      y='80'
+      fontFamily="'Roboto', sans-serif"
+      fontSize='18'
+      fontWeight='300'
+      fill='currentColor'
+      fillOpacity='0.8'
+      textAnchor='middle'
+    >
+      Consulting
+    </text>
+  </svg>
+)
+export const TikTokIcon = ({ className }) => (
+  <svg
+    className={className}
+    fill='currentColor'
+    viewBox='0 0 24 24'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path d='M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z' />
+  </svg>
+)

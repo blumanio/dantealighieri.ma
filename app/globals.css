@@ -104,3 +104,9 @@
 .calendly-inline-widget {
   height: 700px;
 }
+
+.logo {
+  width: 240px;
+  height: 80px;
+  color: #0f766e; /* Sets the color for the logo */
+}

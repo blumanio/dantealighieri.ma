@@ -5,7 +5,9 @@ import {
   InstagramIcon,
   YoutubeIcon,
   LinkedInIcon,
-  WhatsAppIcon
+  WhatsAppIcon,
+  TikTokIcon,
+  DanteAlighieriLogo
 } from './SocialIcons.js'
 
 const Header = () => {
@@ -39,7 +41,7 @@ const Header = () => {
               <LinkedInIcon className='h-5 w-5' />
             </a>
             <a
-              href='https://www.facebook.com/etudesenitalie'
+              href='https://www.facebook.com/groups/etudesenitalie'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -51,6 +53,13 @@ const Header = () => {
               rel='noopener noreferrer'
             >
               <InstagramIcon className='h-5 w-5' />
+            </a>
+            <a
+              href='https://www.tiktok.com/@dantealighieri_ma'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              <TikTokIcon className='h-5 w-5' />
             </a>
             {/* <a
               href='https://youtube.com'
@@ -77,7 +86,7 @@ const Header = () => {
                 href='/'
                 className='font-heading text-2xl font-bold text-teal-700'
               >
-                Dantealighieri.ma{' '}
+                <DanteAlighieriLogo className='logo' />
               </Link>
               <div className='mt-2 flex flex-col items-center space-y-2 font-sans md:mt-0 md:flex-row md:space-x-6 md:space-y-0'>
                 <Link
