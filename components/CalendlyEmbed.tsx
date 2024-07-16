@@ -8,7 +8,7 @@ const CalendlyEmbed = ({ url }: any) => {
       'src',
       'https://assets.calendly.com/assets/external/widget.js'
     )
-    head.appendChild(script)
+    head?.appendChild(script)
   }, [])
 
   return (
