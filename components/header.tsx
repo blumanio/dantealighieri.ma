@@ -11,7 +11,6 @@ import {
 } from './SocialIcons.js'
 
 const Header = () => {
-  //const isMobile = window.innerWidth < 768
   return (
     <header className='bg-teal-700 text-white'>
       <div className='container mx-auto px-4'>
