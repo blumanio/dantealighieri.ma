@@ -100,14 +100,13 @@ const Header = () => {
                 >
                   Services
                 </Link>
-                /*
+
                 <Link
                   href='/consultation'
                   className='rounded bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700'
                 >
                   apply
                 </Link>
-                */
               </div>
             </div>
           </div>
