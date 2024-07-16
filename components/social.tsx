@@ -31,13 +31,13 @@ const Social = () => {
           <WhatsAppIcon className='mr-1 h-4 w-4' />
           <span>+39 351 900 0615</span>
         </a>
-        <a
+        {/*<a
           href='mailto:elaammari.consulting@gmail.com'
           className='flex items-center font-sans'
         >
           <EnvelopeIcon className='mr-1 h-4 w-4' />
           <span>elaammari.consulting@gmail.com</span>
-        </a>
+        </a>*/}
       </div>
     </div>
   )

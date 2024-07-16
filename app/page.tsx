@@ -12,6 +12,7 @@ export default function Home() {
       <MobileNav></MobileNav>
       <Hero />
       <Services />
+
       {/* <Work /> */}
       {/* <FAQ /> */}
       {/* <Contact /> */}

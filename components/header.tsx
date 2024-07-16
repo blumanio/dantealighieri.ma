@@ -22,13 +22,13 @@ const Header = () => {
               <WhatsAppIcon className='mr-1 h-4 w-4' />
               <span>+39 351 900 0615</span>
             </a>
-            <a
+            {/*<a
               href='mailto:elaammari.consulting@gmail.com'
               className='flex items-center font-sans'
             >
               <EnvelopeIcon className='mr-1 h-4 w-4' />
               <span>elaammari.consulting@gmail.com</span>
-            </a>
+            </a>*/}
           </div>
           <div className='mt-2 flex space-x-4 md:mt-0'>
             <a
@@ -77,7 +77,7 @@ const Header = () => {
                 href='/'
                 className='font-heading text-2xl font-bold text-teal-700'
               >
-                Dantealighieri.ma
+                Dantealighieri.ma{' '}
               </Link>
               <div className='mt-2 flex flex-col items-center space-y-2 font-sans md:mt-0 md:flex-row md:space-x-6 md:space-y-0'>
                 <Link
@@ -92,13 +92,14 @@ const Header = () => {
                 >
                   Services
                 </Link>
-
-                {/*<Link
-                  href='/apply'
+                /*
+                <Link
+                  href='/consultation'
                   className='rounded bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700'
                 >
-                  Apply
-                </Link>*/}
+                  apply
+                </Link>
+                */
               </div>
             </div>
           </div>

@@ -15,12 +15,12 @@ const Hero = () => {
               We equip our students with the right tools needed in a competitive
               job market.
             </p>
-            {/*<Link
+            <Link
               href='/consultation'
               className='mb-8 inline-block rounded-md bg-teal-600 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-teal-700 md:text-lg'
             >
               Get a Consultation
-            </Link>*/}
+            </Link>
             <ul className='space-y-2 text-slate-700'>
               <li className='flex items-center'>
                 <svg
@@ -56,6 +56,40 @@ const Hero = () => {
                 </svg>
                 <span className='marker-highlight-red'>
                   Scholarship Support
+                </span>
+              </li>
+              <li className='flex items-center'>
+                <svg
+                  className='mr-2 h-5 w-5 text-teal-600'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'></path>
+                </svg>
+                <span className='marker-highlight-green'>
+                  Legal representation for minors
+                </span>
+              </li>
+              <li className='flex items-center'>
+                <svg
+                  className='mr-2 h-5 w-5 text-teal-600'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'></path>
+                </svg>
+                <span className='marker-highlight-white'>helping you with</span>
+              </li>
+              <li className='flex items-center'>
+                <svg
+                  className='mr-2 h-5 w-5 text-teal-600'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                >
+                  <path d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'></path>
+                </svg>
+                <span className='marker-highlight-red'>
+                  Medical Specialties for International Doctors
                 </span>
               </li>
             </ul>
