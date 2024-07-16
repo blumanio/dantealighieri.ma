@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-const CalendlyEmbed = ({ url }) => {
+const CalendlyEmbed = ({ url }: any) => {
   useEffect(() => {
     const head = document.querySelector('head')
     const script = document.createElement('script')
