@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.2.4",
     "@heroicons/react": "^2.1.5",
     "@next/third-parties": "^14.2.5",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.1.0",
     "@types/react-scroll": "^1.8.10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

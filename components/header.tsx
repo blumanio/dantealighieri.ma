@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+import {
   FacebookIcon,
   InstagramIcon,
   YoutubeIcon,
@@ -107,6 +114,14 @@ const Header = () => {
                 >
                   apply
                 </Link>
+                <div className='rounded px-4 py-2 text-slate-700 transition-colors hover:text-teal-600'>
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </div>
               </div>
             </div>
           </div>

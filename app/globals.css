@@ -110,3 +110,24 @@
   height: 80px;
   color: #0f766e; /* Sets the color for the logo */
 }
+.containerBlog {
+  margin: 0 auto;
+  padding: 0 2rem;
+  max-width: 1200px;
+}
+
+.blog-article {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.blog-article:hover {
+  transform: scale(1.05);
+}
+
+.under-line {
+  text-decoration: underline;
+}

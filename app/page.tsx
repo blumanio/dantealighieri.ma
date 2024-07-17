@@ -3,7 +3,7 @@ import Contact from '@/components/contact'
 import Hero from '@/components/hero'
 import MobileNav from '@/components/mobileNav'
 import Services from '@/components/services'
-import Work from '@/components/work'
+import Blog from '@/components/work'
 import Image from 'next/image'
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <Services />
 
-      {/* <Work /> */}
+      <Blog />
       {/* <FAQ /> */}
       {/* <Contact /> */}
     </main>

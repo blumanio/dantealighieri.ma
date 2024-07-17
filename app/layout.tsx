@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { GoogleTagManager } from '@next/third-parties/google'
-
-// components
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+
+import ClerkWrapper from './utils/clerck' // Import the Clerk wrapper
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +22,15 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
+        <ClerkWrapper>
+          <Header />
+
+          {children}
+          <Footer />
+        </ClerkWrapper>
+        <GoogleAnalytics gaId='G-845LV1ZMN9' />
+        <GoogleTagManager gtmId='GTM-5PXD8C8K' />
       </body>
-      <GoogleTagManager gtmId='G-845LV1ZMN9' />
     </html>
   )
 }
