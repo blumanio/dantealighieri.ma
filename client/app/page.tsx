@@ -5,11 +5,15 @@ import MobileNav from '@/components/mobileNav'
 import Services from '@/components/services'
 import Blog from '@/components/work'
 import Image from 'next/image'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import ConstructionToast from '../components/ConstructionToast'
 
 export default function Home() {
   return (
     <main>
-      <MobileNav></MobileNav>
+      <ToastContainer />
+      <ConstructionToast />
       <Hero />
       <Services />
 

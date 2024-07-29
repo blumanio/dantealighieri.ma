@@ -4,6 +4,9 @@ import './globals.css'
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import ConstructionToast from '../components/ConstructionToast'
 
 import ClerkWrapper from './utils/clerck' // Import the Clerk wrapper
 import MobileNav from '@/components/mobileNav'
@@ -24,6 +27,8 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <ClerkWrapper>
+          <ToastContainer />
+          <ConstructionToast />
           <Header />
           <MobileNav></MobileNav>
           {children}
