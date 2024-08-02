@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FormData, Course } from '../types/types';
+import { GFormData, Course } from '../types/types';
 
-const useCourses = (formData: FormData) => {
+const useCourses = (formData: GFormData) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoadingCourses, setIsLoadingCourses] = useState(false);
 

@@ -16,7 +16,7 @@ import {
   TikTokIcon,
   DanteAlighieriLogo
 } from './SocialIcons.js'
-
+console.log('tes test')
 const Header = () => {
   return (
     <header className='bg-teal-700 text-white'>
@@ -81,53 +81,56 @@ const Header = () => {
             >
               <TiktokIcon className='h-5 w-5' />
             </a> */}
+            </div>
           </div>
         </div>
-      </div>
-      {true ? (
-        <nav className='shadow-mdshadow-md headerDesktop bg-white'>
-          <div className='container mx-auto px-4'>
-            <div className='flex flex-col items-center justify-between py-4 md:flex-row'>
-              <Link
-                href='/'
-                className='font-heading text-2xl font-bold text-teal-700'
-              >
-                <DanteAlighieriLogo className='logo' />
-              </Link>
-              <div className='mt-2 flex flex-col items-center space-y-2 font-sans md:mt-0 md:flex-row md:space-x-6 md:space-y-0'>
+        {true ? (
+          <nav className='shadow-mdshadow-md headerDesktop bg-white'>
+            <div className='container mx-auto px-4'>
+              <div className='flex flex-col items-center justify-between py-4 md:flex-row'>
                 <Link
-                  href='/about'
-                  className='text-slate-700 hover:text-teal-600'
+                  href='/'
+                  className='font-heading text-2xl font-bold text-teal-700'
                 >
-                  About
+                  <DanteAlighieriLogo className='logo' />
                 </Link>
-                <Link
-                  href='/services'
-                  className='text-slate-700 hover:text-teal-600'
-                >
-                  Services
-                </Link>
+                <div className='mt-2 flex flex-col items-center space-y-2 font-sans md:mt-0 md:flex-row md:space-x-6 md:space-y-0'>
+                  <Link
+                    href='/about'
+                    className='text-slate-700 hover:text-teal-600'
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href='/services'
+                    className='text-slate-700 hover:text-teal-600'
+                  >
+                    Services
+                  </Link>
 
-                <Link
-                  href='/dashboard'
-                  className='rounded bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700'
-                >
-                  apply
-                </Link>
-                <div className='rounded px-4 py-2 text-slate-700 transition-colors hover:text-teal-600'>
-                  <SignedOut>
-                    <SignInButton />
-                  </SignedOut>
-                  <SignedIn>
-                    <UserButton />
-                  </SignedIn>
+                  <Link
+                    href='/dashboard'
+                    className='rounded bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700'
+                  >
+                    apply
+                  </Link>
+                  <div className='rounded px-4 py-2 text-slate-700 transition-colors hover:text-teal-600'>
+                    <SignedOut>
+                      <SignInButton />
+                    </SignedOut>
+                    <SignedIn>
+                      <UserButton />
+                    </SignedIn>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </nav>
-      ) : null}
-    </header>
+          </nav>
+        ) : null}
+
+        <MobileNav></MobileNav>
+      </header>
+    </>
   )
 }
 

@@ -3,10 +3,10 @@ import ReactCountryFlag from 'react-country-flag'
 import { useUser } from '@clerk/nextjs'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import Stepper from './ui/Stepper'
+import Stepper from './ui/stepper'
 import DocumentUploadForm from './DocumentUploadForm'
 import PaymentForm from './PaymentForm'
-// import { FormData } from '../types/types'
+import { GFormData } from '../types/types'
 import {
   academicAreas,
   arabCountries,
@@ -14,8 +14,7 @@ import {
   accessTypes,
   courseLanguages,
   steps,
-  APPLICATIONS_ENDPOINT,
-  REQUIRED_DOCUMENTS_COUNT
+  APPLICATIONS_ENDPOINT
 } from '../constants/constants'
 import { useForm, useCourses } from '../hooks'
 
@@ -23,7 +22,7 @@ const GeneralInfoForm: React.FC = () => {
   const [step, setStep] = useState<number>(1)
   const { user, isLoaded } = useUser()
 
-  const initialFormData: FormData = {
+  const initialFormData: GFormData = {
     firstName: '',
     lastName: '',
     birthDate: '',
@@ -33,7 +32,7 @@ const GeneralInfoForm: React.FC = () => {
     accessType: '',
     courseLanguage: '',
     program: '',
-    documents: Array(REQUIRED_DOCUMENTS_COUNT).fill(''),
+    documents: Array().fill(''),
     paymentOption: '',
     receipt: '',
     academicArea: ''
@@ -141,7 +140,7 @@ const GeneralInfoForm: React.FC = () => {
       <h1 className='mb-6 text-center text-3xl font-bold'>
         Study Abroad Application Form
       </h1>
-      <Stepper activeStep={step} steps={steps} />
+      <Stepper activeStep={step} />
 
       <div className='mb-4 mt-8 rounded bg-white px-8 pb-8 pt-6 shadow-md'>
         <form onSubmit={handleSubmit}>
@@ -184,7 +183,7 @@ export default GeneralInfoForm
 
 // Separate component for Personal Info Step
 const PersonalInfoStep: React.FC<{
-  formData: FormData
+  formData: GFormData
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void
