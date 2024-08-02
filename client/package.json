@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.2.4",
+    "@clerk/nextjs": "^5.2.12",
     "@heroicons/react": "^2.1.5",
     "@next/third-parties": "^14.2.5",
     "@radix-ui/react-accordion": "^1.1.2",
