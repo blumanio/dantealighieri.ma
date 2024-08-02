@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
+import MobileNav from '@/components/mobileNav'
+
 import {
   ClerkProvider,
   SignInButton,
@@ -19,55 +21,56 @@ import {
 console.log('tes test')
 const Header = () => {
   return (
-    <header className='bg-teal-700 text-white'>
-      <div className='container mx-auto px-4'>
-        <div className='flex flex-col items-center justify-between py-2 md:flex-row'>
-          <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
-            <a
-              href='tel:+39 351 900 0615'
-              className='flex items-center font-sans'
-            >
-              <WhatsAppIcon className='mr-1 h-4 w-4' />
-              <span>+39 351 900 0615</span>
-            </a>
-            {/*<a
+    <>
+      <header className='bg-teal-700 text-white'>
+        <div className='container mx-auto px-4'>
+          <div className='flex flex-row items-center justify-between py-2 md:flex-row'>
+            <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
+              <a
+                href='tel:+39 351 900 0615'
+                className='flex items-center font-sans'
+              >
+                <WhatsAppIcon className='mr-1 h-4 w-4' />
+                <span>+39 351 900 0615</span>
+              </a>
+              {/*<a
               href='mailto:elaammari.consulting@gmail.com'
               className='flex items-center font-sans'
             >
               <EnvelopeIcon className='mr-1 h-4 w-4' />
               <span>elaammari.consulting@gmail.com</span>
             </a>*/}
-          </div>
-          <div className='mt-2 flex space-x-4 md:mt-0'>
-            <a
-              href='https://www.linkedin.com/in/mohamedelaammari/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <LinkedInIcon className='h-5 w-5' />
-            </a>
-            <a
-              href='https://www.facebook.com/groups/etudesenitalie'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <FacebookIcon className='h-5 w-5' />
-            </a>
-            <a
-              href='https://www.instagram.com/dantealighieri.ma/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <InstagramIcon className='h-5 w-5' />
-            </a>
-            <a
-              href='https://www.tiktok.com/@dantealighieri_ma'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <TikTokIcon className='h-5 w-5' />
-            </a>
-            {/* <a
+            </div>
+            <div className='mt-2 flex space-x-4 md:mt-0'>
+              <a
+                href='https://www.linkedin.com/in/mohamedelaammari/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <LinkedInIcon className='h-5 w-5' />
+              </a>
+              <a
+                href='https://www.facebook.com/groups/etudesenitalie'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <FacebookIcon className='h-5 w-5' />
+              </a>
+              <a
+                href='https://www.instagram.com/dantealighieri.ma/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <InstagramIcon className='h-5 w-5' />
+              </a>
+              <a
+                href='https://www.tiktok.com/@dantealighieri_ma'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <TikTokIcon className='h-5 w-5' />
+              </a>
+              {/* <a
               href='https://youtube.com'
               target='_blank'
               rel='noopener noreferrer'
