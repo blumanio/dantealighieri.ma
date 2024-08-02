@@ -36,6 +36,10 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
+  "overrides": {
+    "rimraf": "^4.0.0",
+    "glob": "^9.0.0"
+  },
   "devDependencies": {
     "@types/lodash": "^4.17.7",
     "@types/node": "^20",
