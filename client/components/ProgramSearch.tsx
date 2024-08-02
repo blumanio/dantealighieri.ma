@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { FaSearch, FaFilter, FaSpinner } from 'react-icons/fa'
-import ProgramCard from './ProgramCard'
+import ProgramCard from './programCard'
 import { academicAreas } from '../constants/constants'
 
 interface Course {
