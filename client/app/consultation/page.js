@@ -5,7 +5,7 @@ export default function Services() {
   return (
     <div className='container'>
       <h1>Schedule an Appointment</h1>
-      <CalendlyEmbed url='https://calendly.com/dante-consulting/dante-alighieri-consulting' />
+      <CalendlyEmbed url='https://calendly.com/dantema/dante-alighieri-consulting' />
     </div>
   )
 }
