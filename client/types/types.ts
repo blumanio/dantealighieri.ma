@@ -1,7 +1,7 @@
 // types.ts
 
 // For form data
-export interface FormData {
+export interface GFormData {
     firstName: string;
     lastName: string;
     birthDate: string;
@@ -47,7 +47,7 @@ export interface FormData {
   
   // For form props
   export interface FormProps {
-    formData: FormData;
+    formData: GFormData;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   }
   
@@ -64,7 +64,7 @@ export interface FormData {
   
 // in types/types.ts
 export interface PaymentFormProps {
-  formData: FormData;
+  formData: GFormData;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

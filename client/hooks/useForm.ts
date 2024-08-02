@@ -1,10 +1,10 @@
 // src/hooks/useForm.ts
 
 import { useState, ChangeEvent } from 'react';
-import { FormData } from '../types/types';
+import { GFormData } from '../types/types';
 
-const useForm = (initialState: FormData) => {
-  const [formData, setFormData] = useState<FormData>(initialState);
+const useForm = (initialState: GFormData) => {
+  const [formData, setFormData] = useState<GFormData>(initialState);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
