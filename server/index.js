@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
     origin: [
-      "https://dantealighieri-ma.vercel.app/",
-      "https://dantealighieri.ma/",
+      "https://dantealighieri-ma.vercel.app",
+      "https://dantealighieri.ma",
     ],
     methods: ["POST", "GET"],
     credentials: true,
