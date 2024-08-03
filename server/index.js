@@ -20,6 +20,7 @@ dotenv.config();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -193,3 +194,6 @@ if (process.env.NODE_ENV === "production") {
     });
   });
 }
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
