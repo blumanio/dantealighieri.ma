@@ -27,7 +27,8 @@ app.use("/applications", applicationRoutes);
 
 // MongoDB connection
 const CONNECTION_URL =
-  process.env.MONGODB_URI || "your-mongodb-connection-string";
+  process.env.MONGODB_URI ||
+  "mongodb+srv://medlique:HXRMVGMsPpdCjDSt@cluster0.4d0iacb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const PORT = process.env.PORT || 5000;
 mongoose.set("strictQuery", false);
 

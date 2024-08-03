@@ -27,7 +27,7 @@ const useCourses = (formData: GFormData) => {
           area: formData.academicArea
         });
         const response = await axios.get<Course[]>(
-          `http://localhost:5000/api/courses?${params.toString()}`
+          `dantealighieri-ma-1bo3.vercel.app/api/courses?${params.toString()}`
         );
         setCourses(response.data);
       } catch (error) {
