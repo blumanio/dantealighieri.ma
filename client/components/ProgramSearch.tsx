@@ -50,7 +50,7 @@ const ProgramSearch: React.FC = () => {
         limit: ITEMS_PER_PAGE.toString()
       })
       const response = await axios.get<Course[]>(
-        `dantealighieri-ma-1bo3.vercel.app/api/courses?${params.toString()}`
+        `/api/courses?${params.toString()}`
       )
 
       if (reset) {
