@@ -19,7 +19,16 @@ const __dirname = path.dirname(__filename);
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://dantealighieri-ma.vercel.app/",
+      "https://dantealighieri.ma/",
+    ],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 // API routes
 app.use("/posts", postRoutes);
