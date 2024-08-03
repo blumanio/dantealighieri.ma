@@ -9,6 +9,11 @@ import postRoutes from "./routes/posts.js";
 import applicationRoutes from "./routes/application.js";
 import { Webhook } from "svix";
 import User from "./models/User.js";
+import {
+  uploadDocuments,
+  getFilePath,
+  generateFilename,
+} from "./middleware/upload.js";
 
 dotenv.config();
 
@@ -19,16 +24,7 @@ const __dirname = path.dirname(__filename);
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(
-  cors({
-    origin: [
-      "https://dantealighieri-ma.vercel.app",
-      "https://dantealighieri.ma",
-    ],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // API routes
 app.use("/posts", postRoutes);
@@ -140,7 +136,34 @@ app.post(
     }
   }
 );
+app.post("/upload", uploadDocuments, async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db("your_database_name");
+    const collection = db.collection("files");
 
+    for (let fieldname in req.files) {
+      for (let file of req.files[fieldname]) {
+        const filename = generateFilename(fieldname, file.originalname);
+        const filepath = getFilePath(fieldname, filename);
+
+        await collection.insertOne({
+          filename: filename,
+          filepath: filepath,
+          contentType: file.mimetype,
+          data: file.buffer,
+        });
+      }
+    }
+
+    res.status(200).json({ message: "Files uploaded successfully" });
+  } catch (error) {
+    console.error("Error uploading files:", error);
+    res.status(500).send("Error uploading files");
+  } finally {
+    await client.close();
+  }
+});
 // Connect to MongoDB and start the server
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
