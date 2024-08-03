@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon --experimental-modules --es-module-specifier-resolution=node index.js",
-    "build": "cd ../client && npm run build",
+    "build": "cd ../client && npm install && npm run build && cd server && npm install",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "cd server npm run install-client && npm run build",
     "server": "nodemon server/index.js",
