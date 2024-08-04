@@ -168,14 +168,17 @@ app.post("/upload", uploadDocuments, async (req, res) => {
 // Connect to MongoDB and start the server
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
   .catch((error) => {
     console.error("Error connecting to the database:", error);
   });
+
+// Serve static files
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+// Catch-all route
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
