@@ -20,7 +20,7 @@ dotenv.config();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "../client/build")));
+//app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -173,21 +173,18 @@ mongoose
   });
 
 // Serve static files
-app.use(express.static(path.resolve(__dirname, "../client/build")));
+//app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 // Catch-all route
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-});
+//app.get("*", (req, res) => {
+//res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+//});
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.resolve(__dirname, "../client/build")));
 
   // Wildcard route for serving index.html for any other route in production
-  app.get("*", (request, response) => {
-    response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-  });
 } else {
   // For development, add a catch-all route that returns a JSON response
   app.get("*", (req, res) => {
@@ -197,6 +194,5 @@ if (process.env.NODE_ENV === "production") {
     });
   });
 }
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+
+export default app;
