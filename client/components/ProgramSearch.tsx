@@ -40,7 +40,7 @@ const ProgramSearch: React.FC = () => {
   const fetchCourses = async (reset = false) => {
     setIsLoading(true)
     try {
-      console.log(process.env, 'ssssssssss')
+      console.log(process, 'ssssssssss')
       const params = new URLSearchParams({
         tipo: formData.degreeType,
         accesso: formData.accessType,
@@ -50,7 +50,7 @@ const ProgramSearch: React.FC = () => {
         limit: ITEMS_PER_PAGE.toString()
       })
       const response = await axios.get<Course[]>(
-        `/api/courses?${params.toString()}`
+        `https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/courses?${params.toString()}`
       )
 
       if (reset) {
