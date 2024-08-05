@@ -25,7 +25,20 @@ const __dirname = path.dirname(__filename);
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+const corsOptions = {
+  origin: [
+    "http://localhost:3000",
+    "https://dantealighieri.ma",
+    "https://frontend-git-main-mohamed-el-aammaris-projects.vercel.app",
+    "https://frontend-m911g9pp6-mohamed-el-aammaris-projects.vercel.app",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 // API routes
 app.use("/posts", postRoutes);

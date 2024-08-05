@@ -40,7 +40,7 @@ const ProgramSearch: React.FC = () => {
   const fetchCourses = async (reset = false) => {
     setIsLoading(true)
     try {
-      console.log(process, 'ssssssssss')
+      console.log(process.env, 'sssssfffffffffsssss')
       const params = new URLSearchParams({
         tipo: formData.degreeType,
         accesso: formData.accessType,
