@@ -1,36 +1,36 @@
 import express from "express";
-import multer from "multer";
-import { createApplication } from "../controllers/applicationController.js"; // Import the controller function
-import {
-  uploadDocuments,
-  getFilePath,
-  generateFilename,
-} from "../middleware/upload.js";
-import path from "path";
+import { createApplication } from "../controllers/applicationController.js";
+
 const router = express.Router();
 
-const storage = multer.memoryStorage();
+console.log("application js route");
 
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "application/pdf") {
-    cb(null, true);
-  } else {
-    cb(new Error("Invalid file type. Only PDFs are allowed."), false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
+// Logging middleware
+router.use((req, res, next) => {
+  console.log(`Received ${req.method} request to ${req.originalUrl}`);
+  next();
 });
 
+// Route definition
 router.post(
   "/",
-  upload.fields([
-    { name: "documents", maxCount: 7 },
-    { name: "receipt", maxCount: 1 },
-  ]),
-  createApplication // Use the controller function
+  (req, res, next) => {
+    console.log(
+      "Received application data in route:",
+      JSON.stringify(req.body, null, 2)
+    );
+    next();
+  },
+  createApplication
 );
+// Error handling middleware
+router.use((err, req, res, next) => {
+  console.error("Router error:", err);
+  res.status(500).json({
+    success: false,
+    message: "An error occurred in the server.",
+    error: err.message,
+  });
+});
 
 export default router;

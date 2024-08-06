@@ -1,27 +1,24 @@
-import React, { useState, FormEvent, useCallback, useMemo } from 'react'
+import React, { FormEvent, useMemo, useState } from 'react'
 import ReactCountryFlag from 'react-country-flag'
 import { useUser } from '@clerk/nextjs'
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import Stepper from './ui/stepper'
-import DocumentUploadForm from './DocumentUploadForm'
-import PaymentForm from './PaymentForm'
 import { GFormData } from '../types/types'
 import {
-  academicAreas,
   arabCountries,
   degreeTypes,
+  APPLICATIONS_ENDPOINT,
+  academicAreas,
   accessTypes,
-  courseLanguages,
-  steps,
-  APPLICATIONS_ENDPOINT
+  courseLanguages
 } from '../constants/constants'
 import { useForm, useCourses } from '../hooks'
 
 const GeneralInfoForm: React.FC = () => {
-  const [step, setStep] = useState<number>(1)
-  const { user, isLoaded } = useUser()
+  toast.success('Application submitted successfully!')
 
+  const { user, isLoaded } = useUser()
+  console.log('uuuuuuuuuuuuser', user)
   const initialFormData: GFormData = {
     firstName: '',
     lastName: '',
@@ -29,19 +26,14 @@ const GeneralInfoForm: React.FC = () => {
     country: '',
     city: '',
     degreeType: '',
-    accessType: '',
-    courseLanguage: '',
     program: '',
-    documents: Array().fill(''),
-    paymentOption: '',
-    receipt: '',
-    academicArea: ''
+    userId: ''
   }
+  // const [isLoading, setIsLoading] = useState(true)
 
-  const { formData, handleChange, handleDocumentUpload, handleFileChange } =
-    useForm(initialFormData)
+  const { formData, handleChange } = useForm(initialFormData)
 
-  const { courses, isLoadingCourses } = useCourses(formData)
+  const { courses } = useCourses(formData)
 
   const isProgramSelectDisabled = useMemo(
     () =>
@@ -56,129 +48,58 @@ const GeneralInfoForm: React.FC = () => {
       formData.academicArea
     ]
   )
+  const userId: any = user && user.id
+  toast.error('Failed to submit application. Please try again.')
 
-  const handleNextStep = useCallback(() => {
-    setStep(prevStep => prevStep + 1)
-  }, [])
-
-  const handlePrevStep = useCallback(() => {
-    setStep(prevStep => prevStep - 1)
-  }, [])
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  // .post('http://localhost:5000/applications', formData, {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = new FormData()
-
-    // Append documents to FormData
-    formData.documents.forEach((file, index) => {
-      if (file instanceof File) {
-        form.append(`document${index}`, file)
-      }
-    })
-
-    // Append receipt to FormData
-    if (formData.receipt instanceof File) {
-      form.append('receipt', formData.receipt)
-    }
-
-    // Append other form data
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key !== 'documents' && key !== 'receipt') {
-        form.append(key, value as string)
-      }
-    })
-
+    // setIsLoading(true)
     try {
-      const response = await axios.post(APPLICATIONS_ENDPOINT, form, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      const response = await axios.post(
+        'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
+        formData
+      )
       toast.success('Application submitted successfully!')
-      // Optionally, reset form or navigate to a success page
+      // Reset form or perform any other actions on success
     } catch (error) {
       console.error('Error submitting application:', error)
       toast.error('Failed to submit application. Please try again.')
+    } finally {
+      // setIsLoading(false)
     }
   }
 
   if (!isLoaded) return <div>Loading...</div>
   if (!user) return <div>Please sign in to access this page.</div>
 
-  const renderStep = () => {
-    switch (step) {
-      case 1:
-        return (
-          <PersonalInfoStep
-            formData={formData}
-            handleChange={handleChange}
-            courses={courses}
-            isProgramSelectDisabled={isProgramSelectDisabled}
-          />
-        )
-      case 2:
-        return (
-          <DocumentUploadForm
-            formData={formData}
-            handleDocumentUpload={handleDocumentUpload}
-            handleChange={handleChange}
-          />
-        )
-      case 3:
-        return (
-          <PaymentForm
-            formData={formData}
-            handleChange={handleChange}
-            handleFileChange={handleFileChange}
-          />
-        )
-      default:
-        return null
-    }
-  }
-
   return (
     <div className='container mx-auto max-w-3xl p-4'>
       <h1 className='mb-6 text-center text-3xl font-bold'>
         Study Abroad Application Form
       </h1>
-      <Stepper activeStep={step} />
 
       <div className='mb-4 mt-8 rounded bg-white px-8 pb-8 pt-6 shadow-md'>
         <form onSubmit={handleSubmit}>
-          {renderStep()}
+          <PersonalInfoStep
+            formData={formData}
+            handleChange={handleChange}
+            courses={courses}
+          />
 
           <div className='mt-6 flex justify-between'>
-            {step > 1 && (
-              <button
-                type='button'
-                onClick={handlePrevStep}
-                className='rounded bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50'
-              >
-                Back
-              </button>
-            )}
-            {step < 3 ? (
-              <button
-                type='button'
-                onClick={handleNextStep}
-                className='rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
-              >
-                Next
-              </button>
-            ) : (
-              <button
-                type='submit'
-                className='rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
-              >
-                Submit Application
-              </button>
-            )}
+            <button
+              type='submit'
+              className='rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50'
+            >
+              Submit Application
+            </button>
           </div>
         </form>
       </div>
     </div>
   )
 }
-
 export default GeneralInfoForm
 
 // Separate component for Personal Info Step
@@ -190,8 +111,6 @@ const PersonalInfoStep: React.FC<{
   courses: any[]
   isProgramSelectDisabled: boolean
 }> = ({ formData, handleChange, courses, isProgramSelectDisabled }) => {
-  // Render personal info fields here (firstName, lastName, etc.)
-  // This component would contain all the fields from the first step
   return (
     <div className='space-y-4'>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
@@ -209,7 +128,6 @@ const PersonalInfoStep: React.FC<{
             value={formData.firstName}
             onChange={handleChange}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            required
           />
         </div>
         <div>
@@ -226,7 +144,6 @@ const PersonalInfoStep: React.FC<{
             value={formData.lastName}
             onChange={handleChange}
             className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            required
           />
         </div>
       </div>
@@ -245,7 +162,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.birthDate}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         />
       </div>
 
@@ -263,7 +179,6 @@ const PersonalInfoStep: React.FC<{
             value={formData.country}
             onChange={handleChange}
             className='mt-1 block w-full rounded-md border-gray-300 pl-10 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            required
           >
             <option value=''>Select Country</option>
             {arabCountries.map(country => (
@@ -294,7 +209,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.city}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         />
       </div>
 
@@ -311,7 +225,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.degreeType}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         >
           <option value=''>Select Degree Type</option>
           {degreeTypes.map(type => (
@@ -335,7 +248,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.academicArea}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         >
           <option value=''>Select Academic Area</option>
           {academicAreas.map(area => (
@@ -359,7 +271,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.accessType}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         >
           <option value=''>Select Access Type</option>
           {accessTypes.map(type => (
@@ -383,7 +294,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.courseLanguage}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
         >
           <option value=''>Select Course Language</option>
           {courseLanguages.map(language => (
@@ -407,7 +317,6 @@ const PersonalInfoStep: React.FC<{
           value={formData.program}
           onChange={handleChange}
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-          required
           disabled={isProgramSelectDisabled}
         >
           <option value=''>Select Program</option>

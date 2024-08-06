@@ -26,6 +26,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 const allowedOrigins = ["https://dantealighieri.ma", "http://localhost:3000"];
+console.log("index js ");
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -60,7 +61,6 @@ app.options("*", cors(corsOptions));
 // };
 
 // app.use(cors(corsOptions));
-console.log("777777777777777777");
 // API routes
 app.use("/posts", postRoutes);
 app.use("/applications", applicationRoutes);
@@ -70,6 +70,9 @@ const CONNECTION_URL =
   process.env.MONGODB_URI ||
   "mongodb+srv://medlique:HXRMVGMsPpdCjDSt@cluster0.4d0iacb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 mongoose.set("strictQuery", false);
 
 // Define schema and model for courses
@@ -202,10 +205,16 @@ app.post("/upload", uploadDocuments, async (req, res) => {
 // Connect to MongoDB and start the server
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB successfully"))
   .catch((error) => {
     console.error("Error connecting to the database:", error);
   });
-
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  console.log("Headers:", JSON.stringify(req.headers, null, 2));
+  console.log("Body:", JSON.stringify(req.body, null, 2));
+  next();
+});
 // Serve static files
 //app.use(express.static(path.resolve(__dirname, "../client/build")));
 
@@ -228,5 +237,6 @@ mongoose
 //     });
 //   });
 // }
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 export default app;

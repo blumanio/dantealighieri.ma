@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
-
-const applicationSchema = new mongoose.Schema(
+const applicationSchema = mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    birthDate: { type: Date, required: true },
+    birthDate: { type: String, required: true },
     country: { type: String, required: true },
     city: { type: String, required: true },
     degreeType: { type: String, required: true },
     program: { type: String, required: true },
-    paymentOption: { type: String, required: true },
-    documents: [{ type: String }], // Array of file paths or identifiers
-    receipt: { type: String }, // Path to the receipt file
-    userId: { type: String },
+    accessType: { type: String, required: true },
+    courseLanguage: { type: String, required: true },
+    academicArea: { type: String, required: true },
+    userId: { type: String, required: true },
   },
   { timestamps: true }
 );
 
-const Application = mongoose.model("Application", applicationSchema);
-
-export default Application;
+const PostApplication = mongoose.model("PostApplication", applicationSchema);
+export default PostApplication;
