@@ -12,7 +12,7 @@ const nextConfig = {
           {
             key: 'Access-Control-Allow-Origin',
             value: 'https://dantealighieri.ma'
-          }, // replace this your actual origin
+          }, // replace this with your actual origin
           {
             key: 'Access-Control-Allow-Methods',
             value: 'GET,DELETE,PATCH,POST,PUT'
@@ -28,4 +28,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+export default nextConfig
