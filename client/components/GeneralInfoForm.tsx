@@ -27,7 +27,10 @@ const GeneralInfoForm: React.FC = () => {
     city: '',
     degreeType: '',
     program: '',
-    userId: ''
+    userId: '',
+    academicArea: undefined,
+    courseLanguage: undefined,
+    accessType: undefined
   }
   // const [isLoading, setIsLoading] = useState(true)
 
@@ -85,6 +88,7 @@ const GeneralInfoForm: React.FC = () => {
             formData={formData}
             handleChange={handleChange}
             courses={courses}
+            isProgramSelectDisabled={false}
           />
 
           <div className='mt-6 flex justify-between'>

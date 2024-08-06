@@ -2,6 +2,9 @@
 
 // For form data
 export interface GFormData {
+  academicArea: any;
+  courseLanguage: any;
+  accessType: any;
   firstName: string;
   lastName: string;
   birthDate: string;
