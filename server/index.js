@@ -9,25 +9,66 @@ import postRoutes from "./routes/posts.js";
 import applicationRoutes from "./routes/application.js";
 import { Webhook } from "svix";
 import User from "./models/User.js";
+import {
+  uploadDocuments,
+  getFilePath,
+  generateFilename,
+} from "./middleware/upload.js";
 
 dotenv.config();
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+//app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
+const allowedOrigins = ["https://dantealighieri.ma", "http://localhost:3000"];
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options("*", cors(corsOptions));
+// const corsOptions = {
+//   origin: [
+//     "http://localhost:3000",
+//     "https://dantealighieri.ma",
+//     "https://frontend-git-main-mohamed-el-aammaris-projects.vercel.app",
+//     "https://frontend-m911g9pp6-mohamed-el-aammaris-projects.vercel.app",
+//   ],
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
+// app.use(cors(corsOptions));
+console.log("777777777777777777");
 // API routes
 app.use("/posts", postRoutes);
 app.use("/applications", applicationRoutes);
 
 // MongoDB connection
 const CONNECTION_URL =
-  process.env.MONGODB_URI || "your-mongodb-connection-string";
+  process.env.MONGODB_URI ||
+  "mongodb+srv://medlique:HXRMVGMsPpdCjDSt@cluster0.4d0iacb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const PORT = process.env.PORT || 5000;
 mongoose.set("strictQuery", false);
 
@@ -130,33 +171,62 @@ app.post(
     }
   }
 );
+app.post("/upload", uploadDocuments, async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db("your_database_name");
+    const collection = db.collection("files");
 
+    for (let fieldname in req.files) {
+      for (let file of req.files[fieldname]) {
+        const filename = generateFilename(fieldname, file.originalname);
+        const filepath = getFilePath(fieldname, filename);
+
+        await collection.insertOne({
+          filename: filename,
+          filepath: filepath,
+          contentType: file.mimetype,
+          data: file.buffer,
+        });
+      }
+    }
+
+    res.status(200).json({ message: "Files uploaded successfully" });
+  } catch (error) {
+    console.error("Error uploading files:", error);
+    res.status(500).send("Error uploading files");
+  } finally {
+    await client.close();
+  }
+});
 // Connect to MongoDB and start the server
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
   .catch((error) => {
     console.error("Error connecting to the database:", error);
   });
 
-// Serve static files in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "../client/build")));
+// Serve static files
+//app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-  // Wildcard route for serving index.html for any other route in production
-  app.get("*", (request, response) => {
-    response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-  });
-} else {
-  // For development, add a catch-all route that returns a JSON response
-  app.get("*", (req, res) => {
-    res.json({
-      message:
-        "API is running. For client-side routes, please run the React development server.",
-    });
-  });
-}
+// Catch-all route
+//app.get("*", (req, res) => {
+//res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+//});
+
+// Serve static files in production
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.resolve(__dirname, "../client/build")));
+
+//   // Wildcard route for serving index.html for any other route in production
+// } else {
+//   // For development, add a catch-all route that returns a JSON response
+//   app.get("*", (req, res) => {
+//     res.json({
+//       message:
+//         "API is running. For client-side routes, please run the React development server.",
+//     });
+//   });
+// }
+
+export default app;

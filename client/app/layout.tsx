@@ -4,7 +4,6 @@ import './globals.css'
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ConstructionToast from '../components/ConstructionToast'
 
@@ -27,7 +26,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <ClerkWrapper>
-          <ToastContainer />
+          {/* <ToastContainer /> */}
           <ConstructionToast />
           <Header />
           <MobileNav></MobileNav>

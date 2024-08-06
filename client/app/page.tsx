@@ -13,11 +13,11 @@ export default function Home() {
   return (
     <main>
       <ToastContainer />
-      <ConstructionToast />
+      {/* <ConstructionToast /> */}
       <Hero />
       <Services />
 
-      <Blog />
+      {/* <Blog /> */}
       {/* <FAQ /> */}
       {/* <Contact /> */}
     </main>

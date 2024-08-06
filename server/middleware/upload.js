@@ -1,24 +1,7 @@
 import multer from "multer";
 import path from "path";
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    let uploadPath = "uploads/";
-    if (file.fieldname === "documents") {
-      uploadPath = path.join(uploadPath, "documents");
-    } else if (file.fieldname === "receipt") {
-      uploadPath = path.join(uploadPath, "receipts");
-    }
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
-  },
-});
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "application/pdf") {
@@ -37,5 +20,22 @@ export const uploadDocuments = upload.fields([
   { name: "documents", maxCount: 7 },
   { name: "receipt", maxCount: 1 },
 ]);
+
+// Helper function to simulate file paths
+export const getFilePath = (fieldname, filename) => {
+  let uploadPath = "uploads/";
+  if (fieldname === "documents") {
+    uploadPath = path.join(uploadPath, "documents");
+  } else if (fieldname === "receipt") {
+    uploadPath = path.join(uploadPath, "receipts");
+  }
+  return path.join(uploadPath, filename);
+};
+
+// Helper function to generate unique filename
+export const generateFilename = (fieldname, originalname) => {
+  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+  return fieldname + "-" + uniqueSuffix + path.extname(originalname);
+};
 
 export default upload;

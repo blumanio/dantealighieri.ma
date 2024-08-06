@@ -48,9 +48,15 @@ const MobileNav = () => {
         <SheetContent side='right' className='w-[300px] bg-white sm:w-[400px]'>
           <div className='flex h-full flex-col'>
             <div className='flex justify-center bg-teal-700 py-6'>
-              <Link href='/' onClick={() => setIsOpen(false)}>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+              {/* <Link href='/' onClick={() => setIsOpen(false)}>
                 <Image src='/logo.svg' height={60} width={47} alt='logo' />
-              </Link>
+              </Link> */}
             </div>
             <nav className='flex flex-grow flex-col items-center justify-center gap-6'>
               {menu.map((item, index) => (
@@ -63,13 +69,6 @@ const MobileNav = () => {
                   {item.name}
                 </Link>
               ))}
-
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
             </nav>
           </div>
         </SheetContent>

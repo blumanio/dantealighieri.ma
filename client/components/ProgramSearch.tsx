@@ -32,7 +32,7 @@ const ProgramSearch: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
-
+  // axios.defaults.withCredentials = true
   useEffect(() => {
     fetchCourses(true)
   }, [formData])
@@ -40,6 +40,7 @@ const ProgramSearch: React.FC = () => {
   const fetchCourses = async (reset = false) => {
     setIsLoading(true)
     try {
+      console.log(process.env, 'fffffffffffffffff')
       const params = new URLSearchParams({
         tipo: formData.degreeType,
         accesso: formData.accessType,
@@ -49,7 +50,7 @@ const ProgramSearch: React.FC = () => {
         limit: ITEMS_PER_PAGE.toString()
       })
       const response = await axios.get<Course[]>(
-        `http://localhost:5000/api/courses?${params.toString()}`
+        `https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/courses?${params.toString()}`
       )
 
       if (reset) {
