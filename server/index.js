@@ -18,19 +18,14 @@ import {
 dotenv.config();
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 //app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://dantealighieri.ma",
-  "https://frontend-git-main-mohamed-el-aammaris-projects.vercel.app",
-  "https://frontend-m911g9pp6-mohamed-el-aammaris-projects.vercel.app",
-];
+const allowedOrigins = ["https://dantealighieri.ma", "http://localhost:3000"];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -46,7 +41,11 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options("*", cors(corsOptions));
 // const corsOptions = {
 //   origin: [
 //     "http://localhost:3000",
@@ -61,7 +60,7 @@ app.use(cors(corsOptions));
 // };
 
 // app.use(cors(corsOptions));
-
+console.log("777777777777777777");
 // API routes
 app.use("/posts", postRoutes);
 app.use("/applications", applicationRoutes);
@@ -216,18 +215,18 @@ mongoose
 //});
 
 // Serve static files in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "../client/build")));
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-  // Wildcard route for serving index.html for any other route in production
-} else {
-  // For development, add a catch-all route that returns a JSON response
-  app.get("*", (req, res) => {
-    res.json({
-      message:
-        "API is running. For client-side routes, please run the React development server.",
-    });
-  });
-}
+//   // Wildcard route for serving index.html for any other route in production
+// } else {
+//   // For development, add a catch-all route that returns a JSON response
+//   app.get("*", (req, res) => {
+//     res.json({
+//       message:
+//         "API is running. For client-side routes, please run the React development server.",
+//     });
+//   });
+// }
 
 export default app;
