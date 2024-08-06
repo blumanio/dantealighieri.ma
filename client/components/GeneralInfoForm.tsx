@@ -30,7 +30,8 @@ const GeneralInfoForm: React.FC = () => {
     userId: '',
     academicArea: undefined,
     courseLanguage: undefined,
-    accessType: undefined
+    accessType: undefined,
+    paymentOption: undefined
   }
   // const [isLoading, setIsLoading] = useState(true)
 

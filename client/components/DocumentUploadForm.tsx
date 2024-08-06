@@ -4,8 +4,8 @@ import React from 'react'
 import { DocumentUploadFormProps } from '../types/types'
 
 const DocumentUploadForm: React.FC<DocumentUploadFormProps> = ({
-  formData,
-  handleDocumentUpload
+  formData
+  // handleDocumentUpload
 }) => {
   console.log('formData documetnt upload', formData)
   return (

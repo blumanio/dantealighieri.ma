@@ -17,21 +17,21 @@ const useForm = (initialState: GFormData) => {
     }));
   };
 
-  const handleDocumentUpload = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const file = e.target.files?.[0];
-    if (file && file.type === 'application/pdf') {
-      setFormData(prev => {
-        const updatedDocuments = [...prev.documents];
-        updatedDocuments[index] = file;
-        return { ...prev, documents: updatedDocuments };
-      });
-    } else {
-      // Handle error (e.g., show a toast notification)
-    }
-  };
+  // const handleDocumentUpload = (
+  //   e: ChangeEvent<HTMLInputElement>,
+  //   index: number
+  // ) => {
+  //   const file = e.target.files?.[0];
+  //   if (file && file.type === 'application/pdf') {
+  //     setFormData(prev => {
+  //       const updatedDocuments = [...prev.documents];
+  //       updatedDocuments[index] = file;
+  //       return { ...prev, documents: updatedDocuments };
+  //     });
+  //   } else {
+  //     // Handle error (e.g., show a toast notification)
+  //   }
+  // };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,7 +42,9 @@ const useForm = (initialState: GFormData) => {
     }
   };
 
-  return {  formData, handleChange, handleDocumentUpload, handleFileChange };
+  return {  formData, handleChange,
+    //  handleDocumentUpload, 
+     handleFileChange };
 };
 
 export default useForm;

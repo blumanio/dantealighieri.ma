@@ -2,6 +2,7 @@
 
 // For form data
 export interface GFormData {
+  paymentOption: string | number | readonly string[] | undefined;
   academicArea: any;
   courseLanguage: any;
   accessType: any;
