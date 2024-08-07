@@ -60,7 +60,7 @@ const GeneralInfoForm: React.FC = () => {
     e.preventDefault()
     // setIsLoading(true)
     try {
-      formData.userId = userId
+      formData.userId = 'user_2jNmV22CJZDBT2yLw49Bczhxr3kxxxxxxx'
       const response = await axios.post(
         'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
         // 'http://localhost:5000/applications',
