@@ -3,7 +3,7 @@ import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 import MobileNav from '@/components/mobileNav'
 
 import {
-  ClerkProvider,
+  // ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,

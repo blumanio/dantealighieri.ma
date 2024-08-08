@@ -61,11 +61,28 @@ const GeneralInfoForm: React.FC = () => {
     // setIsLoading(true)
     try {
       formData.userId = 'user_2jNmV22CJZDBT2yLw49Bczhxr3kxxxxxxx'
-      const response = await axios.post(
-        'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
-        // 'http://localhost:5000/applications',
-        formData
-      )
+      const response = await axios
+        .post(
+          // 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
+          'http://localhost:5000/applications',
+          formData
+        )
+        .catch(error => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.error('Error data:', error.response.data)
+            console.error('Error status:', error.response.status)
+            console.error('Error headers:', error.response.headers)
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('Error request:', error.request)
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error message:', error.message)
+          }
+          console.error('Error config:', error.config)
+        })
       toast.success('Application submitted successfully!')
       // Reset form or perform any other actions on success
     } catch (error) {
