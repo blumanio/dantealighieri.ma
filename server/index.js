@@ -62,8 +62,6 @@ app.options("*", cors(corsOptions));
 
 // app.use(cors(corsOptions));
 // API routes
-app.use("/posts", postRoutes);
-app.use("/applications", applicationRoutes);
 
 // MongoDB connection
 const CONNECTION_URL =
@@ -74,7 +72,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 mongoose.set("strictQuery", false);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // Define schema and model for courses
 const courseSchema = new mongoose.Schema({
   nome: String,
@@ -237,6 +236,6 @@ app.use((req, res, next) => {
 //     });
 //   });
 // }
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use("/posts", postRoutes);
+app.use("/api/applications", applicationRoutes);
 export default app;
