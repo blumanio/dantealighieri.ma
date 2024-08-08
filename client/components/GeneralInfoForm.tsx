@@ -63,8 +63,8 @@ const GeneralInfoForm: React.FC = () => {
       formData.userId = 'user_2jNmV22CJZDBT2yLw49Bczhxr3kxxxxxxx'
       const response = await axios
         .post(
-          // 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
-          'http://localhost:5000/applications',
+          'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/applications',
+          // 'http://localhost:5000/applications',
           formData
         )
         .catch(error => {
