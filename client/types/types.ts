@@ -2,20 +2,19 @@
 
 // For form data
 export interface GFormData {
-    firstName: string;
-    lastName: string;
-    birthDate: string;
-    country: string;
-    city: string;
-    degreeType: string;
-    accessType: string;
-    courseLanguage: string;
-    program: string;
-    documents: (File | string)[];
-    paymentOption: string;
-    receipt: File | string;
-    academicArea: string;
-  }
+  paymentOption: string | number | readonly string[] | undefined;
+  academicArea: any;
+  courseLanguage: any;
+  accessType: any;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  country: string;
+  city: string;
+  degreeType: string;
+  program: string;
+  userId:string
+}
   
   // For course data
   export interface Course {

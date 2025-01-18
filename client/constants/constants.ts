@@ -53,7 +53,7 @@ export const arabCountries = [
 // API endpoints (if you're using environment variables)
 export const API_BASE_URL ='https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app';
 export const COURSES_ENDPOINT = `${API_BASE_URL}/api/courses`;
-export const APPLICATIONS_ENDPOINT = `${API_BASE_URL}/applications`;
+export const APPLICATIONS_ENDPOINT = `${API_BASE_URL}/api/applications`;
 
 // Degree types
 export const degreeTypes = [
