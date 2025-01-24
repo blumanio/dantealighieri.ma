@@ -32,8 +32,8 @@ export default function Home() {
 
       <Services />
 
-      <Blog />
-      <FAQ />
+      {/* <Blog />*/}
+      {/* <FAQ />*/}
      {/* <Contact />*/}
     </main>
   )
