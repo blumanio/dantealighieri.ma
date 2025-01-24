@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ProgramRow from './ProgramRow';
 
-const PaginatedCourses = ({ filteredCourses }) => {
+const PaginatedCourses = ({ filteredCourses }: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 10;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
@@ -10,11 +10,21 @@ const PaginatedCourses = ({ filteredCourses }) => {
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
   const currentCourses = filteredCourses.slice(indexOfFirstCourse, indexOfLastCourse);
-
+  interface Course {
+    _id: string;
+    nome: string;
+    link: string;
+    tipo: string; 
+    uni: string;
+    accesso: string;
+    area: string;
+    lingua: string;
+    comune: string;
+   }
   return (
     <>
     <div className="grid grid-cols-1 gap-1">
-        {currentCourses.map(course => (
+        {currentCourses.map((course: Course) => (
           <ProgramRow key={course._id} course={course} />
         ))}
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Building2, GraduationCap, Euro, Calendar } from 'lucide-react';
 
-const formatCGPA = (requirement) => {
+const formatCGPA = (requirement :any) => {
   if (!requirement) return 'No CGPA Required';
   if (requirement === 'NO CGPA REQUIREMENT') return 'No CGPA Required';
   return requirement
@@ -10,7 +10,7 @@ const formatCGPA = (requirement) => {
     .replace('DIFFERENT CGPA REQUIREMENTS', 'Various Requirements');
 };
 
-const UniversitySearch = ({ universities = [] }) => {
+const UniversitySearch = ({ universities = [] }: any) => {
   if (!universities.length) {
     return (
       <div className="rounded-lg bg-yellow-50 p-4 text-center">
@@ -41,7 +41,7 @@ const UniversitySearch = ({ universities = [] }) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {universities.map((uni) => (
+                {universities.map((uni :any) => (
                   <tr 
                     key={uni.id}
                     className="hover:bg-gray-50 transition-colors cursor-pointer"

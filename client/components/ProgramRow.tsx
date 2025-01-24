@@ -26,13 +26,23 @@ const LANGUAGE_CODES = {
 } as const;
 
 const Icon: React.FC<IconProps> = ({ type, languageCode }) => {
-  const icons = {
+  interface Icons {
+    university: string;
+    location: string;
+    graduation: string;
+    locked: string;
+    unlocked: string;
+    link: string;
+    language: string;
+   }
+  const icons:Icons = {
     university: '🏛️',
     location: '📍',
     graduation: '🎓',
     locked: '🔒',
     unlocked: '🔓',
-    link: '↗️'
+    link: '↗️',
+    language: '🌐',
   };
 
   if (type === 'language' && languageCode) {
