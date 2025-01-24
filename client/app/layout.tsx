@@ -9,6 +9,8 @@ import ConstructionToast from '../components/ConstructionToast'
 
 import ClerkWrapper from './utils/clerck' // Import the Clerk wrapper
 import MobileNav from '@/components/mobileNav'
+import WhatsAppButton from '@/components/WhatsAppButton'
+import SocialmediLeft from '@/components/SocialmediLeft'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,12 +31,13 @@ export default function RootLayout({
           {/* <ToastContainer /> */}
           <ConstructionToast />
           <Header />
-          <MobileNav></MobileNav>
           {children}
           <Footer />
         </ClerkWrapper>
         <GoogleAnalytics gaId='G-845LV1ZMN9' />
         <GoogleTagManager gtmId='GTM-5PXD8C8K' />
+        <WhatsAppButton />
+        <SocialmediLeft />
       </body>
     </html>
   )

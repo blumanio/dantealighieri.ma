@@ -5,6 +5,7 @@ import { Link, animateScroll as scroll } from 'react-scroll'
 import React from 'react'
 import Social from '@/components/social'
 
+
 const Footer = () => {
   return (
     <section className='py-8'>
@@ -20,8 +21,10 @@ const Footer = () => {
             height={336.65}
             alt='logo'
           />
+        Follow our social accounts for more news about studying in Italy.
         </Link> */}
         <Social />
+        
       </div>
     </section>
   )

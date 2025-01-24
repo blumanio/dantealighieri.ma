@@ -11,7 +11,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 const menu = [
   { name: 'About', href: '/about' },
   { name: 'Services', href: '/services' },
-  { name: 'Apply', href: '/dashboard' }
+  { name: 'Apply ', href: '' }
 ]
 
 const MobileNav = () => {
@@ -68,7 +68,7 @@ const MobileNav = () => {
                 >
                   {item.name}
                 </Link>
-              ))}
+              )) }
             </nav>
           </div>
         </SheetContent>

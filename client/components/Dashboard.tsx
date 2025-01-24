@@ -25,14 +25,14 @@ const Dashboard: React.FC = () => {
     return (
       <div className='flex h-screen items-center justify-center px-4 text-center'>
         <p className='text-xl font-semibold text-gray-600'>
-          Please log in to access the dashboard.
-        </p>
+          Please log in to access the dashddddboard.
+        </p>d
       </div>
     )
   }
 
   const menuItems = [
-    { id: 'general-info', label: 'General Information', icon: FaUser },
+    { id: 'general-info', label: 'General Information xx', icon: FaUser },
     { id: 'program-search', label: 'Program Search', icon: FaSearch },
     {
       id: 'application-status',

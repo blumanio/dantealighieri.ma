@@ -99,7 +99,7 @@ const Hero = () => {
           {/* image and quote */}
           <div className='relative z-0 w-full max-w-md lg:max-w-lg'>
             <Photo />
-            <div className='signature absolute bottom-0 right-0 z-50 max-w-sm bg-white p-4 shadow-lg'>
+            {/*<div className='signature absolute bottom-0 right-0 z-50 max-w-sm bg-white p-4 shadow-lg'>
               <p className='mb-2 text-sm text-slate-600'>
                 Helping students since 2016.
               </p>
@@ -107,8 +107,8 @@ const Hero = () => {
               <p className='text-sm text-slate-600'>
                 Founder at DanteAlighieri.ma
               </p>
-              {/* <img src='/signature.png' alt='Signature' className='mt-2 h-8' /> */}
-            </div>
+              { <img src='/signature.png' alt='Signature' className='mt-2 h-8' /> }
+            </div>*/}
           </div>
         </div>
       </div>

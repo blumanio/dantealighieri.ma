@@ -24,11 +24,15 @@ const Photo = () => {
           className='absolute z-40'
         >
           <Image
-            src='/hero/mohamed.jfif'
+            src='/hero/laurea.jpg'
             height={580}
             width={580}
             alt='profile'
             className='inset-0 z-40 object-contain xl:translate-y-[3px]'
+            priority // Add this to prioritize loading
+            onError={(e) => {
+              console.error('Image failed to load:', e);
+            }}
           />
         </motion.div>
         <motion.div

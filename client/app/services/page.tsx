@@ -1,5 +1,7 @@
 // components/ServicesOffered.tsx
 import React from 'react'
+import UniversitySearch from '@/components/UniversitySearch '
+import { italianUniversities } from '../../lib/data'
 import {
   FaGraduationCap,
   FaFileAlt,
@@ -49,7 +51,7 @@ const services: Service[] = [
 
 const ServicesOffered: React.FC = () => {
   return (
-    <div className='bg-gray-100 px-4 py-12 sm:px-6 lg:px-8'>
+    /*<div className='bg-gray-100 px-4 py-12 sm:px-6 lg:px-8'>
       <div className='mx-auto max-w-7xl'>
         <h2 className='mb-12 text-center text-3xl font-extrabold text-gray-900'>
           Our Services for Moroccan Students
@@ -83,7 +85,14 @@ const ServicesOffered: React.FC = () => {
           </a>
         </div>
       </div>
-    </div>
+    </div>*/
+
+
+
+    <div className="space-y-6 rounded-lg bg-gray-100 p-6">
+      <div className="rounded-lg bg-white p-4 shadow-sm">
+        <UniversitySearch universities={italianUniversities} />
+      </div></div>
   )
 }
 

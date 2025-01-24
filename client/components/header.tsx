@@ -1,9 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import { PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid'
 import MobileNav from '@/components/mobileNav'
-
 import {
-  // ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
@@ -18,123 +18,55 @@ import {
   TikTokIcon,
   DanteAlighieriLogo
 } from './SocialIcons.js'
-console.log('tes test')
+
+
 const Header = () => {
   return (
-    <>
-      <header className='bg-teal-700 text-white'>
-        <div className='container mx-auto px-4'>
-          <div className='flex flex-row items-center justify-between py-2 md:flex-row'>
-            <div className='flex flex-col items-center space-y-2 md:flex-row md:space-x-4 md:space-y-0'>
-              <a
-                href='tel:+39 351 900 0615'
-                className='flex items-center font-sans'
-              >
-                <WhatsAppIcon className='mr-1 h-4 w-4' />
-                <span>+39 351 900 0615</span>
-              </a>
-              {/*<a
-              href='mailto:elaammari.consulting@gmail.com'
-              className='flex items-center font-sans'
-            >
-              <EnvelopeIcon className='mr-1 h-4 w-4' />
-              <span>elaammari.consulting@gmail.com</span>
-            </a>*/}
-            </div>
-            <div className='mt-2 flex space-x-4 md:mt-0'>
-              <a
-                href='https://www.linkedin.com/in/mohamedelaammari/'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <LinkedInIcon className='h-5 w-5' />
-              </a>
-              <a
-                href='https://www.facebook.com/groups/etudesenitalie'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <FacebookIcon className='h-5 w-5' />
-              </a>
-              <a
-                href='https://www.instagram.com/dantealighieri.ma/'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <InstagramIcon className='h-5 w-5' />
-              </a>
-              <a
-                href='https://www.tiktok.com/@dantealighieri_ma'
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <TikTokIcon className='h-5 w-5' />
-              </a>
-              {/* <a
-              href='https://youtube.com'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <YoutubeIcon className='h-5 w-5' />
-            </a>
-            <a
-              href='https://tiktok.com'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <TiktokIcon className='h-5 w-5' />
-            </a> */}
-            </div>
-          </div>
-        </div>
-        {true ? (
-          <nav className='shadow-mdshadow-md headerDesktop bg-white'>
-            <div className='container mx-auto px-4'>
-              <div className='flex flex-col items-center justify-between py-4 md:flex-row'>
-                <Link
-                  href='/'
-                  className='font-heading text-2xl font-bold text-teal-700'
-                >
-                  <DanteAlighieriLogo className='logo' />
+    <header className="sticky top-0 w-full bg-white shadow-md z-50">
+      <div className="container mx-auto px-4">
+        <nav className="flex justify-center w-full">
+          
+            <div className="flex items-center h-16 md:h-20">
+              <div className="flex-1 flex justify-center md:justify-start">
+                <Link href="/" className="font-heading text-2xl font-bold text-teal-700">
+                  <DanteAlighieriLogo className="logo h-12 md:h-14" />
                 </Link>
-                <div className='mt-2 flex flex-col items-center space-y-2 font-sans md:mt-0 md:flex-row md:space-x-6 md:space-y-0'>
-                  <Link
-                    href='/about'
-                    className='text-slate-700 hover:text-teal-600'
-                  >
-                    About
-                  </Link>
-                  <Link
-                    href='/services'
-                    className='text-slate-700 hover:text-teal-600'
-                  >
-                    Services
-                  </Link>
-
-                  <Link
-                    href='/dashboard'
-                    className='rounded bg-teal-600 px-4 py-2 text-white transition-colors hover:bg-teal-700'
-                  >
-                    apply
-                  </Link>
-                  <div className='rounded px-4 py-2 text-slate-700 transition-colors hover:text-teal-600'>
-                    <SignedOut>
-                      <SignInButton />
-                    </SignedOut>
-                    <SignedIn>
-                      <UserButton />
-                    </SignedIn>
-                  </div>
+              </div>
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/about" className="text-slate-700 hover:text-teal-600">
+                  About
+                </Link>
+                <Link 
+ href="/services" 
+ className="text-red-600 relative animate-pulse font-semibold"
+>
+ Universities deadline
+</Link>
+                <Link
+                  href=""
+                  className="relative flex items-center rounded bg-gray-400 px-4 py-2 text-white opacity-70 cursor-not-allowed pointer-events-none transition-colors"
+                  aria-disabled="true"
+                >
+                  apply
+                  <span className="absolute -top-3 right-0 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-medium px-2 py-0.5 rounded-full animate-pulse">
+                    Soon
+                  </span>
+                </Link>
+                <div className="text-slate-700 transition-colors hover:text-teal-600">
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
                 </div>
               </div>
             </div>
-          </nav>
-        ) : null}
-
-        <MobileNav></MobileNav>
-      </header>
-    </>
-  )
+        <MobileNav />
+          
+        </nav>
+      </div>
+    </header>
+  );
 }
-
 export default Header
