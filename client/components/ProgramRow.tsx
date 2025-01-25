@@ -46,6 +46,26 @@ const Icon: React.FC<IconProps> = ({ type, languageCode }) => {
   };
 
   if (type === 'language' && languageCode) {
+    if (languageCode === 'multiply') {
+      return (
+        <div className="flex">
+          <ReactCountryFlag 
+            countryCode={LANGUAGE_CODES.Italian}
+            svg
+            className="mr-1"
+            style={{ width: '1.25em', height: '1.25em' }}
+            title="Italian"
+          />
+          <ReactCountryFlag 
+            countryCode={LANGUAGE_CODES.English}
+            svg
+            className="mr-2"
+            style={{ width: '1.25em', height: '1.25em' }}
+            title="English"
+          />
+        </div>
+      );
+    }
     return (
       <ReactCountryFlag 
         countryCode={languageCode}
@@ -83,7 +103,12 @@ const ProgramRow: React.FC<CourseProps> = ({ course }) => (
           />
           <Icon 
             type="language" 
-            languageCode={course.lingua === "IT" ? LANGUAGE_CODES.Italian : LANGUAGE_CODES.English} 
+            languageCode={
+              course.lingua === "IT" ? LANGUAGE_CODES.Italian 
+              : course.lingua === "EN" ? LANGUAGE_CODES.English 
+              : course.lingua.toLowerCase() === "più lingue" ? 'multiply'
+              : course.lingua
+            }
           />
         </div>
         
