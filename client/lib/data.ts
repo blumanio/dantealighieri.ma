@@ -56,7 +56,7 @@ export const italianUniversities = [
     "admission_date": "Oct 1, 2024",
     "deadline": "2 Dec",
     "status": "Close",
-    "cgpa_requirement": "MINIMUM CGPA 3.3 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.3"
   },
   {
     "id": 2,
@@ -68,7 +68,7 @@ export const italianUniversities = [
     "admission_date": "Nov 2, 2024",
     "deadline": "2 Feb",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.1"
   },
   {
     "id": 3,
@@ -140,7 +140,7 @@ export const italianUniversities = [
     "admission_date": "Nov 20, 2024",
     "deadline": "30 Mar",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3"
   },
   {
     "id": 9,
@@ -188,7 +188,7 @@ export const italianUniversities = [
     "admission_date": "Dec 3, 2024",
     "deadline": "30 Jan",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3.3 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.3"
   },
   {
     "id": 13,
@@ -332,7 +332,7 @@ export const italianUniversities = [
     "admission_date": "Jan 7, 2025",
     "deadline": "7 Mar",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.1"
   },
   {
     "id": 25,
@@ -381,7 +381,7 @@ export const italianUniversities = [
     "admission_date": "Jan 13, 2025",
     "deadline": "27 Feb",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3.3 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.3"
   },
   {
     "id": 29,
@@ -573,7 +573,7 @@ export const italianUniversities = [
     "admission_date": "Mar 2, 2025",
     "deadline": "2 May",
     "status": null,
-    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN"
+    "cgpa_requirement": "MINIMUM CGPA 3.1"
   },
   {
     "id": 45,
