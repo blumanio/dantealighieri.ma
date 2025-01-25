@@ -36,7 +36,7 @@ const features: FeatureItem[] = [
 
 const AboutPage: React.FC = () => {
   return (
-    <div className='bg-white px-4 py-16 sm:px-6 lg:px-8'>
+    <div className='bg-white px-4 py-16 sm:px-6 lg:px-32'>
       <div className='mx-auto max-w-7xl'>
         <div className='text-center'>
           <h2 className='text-3xl font-extrabold text-gray-900 sm:text-4xl'>
