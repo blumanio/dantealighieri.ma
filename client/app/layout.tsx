@@ -12,7 +12,7 @@ import MobileNav from '@/components/mobileNav'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import SocialmediLeft from '@/components/SocialmediLeft'
 import NewsTicker from '@/components/NewsTicker'
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -40,6 +40,7 @@ export default function RootLayout({
         <GoogleTagManager gtmId='GTM-5PXD8C8K' />
         <WhatsAppButton />
         <SocialmediLeft />
+        <SpeedInsights/>
       </body>
     </html>
   )
