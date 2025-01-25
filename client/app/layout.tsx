@@ -11,6 +11,7 @@ import ClerkWrapper from './utils/clerck' // Import the Clerk wrapper
 import MobileNav from '@/components/mobileNav'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import SocialmediLeft from '@/components/SocialmediLeft'
+import NewsTicker from '@/components/NewsTicker'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,6 +32,7 @@ export default function RootLayout({
           {/* <ToastContainer /> */}
           <ConstructionToast />
           <Header />
+          <NewsTicker />
           {children}
           <Footer />
         </ClerkWrapper>
