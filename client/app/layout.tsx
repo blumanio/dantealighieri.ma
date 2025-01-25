@@ -49,7 +49,7 @@ export default function RootLayout({
         <GoogleAnalytics gaId='G-845LV1ZMN9' />
         <GoogleTagManager gtmId='GTM-5PXD8C8K' />
         <WhatsAppButton />
-        <SocialmediLeft />
+        {/*<SocialmediLeft />*/}
         <SpeedInsights />
       </body>
     </html>

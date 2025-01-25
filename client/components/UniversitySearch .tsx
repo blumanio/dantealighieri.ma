@@ -25,6 +25,13 @@ export default async function UniversitySearch({ universities = [] }: any) {
   
     return (
       <div className="space-y-4">
+        {/* Last update message with flashing green bubble */}
+  <div className="flex items-center justify-center mt-4 space-x-2">
+    <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-2 py-1 text-sm font-semibold rounded-full animate-pulse">
+      <span className="h-2 w-2 rounded-full bg-green-500 animate-ping"></span> {/* Flashing green bubble */}
+      <span>Last update: 20/01/2025</span>
+    </span>
+  </div>
         <header className="mb-4 md:mb-8 text-center px-4">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
             Italian Universities Courses 2025/2026
