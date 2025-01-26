@@ -60,7 +60,7 @@ export const italianUniversities = [
   },
   {
     "id": 2,
-    "name": "University of Padua (First Call)",
+    "name": "Univ. of Padua (First Call)",
     "tutorial": null,
     "blog": "Blog on UniPd",
     "admission_fee": 30,
@@ -72,7 +72,7 @@ export const italianUniversities = [
   },
   {
     "id": 3,
-    "name": "University of Macerata",
+    "name": "Univ. of Macerata",
     "tutorial": null,
     "blog": "Blog on UniMc",
     "admission_fee": 0,
@@ -84,7 +84,7 @@ export const italianUniversities = [
   },
   {
     "id": 4,
-    "name": "University of Milano-Bicocca",
+    "name": "Univ. of Milano-Bicocca",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -96,7 +96,7 @@ export const italianUniversities = [
   },
   {
     "id": 5,
-    "name": "University of Bergamo (First Call)",
+    "name": "Univ. of Bergamo (First Call)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -108,7 +108,7 @@ export const italianUniversities = [
   },
   {
     "id": 6,
-    "name": "University of Pavia",
+    "name": "Univ. of Pavia",
     "tutorial": "YouTube Video",
     "blog": "Blog on UNiPv",
     "admission_fee": 35,
@@ -120,7 +120,7 @@ export const italianUniversities = [
   },
   {
     "id": 7,
-    "name": "University of Genoa",
+    "name": "Univ. of Genoa",
     "tutorial": "YouTube Video",
     "blog": null,
     "admission_fee": 0,
@@ -132,7 +132,7 @@ export const italianUniversities = [
   },
   {
     "id": 8,
-    "name": "University of Camerino",
+    "name": "Univ. of Camerino",
     "tutorial": null,
     "blog": null,
     "admission_fee": 20,
@@ -144,7 +144,7 @@ export const italianUniversities = [
   },
   {
     "id": 9,
-    "name": "University of Turin",
+    "name": "Univ. of Turin",
     "tutorial": null,
     "blog": null,
     "admission_fee": 60,
@@ -156,7 +156,7 @@ export const italianUniversities = [
   },
   {
     "id": 10,
-    "name": "University of Bologna",
+    "name": "Univ. of Bologna",
     "tutorial": "YouTube Video",
     "blog": null,
     "admission_fee": "Variable (0/20/50)",
@@ -168,7 +168,7 @@ export const italianUniversities = [
   },
   {
     "id": 11,
-    "name": "University of Florence",
+    "name": "Univ. of Florence",
     "tutorial": null,
     "blog": null,
     "admission_fee": 20,
@@ -192,7 +192,7 @@ export const italianUniversities = [
   },
   {
     "id": 13,
-    "name": "Sapienza University of Rome",
+    "name": "Sapienza Univ. of Rome",
     "tutorial": null,
     "blog": "Blog on UniRome1",
     "admission_fee": 30,
@@ -204,7 +204,7 @@ export const italianUniversities = [
   },
   {
     "id": 14,
-    "name": "University of L'Aquila",
+    "name": "Univ. of L'Aquila",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -216,7 +216,7 @@ export const italianUniversities = [
   },
   {
     "id": 15,
-    "name": "University of Pisa",
+    "name": "Univ. of Pisa",
     "tutorial": null,
     "blog": null,
     "admission_fee": 10,
@@ -228,19 +228,20 @@ export const italianUniversities = [
   },
   {
     "id": 16,
-    "name": "Marche Polytechnic University",
+    "name": "Marche Polytechnic Univ.",
     "tutorial": null,
     "blog": null,
     "admission_fee": 10,
     "english_requirement": "English Proficiency",
     "admission_date": "Dec 16, 2024",
-    "deadline": null,
+    "deadline": 'Jan 31 2025',
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT"
   },
+  
   {
     "id": 17,
-    "name": "University of Trento",
+    "name": "Univ. of Trento",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -252,7 +253,7 @@ export const italianUniversities = [
   },
   {
     "id": 18,
-    "name": "Ca' Foscari University of Venice",
+    "name": "Ca' Foscari Univ. of Venice",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -264,7 +265,7 @@ export const italianUniversities = [
   },
   {
     "id": 19,
-    "name": "Polytechnic University of Turin",
+    "name": "Polytechnic Univ. of Turin",
     "tutorial": null,
     "blog": null,
     "admission_fee": 50,
@@ -276,7 +277,7 @@ export const italianUniversities = [
   },
   {
     "id": 20,
-    "name": "University of Bergamo (Second Call)",
+    "name": "Univ. of Bergamo (Second Call)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -288,7 +289,7 @@ export const italianUniversities = [
   },
   {
     "id": 21,
-    "name": "University of Siena",
+    "name": "Univ. of Siena",
     "tutorial": null,
     "blog": null,
     "admission_fee": 40,
@@ -300,7 +301,7 @@ export const italianUniversities = [
   },
   {
     "id": 22,
-    "name": "University of Tuscia",
+    "name": "Univ. of Tuscia",
     "tutorial": null,
     "blog": "Blog on Tuscia",
     "admission_fee": 0,
@@ -312,7 +313,7 @@ export const italianUniversities = [
   },
   {
     "id": 23,
-    "name": "University of Parma",
+    "name": "Univ. of Parma",
     "tutorial": null,
     "blog": "Communication Engineering",
     "admission_fee": 0,
@@ -324,7 +325,7 @@ export const italianUniversities = [
   },
   {
     "id": 24,
-    "name": "University of Padua (Limited Programs)",
+    "name": "Univ. of Padua (Limited Programs)",
     "tutorial": null,
     "blog": "Blog on UniPd",
     "admission_fee": 30,
@@ -336,7 +337,7 @@ export const italianUniversities = [
   },
   {
     "id": 25,
-    "name": "University of Pavia (2nd Call)",
+    "name": "Univ. of Pavia (2nd Call)",
     "tutorial": "YouTube Video",
     "blog": "Blog on UniPv",
     "admission_fee": 35,
@@ -348,7 +349,7 @@ export const italianUniversities = [
   },
   {
     "id": 26,
-    "name": "University of Trieste",
+    "name": "Univ. of Trieste",
     "notes": "Not accepting application from: Ethiopia, Iran, Pakistan",
     "tutorial": null,
     "blog": null,
@@ -361,7 +362,7 @@ export const italianUniversities = [
   },
   {
     "id": 27,
-    "name": "University of Milano-Bicocca (Limited)",
+    "name": "Univ. of Milano-Bicocca (Limited)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -385,7 +386,7 @@ export const italianUniversities = [
   },
   {
     "id": 29,
-    "name": "University of Insubria",
+    "name": "Univ. of Insubria",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -397,7 +398,7 @@ export const italianUniversities = [
   },
   {
     "id": 30,
-    "name": "University of Tor Vergata",
+    "name": "Univ. of Tor Vergata",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -409,7 +410,7 @@ export const italianUniversities = [
   },
   {
     "id": 31,
-    "name": "University of Milan",
+    "name": "Univ. of Milan",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -421,7 +422,7 @@ export const italianUniversities = [
   },
   {
     "id": 32,
-    "name": "University of Parma",
+    "name": "Univ. of Parma",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -433,7 +434,7 @@ export const italianUniversities = [
   },
   {
     "id": 33,
-    "name": "University of Messina",
+    "name": "Univ. of Messina",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -445,7 +446,7 @@ export const italianUniversities = [
   },
   {
     "id": 34,
-    "name": "University of Catania",
+    "name": "Univ. of Catania",
     "tutorial": null,
     "blog": null,
     "admission_fee": 10,
@@ -457,7 +458,7 @@ export const italianUniversities = [
   },
   {
     "id": 35,
-    "name": "University of Sassari",
+    "name": "Univ. of Sassari",
     "tutorial": null,
     "blog": "Innovation management for sustainable tourism",
     "admission_fee": 0,
@@ -469,7 +470,7 @@ export const italianUniversities = [
   },
   {
     "id": 36,
-    "name": "University of Modena",
+    "name": "Univ. of Modena",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -481,7 +482,7 @@ export const italianUniversities = [
   },
   {
     "id": 37,
-    "name": "University of Cassino",
+    "name": "Univ. of Cassino",
     "tutorial": null,
     "blog": "Blog on UniCas",
     "admission_fee": 10,
@@ -493,7 +494,7 @@ export const italianUniversities = [
   },
   {
     "id": 38,
-    "name": "University of Tuscia",
+    "name": "Univ. of Tuscia",
     "tutorial": null,
     "blog": "Blog on UniTs",
     "admission_fee": 0,
@@ -505,7 +506,7 @@ export const italianUniversities = [
   },
   {
     "id": 39,
-    "name": "University of Milano-Bicocca (Second)",
+    "name": "Univ. of Milano-Bicocca (Second)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 30,
@@ -517,7 +518,7 @@ export const italianUniversities = [
   },
   {
     "id": 40,
-    "name": "University of Turin (Bachelor)",
+    "name": "Univ. of Turin (Bachelor)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -529,7 +530,7 @@ export const italianUniversities = [
   },
   {
     "id": 41,
-    "name": "Polytechnic University of Turin (2nd)",
+    "name": "Polytechnic Univ. of Turin (2nd)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 50,
@@ -541,7 +542,7 @@ export const italianUniversities = [
   },
   {
     "id": 42,
-    "name": "University of Bozen-Bolzano",
+    "name": "Univ. of Bozen-Bolzano",
     "tutorial": null,
     "blog": null,
     "admission_fee": 50,
@@ -553,7 +554,7 @@ export const italianUniversities = [
   },
   {
     "id": 43,
-    "name": "University of Verona",
+    "name": "Univ. of Verona",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -565,7 +566,7 @@ export const italianUniversities = [
   },
   {
     "id": 44,
-    "name": "University of Padua (Second Call)",
+    "name": "Univ. of Padua (Second Call)",
     "tutorial": null,
     "blog": "Blog on UniPd",
     "admission_fee": 30,
@@ -577,7 +578,7 @@ export const italianUniversities = [
   },
   {
     "id": 45,
-    "name": "University of Calabria",
+    "name": "Univ. of Calabria",
     "tutorial": null,
     "blog": null,
     "admission_fee": 10,
@@ -589,7 +590,7 @@ export const italianUniversities = [
   },
   {
     "id": 46,
-    "name": "University of Pavia (3rd Call)",
+    "name": "Univ. of Pavia (3rd Call)",
     "tutorial": "YouTube Video",
     "blog": "Blog on UniPv",
     "admission_fee": 35,
@@ -601,7 +602,7 @@ export const italianUniversities = [
   },
   {
     "id": 47,
-    "name": "University of Florence (Second Call)",
+    "name": "Univ. of Florence (Second Call)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 20,
@@ -613,7 +614,7 @@ export const italianUniversities = [
   },
   {
     "id": 48,
-    "name": "University of Messina (Second Call)",
+    "name": "Univ. of Messina (Second Call)",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -625,7 +626,7 @@ export const italianUniversities = [
   },
   {
     "id": 49,
-    "name": "Polytechnic University of Bari",
+    "name": "Polytechnic Univ. of Bari",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -637,7 +638,7 @@ export const italianUniversities = [
   },
   {
     "id": 50,
-    "name": "Roma Tre University",
+    "name": "Roma Tre Univ.",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -649,7 +650,7 @@ export const italianUniversities = [
   },
   {
     "id": 51,
-    "name": "University of Bari Aldo Moro",
+    "name": "Univ. of Bari Aldo Moro",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -661,7 +662,7 @@ export const italianUniversities = [
   },
   {
     "id": 52,
-    "name": "University of Basilicata",
+    "name": "Univ. of Basilicata",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -673,7 +674,7 @@ export const italianUniversities = [
   },
   {
     "id": 53,
-    "name": "University of Campania Luigi Vanvitelli",
+    "name": "Univ. of Campania Luigi Vanvitelli",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -685,7 +686,7 @@ export const italianUniversities = [
   },
   {
     "id": 54,
-    "name": "University of Eastern Piedmont",
+    "name": "Univ. of Eastern Piedmont",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -697,7 +698,7 @@ export const italianUniversities = [
   },
   {
     "id": 55,
-    "name": "University of Ferrara",
+    "name": "Univ. of Ferrara",
     "tutorial": null,
     "blog": null,
     "admission_fee": 20,
@@ -709,7 +710,7 @@ export const italianUniversities = [
   },
   {
     "id": 56,
-    "name": "University of Foggia",
+    "name": "Univ. of Foggia",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -721,7 +722,7 @@ export const italianUniversities = [
   },
   {
     "id": 57,
-    "name": "University of Naples Federico II",
+    "name": "Univ. of Naples Federico II",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -733,7 +734,7 @@ export const italianUniversities = [
   },
   {
     "id": 58,
-    "name": "University of Naples Parthenope",
+    "name": "Univ. of Naples Parthenope",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -745,7 +746,7 @@ export const italianUniversities = [
   },
   {
     "id": 59,
-    "name": "University of Palermo",
+    "name": "Univ. of Palermo",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -757,7 +758,7 @@ export const italianUniversities = [
   },
   {
     "id": 60,
-    "name": "University of Perugia",
+    "name": "Univ. of Perugia",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -769,7 +770,7 @@ export const italianUniversities = [
   },
   {
     "id": 61,
-    "name": "University of Salento",
+    "name": "Univ. of Salento",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -781,7 +782,7 @@ export const italianUniversities = [
   },
   {
     "id": 62,
-    "name": "University of Salerno",
+    "name": "Univ. of Salerno",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -793,7 +794,7 @@ export const italianUniversities = [
   },
   {
     "id": 63,
-    "name": "University of Teramo",
+    "name": "Univ. of Teramo",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -805,7 +806,7 @@ export const italianUniversities = [
   },
   {
     "id": 64,
-    "name": "University of Cagliari",
+    "name": "Univ. of Cagliari",
     "tutorial": null,
     "blog": null,
     "admission_fee": 0,
@@ -817,7 +818,7 @@ export const italianUniversities = [
   },
   {
     "id": 65,
-    "name": "University of Udine",
+    "name": "Univ. of Udine",
     "tutorial": null,
     "blog": null,
     "admission_fee": 20,
