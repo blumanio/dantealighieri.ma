@@ -18,7 +18,7 @@ export default async function UniversitySearch({ universities = [] }: any) {
     if (!universities.length) {
         return (
             <div className="rounded-lg bg-yellow-50 p-4 text-center">
-                <p className="text-yellow-700">No universities found.</p>
+                <p className="text-yellow-700"> No universities found.</p>
             </div>
         );
     }
@@ -64,13 +64,13 @@ export default async function UniversitySearch({ universities = [] }: any) {
                                         Fee
                                     </th>
                                     <th className="whitespace-nowrap border-b p-3 md:p-4 text-left font-medium text-gray-900 w-32">
-                                        CGPA
+                                    Baccalaureate Grade
                                     </th>
                                     <th className="whitespace-nowrap border-b p-3 md:p-4 text-left font-medium text-gray-900 w-28">
                                         Deadline
                                     </th>
                                     <th className="whitespace-nowrap border-b p-3 md:p-4 text-left font-medium text-gray-900 w-40">
-                                        English
+                                        ILETS
                                     </th>
                                 </tr>
                             </thead>
