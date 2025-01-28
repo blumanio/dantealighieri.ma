@@ -65,10 +65,7 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <SheetPrimitive.Close className='absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-slate-100 dark:ring-offset-slate-950 dark:data-[state=open]:bg-slate-800'>
-        <X className='h-6 w-6 text-blue' />
-        <span className='sr-only'>Close</span>
-      </SheetPrimitive.Close>
+     
     </SheetPrimitive.Content>
   </SheetPortal>
 ))

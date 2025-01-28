@@ -87,7 +87,7 @@ const ProgramRow: React.FC<CourseProps> = ({ course }) => {
     <div className="group mb-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-5 shadow-sm transition-all duration-300 hover:border-indigo-100 hover:shadow-md relative">
       {/* Login message inside the card */}
       {!isSignedIn && (
-        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-800 text-sm p-1 rounded-md shadow-md z-10">
+        <div className="w-50 absolute top-2 left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-800 text-sm p-1 rounded-md shadow-md z-10">
           Sign in to view detailed course information
         </div>
       )}

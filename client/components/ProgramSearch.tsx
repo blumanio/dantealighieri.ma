@@ -91,7 +91,7 @@ const ProgramSearch: React.FC = () => {
   const hasActiveFilters = Object.values(formData).some(value => value !== '');
 
   return (
-    <div className="space-y-6 rounded-lg bg-gray-100 p-6">
+    <div className="space-y-6 rounded-lg bg-gray-100">
       <div className="rounded-lg bg-white p-4 shadow-sm">
         <h2 className="mb-4 text-2xl font-bold text-gray-800">Search Programs</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

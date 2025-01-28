@@ -42,7 +42,7 @@ export default function RootLayout({
           <ConstructionToast />
           <Header />
           <Announcement />
-          <Toast />
+          {/*<Toast />  IMAT and tolc announcement */}
           {children}
           <Footer />
         </ClerkWrapper>
