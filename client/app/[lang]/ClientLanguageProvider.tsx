@@ -4,18 +4,18 @@
 import React from 'react';
 import { LanguageProvider } from './LanguageContext';
 
-type Lang = 'en' | 'it' | 'fr' | 'ar';
+type Lang = 'en' | 'it' | 'ar';
 
 export default function ClientLanguageProvider({
-  children,
-  initialLang,
+    children,
+    initialLang,
 }: {
-  children: React.ReactNode;
-  initialLang: Lang;
+    children: React.ReactNode;
+    initialLang: Lang;
 }) {
-  return (
-    <LanguageProvider initialLang={initialLang}>
-      {children}
-    </LanguageProvider>
-  );
+    return (
+        <LanguageProvider initialLang={initialLang}>
+            {children}
+        </LanguageProvider>
+    );
 }
