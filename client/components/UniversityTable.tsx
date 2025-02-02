@@ -20,74 +20,62 @@ import {
 } from 'lucide-react';
 
 // Interfaces
-interface Intake {
+export interface University {
+    id: number;
     name: string;
-    start_date: string;
-    end_date: string;
-    application_start: string;
-    application_end: string;
-}
-
-interface Program {
-    name: string;
-    type: string;
-    language: string;
-    duration: string;
-    tuition_fee?: number;
-}
-
-interface ContactInfo {
-    email: string;
-    phone?: string;
-    website: string;
-    address: string;
-}
-
-interface UniversityFeatures {
-    library: boolean;
-    sports_facilities: boolean;
-    cafeteria: boolean;
-    labs: boolean;
-    research_centers: boolean;
-    international_office: boolean;
-}
-
-interface Rankings {
-    world_ranking?: string;
-    national_ranking?: string;
-    subject_rankings?: {
+    location: string;
+    tutorial: string | null;
+    blog: string | null;
+    admission_fee: number;
+    english_requirement: string;
+    admission_date: string;
+    deadline: string;
+    status: 'Open' | 'Closed' | 'Coming Soon';
+    cgpa_requirement: string;
+    student_population: number;
+    acceptance_rate: string;
+    housing_available: boolean;
+    scholarship_available: boolean;
+    virtual_tour_available: boolean;
+    campus_facilities: string[];
+    application_link: string;
+    intakes: Array<{
+      name: string;
+      start_date: string;
+      end_date: string;
+      application_start: string;
+      application_end: string;
+    }>;
+    programs_offered: Array<{
+      name: string;
+      type: 'Bachelor' | 'Master';
+      language: string;
+      duration: string;
+      tuition_fee: number;
+    }>;
+    contact_info: {
+      email: string;
+      phone: string;
+      website: string;
+      address: string;
+    };
+    university_features: {
+      library: boolean;
+      sports_facilities: boolean;
+      cafeteria: boolean;
+      labs: boolean;
+      research_centers: boolean;
+      international_office: boolean;
+    };
+    rankings: {
+      world_ranking: string;
+      national_ranking: string;
+      subject_rankings: Array<{
         subject: string;
         rank: string;
-    }[];
-}
-
-interface University {
-    id: string | number;
-    name: string;
-    status: string;
-    admission_fee: number;
-    cgpa_requirement: string;
-    deadline: string;
-    english_requirement: string;
-    location?: string;
-    programs_offered?: Program[];
-    student_population?: number;
-    acceptance_rate?: string;
-    housing_available?: boolean;
-    scholarship_available?: boolean;
-    application_link?: string;
-    virtual_tour_available?: boolean;
-    orientation_date?: string;
-    course_start_date?: string;
-    campus_facilities?: string[];
-    intakes?: Intake[];
-    contact_info?: ContactInfo;
-    university_features?: UniversityFeatures;
-    rankings?: Rankings;
-    tutorial?: string | null;
-    blog?: string | null;
-    admission_date?: string;
-}
+      }>;
+    };
+  }
 
 interface UniversityTableProps {
     universities: University[];
