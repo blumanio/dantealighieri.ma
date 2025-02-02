@@ -1,4 +1,4 @@
-import { clerkMiddleware, type ClerkMiddlewareAuth } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -40,10 +40,9 @@ const isStaticFile = (pathname: string): boolean => {
   return pattern.test(pathname);
 };
 
-// Middleware handler with correct Clerk types
-async function middlewareHandler(auth: ClerkMiddlewareAuth, req: NextRequest) {
+const middleware = (auth: any, req:any) => {
   try {
-    if (!req?.nextUrl) {
+    if (!req?.nextUrl) {  
       return NextResponse.next();
     }
 
@@ -70,22 +69,19 @@ async function middlewareHandler(auth: ClerkMiddlewareAuth, req: NextRequest) {
       return NextResponse.redirect(url);
     }
 
- 
-
     return NextResponse.next();
   } catch (error) {
     console.error('Middleware Error:', error instanceof Error ? error.message : 'Unknown error');
     return NextResponse.next();
   }
-}
+};
 
-// Export the middleware with Clerk wrapper
-export default clerkMiddleware(middlewareHandler);
+export default clerkMiddleware(middleware);
 
-// Type-safe matcher configuration
+// Next.js middleware config
 export const config = {
   matcher: [
-    // Match all paths except Next.js internals and static files
-    "/((?!_next/static|_next/image|favicon.ico).*)",
-  ],
-} as const;
+    // Skip all internal paths (_next)
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ]
+};
