@@ -8,7 +8,7 @@ import ConstructionToast from '@/components/ConstructionToast';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import HeroSection from '@/components/HeroSection';
 
-type Lang = 'en' | 'it' | 'fr' | 'ar';
+type Lang = 'en' | 'it' | 'ar';
 
 export default function RootClientWrapper({
   children,

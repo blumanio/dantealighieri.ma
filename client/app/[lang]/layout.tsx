@@ -7,7 +7,7 @@ import HeroCarousel from '@/components/HeroSection';
 import HeroSection from '@/components/HeroSection';
 
 // Define supported languages
-const languages = ['en', 'it', 'fr', 'ar'] as const;
+const languages = ['en', 'it', 'ar'] as const;
 type Lang = typeof languages[number];
 
 export default async function LangLayout({

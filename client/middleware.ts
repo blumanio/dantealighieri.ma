@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const languages = ['en', 'it', 'fr', 'ar'];
+const languages = ['en', 'it', 'ar'];
 const defaultLanguage = 'en';
 
 const isPublicRoute = createRouteMatcher([

@@ -50,7 +50,7 @@ const nextConfig = {
           {
             type: 'header',
             key: 'accept-language',
-            value: '(?!.*(it|fr|ar)).*'
+            value: '(?!.*(it|ar)).*'
           }
         ]
       }

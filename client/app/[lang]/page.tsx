@@ -13,7 +13,7 @@ export default async function Page({ params }: PageProps) {
   const resolvedParams = await params;
 
   return (
-    <LanguageProvider initialLang={resolvedParams.lang as 'en' | 'it' | 'fr' | 'ar'}>
+    <LanguageProvider initialLang={resolvedParams.lang as 'en' | 'it' | 'ar'}>
       <main>
         <div className="flex justify-center w-full py-8">
           <div className="w-4/5">

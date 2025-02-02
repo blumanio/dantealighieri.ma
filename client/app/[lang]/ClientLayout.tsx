@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-type Lang = 'en' | 'it' | 'fr' | 'ar';
+type Lang = 'en' | 'it' | 'ar';
 
 export default function ClientLayout({
   children,

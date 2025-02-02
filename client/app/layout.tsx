@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang={params.lang || 'en'}>
       <body className={inter.className}>
-        <LanguageProvider initialLang={params.lang as 'en' | 'it' | 'fr' | 'ar'}>
+        <LanguageProvider initialLang={params.lang as 'en' | 'it' | 'ar'}>
           <ClerkWrapper>
             {children}
           </ClerkWrapper>

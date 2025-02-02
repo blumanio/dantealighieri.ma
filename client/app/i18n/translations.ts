@@ -70,41 +70,6 @@ export const translations: Record<Locale, Translation> = {
       location: "Località"
     }
   },
-  fr: {
-    // French translations
-    common: {
-      search: "Rechercher",
-      about: "À Propos",
-      services: "Services",
-      universities: "Universités",
-      deadline: "Échéances",
-      apply: "Postuler",
-      soon: "Bientôt",
-      contactUs: "Contactez-nous"
-    },
-    hero: {
-      title: "Votre Voyage en Italie Commence Ici",
-      subtitle: "Naviguez dans les admissions universitaires italiennes avec des conseils d'experts",
-      ctaButton: "Commencer"
-    },
-    programs: {
-      searchTitle: "Rechercher des Programmes",
-      degreeType: "Type de Diplôme",
-      accessType: "Type d'Accès",
-      courseLanguage: "Langue du Cours",
-      academicArea: "Domaine Académique",
-      searchPlaceholder: "Rechercher dans les résultats...",
-      noResults: "Aucun programme trouvé",
-      loadingMessage: "Chargement des programmes..."
-    },
-    universities: {
-      status: "Statut",
-      requirements: "Prérequis",
-      deadline: "Date Limite",
-      fee: "Frais",
-      location: "Emplacement"
-    }
-  },
   ar: {
     common: {
       search: "بحث",

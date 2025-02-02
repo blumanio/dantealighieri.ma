@@ -1,5 +1,5 @@
 // lib/i18n/types.ts
-export type Locale = 'en' | 'it' | 'fr' | 'ar';
+export type Locale = 'en' | 'it' | 'ar';
 
 export interface Translation {
   common: {
