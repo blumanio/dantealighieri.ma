@@ -2,6 +2,9 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    appDir: true,
+  },
   async headers() {
     return [
       {
@@ -28,13 +31,39 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      // API rewrites
       {
-        source: '/:path*',
+        source: '/api/:path*',
         destination:
           'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/:path*'
+      },
+      // Handle root path
+      {
+        source: '/',
+        destination: '/en'
+      },
+      // Handle paths without language prefix
+      {
+        source: '/:path*',
+        destination: '/en/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'accept-language',
+            value: '(?!.*(it|fr|ar)).*'
+          }
+        ]
       }
     ]
+  },
+  // Enable image optimization for external images
+  images: {
+    domains: ['backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app']
+  },
+  // i18n configuration
+  i18n: {
+    locales: ['en', 'ar', 'it'],
+    defaultLocale: 'en',
+    localeDetection: false, // Prevent automatic locale detection
   }
 }
-
-export default nextConfig

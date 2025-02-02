@@ -1,24 +1,12 @@
+// ProgramSearch.tsx
+
+'use client';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Loader } from 'lucide-react';
 import _ from 'lodash';
 import PaginatedCourses from './PaginatedCourses';
-
-const academicAreas = [
-  { value: '01', label: 'Scienze Matematiche e Informatiche' },
-  { value: '02', label: 'Scienze fisiche' },
-  { value: '03', label: 'Scienze chimiche' },
-  { value: '04', label: 'Scienze della Terra' },
-  { value: '05', label: 'Scienze biologiche' },
-  { value: '06', label: 'Scienze mediche' },
-  { value: '07', label: 'Scienze agrarie e veterinarie' },
-  { value: '08', label: 'Ingegneria civile e Architettura' },
-  { value: '09', label: "Ingegneria industriale e dell'informazione" },
-  { value: '10', label: "Scienze dell'antichità, filologico-letterarie e storico-artistiche" },
-  { value: '11', label: 'Scienze storiche, filosofiche, pedagogiche e psicologiche' },
-  { value: '12', label: 'Scienze giuridiche' },
-  { value: '13', label: 'Scienze economiche e statistiche' },
-  { value: '14', label: 'Scienze politiche e sociali' }
-];
+import { useLanguage } from '../app/[lang]/LanguageContext';
+import { academicAreas, accessTypes, courseLanguages, degreeTypes } from '../constants/constants';
 
 interface Course {
   _id: string;
@@ -33,6 +21,8 @@ interface Course {
 }
 
 const ProgramSearch: React.FC = () => {
+  const { language, t } = useLanguage(); // Get translations via `t`
+  console.log(  'languageee' ,language, t);
   const [formData, setFormData] = useState({
     degreeType: '',
     accessType: '',
@@ -72,7 +62,7 @@ const ProgramSearch: React.FC = () => {
         (!formData.academicArea || course.area === formData.academicArea)
       );
 
-      const matchesSearch = !searchTerm || 
+      const matchesSearch = !searchTerm ||
         Object.values(course).some(value =>
           String(value).toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -88,12 +78,13 @@ const ProgramSearch: React.FC = () => {
     }));
   };
 
-  const hasActiveFilters = Object.values(formData).some(value => value !== '');
+    const isRTL = language === 'ar';
+  console.log(language, isRTL); 
 
   return (
-    <div className="space-y-6 rounded-lg bg-gray-100">
+    <div className={`space-y-6 rounded-lg bg-gray-100 ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="rounded-lg bg-white p-4 shadow-sm">
-        <h2 className="mb-4 text-2xl font-bold text-gray-800">Search Programs</h2>
+        <h2 className="mb-4 text-2xl font-bold text-gray-800">{t('searchTitle')}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <select
             name="degreeType"
@@ -101,43 +92,50 @@ const ProgramSearch: React.FC = () => {
             onChange={handleChange}
             className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           >
-            <option value="">Select Degree Type</option>
-            <option value="Triennale">Triennale - bachelor</option>
-            <option value="Magistrale">Magistrale - Master</option>
-            <option value="Ciclo Unico">Ciclo Unico - 5 years</option>
+            {degreeTypes.map(lang => (
+              <option key={lang.value} value={lang.value}>
+                {lang.label[language]}
+              </option>
+            ))}
           </select>
-          
+
           <select
             name="accessType"
             value={formData.accessType}
             onChange={handleChange}
             className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           >
-            <option value="">Select Access Type</option>
-            <option value="Libero">Libero - Open Access</option>
-            <option value="Test d'ingresso">Test d'ingresso - Exam </option>
+            {accessTypes.map(lang => (
+              <option key={lang.value} value={lang.value}>
+                {lang.label[language]}
+              </option>
+            ))}
           </select>
-          
+
           <select
             name="courseLanguage"
             value={formData.courseLanguage}
             onChange={handleChange}
             className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           >
-            <option value="">Select Language</option>
-            <option value="IT">Italian</option>
-            <option value="EN">English</option>
+            {courseLanguages.map(lang => (
+              <option key={lang.value} value={lang.value}>
+                {lang.label[language]}
+              </option>
+            ))}
           </select>
-          
+
           <select
             name="academicArea"
             value={formData.academicArea}
             onChange={handleChange}
             className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           >
-            <option value="">Select Academic Area</option>
+            <option value="">{t('academicArea')}</option>
             {academicAreas.map(area => (
-              <option key={area.value} value={area.value}>{area.label}</option>
+              <option key={area.value} value={area.value}>
+                {area.label[language]}
+              </option>
             ))}
           </select>
         </div>
@@ -145,24 +143,25 @@ const ProgramSearch: React.FC = () => {
         <div className="relative mt-4">
           <input
             type="text"
-            placeholder="Search within results..."
+            placeholder={t('searchWithinResults')}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full rounded-full border p-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            className={`w-full rounded-full border p-2 ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} focus:outline-none focus:ring-2 focus:ring-indigo-300`}
           />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform text-gray-400 h-4 w-4" />
+          <Search className={`absolute top-1/2 -translate-y-1/2 transform text-gray-400 h-4 w-4 ${isRTL ? 'right-3' : 'left-3'}`} />
         </div>
       </div>
 
       {isLoading ? (
         <div className="flex h-64 items-center justify-center">
           <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-indigo-500"></div>
+          <span className="ml-3">{t('loadingMessage')}</span>
         </div>
       ) : filteredCourses.length > 0 ? (
         <PaginatedCourses filteredCourses={filteredCourses} />
       ) : (
         <div className="py-8 text-center text-gray-600">
           <Filter className="mx-auto mb-4 h-12 w-12" />
-          <p className="text-xl">No courses found. Please adjust your search criteria.</p>
+          <p className="text-xl">{t('noResults')}</p>
         </div>
       )}
     </div>

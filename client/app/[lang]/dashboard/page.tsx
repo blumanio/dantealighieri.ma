@@ -1,6 +1,6 @@
 import React from 'react'
 // import { UserButton } from '@clerk/nextjs'
-import Dashboard from '../../components/Dashboard'
+import Dashboard from '../../../components/Dashboard'
 
 const DashboardPage: React.FC = () => {
   return (

@@ -1,0 +1,35 @@
+// src/i18n/locales/en.json
+{
+    "common": {
+      "search": "Search",
+      "about": "About",
+      "services": "Services",
+      "universities": "Universities",
+      "courses": "Courses",
+      "login": "Login",
+      "signup": "Sign Up",
+      "deadline": "Universities deadline",
+      "apply": "Apply"
+    },
+    "universities": {
+      "status": "Status",
+      "fee": "Fee",
+      "deadline": "Deadline",
+      "requirements": "Requirements",
+      "englishLevel": "English Level",
+      "searchPrograms": "Search Programs",
+      "selectDegreeType": "Select Degree Type",
+      "selectAccessType": "Select Access Type",
+      "selectLanguage": "Select Language",
+      "selectAcademicArea": "Select Academic Area",
+      "noProgramsFound": "No programs found. Please adjust your search criteria.",
+      "loginToView": "Log in to view detailed information"
+    },
+    "program": {
+      "bachelor": "Bachelor",
+      "master": "Master",
+      "singleCycle": "Single Cycle",
+      "openAccess": "Open Access",
+      "entranceExam": "Entrance Exam"
+    }
+  }

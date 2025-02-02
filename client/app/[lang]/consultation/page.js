@@ -1,5 +1,5 @@
 'use client'
-import CalendlyEmbed from '../../components/CalendlyEmbed'
+import CalendlyEmbed from '../../../components/CalendlyEmbed'
 
 export default function Services() {
   return (

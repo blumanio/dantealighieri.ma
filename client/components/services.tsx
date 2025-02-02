@@ -30,7 +30,7 @@ const Services = () => {
                   helped more than
                 </p>
                 <p className='text-accent text-[36px] font-bold'>
-                  + <AnimatedCounter from={0} to={20000} /> Students
+                  + <AnimatedCounter from={0} to={200} /> Students
                 </p>
               </div>
               {/* <div className='flex flex-col items-center justify-center'>

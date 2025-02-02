@@ -38,7 +38,9 @@
     "react-world-flags": "^1.6.0",
     "svix": "^1.25.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "@formatjs/intl-localematcher": "^0.5.0",
+    "negotiator": "^0.6.3"
   },
   "overrides": {
     "rimraf": "^4.0.0",

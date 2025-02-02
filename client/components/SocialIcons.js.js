@@ -97,7 +97,7 @@ export const DanteAlighieriLogo = ({ className }) => (
       fillOpacity='0.8'
       textAnchor='middle'
     >
-      Consulting
+      Study in Italy
     </text>
   </svg>
 )
