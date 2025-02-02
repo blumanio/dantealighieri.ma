@@ -3,9 +3,9 @@
 
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
-import { Translations } from './types';
+import { Translation } from './types';
 
-const TranslationsContext = createContext<Translations | null>(null);
+const TranslationsContext = createContext<Translation | null>(null);
 
 export const TranslationsProvider = TranslationsContext.Provider;
 
@@ -16,4 +16,3 @@ export function useTranslations() {
   }
   return translations;
 }
-        

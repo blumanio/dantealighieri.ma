@@ -15,6 +15,7 @@ interface MenuItem {
   universities: string
   apply: string
   soon: string
+  [key: string]: string
 }
 
 interface MenuItems {

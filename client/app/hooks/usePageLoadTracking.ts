@@ -15,7 +15,7 @@ export const usePageLoadTracking = () => {
       
       // Use Performance Navigation Timing API for more accurate measurements
       const trackTiming = () => {
-        const navigation = performance.getEntriesByType('navigation')[0];
+        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
         if (navigation) {
           const loadTime = Math.round(navigation.loadEventEnd - navigation.startTime);
           
