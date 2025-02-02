@@ -24,9 +24,12 @@ const translations: Translations = {
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
-
-export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+interface LanguageProviderProps {
+    children: ReactNode;
+    initialLang?: Language;
+  }
+  export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children, initialLang = 'en' }) => {
+    const [language, setLanguage] = useState<Language>(initialLang);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
