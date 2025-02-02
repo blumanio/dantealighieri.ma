@@ -3,15 +3,14 @@
 // app/[lang]/ClientLanguageProvider.tsx
 import React from 'react';
 import { LanguageProvider } from './LanguageContext';
-
-type Lang = 'en' | 'it' | 'ar';
+import { Language } from '@/types';
 
 export default function ClientLanguageProvider({
     children,
     initialLang,
 }: {
     children: React.ReactNode;
-    initialLang: Lang;
+    initialLang: Language;
 }) {
     return (
         <LanguageProvider initialLang={initialLang}>
