@@ -19,10 +19,17 @@ interface Course {
   lingua: string;
   comune: string;
 }
+type Language = 'en' | 'ar' | 'it'
+
+const defaultLanguage: Language = 'ar' // Default language should be 'en'
 
 const ProgramSearch: React.FC = () => {
-  const { language, t } = useLanguage(); // Get translations via `t`
-  console.log(  'languageee' ,language, t);
+  const { language = defaultLanguage, t } = useLanguage();
+  useEffect(() => {
+    // This will trigger a re-render when language changes
+    setFormData(prev => ({ ...prev }));
+  }, [language]);
+  console.log('ProgramSearch ', language);
   const [formData, setFormData] = useState({
     degreeType: '',
     accessType: '',
@@ -78,8 +85,8 @@ const ProgramSearch: React.FC = () => {
     }));
   };
 
-    const isRTL = language === 'ar';
-  console.log(language, isRTL); 
+  const isRTL = language === 'ar';
+  console.log(language, isRTL);
 
   return (
     <div className={`space-y-6 rounded-lg bg-gray-100 ${isRTL ? 'rtl' : 'ltr'}`}>

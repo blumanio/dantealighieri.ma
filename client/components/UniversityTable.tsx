@@ -45,6 +45,7 @@ export interface University {
       end_date: string;
       application_start: string;
       application_end: string;
+      notes: string
     }>;
     programs_offered: Array<{
       name: string;
@@ -130,7 +131,7 @@ const renderExpandedContent = (uni: University, isSignedIn: boolean) => (
                                 <li className="flex justify-between">
                                     <span className="text-gray-600">Applications:</span>
                                     <span className="text-teal-600">
-                                        {intake.application_start} - {intake.application_end}
+                                        {intake.notes}  
                                     </span>
                                 </li>
                             </ul>

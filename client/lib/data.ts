@@ -45,188 +45,114 @@ export const projectsData = [
 
 export const italianUniversities = [
   {
-    id: 1,
-    name: "Politecnico di Milano",
-    location: "Milan, Italy",
-    tutorial: null,
-    blog: null,
-    admission_fee: 50,
-    english_requirement: "IELTS 6.0 or equivalent",
-    admission_date: "Oct 1, 2024",
-    deadline: "Dec 2, 2024",
-    status: "Open",
-    cgpa_requirement: "not required",
-    student_population: 45000,
-    acceptance_rate: "45%",
-    housing_available: true,
-    scholarship_available: true,
-    virtual_tour_available: true,
-    campus_facilities: [
+    "id": 1,
+    "name": "Politecnico di Milano",
+    "location": "Milan, Italy",
+    "tutorial": "https://www.polimi.it/en/international-prospective-students/how-to-apply/",
+    "blog": null,
+    "admission_fee": 150,
+    "english_requirement": "IELTS 6.0 or TOEFL iBT 78 or ENGLISH TOLC-I with a minimum score of 68/90",
+    "admission_date": "September 2024",
+    "deadline": "27 February 2025",
+    "status": "Open",
+    "cgpa_requirement": "Minimum 2.8/4.0",
+    "student_population": 47200,
+    "acceptance_rate": "38%",
+    "housing_available": true,
+    "scholarship_available": true,
+    "virtual_tour_available": true,
+    "campus_facilities": [
       "Modern Libraries",
       "Research Labs",
       "Student Housing",
       "Sports Center",
       "International Student Office",
       "Innovation Hub",
-      "Career Center"
+      "Career Center",
+      "Health & Wellness Center"
     ],
-    application_link: "https://www.polimi.it/en/international-prospective-students/",
-    intakes: [
+    "application_link": "https://www.polimi.it/en/international-prospective-students/",
+    "intakes": [
       {
-        name: "Fall Intake",
-        start_date: "September 2024",
-        end_date: "January 2025",
-        application_start: "November 2023",
-        application_end: "March 2024"
+        "name": "Early Bird (all study areas)",
+        "start_date": "1st October",
+        "end_date": "2nd December",
+        "notes": "To increase your chances on admission and to receive results sooner, we encourage you to submit your application by December 2nd (early bird)."
       },
       {
-        name: "Spring Intake",
-        start_date: "February 2025",
-        end_date: "July 2025",
-        application_start: "June 2024",
-        application_end: "September 2024"
+        "name": "Standard fee (Architecture and Design) - €150",
+        "start_date": "3rd December",
+        "end_date": "30th January",
+        "notes": "Avoid last-minute payments, as any issues with your bank may prevent you from resolving them before the deadline. "
+      },
+      {
+        "name": "Standard fee (Engineering) - €150",
+        "start_date": "13th January",
+        "end_date": "27th February",
+        "notes": "*Non-EEA students resident in Italy Non EEA students resident in Italy are allowed to apply to Master of Science programmes during the application call reserved to EEA students if they have a valid 'residence permit or a subordinate or autonomous work permit, for family reasons, for political asylum, for humanitarian asylum, for religious reasons' (art. 39, comma 5, of the legislative decree 25.07.98, n. 286, modified by the art. 26 of the law 30 July 2002, n. 189 - Law modification regarding immigration and political asylum). Students with a residence permit different from those listed above will not be accepted."
+      }
+      ,
+      {
+        "name": "EEA call fee (all study areas) - €150",
+        "start_date": "3rd March",
+        "end_date": "15th May",
+        "notes": "EEA European Education Area = EU countries + Albania, Andorra, Armenia, Azerbaijan, Bosnia and Herzegovina, Georgia, Iceland, Kazakhstan, Liechtenstein, Moldova, Montenegro, North Macedonia, Norway, San Marino, Serbia, Switzerland, Turkey, Ukraine, United Kingdom"
       }
     ],
-    programs_offered: [
+    "programs_offered": [
       {
-        name: "Computer Engineering",
-        type: "Bachelor",
-        language: "English",
-        duration: "3 years",
-        tuition_fee: 4000
+        "name": "Computer Engineering",
+        "type": "Bachelor",
+        "language": "English",
+        "duration": "3 years",
+        "tuition_fee": 4200
       },
       {
-        name: "Mechanical Engineering",
-        type: "Master",
-        language: "English/Italian",
-        duration: "2 years",
-        tuition_fee: 4500
+        "name": "Mechanical Engineering",
+        "type": "Master",
+        "language": "English/Italian",
+        "duration": "2 years",
+        "tuition_fee": 4800
       },
       {
-        name: "Architecture",
-        type: "Bachelor",
-        language: "English/Italian",
-        duration: "3 years",
-        tuition_fee: 4000
+        "name": "Architecture",
+        "type": "Bachelor",
+        "language": "English/Italian",
+        "duration": "3 years",
+        "tuition_fee": 4200,
+        "notes": "Dual Degree Option available with TU Munich"
       }
     ],
-    contact_info: {
-      email: "international@polimi.it",
-      phone: "+39 02 2399 2008",
-      website: "www.polimi.it",
-      address: "Piazza Leonardo da Vinci, 32, 20133 Milano MI, Italy"
+    "contact_info": {
+      "email": "international@polimi.it",
+      "phone": "+39 02 2399 2008",
+      "website": "https://www.polimi.it",
+      "address": "Piazza Leonardo da Vinci, 32, 20133 Milano MI, Italy"
     },
-    university_features: {
-      library: true,
-      sports_facilities: true,
-      cafeteria: true,
-      labs: true,
-      research_centers: true,
-      international_office: true
+    "university_features": {
+      "library": true,
+      "sports_facilities": true,
+      "cafeteria": true,
+      "labs": true,
+      "research_centers": true,
+      "international_office": true
     },
-    rankings: {
-      world_ranking: "149th",
-      national_ranking: "1st in Italy for Engineering",
-      subject_rankings: [
+    "rankings": {
+      "world_ranking": "139th (QS World University Rankings 2024)",
+      "national_ranking": "1st in Italy for Engineering & Technology",
+      "subject_rankings": [
         {
-          subject: "Engineering",
-          rank: "16th Worldwide"
+          "subject": "Engineering & Technology",
+          "rank": "14th Worldwide"
         },
         {
-          subject: "Architecture",
-          rank: "10th Worldwide"
+          "subject": "Architecture",
+          "rank": "10th Worldwide"
         }
       ]
     }
   },
-  /* {
-     "id": 2,
-     "name": "Sapienza University of Rome",
-     "location": "Rome, Italy",
-     "tutorial": null,
-     "blog": null,
-     "admission_fee": 30,
-     "english_requirement": "IELTS 6.0 or equivalent",
-     "admission_date": "Oct 1, 2024",
-     "deadline": "Dec 15, 2024",
-     "status": "Open",
-     "cgpa_requirement": "not required",
-     "student_population": 112500,
-     "acceptance_rate": "55%",
-     "housing_available": true,
-     "scholarship_available": true,
-     "virtual_tour_available": true,
-     "campus_facilities": [
-       "Extensive Libraries",
-       "Research Institutes",
-       "Student Dormitories",
-       "Sports Facilities",
-       "International Relations Office",
-       "Cultural Centers",
-       "Career Services"
-     ],
-     "application_link": "https://www.uniroma1.it/en/pagina-strutturale/home",
-     "intakes": [
-       {
-         "name": "Fall Intake",
-         "start_date": "October 2024",
-         "end_date": "February 2025",
-         "application_start": "December 2023",
-         "application_end": "April 2024"
-       }
-     ],
-     "programs_offered": [
-       {
-         "name": "Medicine and Surgery",
-         "type": "Bachelor",
-         "language": "English",
-         "duration": "6 years",
-         "tuition_fee": 2900
-       },
-       {
-         "name": "Economics",
-         "type": "Master",
-         "language": "English",
-         "duration": "2 years",
-         "tuition_fee": 1000
-       },
-       {
-         "name": "Classical Studies",
-         "type": "Bachelor",
-         "language": "Italian",
-         "duration": "3 years",
-         "tuition_fee": 1000
-       }
-     ],
-     "contact_info": {
-       "email": "international@uniroma1.it",
-       "phone": "+39 06 49911",
-       "website": "www.uniroma1.it",
-       "address": "Piazzale Aldo Moro, 5, 00185 Rome, Italy"
-     },
-     "university_features": {
-       "library": true,
-       "sports_facilities": true,
-       "cafeteria": true,
-       "labs": true,
-       "research_centers": true,
-       "international_office": true
-     },
-     "rankings": {
-       "world_ranking": "171st",
-       "national_ranking": "2nd in Italy",
-       "subject_rankings": [
-         {
-           "subject": "Classics and Ancient History",
-           "rank": "1st Worldwide"
-         },
-         {
-           "subject": "Archaeology",
-           "rank": "11th Worldwide"
-         }
-       ]
-     }
-   }*/
+
   {
     id: 2,
     name: "University of Bologna",
@@ -235,8 +161,8 @@ export const italianUniversities = [
     blog: null,
     admission_fee: 50,
     english_requirement: "IELTS 5.5 or equivalent",
-    admission_date: "Sep 1, 2024",
-    deadline: "Nov 30, 2024",
+    admission_date: "Nov 28, 2024",
+    deadline: " Different for each program",
     status: "Open",
     cgpa_requirement: "not required",
     student_population: 87000,
@@ -323,8 +249,8 @@ export const italianUniversities = [
     blog: null,
     admission_fee: 30,
     english_requirement: "IELTS 6.5 or equivalent",
-    admission_date: "Oct 1, 2024",
-    deadline: "Dec 15, 2024",
+    admission_date: "Jan 7, 2025",
+    deadline: "7 Mar",
     status: "Open",
     cgpa_requirement: "not required",
     student_population: 60000,
@@ -344,9 +270,9 @@ export const italianUniversities = [
     application_link: "https://www.unipd.it/en/",
     intakes: [
       {
-        name: "Fall Intake",
-        start_date: "October 2024",
-        end_date: "February 2025",
+        name: "first Intake",
+        start_date: "Jan 7, 2025",
+        end_date: "7 Mar",
         application_start: "January 2024",
         application_end: "June 2024"
       }
@@ -409,10 +335,10 @@ export const italianUniversities = [
     location: "Milan, Italy",
     tutorial: null,
     blog: null,
-    admission_fee: 50,
+    admission_fee: 30,
     english_requirement: "IELTS 6.0 or equivalent",
-    admission_date: "Sep 1, 2024",
-    deadline: "Nov 30, 2024",
+    admission_date: "30",
+    deadline: "F31 Mar",
     status: "Open",
     cgpa_requirement: "not required",
     student_population: 64000,
@@ -432,9 +358,9 @@ export const italianUniversities = [
     application_link: "https://www.unimi.it/en",
     intakes: [
       {
-        name: "Fall Intake",
-        start_date: "September 2024",
-        end_date: "January 2025",
+        name: "first Intake",
+        start_date: "1 feb",
+        end_date: "31 Mar",
         application_start: "December 2023",
         application_end: "April 2024"
       }
@@ -930,188 +856,118 @@ export const italianUniversities = [
     }
   },
   {
-    id: 10,
-    name: "Sapienza University of Rome",
-    location: "Rome, Italy",
-    tutorial: null,
-    blog: null,
-    admission_fee: 30,
-    english_requirement: "B2 English level",
-    admission_date: "Dec 5, 2024",
-    deadline: "29 Apr",
-    status: "Open",
-    cgpa_requirement: "Varies by Program",
-    student_population: 112000,
-    acceptance_rate: "52%",
-    housing_available: true,
-    scholarship_available: true,
-    virtual_tour_available: true,
-    campus_facilities: [
+    "id": 10,
+    "name": "Sapienza University of Rome",
+    "location": "Rome, Italy",
+    "tutorial": "https://www.uniroma1.it/en/pagina/international-prospective-students",
+    "blog": null,
+    "admission_fee": 35,
+    "english_requirement": "B2 level with one of: IELTS 5.5+, TOEFL iBT 80+, Cambridge B2 First+, Trinity ISE II+",
+    "admission_date": "January 28, 2025",
+    "deadline": "April 29, 2025",
+    "status": "Open",
+    "cgpa_requirement": "Varies by program (70-90/100)",
+    "student_population": 112000,
+    "acceptance_rate": "52%",
+    "housing_available": true,
+    "scholarship_available": true,
+    "virtual_tour_available": true,
+    "campus_facilities": [
       "Historic Campus",
-      "Multiple Libraries",
-      "Research Centers",
-      "Museums",
-      "Student Housing",
-      "Sports Facilities",
-      "Cultural Centers"
-    ],
-    application_link: "https://www.uniroma1.it/en/pagina/international-students",
-    intakes: [
-      {
-        name: "Fall Intake",
-        start_date: "October 2024",
-        end_date: "February 2025",
-        application_start: "January 2024",
-        application_end: "April 2024"
-      },
-      {
-        name: "Spring Intake",
-        start_date: "March 2025",
-        end_date: "July 2025",
-        application_start: "September 2024",
-        application_end: "December 2024"
-      }
-    ],
-    programs_offered: [
-      {
-        name: "Medicine and Surgery",
-        type: "Single Cycle",
-        language: "English",
-        duration: "6 years",
-        tuition_fee: 3500
-      },
-      {
-        name: "Aerospace Engineering",
-        type: "Master",
-        language: "English",
-        duration: "2 years",
-        tuition_fee: 3000
-      },
-      {
-        name: "Artificial Intelligence and Robotics",
-        type: "Master",
-        language: "English",
-        duration: "2 years",
-        tuition_fee: 3000
-      }
-    ],
-    contact_info: {
-      email: "hello@uniroma1.it",
-      phone: "+39 06 4991 0008",
-      website: "www.uniroma1.it",
-      address: "Piazzale Aldo Moro 5, 00185 Roma RM, Italy"
-    },
-    university_features: {
-      library: true,
-      sports_facilities: true,
-      cafeteria: true,
-      labs: true,
-      research_centers: true,
-      international_office: true
-    },
-    rankings: {
-      world_ranking: "171st",
-      national_ranking: "1st in Rome",
-      subject_rankings: [
-        {
-          subject: "Classics & Ancient History",
-          rank: "11th Worldwide"
-        },
-        {
-          subject: "Engineering",
-          rank: "101-150 Worldwide"
-        }
-      ]
-    }
-  },
-  {
-    id: 11,
-    name: "University of Florence",
-    location: "Florence, Italy",
-    tutorial: null,
-    blog: null,
-    admission_fee: 20,
-    english_requirement: "B2 English level",
-    admission_date: "Dec 2, 2024",
-    deadline: "21 Feb",
-    status: "Open",
-    cgpa_requirement: "not required",
-    student_population: 51000,
-    acceptance_rate: "65%",
-    housing_available: true,
-    scholarship_available: true,
-    virtual_tour_available: true,
-    campus_facilities: [
-      "Historic Buildings",
-      "Modern Labs",
-      "Research Centers",
-      "Student Housing",
       "Libraries",
+      "Research Labs",
+      "Computer Labs (LAIB)",
+      "Student Housing",
       "Sports Facilities",
+      "International Student Office",
+      "Special Needs Unit",
+      "Career Services",
+      "Museums",
       "Cultural Centers"
     ],
-    application_link: "https://www.unifi.it/changelang-eng.html",
-    intakes: [
+    "application_link": "https://sapienza.gomovein.com",
+    "intakes": [
       {
-        name: "Fall Intake",
-        start_date: "September 2024",
-        end_date: "January 2025",
-        application_start: "December 2023",
-        application_end: "February 2024"
+        "name": "Non-EU Application Period (Visa Required)",
+        "start_date": "January 28, 2025",
+        "end_date": "April 29, 2025",
+        "notes": "For international students requiring visa"
       },
       {
-        name: "Spring Intake",
-        start_date: "March 2025",
-        end_date: "July 2025",
-        application_start: "August 2024",
-        application_end: "November 2024"
+        "name": "EU/Equivalent Application Period",
+        "start_date": "January 28, 2025",
+        "end_date": "July 29, 2025",
+        "notes": "For EU and equivalent students"
       }
     ],
-    programs_offered: [
+    "programs_offered": [
       {
-        name: "Architecture",
-        type: "Bachelor",
-        language: "Italian/English",
-        duration: "3 years",
-        tuition_fee: 2500
+        "name": "Applied Computer Science and Artificial Intelligence",
+        "type": "Bachelor",
+        "language": "English",
+        "duration": "3 years",
+        "tuition_fee": 161,
+        "minimum_gpa": "75/100",
+        "entry_requirements": "SAT (960+) or English TOLC-I with minimum scores"
       },
       {
-        name: "Fashion Design",
-        type: "Master",
-        language: "English",
-        duration: "2 years",
-        tuition_fee: 3000
+        "name": "Business Sciences",
+        "type": "Bachelor",
+        "language": "English",
+        "duration": "3 years",
+        "tuition_fee": 161,
+        "minimum_gpa": "75/100",
+        "entry_requirements": "SAT or English TOLC-E test"
+      },
+      {
+        "name": "Artificial Intelligence and Robotics",
+        "type": "Master",
+        "language": "English",
+        "duration": "2 years",
+        "tuition_fee": 161,
+        "minimum_gpa": "75/100",
+        "entry_requirements": "Bachelor in Computer Engineering or related field"
+      },
+      {
+        "name": "Data Science",
+        "type": "Master",
+        "language": "English",
+        "duration": "2 years",
+        "tuition_fee": 161,
+        "minimum_gpa": "80/100",
+        "entry_requirements": "Bachelor in CS, Statistics, Mathematics or related field"
       }
     ],
-    contact_info: {
-      email: "international@unifi.it",
-      phone: "+39 055 275 7690",
-      website: "www.unifi.it",
-      address: "Piazza San Marco, 4, 50121 Firenze FI, Italy"
+    "contact_info": {
+      "email": "hello@uniroma1.it",
+      "phone": null,
+      "website": "https://www.uniroma1.it",
+      "address": "Piazzale Aldo Moro 5, 00185 Roma, Italy"
     },
-    university_features: {
-      library: true,
-      sports_facilities: true,
-      cafeteria: true,
-      labs: true,
-      research_centers: true,
-      international_office: true
+    "university_features": {
+      "library": true,
+      "sports_facilities": true,
+      "cafeteria": true,
+      "labs": true,
+      "research_centers": true,
+      "international_office": true
     },
-    rankings: {
-      world_ranking: "401-500",
-      national_ranking: "8th in Italy",
-      subject_rankings: [
+    "rankings": {
+      "world_ranking": "171st",
+      "national_ranking": "1st in Italy",
+      "subject_rankings": [
         {
-          subject: "Art & Design",
-          rank: "51-100 Worldwide"
+          "subject": "Classics & Ancient History",
+          "rank": "11th Worldwide"
         },
         {
-          subject: "Agriculture",
-          rank: "101-150 Worldwide"
+          "subject": "Engineering",
+          "rank": "101-150 Worldwide"
         }
       ]
     }
   },
+
   {
     id: 12,
     name: "University of Genoa",
@@ -1375,5 +1231,748 @@ export const italianUniversities = [
         }
       ]
     }
+  },
+  {
+    "id": 15,
+    "name": "Politecnico di Torino",
+    "location": "Turin, Italy",
+    "tutorial": "https://www.polito.it/en/education/services-and-life-at-politecnico",
+    "blog": null,
+    "admission_fee": 50,
+    "english_requirement": null,
+    "admission_date": "March 2025",
+    "deadline": "May 9, 2025",
+    "status": "Open",
+    "cgpa_requirement": null,
+    "student_population": 37000,
+    "acceptance_rate": null,
+    "housing_available": true,
+    "scholarship_available": true,
+    "virtual_tour_available": true,
+    "campus_facilities": [
+      "Libraries",
+      "Research Labs",
+      "Student Housing",
+      "Sports Facilities",
+      "International Office",
+      "Innovation Hub",
+      "Career Center",
+      "Special Needs Unit",
+      "Student Support Services"
+    ],
+    "application_link": "https://www.polito.it/en/admission",
+    "intakes": [
+      {
+        "name": "First Session (EU and Non-EU)",
+        "start_date": "January 28, 2025",
+        "end_date": "March 4, 2025",
+        "notes": "For both EU and non-EU applicants requiring visa"
+      },
+      {
+        "name": "Second Session (EU and Non-EU)",
+        "start_date": "January 28, 2025",
+        "end_date": "April 3, 2025",
+        "notes": "For both EU and non-EU applicants requiring visa"
+      },
+      {
+        "name": "Third Session (EU and Non-EU)",
+        "start_date": "January 28, 2025",
+        "end_date": "April 30, 2025",
+        "notes": "For both EU and non-EU applicants requiring visa"
+      },
+      {
+        "name": "Fourth Session (EU only)",
+        "start_date": "April 29, 2025",
+        "end_date": "July 9, 2025",
+        "notes": "Exclusively for EU and Equivalent applicants"
+      },
+      {
+        "name": "Fifth Session (EU only)",
+        "start_date": "April 29, 2025",
+        "end_date": "August 22, 2025",
+        "notes": "Exclusively for EU and Equivalent applicants"
+      }
+    ],
+    "programs_offered": [
+      {
+        "name": "Territorial, Urban, Environmental and Landscape Planning",
+        "type": "Bachelor",
+        "language": "Italian",
+        "duration": "3 years",
+        "tuition_fee": 161,
+        "notes": "80 total places (78 EU, 2 non-EU)"
+      }
+    ],
+    "contact_info": {
+      "email": "international@polito.it",
+      "phone": null,
+      "website": "https://www.polito.it",
+      "address": "Corso Duca degli Abruzzi, 24, 10129 Torino TO, Italy"
+    },
+    "university_features": {
+      "library": true,
+      "sports_facilities": true,
+      "cafeteria": true,
+      "labs": true,
+      "research_centers": true,
+      "international_office": true
+    },
+    "rankings": {
+      "world_ranking": null,
+      "national_ranking": "Top 5 in Italy for Engineering",
+      "subject_rankings": [
+        {
+          "subject": "Engineering",
+          "rank": "Top 50 in Europe"
+        }
+      ]
+    }
+  },
+
+  {
+    "id": 2223,
+    "name": "University of Macerata",
+    "tutorial": null,
+    "blog": "Blog on UniMc",
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Nov 4, 2024",
+    "deadline": "31 Mar",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+
+  {
+    "id": 2225,
+    "name": "University of Bergamo (First Call)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Nov 7, 2024",
+    "deadline": "15 Jan",
+    "status": "Close",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+
+
+  {
+    "id": 2228,
+    "name": "University of Camerino",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 20,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Nov 20, 2024",
+    "deadline": "30 Mar",
+    "status": "Open",
+    "cgpa_requirement": "MINIMUM CGPA 3 FOR PAKISTAN"
+  },
+
+
+
+  {
+    "id": 22214,
+    "name": "University of L'Aquila",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Dec 8, 2025",
+    "deadline": "5 Mar",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+
+  {
+    "id": 22216,
+    "name": "Marche Polytechnic University",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 10,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Dec 16, 2024",
+    "deadline": null,
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22217,
+    "name": "University of Trento",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Dec 18, 2024",
+    "deadline": "6 Mar",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22218,
+    "name": "Ca' Foscari University of Venice",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Dec 19, 2024",
+    "deadline": "9 Jan",
+    "status": "Close",
+    "cgpa_requirement": "MINIMUM 2.8 CGPA REQUIRED"
+  },
+  {
+    "id": 22219,
+    "name": "Polytechnic University of Turin",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 50,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Dec 19, 2024",
+    "deadline": "1Feb",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22220,
+    "name": "University of Bergamo (Second Call)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 1, 2025",
+    "deadline": "31 Jan",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22221,
+    "name": "University of Siena",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 40,
+    "english_requirement": "IELTS Required",
+    "admission_date": "1 Jan, 2025",
+    "deadline": "6 Feb , 6 May",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22222,
+    "name": "University of Tuscia",
+    "tutorial": null,
+    "blog": "Blog on Tuscia",
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "1 Jan, 2025",
+    "deadline": null,
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22223,
+    "name": "University of Parma",
+    "tutorial": null,
+    "blog": "Communication Engineering",
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "10 Dec, 2025",
+    "deadline": null,
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22224,
+    "name": "University of Padua (Limited Programs)",
+    "tutorial": null,
+    "blog": "Blog on UniPd",
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 7, 2025",
+    "deadline": "7 Mar",
+    "status": "Open",
+    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN"
+  },
+  {
+    "id": 22225,
+    "name": "University of Pavia (2nd Call)",
+    "tutorial": "YouTube Video",
+    "blog": "Blog on UniPv",
+    "admission_fee": 35,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 9, 2025",
+    "deadline": "16 Jan",
+    "status": "Close",
+    "cgpa_requirement": "MINIMUM 2.65 CGPA REQUIRED"
+  },
+  {
+    "id": 22226,
+    "name": "University of Trieste",
+    "notes": "Not accepting application from: Ethiopia, Iran, Pakistan",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 10,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 7, 2025",
+    "deadline": "7 Feb",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22227,
+    "name": "University of Milano-Bicocca (Limited)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 7, 2025",
+    "deadline": "7 Mar",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22228,
+    "name": "Politecnico di Milano (Engineering)",
+    "tutorial": null,
+    "blog": "Blog on Polimi",
+    "admission_fee": 150,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 13, 2025",
+    "deadline": "27 Feb",
+    "status": "Open",
+    "cgpa_requirement": "MINIMUM CGPA 3.3 FOR PAKISTAN"
+  },
+  {
+    "id": 22229,
+    "name": "University of Insubria",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "15 Jan, 2025",
+    "deadline": null,
+    "status": "Open",
+    "cgpa_requirement": null
+  },
+  {
+    "id": 22230,
+    "name": "University of Tor Vergata",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 21, 2025",
+    "deadline": "31 May",
+    "status": "Open",
+    "cgpa_requirement": "DIFFERENT CGPA REQUIREMENTS"
+  },
+  {
+    "id": 22231,
+    "name": "University of Milan",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 1, 2025",
+    "deadline": "31 Mar",
+    "status": null,
+    "cgpa_requirement": "DIFFERENT CGPA REQUIREMENTS"
+  },
+  {
+    "id": 22232,
+    "name": "University of Parma",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 1, 2025",
+    "deadline": "1 Mar",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22233,
+    "name": "University of Messina",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "IELTS Required",
+    "admission_date": "Feb 1, 2025",
+    "deadline": "21 Feb",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22234,
+    "name": "University of Catania",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 10,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 2, 2025",
+    "deadline": "15 Mar",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22235,
+    "name": "University of Sassari",
+    "tutorial": null,
+    "blog": "Innovation management for sustainable tourism",
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 10, 2025",
+    "deadline": "30 Mar",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22236,
+    "name": "University of Modena",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 30, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "DIFFERENT CGPA REQUIREMENTS"
+  },
+  {
+    "id": 22237,
+    "name": "University of Cassino",
+    "tutorial": null,
+    "blog": "Blog on UniCas",
+    "admission_fee": 10,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 13, 2025",
+    "deadline": "30 Apr",
+    "status": null,
+    "cgpa_requirement": "DIFFERENT CGPA REQUIREMENTS"
+  },
+  {
+    "id": 22238,
+    "name": "University of Tuscia",
+    "tutorial": null,
+    "blog": "Blog on UniTs",
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 13, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22239,
+    "name": "University of Milano-Bicocca (Second)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Feb 17, 2025",
+    "deadline": "2 May",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22240,
+    "name": "University of Turin (Bachelor)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "Different for each program",
+    "admission_date": "Feb 24, 2025",
+    "deadline": "30 Apr",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22241,
+    "name": "Polytechnic University of Turin (2nd)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 50,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 1, 2025",
+    "deadline": "4 Apr",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22242,
+    "name": "University of Bozen-Bolzano",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 50,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 1, 2025",
+    "deadline": "7 May",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22243,
+    "name": "University of Verona",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 1, 2025",
+    "deadline": "30 Mar",
+    "status": null,
+    "cgpa_requirement": "MINIMUM 3 CGPA REQUIRED"
+  },
+  {
+    "id": 22244,
+    "name": "University of Padua (Second Call)",
+    "tutorial": null,
+    "blog": "Blog on UniPd",
+    "admission_fee": 30,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 2, 2025",
+    "deadline": "2 May",
+    "status": null,
+    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN"
+  },
+  {
+    "id": 22245,
+    "name": "University of Calabria",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 10,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 4, 2025",
+    "deadline": "10 Apr",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22246,
+    "name": "University of Pavia (3rd Call)",
+    "tutorial": "YouTube Video",
+    "blog": "Blog on UniPv",
+    "admission_fee": 35,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 10, 2025",
+    "deadline": "18 Mar",
+    "status": null,
+    "cgpa_requirement": "MINIMUM 2.65 CGPA REQUIRED"
+  },
+
+  {
+    "id": 22248,
+    "name": "University of Messina (Second Call)",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "IELTS Required",
+    "admission_date": "Mar 22, 2025",
+    "deadline": "3 May",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22249,
+    "name": "Polytechnic University of Bari",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22250,
+    "name": "Roma Tre University",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22251,
+    "name": "University of Bari Aldo Moro",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22252,
+    "name": "University of Basilicata",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22253,
+    "name": "University of Campania Luigi Vanvitelli",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22254,
+    "name": "University of Eastern Piedmont",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": "30 Aug",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22255,
+    "name": "University of Ferrara",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 20,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Jan 15, 2025",
+    "deadline": "30 Apr",
+    "status": "Open",
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22256,
+    "name": "University of Foggia",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22257,
+    "name": "University of Naples Federico II",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22258,
+    "name": "University of Naples Parthenope",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22259,
+    "name": "University of Palermo",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22260,
+    "name": "University of Perugia",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22261,
+    "name": "University of Salento",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22262,
+    "name": "University of Salerno",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22263,
+    "name": "University of Teramo",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "English Proficiency",
+    "admission_date": "Mar 31, 2025",
+    "deadline": null,
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22264,
+    "name": "University of Cagliari",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 0,
+    "english_requirement": "IELTS/TOLC Required",
+    "admission_date": "Apr 1, 2025",
+    "deadline": "9 Jun",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
+  },
+  {
+    "id": 22265,
+    "name": "University of Udine",
+    "tutorial": null,
+    "blog": null,
+    "admission_fee": 20,
+    "english_requirement": "English Proficiency",
+    "admission_date": "May 9, 2025",
+    "deadline": "15 Jun",
+    "status": null,
+    "cgpa_requirement": "NO CGPA REQUIREMENT"
   }
+
 ];

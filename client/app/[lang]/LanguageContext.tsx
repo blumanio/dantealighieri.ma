@@ -5,61 +5,95 @@ import { useSearchParams } from 'next/navigation';
 type Language = 'en' | 'ar' | 'it';
 
 interface Translations {
-  [key: string]: { [key: string]: string };
+    [key: string]: { [key: string]: string };
 }
 
 interface LanguageContextType {
-  language: Language;
-  setLanguage: (language: Language) => void;
-  t: (key: string) => string;
+    language: Language;
+    setLanguage: (language: Language) => void;
+    t: (key: string) => string;
 }
 
 const translations: Translations = {
-  en: {
-    searchTitle: 'Search Programs',
-    academicArea: 'Academic Area',
-  },
-  ar: {
-    searchTitle: 'ابحث عن البرامج',
-    academicArea: 'المجال الأكاديمي',
-  },
-  it: {
-    searchTitle: 'Cerca programmi',
-    academicArea: 'Area accademica',
-  },
+    en: {
+        searchTitle: 'Search Programs',
+        academicArea: 'Academic Area',
+        // Add all your English translations here
+    },
+    ar: {
+        searchTitle: 'ابحث عن البرامج',
+        academicArea: 'المجال الأكاديمي',
+        // Add all your Arabic translations here
+    },
+    it: {
+        searchTitle: 'Cerca programmi',
+        academicArea: 'Area accademica',
+        // Add all your Italian translations here
+    },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 interface LanguageProviderProps {
-  children: ReactNode;
-  initialLang?: Language;
+    children: ReactNode;
+    initialLang?: Language;
 }
 
-export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children, initialLang = 'en' }) => {
-  const [language, setLanguage] = useState<Language>(initialLang);
-  const searchParams = useSearchParams();
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({
+    children,
+    initialLang = 'en'
+}) => {
+    const [language, setLanguage] = useState<Language>(initialLang);
+    const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const urlLang = searchParams.get('lang') as Language;
-    if (urlLang && translations[urlLang]) {
-      setLanguage(urlLang);
-    }
-  }, [searchParams]);
+    useEffect(() => {
+        const urlLang = searchParams.get('lang') as Language;
+        if (urlLang && translations[urlLang]) {
+            setLanguage(urlLang);
+            document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr';
+        }
+    }, [searchParams]);
 
-  const t = (key: string): string => translations[language][key] || key;
+    // Add missing translations
+    const translations: Translations = {
+        en: {
+            searchTitle: 'Search Programs',
+            academicArea: 'Academic Area',
+            searchWithinResults: 'Search within results...',
+            loadingMessage: 'Loading...',
+            noResults: 'No results found'
+        },
+        ar: {
+            searchTitle: 'ابحث عن البرامج',
+            academicArea: 'المجال الأكاديمي',
+            searchWithinResults: 'البحث في النتائج...',
+            loadingMessage: 'جار التحميل...',
+            noResults: 'لم يتم العثور على نتائج'
+        },
+        it: {
+            searchTitle: 'Cerca programmi',
+            academicArea: 'Area accademica',
+            searchWithinResults: 'Cerca nei risultati...',
+            loadingMessage: 'Caricamento...',
+            noResults: 'Nessun risultato trovato'
+        }
+    };
 
-  return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
-      {children}
-    </LanguageContext.Provider>
-  );
+    const t = (key: string): string => {
+        return translations[language]?.[key] || key;
+    };
+
+    return (
+        <LanguageContext.Provider value={{ language, setLanguage, t }}>
+            {children}
+        </LanguageContext.Provider>
+    );
 };
 
 export const useLanguage = (): LanguageContextType => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
+    const context = useContext(LanguageContext);
+    if (!context) {
+        throw new Error('useLanguage must be used within a LanguageProvider');
+    }
+    return context;
 };
