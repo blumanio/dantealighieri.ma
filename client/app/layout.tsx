@@ -1,4 +1,6 @@
-import type { Metadata } from 'next';
+'use client';
+
+import { Suspense } from 'react';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
@@ -8,10 +10,31 @@ import { LanguageProvider } from './[lang]/LanguageContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Dante Alighieri Consulting',
-  description: 'by Mohamed El Aammari',
-};
+// Create a separate component for the content that needs Suspense
+function LayoutContent({ 
+  children, 
+  lang 
+}: { 
+  children: React.ReactNode;
+  lang: string;
+}) {
+  return (
+    <LanguageProvider initialLang={lang as 'en' | 'it' | 'ar'}>
+      <ClerkWrapper>
+        {children}
+      </ClerkWrapper>
+    </LanguageProvider>
+  );
+}
+
+// Loading fallback component
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">Loading...</div>
+    </div>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -23,14 +46,14 @@ export default function RootLayout({
   return (
     <html lang={params.lang || 'en'}>
       <body className={inter.className}>
-        <LanguageProvider initialLang={params.lang as 'en' | 'it' | 'ar'}>
-          <ClerkWrapper>
+        <Suspense fallback={<LoadingFallback />}>
+          <LayoutContent lang={params.lang}>
             {children}
-          </ClerkWrapper>
-          <GoogleAnalytics gaId='G-845LV1ZMN9' />
-          <GoogleTagManager gtmId='GTM-5PXD8C8K' />
-          <SpeedInsights />
-        </LanguageProvider>
+          </LayoutContent>
+        </Suspense>
+        <GoogleAnalytics gaId='G-845LV1ZMN9' />
+        <GoogleTagManager gtmId='GTM-5PXD8C8K' />
+        <SpeedInsights />
       </body>
     </html>
   );
