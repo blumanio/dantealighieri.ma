@@ -129,7 +129,7 @@ const renderExpandedContent = (uni: University, isSignedIn: boolean) => (
                                     <span>{intake.end_date}</span>
                                 </li>
                                 <li className="flex justify-between">
-                                    <span className="text-gray-600">Applications:</span>
+                                    <span className="text-gray-600">Notes:</span>
                                     <span className="text-teal-600">
                                         {intake.notes}  
                                     </span>

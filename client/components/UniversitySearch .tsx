@@ -93,7 +93,7 @@ export function UniversityTable({ universities }: UniversityTableProps) {
             </div>
 
             <div className="space-y-2">
-                <h4 className="font-medium text-gray-900">Requirements</h4>
+                <h4 className="font-medium text-gray-900">BAC/CGPA Requirements</h4>
                 <ul className="text-sm space-y-2">
                     <li className="flex items-center justify-between">
                         <span className="text-gray-600">Academic:</span>
