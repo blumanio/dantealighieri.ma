@@ -1,11 +1,13 @@
-// app/not-found.tsx
+import { Suspense } from 'react'
 import Link from 'next/link'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 
 export default function NotFound() {
   return (
-    <>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">Loading...</div>
+    </div>}>
       <Header />
       <main className="flex min-h-[60vh] flex-col items-center justify-center bg-white">
         <div className="text-center">
@@ -25,6 +27,6 @@ export default function NotFound() {
         </div>
       </main>
       <Footer />
-    </>
+    </Suspense>
   )
 }
