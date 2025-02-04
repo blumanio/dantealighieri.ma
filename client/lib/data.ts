@@ -164,7 +164,7 @@ export const italianUniversities = [
     admission_date: "Nov 28, 2024",
     deadline: " Different for each program",
     status: "Open",
-    cgpa_requirement: "not required",
+    cgpa_requirement: "2.5 - Varies by program",
     student_population: 87000,
     acceptance_rate: "60%",
     housing_available: true,
@@ -182,11 +182,26 @@ export const italianUniversities = [
     application_link: "https://www.unibo.it/en",
     intakes: [
       {
-        name: "Fall Intake",
-        start_date: "September 2024",
-        end_date: "January 2025",
-        application_start: "December 2023",
-        application_end: "May 2024"
+        name: " graduate admission 1",
+        end_date: " Apr 29, 2025",
+        notes: "specific deadlines may vary depending on the program"
+      },
+      {
+        name: " graduate admission 2",
+        end_date: " Jul 01, 2025"
+      }, {
+        name: " graduate admission 3",
+        end_date: " Jul 01, 2025",
+        notes: "to open only in case of places available from intake 1 and intake 2"
+      },
+      {
+        name: "post graduate admission 1",
+        end_date: "Feb 27, 2025"
+      },
+      {
+        name: "post graduate admission 2",
+        end_date: "Apr 23, 2025",
+        notes: "specific deadlines may vary depending on the program"
       }
     ],
     programs_offered: [
@@ -1383,7 +1398,6 @@ export const italianUniversities = [
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT"
   },
-
   {
     "id": 22216,
     "name": "Marche Polytechnic University",
@@ -1394,7 +1408,31 @@ export const italianUniversities = [
     "admission_date": "Dec 16, 2024",
     "deadline": null,
     "status": "Open",
-    "cgpa_requirement": "NO CGPA REQUIREMENT"
+    "cgpa_requirement": "NO CGPA REQUIREMENT",
+    intakes: [
+      {
+        name: "1st Call",
+        start_date: "Dec 16, 2024",
+        end_date: " 31 January 2025",
+        notes: "All international students. International students may submit a maximum of two applications for different courses. You will need to pay a 10€ application fee for each submitted application."
+      },
+      {
+        name: "2st Call",
+        start_date: "1°March 2025",
+        end_date: " 30 April 2025",
+        notes: "All international students"
+      }, {
+        name: "3st Call",
+        start_date: "1° June 2025",
+        end_date: "  1° July 2025",
+        notes: "All international students"
+      }, {
+        name: "4st Call",
+        start_date: "1°August 2025",
+        end_date: "15 September 2025",
+        notes: "EU and EU equivalent"
+      },
+    ],
   },
   {
     "id": 22217,
