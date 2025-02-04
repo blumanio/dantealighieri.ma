@@ -1407,7 +1407,7 @@ export const italianUniversities = [
     "english_requirement": "English Proficiency",
     "admission_date": "Dec 16, 2024",
     "deadline": null,
-    "status": "Open",
+    "status": "Close",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     intakes: [
       {
