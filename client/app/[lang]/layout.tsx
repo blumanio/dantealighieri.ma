@@ -28,7 +28,7 @@ export default async function LangLayout({
     <ClientLayout lang={validLang as Lang}>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <HeroCarousel/>
+        {/* <HeroCarousel/> */}
         <main className="flex-grow">
           {children}
         </main>

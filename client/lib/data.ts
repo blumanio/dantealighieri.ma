@@ -153,109 +153,109 @@ export const italianUniversities = [
     }
   },
 
-  {
-    id: 2,
-    name: "University of Bologna",
-    location: "Bologna, Italy",
-    tutorial: null,
-    blog: null,
-    admission_fee: 50,
-    english_requirement: "IELTS 5.5 or equivalent",
-    admission_date: "Nov 28, 2024",
-    deadline: " Different for each program",
-    status: "Open",
-    cgpa_requirement: "2.5 - Varies by program",
-    student_population: 87000,
-    acceptance_rate: "60%",
-    housing_available: true,
-    scholarship_available: true,
-    virtual_tour_available: true,
-    campus_facilities: [
-      "Historic Libraries",
-      "Research Labs",
-      "Student Residences",
-      "Sports Facilities",
-      "International Office",
-      "Cultural Centers",
-      "Innovation Hubs"
-    ],
-    application_link: "https://www.unibo.it/en",
-    intakes: [
-      {
-        name: " graduate admission 1",
-        end_date: " Apr 29, 2025",
-        notes: "specific deadlines may vary depending on the program"
-      },
-      {
-        name: " graduate admission 2",
-        end_date: " Jul 01, 2025"
-      }, {
-        name: " graduate admission 3",
-        end_date: " Jul 01, 2025",
-        notes: "to open only in case of places available from intake 1 and intake 2"
-      },
-      {
-        name: "post graduate admission 1",
-        end_date: "Feb 27, 2025"
-      },
-      {
-        name: "post graduate admission 2",
-        end_date: "Apr 23, 2025",
-        notes: "specific deadlines may vary depending on the program"
-      }
-    ],
-    programs_offered: [
-      {
-        name: "Law",
-        type: "Bachelor",
-        language: "Italian",
-        duration: "3 years",
-        tuition_fee: 3000
-      },
-      {
-        name: "International Relations",
-        type: "Master",
-        language: "English",
-        duration: "2 years",
-        tuition_fee: 4000
-      },
-      {
-        name: "Agricultural Sciences",
-        type: "Bachelor",
-        language: "English/Italian",
-        duration: "3 years",
-        tuition_fee: 3500
-      }
-    ],
-    contact_info: {
-      email: "international@unibo.it",
-      phone: "+39 051 209911",
-      website: "www.unibo.it",
-      address: "Via Zamboni, 33, 40126 Bologna BO, Italy"
-    },
-    university_features: {
-      library: true,
-      sports_facilities: true,
-      cafeteria: true,
-      labs: true,
-      research_centers: true,
-      international_office: true
-    },
-    rankings: {
-      world_ranking: "166th",
-      national_ranking: "1st in Italy for Humanities",
-      subject_rankings: [
+    {
+      id: 2,
+      name: "University of Bologna",
+      location: "Bologna, Italy",
+      tutorial: null,
+      blog: null,
+      admission_fee: 50,
+      english_requirement: "IELTS 5.5 or equivalent",
+      admission_date: "Nov 28, 2024",
+      deadline: " Different for each program",
+      status: "Open",
+      cgpa_requirement: "2.5 - Varies by program",
+      student_population: 87000,
+      acceptance_rate: "60%",
+      housing_available: true,
+      scholarship_available: true,
+      virtual_tour_available: true,
+      campus_facilities: [
+        "Historic Libraries",
+        "Research Labs",
+        "Student Residences",
+        "Sports Facilities",
+        "International Office",
+        "Cultural Centers",
+        "Innovation Hubs"
+      ],
+      application_link: "https://www.unibo.it/en",
+      intakes: [
         {
-          subject: "Classics and Ancient History",
-          rank: "4th Worldwide"
+          name: " graduate admission 1",
+          end_date: " Apr 29, 2025",
+          notes: "specific deadlines may vary depending on the program"
         },
         {
-          subject: "Agriculture",
-          rank: "28th Worldwide"
+          name: " graduate admission 2",
+          end_date: " Jul 01, 2025"
+        }, {
+          name: " graduate admission 3",
+          end_date: " Jul 01, 2025",
+          notes: "to open only in case of places available from intake 1 and intake 2"
+        },
+        {
+          name: "post graduate admission 1",
+          end_date: "Feb 27, 2025"
+        },
+        {
+          name: "post graduate admission 2",
+          end_date: "Apr 23, 2025",
+          notes: "specific deadlines may vary depending on the program"
         }
-      ]
-    }
-  },
+      ],
+      programs_offered: [
+        {
+          name: "Law",
+          type: "Bachelor",
+          language: "Italian",
+          duration: "3 years",
+          tuition_fee: 3000
+        },
+        {
+          name: "International Relations",
+          type: "Master",
+          language: "English",
+          duration: "2 years",
+          tuition_fee: 4000
+        },
+        {
+          name: "Agricultural Sciences",
+          type: "Bachelor",
+          language: "English/Italian",
+          duration: "3 years",
+          tuition_fee: 3500
+        }
+      ],
+      contact_info: {
+        email: "international@unibo.it",
+        phone: "+39 051 209911",
+        website: "www.unibo.it",
+        address: "Via Zamboni, 33, 40126 Bologna BO, Italy"
+      },
+      university_features: {
+        library: true,
+        sports_facilities: true,
+        cafeteria: true,
+        labs: true,
+        research_centers: true,
+        international_office: true
+      },
+      rankings: {
+        world_ranking: "166th",
+        national_ranking: "1st in Italy for Humanities",
+        subject_rankings: [
+          {
+            subject: "Classics and Ancient History",
+            rank: "4th Worldwide"
+          },
+          {
+            subject: "Agriculture",
+            rank: "28th Worldwide"
+          }
+        ]
+      }
+    },
   {
     id: 3,
     name: "University of Padua",
@@ -1398,17 +1398,34 @@ export const italianUniversities = [
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT"
   },
+
   {
     "id": 22216,
-    "name": "Marche Polytechnic University",
+    "name": "Politecnico delle Marche",
+    "location": "Ancona, Italy",
     "tutorial": null,
     "blog": null,
-    "admission_fee": 10,
-    "english_requirement": "English Proficiency",
-    "admission_date": "Dec 16, 2024",
-    "deadline": null,
+    "admission_fee": "10",
+    "english_requirement": "B2 level (e.g., IELTS 5.5, TOEFL iBT 69)",
+    "admission_date": "From July 15 to November",
+    "deadline": "1° July 2025",
     "status": "Close",
-    "cgpa_requirement": "NO CGPA REQUIREMENT",
+    "cgpa_requirement": "Varies by program",
+    "student_population": 17500,
+    "acceptance_rate": "Not specified",
+    "housing_available": true,
+    "scholarship_available": true,
+    "virtual_tour_available": false,
+    "campus_facilities": [
+      "Library",
+      "Research Labs",
+      "Student Residences",
+      "Sports Facilities (CUS Ancona)",
+      "International Office",
+      "Agugliano Plant Garden",
+      "Gallignano Forest Area"
+    ],
+    "application_link": "https://www.univpm.it/Entra/",
     intakes: [
       {
         name: "1st Call",
@@ -1433,6 +1450,65 @@ export const italianUniversities = [
         notes: "EU and EU equivalent"
       },
     ],
+    "programs_offered": [
+      {
+        "name": "Engineering",
+        "type": "Bachelor",
+        "language": "Italian",
+        "duration": "3 years",
+        "tuition_fee": "Varies by program"
+      },
+      {
+        "name": "Economics and Business",
+        "type": "Master",
+        "language": "English",
+        "duration": "2 years",
+        "tuition_fee": "Varies by program"
+      },
+      {
+        "name": "Marine Sciences",
+        "type": "Master",
+        "language": "English",
+        "duration": "2 years",
+        "tuition_fee": "Varies by program"
+      }
+    ],
+    "contact_info": {
+      "email": "international@univpm.it",
+      "phone": "+39 071 220 2344",
+      "website": "www.univpm.it",
+      "address": "Piazza Roma, 22, 60121 Ancona, Italy"
+    },
+    "university_features": {
+      "library": true,
+      "sports_facilities": true,
+      "cafeteria": true,
+      "labs": true,
+      "research_centers": true,
+      "international_office": true
+    },
+    "rankings": {
+      "world_ranking": "Not specified",
+      "national_ranking": "Not specified",
+      "subject_rankings": [
+        {
+          "subject": "Food Science",
+          "rank": "101-150 Worldwide"
+        },
+        {
+          "subject": "Pharmacy",
+          "rank": "101-150 Worldwide"
+        },
+        {
+          "subject": "Marine Science",
+          "rank": "151-200 Worldwide"
+        },
+        {
+          "subject": "Civil Engineering",
+          "rank": "201-300 Worldwide"
+        }
+      ]
+    }
   },
   {
     "id": 22217,
