@@ -99,7 +99,7 @@ const AboutPage: React.FC = () => {
           <p className='text-gray-600'>
             Founded in 2020, dantealighieri.ma Educational Services was born out
             of a passion for education and a desire to create opportunities for
-            Moroccan students. Our founders, having experienced the
+            International students. Our founders, having experienced the
             transformative power of studying abroad, recognized the need for
             specialized support for students aspiring to study in Italy.
           </p>
