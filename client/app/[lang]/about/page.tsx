@@ -55,7 +55,7 @@ const AboutPage: React.FC = () => {
               </h3>
               <p className='text-gray-600'>
                 At dantealighieri.ma, we are dedicated to bridging the gap
-                between Moroccan students and prestigious Italian universities.
+                between international students and prestigious Italian universities.
                 Our mission is to empower students with the knowledge,
                 resources, and support they need to successfully pursue their
                 academic dreams in Italy.
