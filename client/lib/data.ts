@@ -375,9 +375,8 @@ export const italianUniversities = [
       {
         name: "first Intake",
         start_date: "1 feb",
-        end_date: "31 Mar",
-        application_start: "December 2023",
-        application_end: "April 2024"
+        end_date: "30 Apr",
+        notes:"The application deadline for non-EU students VISA applicants is 30 April 2025."
       }
     ],
     programs_offered: [
