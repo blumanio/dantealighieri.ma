@@ -153,109 +153,109 @@ export const italianUniversities = [
     }
   },
 
-    {
-      id: 2,
-      name: "University of Bologna",
-      location: "Bologna, Italy",
-      tutorial: null,
-      blog: null,
-      admission_fee: 50,
-      english_requirement: "IELTS 5.5 or equivalent",
-      admission_date: "Nov 28, 2024",
-      deadline: " Different for each program",
-      status: "Open",
-      cgpa_requirement: "2.5 - Varies by program",
-      student_population: 87000,
-      acceptance_rate: "60%",
-      housing_available: true,
-      scholarship_available: true,
-      virtual_tour_available: true,
-      campus_facilities: [
-        "Historic Libraries",
-        "Research Labs",
-        "Student Residences",
-        "Sports Facilities",
-        "International Office",
-        "Cultural Centers",
-        "Innovation Hubs"
-      ],
-      application_link: "https://www.unibo.it/en",
-      intakes: [
-        {
-          name: " graduate admission 1",
-          end_date: " Apr 29, 2025",
-          notes: "specific deadlines may vary depending on the program"
-        },
-        {
-          name: " graduate admission 2",
-          end_date: " Jul 01, 2025"
-        }, {
-          name: " graduate admission 3",
-          end_date: " Jul 01, 2025",
-          notes: "to open only in case of places available from intake 1 and intake 2"
-        },
-        {
-          name: "post graduate admission 1",
-          end_date: "Feb 27, 2025"
-        },
-        {
-          name: "post graduate admission 2",
-          end_date: "Apr 23, 2025",
-          notes: "specific deadlines may vary depending on the program"
-        }
-      ],
-      programs_offered: [
-        {
-          name: "Law",
-          type: "Bachelor",
-          language: "Italian",
-          duration: "3 years",
-          tuition_fee: 3000
-        },
-        {
-          name: "International Relations",
-          type: "Master",
-          language: "English",
-          duration: "2 years",
-          tuition_fee: 4000
-        },
-        {
-          name: "Agricultural Sciences",
-          type: "Bachelor",
-          language: "English/Italian",
-          duration: "3 years",
-          tuition_fee: 3500
-        }
-      ],
-      contact_info: {
-        email: "international@unibo.it",
-        phone: "+39 051 209911",
-        website: "www.unibo.it",
-        address: "Via Zamboni, 33, 40126 Bologna BO, Italy"
+  {
+    id: 2,
+    name: "University of Bologna",
+    location: "Bologna, Italy",
+    tutorial: null,
+    blog: null,
+    admission_fee: 50,
+    english_requirement: "IELTS 5.5 or equivalent",
+    admission_date: "Nov 28, 2024",
+    deadline: " Different for each program",
+    status: "Open",
+    cgpa_requirement: "2.5 - Varies by program",
+    student_population: 87000,
+    acceptance_rate: "60%",
+    housing_available: true,
+    scholarship_available: true,
+    virtual_tour_available: true,
+    campus_facilities: [
+      "Historic Libraries",
+      "Research Labs",
+      "Student Residences",
+      "Sports Facilities",
+      "International Office",
+      "Cultural Centers",
+      "Innovation Hubs"
+    ],
+    application_link: "https://www.unibo.it/en",
+    intakes: [
+      {
+        name: " graduate admission 1",
+        end_date: " Apr 29, 2025",
+        notes: "specific deadlines may vary depending on the program"
       },
-      university_features: {
-        library: true,
-        sports_facilities: true,
-        cafeteria: true,
-        labs: true,
-        research_centers: true,
-        international_office: true
+      {
+        name: " graduate admission 2",
+        end_date: " Jul 01, 2025"
+      }, {
+        name: " graduate admission 3",
+        end_date: " Jul 01, 2025",
+        notes: "to open only in case of places available from intake 1 and intake 2"
       },
-      rankings: {
-        world_ranking: "166th",
-        national_ranking: "1st in Italy for Humanities",
-        subject_rankings: [
-          {
-            subject: "Classics and Ancient History",
-            rank: "4th Worldwide"
-          },
-          {
-            subject: "Agriculture",
-            rank: "28th Worldwide"
-          }
-        ]
+      {
+        name: "post graduate admission 1",
+        end_date: "Feb 27, 2025"
+      },
+      {
+        name: "post graduate admission 2",
+        end_date: "Apr 23, 2025",
+        notes: "specific deadlines may vary depending on the program"
       }
+    ],
+    programs_offered: [
+      {
+        name: "Law",
+        type: "Bachelor",
+        language: "Italian",
+        duration: "3 years",
+        tuition_fee: 3000
+      },
+      {
+        name: "International Relations",
+        type: "Master",
+        language: "English",
+        duration: "2 years",
+        tuition_fee: 4000
+      },
+      {
+        name: "Agricultural Sciences",
+        type: "Bachelor",
+        language: "English/Italian",
+        duration: "3 years",
+        tuition_fee: 3500
+      }
+    ],
+    contact_info: {
+      email: "international@unibo.it",
+      phone: "+39 051 209911",
+      website: "www.unibo.it",
+      address: "Via Zamboni, 33, 40126 Bologna BO, Italy"
     },
+    university_features: {
+      library: true,
+      sports_facilities: true,
+      cafeteria: true,
+      labs: true,
+      research_centers: true,
+      international_office: true
+    },
+    rankings: {
+      world_ranking: "166th",
+      national_ranking: "1st in Italy for Humanities",
+      subject_rankings: [
+        {
+          subject: "Classics and Ancient History",
+          rank: "4th Worldwide"
+        },
+        {
+          subject: "Agriculture",
+          rank: "28th Worldwide"
+        }
+      ]
+    }
+  },
   {
     id: 3,
     name: "University of Padua",
@@ -376,7 +376,7 @@ export const italianUniversities = [
         name: "first Intake",
         start_date: "1 feb",
         end_date: "30 Apr",
-        notes:"The application deadline for non-EU students VISA applicants is 30 April 2025."
+        notes: "The application deadline for non-EU students VISA applicants is 30 April 2025."
       }
     ],
     programs_offered: [
@@ -636,18 +636,12 @@ export const italianUniversities = [
     application_link: "https://www.unipd.it/en/how-to-apply",
     intakes: [
       {
-        name: "Fall Intake",
-        start_date: "October 2024",
-        end_date: "February 2025",
+        name: "First Call",
+        start_date: "7 January 2025",
+        end_date: "7 March 2025",
         application_start: "December 2023",
-        application_end: "February 2024"
-      },
-      {
-        name: "Spring Intake",
-        start_date: "March 2025",
-        end_date: "July 2025",
-        application_start: "July 2024",
-        application_end: "October 2024"
+        application_end: "February 2024",
+        notes: "submit by 31 July 2025 a certificate of English language proficiency of at least B2 level (CEFR), except in the specified cases of exemption. The list of accepted certificates, the relative minimum scores required and exemptions is available at https://www.unipd.it/en/language-requirementadmission-degree-programmes."
       }
     ],
     programs_offered: [
