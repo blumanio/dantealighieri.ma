@@ -27,7 +27,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="text-center md:text-left md:max-w-xs">
             <a href="/" className="inline-block">
-              <span className="text-2xl font-bold text-teal-700">Dante Alighieri</span>
+              <span className="text-2xl font-bold text-teal-700">DanteMa</span>
             </a>
             <p className="mt-4 text-sm text-gray-600">
               Your trusted partner in navigating Italian university admissions and education opportunities.
