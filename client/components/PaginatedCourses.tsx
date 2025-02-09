@@ -14,20 +14,15 @@ const PaginatedCourses = ({ filteredCourses }: any) => {
     _id: string;
     nome: string;
     link: string;
-    tipo: string; 
+    tipo: string;
     uni: string;
     accesso: string;
     area: string;
     lingua: string;
     comune: string;
-   }
+  }
   return (
     <>
-    <div className="grid grid-cols-1 gap-1">
-        {currentCourses.map((course: Course) => (
-          <ProgramRow key={course._id} course={course} />
-        ))}
-      </div>
       <div className="mt-6 flex items-center justify-center space-x-4">
         <button
           onClick={() => setCurrentPage(prev => prev - 1)}
@@ -37,11 +32,11 @@ const PaginatedCourses = ({ filteredCourses }: any) => {
           <ChevronLeft className="h-4 w-4 mr-2" />
           Previous
         </button>
-        
+
         <span className="text-gray-600">
-           {currentPage} / {totalPages}
+          {currentPage} / {totalPages}
         </span>
-        
+
         <button
           onClick={() => setCurrentPage(prev => prev + 1)}
           disabled={currentPage === totalPages}
@@ -51,8 +46,14 @@ const PaginatedCourses = ({ filteredCourses }: any) => {
           <ChevronRight className="h-4 w-4 ml-2" />
         </button>
       </div>
-      
-      
+      <div className="grid grid-cols-1 gap-1">
+        {currentCourses.map((course: Course) => (
+          <ProgramRow key={course._id} course={course} />
+        ))}
+      </div>
+
+
+
     </>
   );
 };
