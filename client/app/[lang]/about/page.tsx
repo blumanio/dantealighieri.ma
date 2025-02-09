@@ -40,7 +40,7 @@ const AboutPage: React.FC = () => {
       <div className='mx-auto max-w-7xl'>
         <div className='text-center'>
           <h2 className='text-3xl font-extrabold text-gray-900 sm:text-4xl'>
-            About dantealighieri.ma Educational Services
+            About danteMa Educational Services
           </h2>
           <p className='mt-4 text-xl text-gray-500'>
             Your Gateway to Italian Higher Education
@@ -54,7 +54,7 @@ const AboutPage: React.FC = () => {
                 Our Mission
               </h3>
               <p className='text-gray-600'>
-                At dantealighieri.ma, we are dedicated to bridging the gap
+                At danteMa, we are dedicated to bridging the gap
                 between international students and prestigious Italian universities.
                 Our mission is to empower students with the knowledge,
                 resources, and support they need to successfully pursue their
@@ -97,7 +97,7 @@ const AboutPage: React.FC = () => {
         <div className='mt-20'>
           <h3 className='mb-4 text-2xl font-bold text-gray-900'>Our Story</h3>
           <p className='text-gray-600'>
-            Founded in 2020, dantealighieri.ma Educational Services was born out
+            Founded in 2020, danteMa Educational Services was born out
             of a passion for education and a desire to create opportunities for
             International students. Our founders, having experienced the
             transformative power of studying abroad, recognized the need for
@@ -117,12 +117,12 @@ const AboutPage: React.FC = () => {
           <h3 className='mb-4 text-2xl font-bold text-gray-900'>
             Ready to Start Your Italian Academic Journey?
           </h3>
-          <a
+          {/* <a
             href='/contact'
             className='inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium text-white hover:bg-indigo-700'
           >
             Contact Us Today
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

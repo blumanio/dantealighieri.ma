@@ -11,11 +11,10 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { Icon: Facebook, href: '#', label: 'Facebook' },
-    { Icon: Instagram, href: '#', label: 'Instagram' },
-    { Icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { Icon: Facebook, href: 'https://www.facebook.com/etudesenitalie/', label: 'Facebook' },
+    { Icon: Instagram, href: 'https://www.instagram.com/dantealighieri.ma/', label: 'Instagram' },
+    { Icon: Linkedin, href: 'https://www.linkedin.com/in/mohamedelaammari/', label: 'LinkedIn' },
     { Icon: MessageCircle, href: '#', label: 'WhatsApp' },
-    { Icon: Music2, href: '#', label: 'TikTok' },
     { Icon: Youtube, href: '#', label: 'YouTube'  }
   ];
 
