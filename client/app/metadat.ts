@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dante Alighieri Consulting',
+  title: 'DanteMa Study in Italy',
   description: 'by Mohamed El Aammari',
 };

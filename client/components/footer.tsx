@@ -83,7 +83,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-center text-sm text-gray-600">
-            © {currentYear} Dante Alighieri Consulting. All rights reserved.
+            © {currentYear} DanteMa - Study in Italy. All rights reserved.
           </p>
         </div>
       </div>
