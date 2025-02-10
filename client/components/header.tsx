@@ -1,34 +1,24 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import MobileNav from './mobileNav'
-import { DanteAlighieriLogo } from './SocialIcons.js'
-import LanguageSwitcher from './LanguageSwitcher'  // Import LanguageSwitcher
+import { DanteAlighieriLogo } from './SocialIcons'
+import LanguageSwitcher from './LanguageSwitcher'
 import { useLanguage } from '../app/[lang]/LanguageContext'
 
+// Improved type definitions with strict typing
 type Language = 'en' | 'ar' | 'it'
 
 interface MenuItem {
-  about: string
-  universities: string
-  apply: string
-  soon: string
-  [key: string]: string
+  readonly about: string
+  readonly universities: string
+  readonly apply: string
+  readonly soon: string
 }
 
-interface MenuItems {
-  [key: string]: MenuItem
-}
-
-interface LanguageNames {
-  [key: string]: {
-    [key: string]: string
-  }
-}
-
-const defaultLanguage: Language = 'en' // Default language should be 'en'
+type MenuItems = Record<Language, MenuItem>
 
 const menuItems: MenuItems = {
   en: {
@@ -49,57 +39,83 @@ const menuItems: MenuItems = {
     apply: 'Applica',
     soon: 'Presto',
   },
-}
+} as const
 
 const Header: React.FC = () => {
-  // Ensure the default language is set to 'en' when useLanguage() returns undefined
-  const { language = defaultLanguage } = useLanguage() || { language: defaultLanguage }
+  const [isScrolled, setIsScrolled] = useState(false)
+  const { language = 'en' } = useLanguage()
+  const isRTL = language === 'ar'
+  const currentMenu = menuItems[language as Language] || menuItems.en
 
-  const currentLanguage = language
-  const isRTL = currentLanguage === 'ar'
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
 
-  const currentMenu = menuItems[currentLanguage] || menuItems[defaultLanguage]
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const navigationLinks = [
+    { href: '/about', text: currentMenu.about },
+    { href: `/${language}/services`, text: currentMenu.universities },
+  ]
 
   return (
-    <header className="sticky top-0 w-full bg-white shadow-md z-50">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-teal-700/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+      }`}
+      role="banner"
+    >
       <div className="container mx-auto px-4">
-        <nav className="flex w-full items-center justify-between">
-          <div className={`flex w-full items-center justify-between h-20 md:h-24 px-4 md:px-8 lg:px-12 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <Link href="/" className="font-heading text-2xl font-bold text-teal-700 flex-shrink-0">
-              <DanteAlighieriLogo className="logo h-14 md:h-16" />
+        <nav className="flex w-full items-center justify-between h-24" role="navigation" aria-label="Main navigation">
+          <div className={`flex w-full items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <Link href="/" className="flex items-center space-x-2" aria-label="Home">
+              <DanteAlighieriLogo className="h-12 w-auto text-white" aria-hidden="true" />
             </Link>
 
-            <div className={`hidden md:flex items-center gap-6 lg:gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <Link href="/about" className="text-slate-700 hover:text-teal-600 whitespace-nowrap">
-                {currentMenu.about}
-              </Link>
-
-              <Link href={`/${language}/services`} className="text-red-600 relative animate-pulse font-semibold whitespace-nowrap">
-                {currentMenu.universities}
-              </Link>
-
-              <div className="relative whitespace-nowrap">
-                <Link href="" className="flex items-center rounded bg-gray-400 px-5 py-2 text-white opacity-70 cursor-not-allowed pointer-events-none transition-colors">
-                  {currentMenu.apply}
+            <div className={`hidden md:flex items-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              {navigationLinks.map(({ href, text }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="text-white hover:text-teal-100 transition-colors"
+                >
+                  {text}
                 </Link>
-                <span className={`absolute -top-3 ${isRTL ? 'left-0' : 'right-0'} bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-medium px-2 py-0.5 rounded-full animate-pulse`}>
-                  {currentMenu.soon}
-                </span>
+              ))}
+
+              <div className="relative">
+                <button 
+                  className="bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-full transition-colors backdrop-blur-sm"
+                  aria-label={`${currentMenu.apply} (${currentMenu.soon})`}
+                >
+                  {currentMenu.apply}
+                  <span 
+                    className={`absolute -top-3 ${
+                      isRTL ? 'left-0' : 'right-0'
+                    } bg-teal-500 text-white text-xs px-2 py-0.5 rounded-full`}
+                    aria-hidden="true"
+                  >
+                    {currentMenu.soon}
+                  </span>
+                </button>
               </div>
 
-              {/* Language Switcher */}
               <LanguageSwitcher />
-              
-              <div className="text-slate-700 transition-colors hover:text-teal-600">
+
+              <div className="text-white">
                 <SignedOut>
                   <SignInButton />
                 </SignedOut>
                 <SignedIn>
-                  <UserButton />
+                  <UserButton afterSignOutUrl="/" />
                 </SignedIn>
               </div>
             </div>
           </div>
+
           <div className="md:hidden">
             <MobileNav menuItems={menuItems} />
           </div>

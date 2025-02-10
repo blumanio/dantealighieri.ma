@@ -7,8 +7,15 @@ import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ClerkWrapper from './utils/clerck';
 import { LanguageProvider } from './[lang]/LanguageContext';
+import dynamic from 'next/dynamic';
 
 const inter = Inter({ subsets: ['latin'] });
+
+// Dynamically import TawkMessenger with no SSR
+const TawkMessenger = dynamic(
+  () => import('../components/TawkMessengerComponent'),
+  { ssr: false }
+);
 
 // Create a separate component for the content that needs Suspense
 function LayoutContent({ 
@@ -51,6 +58,7 @@ export default function RootLayout({
             {children}
           </LayoutContent>
         </Suspense>
+        <TawkMessenger />
         <GoogleAnalytics gaId='G-845LV1ZMN9' />
         <GoogleTagManager gtmId='GTM-5PXD8C8K' />
         <SpeedInsights />

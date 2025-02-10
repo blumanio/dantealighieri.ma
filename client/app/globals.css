@@ -8,6 +8,7 @@
   body {
     @apply bg-background font-body leading-relaxed text-textSecondary;
   }
+
   h1,
   h2,
   h3,
@@ -16,9 +17,11 @@
   h6 {
     @apply font-heading text-textPrimary;
   }
+
   span {
     position: relative;
   }
+
   .under-line::after {
     content: '';
     position: absolute;
@@ -30,15 +33,15 @@
     border-radius: 10px;
   }
 }
+
 /* Add this CSS to your styles file or a style tag */
 .highlight-red {
   border-radius: 1em 0 1em 0;
-  background-image: linear-gradient(
-    -100deg,
-    rgba(206, 17, 38, 0.2),
-    /* Red */ rgba(206, 17, 38, 0.7) 95%,
-    rgba(206, 17, 38, 0.1)
-  );
+  background-image: linear-gradient(-100deg,
+      rgba(206, 17, 38, 0.2),
+      /* Red */
+      rgba(206, 17, 38, 0.7) 95%,
+      rgba(206, 17, 38, 0.1));
   /* Add hand-drawn effect */
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -47,12 +50,11 @@
 
 .highlight-yellow {
   border-radius: 1em 0 1em 0;
-  background-image: linear-gradient(
-    -100deg,
-    rgba(255, 255, 255, 0.2),
-    /* White */ rgba(255, 255, 255, 0.7) 95%,
-    rgba(255, 255, 255, 0.1)
-  );
+  background-image: linear-gradient(-100deg,
+      rgba(255, 255, 255, 0.2),
+      /* White */
+      rgba(255, 255, 255, 0.7) 95%,
+      rgba(255, 255, 255, 0.1));
   /* Add hand-drawn effect */
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -61,12 +63,11 @@
 
 .highlight-green {
   border-radius: 1em 0 1em 0;
-  background-image: linear-gradient(
-    -100deg,
-    rgba(0, 146, 70, 0.2),
-    /* Green */ rgba(0, 146, 70, 0.7) 95%,
-    rgba(0, 146, 70, 0.1)
-  );
+  background-image: linear-gradient(-100deg,
+      rgba(0, 146, 70, 0.2),
+      /* Green */
+      rgba(0, 146, 70, 0.7) 95%,
+      rgba(0, 146, 70, 0.1));
   /* Add hand-drawn effect */
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -79,28 +80,27 @@
 }
 
 .marker-highlight-white {
-  background-image: linear-gradient(
-    transparent 70%,
-    rgba(255, 255, 255, 0.5) 70%
-  );
+  background-image: linear-gradient(transparent 70%,
+      rgba(255, 255, 255, 0.5) 70%);
   display: inline;
 }
 
 .marker-highlight-red {
-  background-image: linear-gradient(
-    transparent 70%,
-    rgba(206, 17, 38, 0.5) 70%
-  );
+  background-image: linear-gradient(transparent 70%,
+      rgba(206, 17, 38, 0.5) 70%);
   display: inline;
 }
+
 @media screen and (max-width: 768px) {
   .headerDesktop {
     display: none;
   }
+
   .signature {
     display: none;
   }
 }
+
 .calendly-inline-widget {
   height: 1064px;
 }
@@ -108,8 +108,10 @@
 .logo {
   width: 240px;
   height: 80px;
-  color: #0f766e; /* Sets the color for the logo */
+  color: #0f766e;
+  /* Sets the color for the logo */
 }
+
 .containerBlog {
   margin: 0 auto;
   padding: 0 2rem;
@@ -131,6 +133,7 @@
 .under-line {
   text-decoration: underline;
 }
+
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
@@ -148,6 +151,7 @@ h3 {
 p {
   margin-bottom: 1em;
 }
+
 /* Example color palette */
 :root {
   --primary-color: #0f766e;
@@ -173,6 +177,7 @@ p {
 .btn:hover {
   background-color: #0056b3;
 }
+
 /* Responsive layout */
 .container {
   width: 100%;
@@ -197,6 +202,7 @@ p {
     flex: 1 1 100%;
   }
 }
+
 /* Form styling */
 form {
   margin-bottom: 1em;
@@ -229,15 +235,69 @@ input[type='submit']:hover,
 button:hover {
   background-color: #0056b3;
 }
+
 /* Icon styling */
 .icon {
   width: 24px;
   height: 24px;
-  fill: currentColor; /* Ensures the icon inherits text color */
+  fill: currentColor;
+  /* Ensures the icon inherits text color */
 }
 
 /* Image styling */
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Floating Animations */
+
+
+.animated-logo {
+  position: absolute;
+  opacity: 0.8;
+  pointer-events: none;
+  /* Ensures logos don't interfere with user clicks */
+}
+
+@keyframes float0 {
+  0% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+}
+
+@keyframes float1 {
+  0% {
+    transform: translate(-50%, -50%) translateY(0px) translateX(0px);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-15px) translateX(15px);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translateY(0px) translateX(0px);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    transform: translate(-50%, -50%) translateY(0px) translateX(0px);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px) translateX(-10px);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translateY(0px) translateX(0px);
+  }
 }

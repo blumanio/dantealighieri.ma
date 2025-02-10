@@ -22,19 +22,26 @@ interface Course {
 type Language = 'en' | 'ar' | 'it'
 
 const defaultLanguage: Language = 'ar' // Default language should be 'en'
-
-const ProgramSearch: React.FC = () => {
+interface ProgramSearchProps {
+  initialFilters?: {
+    degreeType: string;
+    accessType: string;
+    courseLanguage: string;
+    academicArea: string;
+  };
+}
+const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   const { language = defaultLanguage, t } = useLanguage();
+  
   useEffect(() => {
-    // This will trigger a re-render when language changes
     setFormData(prev => ({ ...prev }));
   }, [language]);
-  console.log('ProgramSearch ', language);
+
   const [formData, setFormData] = useState({
-    degreeType: '',
-    accessType: '',
-    courseLanguage: '',
-    academicArea: ''
+    degreeType: initialFilters?.degreeType || '',
+    accessType: initialFilters?.accessType || '',
+    courseLanguage: initialFilters?.courseLanguage || '',
+    academicArea: initialFilters?.academicArea || ''
   });
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
