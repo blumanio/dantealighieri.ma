@@ -12,10 +12,10 @@ import dynamic from 'next/dynamic';
 const inter = Inter({ subsets: ['latin'] });
 
 // Dynamically import TawkMessenger with no SSR
-const TawkMessenger = dynamic(
-  () => import('../components/TawkMessengerComponent'),
-  { ssr: false }
-);
+//const TawkMessenger = dynamic(
+  //() => import('../components/TawkMessengerComponent'),
+ // { ssr: false }
+//);
 
 // Create a separate component for the content that needs Suspense
 function LayoutContent({ 
@@ -58,7 +58,7 @@ export default function RootLayout({
             {children}
           </LayoutContent>
         </Suspense>
-        <TawkMessenger />
+        {/* <TawkMessenger /> */}
         <GoogleAnalytics gaId='G-845LV1ZMN9' />
         <GoogleTagManager gtmId='GTM-5PXD8C8K' />
         <SpeedInsights />
