@@ -40,43 +40,43 @@ export interface University {
     campus_facilities: string[];
     application_link: string;
     intakes: Array<{
-      name: string;
-      start_date: string;
-      end_date: string;
-      application_start: string;
-      application_end: string;
-      notes: string
+        name: string;
+        start_date: string;
+        end_date: string;
+        application_start: string;
+        application_end: string;
+        notes: string
     }>;
     programs_offered: Array<{
-      name: string;
-      type: 'Bachelor' | 'Master';
-      language: string;
-      duration: string;
-      tuition_fee: number;
+        name: string;
+        type: 'Bachelor' | 'Master';
+        language: string;
+        duration: string;
+        tuition_fee: number;
     }>;
     contact_info: {
-      email: string;
-      phone: string;
-      website: string;
-      address: string;
+        email: string;
+        phone: string;
+        website: string;
+        address: string;
     };
     university_features: {
-      library: boolean;
-      sports_facilities: boolean;
-      cafeteria: boolean;
-      labs: boolean;
-      research_centers: boolean;
-      international_office: boolean;
+        library: boolean;
+        sports_facilities: boolean;
+        cafeteria: boolean;
+        labs: boolean;
+        research_centers: boolean;
+        international_office: boolean;
     };
     rankings: {
-      world_ranking: string;
-      national_ranking: string;
-      subject_rankings: Array<{
-        subject: string;
-        rank: string;
-      }>;
+        world_ranking: string;
+        national_ranking: string;
+        subject_rankings: Array<{
+            subject: string;
+            rank: string;
+        }>;
     };
-  }
+}
 
 interface UniversityTableProps {
     universities: University[];
@@ -131,7 +131,7 @@ const renderExpandedContent = (uni: University, isSignedIn: boolean) => (
                                 <li className="flex justify-between">
                                     <span className="text-gray-600">Notes:</span>
                                     <span className="text-teal-600">
-                                        {intake.notes}  
+                                        {intake.notes}
                                     </span>
                                 </li>
                             </ul>
@@ -317,7 +317,6 @@ const renderExpandedContent = (uni: University, isSignedIn: boolean) => (
 
 export function UniversityTable({ universities, isSignedIn }: UniversityTableProps) {
     const [expandedRows, setExpandedRows] = useState<Set<string | number>>(new Set());
-    console.log('isSignedIn ccccccccccccccccc', isSignedIn);
 
     const toggleRow = (id: string | number) => {
         const newExpanded = new Set(expandedRows);
