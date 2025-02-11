@@ -61,7 +61,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
             academicArea: 'Academic Area',
             searchWithinResults: 'Search within results...',
             loadingMessage: 'Loading...',
-            noResults: 'No results found'
+            noResults: 'No results found',
+            selectLanguage:'Select Language',
+            selectDegreeType:'Select Degree',
+            programSearch:'Program Search',
+            explorePrograms:'All-in-One study in Italy platform, programs, scholarships, and more',
+            findYourPerfectProgram:'Find your perfect program',
         },
         ar: {
             searchTitle: 'ابحث عن البرامج',
