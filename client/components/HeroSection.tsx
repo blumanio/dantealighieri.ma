@@ -6,6 +6,7 @@ import { Search } from 'lucide-react';
 import { useLanguage } from '../app/[lang]/LanguageContext';
 import { academicAreas, accessTypes, courseLanguages, degreeTypes } from '../constants/constants';
 import AnimatedLogos from './AnimatedLogos';
+import Image from 'next/image';
 
 interface FilterOption {
   value: string;
@@ -97,56 +98,71 @@ const HeroSection: React.FC = () => {
       </div>
 
       <div className="relative z-10 mt-6 mx-auto px-4 pt-16 pb-16">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              {t('findYourPerfectProgram')}
-            </h1>
-            <p className="text-xl text-teal-50">
-              {t('explorePrograms')}
-            </p>
-          </div>
-
-          <div
-            className="bg-white/10 rounded-2xl shadow-xl p-6 lg:p-8"
-            role="search"
-            aria-label={t('programSearch')}
-          >
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 mb-6 p-2 sm:p-4  rounded-xl shadow-lg relative z-10">
-              <div className="w-full sm:w-[40%]  relative z-20">
-                <SelectField
-                  name="degreeType"
-                  value={filters.degreeType}
-                  onChange={handleFilterChange}
-                  options={degreeTypes}
-                  label={t('selectDegreeType')}
-                  placeholder={t('selectDegreeType')}
-                  language={language}
-                />
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Section - Search */}
+            <div className="flex flex-col justify-center">
+              <div className="text-center lg:text-left mb-12">
+                <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
+                  {t('findYourPerfectProgram')}
+                </h1>
+                <p className="text-xl text-teal-50">
+                  {t('explorePrograms')}
+                </p>
               </div>
 
-              <div className="w-full sm:w-[40%]  relative z-20">
-                <SelectField
-                  name="courseLanguage"
-                  value={filters.courseLanguage}
-                  onChange={handleFilterChange}
-                  options={courseLanguages}
-                  label={t('selectLanguage')}
-                  placeholder={t('selectLanguage')}
-                  language={language}
-                />
-              </div>
-
-              <button
-                onClick={handleSearch}
-                onKeyDown={handleKeyDown}
-                className="w-full sm:w-12 h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-full sm:rounded-full transition-colors flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300 relative z-20"
-                aria-label={t('searchPrograms')}
+              <div
+                className="bg-white/10 rounded-2xl shadow-xl p-6 lg:p-8"
+                role="search"
+                aria-label={t('programSearch')}
               >
-                <Search className="w-5 h-5" aria-hidden="true" />
-              </button>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 mb-6 p-2 sm:p-4 rounded-xl shadow-lg relative z-10">
+                  <div className="w-full sm:w-[40%] relative z-20">
+                    <SelectField
+                      name="degreeType"
+                      value={filters.degreeType}
+                      onChange={handleFilterChange}
+                      options={degreeTypes}
+                      label={t('selectDegreeType')}
+                      placeholder={t('selectDegreeType')}
+                      language={language}
+                    />
+                  </div>
+
+                  <div className="w-full sm:w-[40%] relative z-20">
+                    <SelectField
+                      name="courseLanguage"
+                      value={filters.courseLanguage}
+                      onChange={handleFilterChange}
+                      options={courseLanguages}
+                      label={t('selectLanguage')}
+                      placeholder={t('selectLanguage')}
+                      language={language}
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleSearch}
+                    onKeyDown={handleKeyDown}
+                    className="w-full sm:w-12 h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-full sm:rounded-full transition-colors flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300 relative z-20"
+                    aria-label={t('searchPrograms')}
+                  >
+                    <Search className="w-5 h-5" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
             </div>
 
+            {/* Right Section - Map */}
+            <div className="hidden lg:flex items-center justify-center">
+              <div className="relative w-full h-96">
+                <img
+                  src="/italy-map.svg"
+                  alt="Map of Italy"
+                  className="filter drop-shadow-lg"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

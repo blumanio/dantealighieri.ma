@@ -65,7 +65,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
             selectLanguage:'Select Language',
             selectDegreeType:'Select Degree',
             programSearch:'Program Search',
-            explorePrograms:'All-in-One study in Italy platform, programs, scholarships, and more',
+            explorePrograms:'DANTEMA your All-in-One study in Italy platform, programs, scholarships,TOLC, IMAT and more',
             findYourPerfectProgram:'Find your perfect program',
         },
         ar: {
