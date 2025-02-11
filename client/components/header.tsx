@@ -94,7 +94,7 @@ const Header: React.FC = () => {
                 </Link>
               ))}
 
-              <div className="relative">
+              {/* <div className="relative">
                 <button
                   className="bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-full transition-colors backdrop-blur-sm"
                   aria-label={`${currentMenu.apply} (${currentMenu.soon})`}
@@ -108,9 +108,9 @@ const Header: React.FC = () => {
                     {currentMenu.soon}
                   </span>
                 </button>
-              </div>
+              </div> */}
 
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
 
               <div className="text-white">
                 <SignedOut>

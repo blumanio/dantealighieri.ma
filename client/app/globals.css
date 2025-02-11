@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {
     @apply bg-background font-body leading-relaxed text-textSecondary;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
   h1,
@@ -16,23 +23,61 @@
   h5,
   h6 {
     @apply font-heading text-textPrimary;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: -0.02em;
   }
 
-  span {
-    position: relative;
+  h1 {
+    @apply text-4xl md:text-5xl font-bold;
   }
 
-  .under-line::after {
-    content: '';
-    position: absolute;
-    bottom: -7px;
-    left: 0;
-    width: 60px;
-    height: 7px;
-    background-color: #285143;
-    border-radius: 10px;
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  /* Improved readability for international content */
+  p {
+    @apply mb-6 text-base md:text-lg;
+    max-width: 75ch;
+    /* Optimal line length for readability */
+  }
+
+  /* Enhanced button styling for better CTAs */
+  .btn {
+    @apply inline-block px-6 py-3 font-semibold rounded-lg transition-all duration-200;
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+
+  /* International-friendly form inputs */
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  select,
+  textarea {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-300;
+    font-family: 'Source Sans Pro', sans-serif;
   }
 }
+
+span {
+  position: relative;
+}
+
+.under-line::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  width: 60px;
+  height: 7px;
+  background-color: #285143;
+  border-radius: 10px;
+}
+
 
 /* Add this CSS to your styles file or a style tag */
 .highlight-red {
