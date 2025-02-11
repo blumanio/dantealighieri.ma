@@ -83,7 +83,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-gray-200">
           <p className="text-center text-sm text-gray-600">
-            © {currentYear} DanteMa - Made with a lot of coffee ☕️ and love ❤️ in Milan 🇮🇹 by Mohamed El Aammari 👨‍💻.
+        © {currentYear} Made with a lot of ☕️ and ❤️ in Milan 🇮🇹
           </p>
         </div>
       </div>
