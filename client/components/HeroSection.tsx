@@ -97,7 +97,7 @@ const HeroSection: React.FC = () => {
         <AnimatedLogos />
       </div>
 
-      <div className="relative z-10 mt-6 mx-auto px-4 pt-16 pb-16">
+      <div className="relative z-10 mt-6 mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left Section - Search */}
@@ -112,11 +112,11 @@ const HeroSection: React.FC = () => {
               </div>
 
               <div
-                className="bg-white/10 rounded-2xl shadow-xl p-6 lg:p-8"
+                className=""
                 role="search"
                 aria-label={t('programSearch')}
               >
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 mb-6 p-2 sm:p-4 rounded-xl shadow-lg relative z-10">
+                <div className=" bg-white/10 rounded-2xl shadow-xl p-6 lg:p-8 flex flex-col sm:flex-row items-stretch sm:items-end gap-4 mb-6 p-2 sm:p-4 rounded-xl shadow-lg relative z-10">
                   <div className="w-full sm:w-[40%] relative z-20">
                     <SelectField
                       name="degreeType"
