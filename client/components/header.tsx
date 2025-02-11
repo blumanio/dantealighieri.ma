@@ -72,7 +72,7 @@ const Header: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-teal-700/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+      className={` top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-gradient-to-b from-teal-600/80 to-teal-700/80' : 'bg-gradient-to-b from-teal-600/80 to-teal-700/80'
         }`}
       role="banner"
     >

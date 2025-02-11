@@ -18,7 +18,7 @@ const menu = [
   { name: 'about', href: '/', icon: Info },
   { name: 'universities', href: '/services', icon: School },
   { name: 'apply', href: '/', icon: CalendarCheck },
-  { name: 'programs', href: '/', icon: GraduationCap },
+  { name: 'programs', href: '/program-search', icon: GraduationCap },
   { name: 'requirements', href: '/', icon: FileCheck },
   { name: 'services', href: '/', icon: Globe2 },
 
