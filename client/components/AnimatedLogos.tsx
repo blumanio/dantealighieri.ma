@@ -1,6 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const ALL_LOGOS = [
+interface Logo {
+    src: string;
+    id: string;
+}
+
+interface LogoState {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    scale: number;
+    scaleVelocity: number;
+    element: HTMLDivElement | null;
+}
+
+interface MousePosition {
+    x: number;
+    y: number;
+}
+
+interface VirtualSpace {
+    width: number;
+    height: number;
+}
+
+const ALL_LOGOS: Logo[] = [
     { src: '/brescia.svg', id: 'brescia' },
     { src: '/sapienza.svg', id: 'sapienza' },
     { src: '/perugia.svg', id: 'perugia' },
@@ -13,14 +38,31 @@ const ALL_LOGOS = [
     { src: '/polimi.svg', id: 'polimi' }
 ];
 
-const AnimatedLogos = () => {
-    const [mounted, setMounted] = useState(false);
-    const [logos, setLogos] = useState(ALL_LOGOS);
-    const containerRef = useRef(null);
-    const mousePos = useRef({ x: 0, y: 0 });
-    const logosRef = useRef([]);
+// Animation constants for fine-tuning
+const getMobileAdjustedConstants = () => {
+    const isMobile = window.innerWidth < 640;
+    return {
+        FRICTION: isMobile ? 0.98 : 0.99, // Slightly more friction on mobile
+        RANDOM_ACCELERATION: isMobile ? 0.05 : 0.02, // More random movement on mobile
+        MAX_SPEED: isMobile ? 2.5 : 1.5, // Higher speed on mobile
+        BOUNCE_DAMPENING: isMobile ? 0.9 : 0.85, // Less energy loss on mobile
+        MOUSE_INFLUENCE_RADIUS: isMobile ? 100 : 150, // Smaller influence radius on mobile
+        MOUSE_FORCE: isMobile ? 0.25 : 0.15, // Stronger mouse force on mobile
+        LOGO_SIZE: 128,
+        MIN_VELOCITY: isMobile ? 0.3 : 0.1, // Higher minimum velocity on mobile
+        SPACE_MULTIPLIER: isMobile ? 2 : 1.5 // Smaller virtual space on mobile for more interaction
+    };
+};
 
-    // Initialize logosRef whenever logos changes
+const AnimatedLogos: React.FC = () => {
+    const [mounted, setMounted] = useState<boolean>(false);
+    const [logos, setLogos] = useState<Logo[]>(ALL_LOGOS);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const mousePos = useRef<MousePosition>({ x: 0, y: 0 });
+    const logosRef = useRef<LogoState[]>([]);
+    const virtualSpaceRef = useRef<VirtualSpace>({ width: 0, height: 0 });
+    const lastTimestamp = useRef<number>(0);
+
     useEffect(() => {
         logosRef.current = new Array(logos.length).fill(null).map(() => ({
             x: 0,
@@ -33,18 +75,26 @@ const AnimatedLogos = () => {
         }));
     }, [logos.length]);
 
-    // Set number of logos based on screen size
     useEffect(() => {
-        const handleResize = () => {
+        const handleResize = (): void => {
             const width = window.innerWidth;
-            let numLogos;
+            const constants = getMobileAdjustedConstants();
+            let numLogos: number;
+            
             if (width < 640) {
                 numLogos = 4;
             } else if (width < 1024) {
-                numLogos = 8;
+                numLogos = 6;
             } else {
                 numLogos = ALL_LOGOS.length;
             }
+
+            // Adjust virtual space based on screen size
+            virtualSpaceRef.current = {
+                width: width * constants.SPACE_MULTIPLIER,
+                height: (window.innerHeight * 0.7) * constants.SPACE_MULTIPLIER
+            };
+            
             setLogos(ALL_LOGOS.slice(0, numLogos));
         };
 
@@ -58,50 +108,50 @@ const AnimatedLogos = () => {
         const container = containerRef.current;
         if (!container || !logosRef.current.length) return;
 
-        const initPositions = () => {
-            const { width, height } = container.getBoundingClientRect();
+        const initPositions = (): void => {
+            const { width, height } = virtualSpaceRef.current;
+            const constants = getMobileAdjustedConstants();
+            
             logosRef.current.forEach(logo => {
                 if (!logo) return;
-                logo.x = Math.random() * (width - 128);
-                logo.y = Math.random() * (height - 128);
-                logo.vx = (Math.random() - 0.5);
-                logo.vy = (Math.random() - 0.5);
+                logo.x = Math.random() * (width - constants.LOGO_SIZE);
+                logo.y = Math.random() * (height - constants.LOGO_SIZE);
+                // Initialize with higher velocity for mobile
+                const angle = Math.random() * Math.PI * 2;
+                const initialSpeed = constants.MIN_VELOCITY * 2; // Double the minimum velocity for initial movement
+                logo.vx = Math.cos(angle) * initialSpeed;
+                logo.vy = Math.sin(angle) * initialSpeed;
                 logo.scale = 1;
-                logo.scaleVelocity = (Math.random() - 0.5) * 0.02;
+                logo.scaleVelocity = (Math.random() - 0.5) * 0.01;
             });
         };
 
-        initPositions();
-
-        const checkCollision = (logo1, logo2) => {
+        const checkCollision = (logo1: LogoState, logo2: LogoState): void => {
             if (!logo1 || !logo2 || !logo1.element || !logo2.element) return;
             
-            const logoSize = 128;
+            const constants = getMobileAdjustedConstants();
             const dx = logo1.x - logo2.x;
             const dy = logo1.y - logo2.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            if (distance < logoSize) {
+            if (distance < constants.LOGO_SIZE) {
                 const angle = Math.atan2(dy, dx);
                 const sin = Math.sin(angle);
                 const cos = Math.cos(angle);
 
+                // Elastic collision calculations
                 const vx1 = logo1.vx * cos + logo1.vy * sin;
                 const vy1 = logo1.vy * cos - logo1.vx * sin;
                 const vx2 = logo2.vx * cos + logo2.vy * sin;
                 const vy2 = logo2.vy * cos - logo2.vx * sin;
 
-                logo1.vx = vx2 * cos - vy1 * sin;
-                logo1.vy = vy1 * cos + vx2 * sin;
-                logo2.vx = vx1 * cos - vy2 * sin;
-                logo2.vy = vy2 * cos + vx1 * sin;
+                logo1.vx = (vx2 * cos - vy1 * sin) * constants.BOUNCE_DAMPENING;
+                logo1.vy = (vy1 * cos + vx2 * sin) * constants.BOUNCE_DAMPENING;
+                logo2.vx = (vx1 * cos - vy2 * sin) * constants.BOUNCE_DAMPENING;
+                logo2.vy = (vy2 * cos + vx1 * sin) * constants.BOUNCE_DAMPENING;
 
-                // Swap scale velocities on collision for added 3D effect
-                const tempScaleVel = logo1.scaleVelocity;
-                logo1.scaleVelocity = logo2.scaleVelocity;
-                logo2.scaleVelocity = tempScaleVel;
-
-                const overlap = logoSize - distance;
+                // Prevent overlap
+                const overlap = constants.LOGO_SIZE - distance;
                 const moveX = (overlap * cos) / 2;
                 const moveY = (overlap * sin) / 2;
                 logo1.x += moveX;
@@ -111,13 +161,27 @@ const AnimatedLogos = () => {
             }
         };
 
-        let animationFrameId;
-        const animate = () => {
+        initPositions();
+
+        let animationFrameId: number;
+        const animate = (timestamp: number): void => {
+            const deltaTime = timestamp - lastTimestamp.current;
+            lastTimestamp.current = timestamp;
+            
+            const constants = getMobileAdjustedConstants(); // Get updated constants for current screen size
+            
+            if (!deltaTime) {
+                animationFrameId = requestAnimationFrame(animate);
+                return;
+            }
+
             const container = containerRef.current;
             if (!container) return;
 
-            const { width, height } = container.getBoundingClientRect();
+            const { width: virtualWidth, height: virtualHeight } = virtualSpaceRef.current;
+            const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
             
+            // Check collisions
             for (let i = 0; i < logosRef.current.length; i++) {
                 for (let j = i + 1; j < logosRef.current.length; j++) {
                     checkCollision(logosRef.current[i], logosRef.current[j]);
@@ -127,70 +191,71 @@ const AnimatedLogos = () => {
             logosRef.current.forEach(logo => {
                 if (!logo || !logo.element) return;
 
-                logo.vx += (Math.random() - 0.5) * 0.05;
-                logo.vy += (Math.random() - 0.5) * 0.05;
+                // Apply smooth random movement
+                logo.vx += (Math.random() - 0.5) * constants.RANDOM_ACCELERATION;
+                logo.vy += (Math.random() - 0.5) * constants.RANDOM_ACCELERATION;
 
-                const speed = Math.sqrt(logo.vx ** 2 + logo.vy ** 2);
-                const maxSpeed = 1;
-                if (speed > maxSpeed) {
-                    logo.vx = (logo.vx / speed) * maxSpeed;
-                    logo.vy = (logo.vy / speed) * maxSpeed;
+                // Apply friction
+                logo.vx *= constants.FRICTION;
+                logo.vy *= constants.FRICTION;
+
+                // Ensure minimum velocity
+                const minVel = constants.MIN_VELOCITY;
+                if (Math.abs(logo.vx) < minVel) logo.vx = logo.vx > 0 ? minVel : -minVel;
+                if (Math.abs(logo.vy) < minVel) logo.vy = logo.vy > 0 ? minVel : -minVel;
+
+                // Limit maximum speed
+                const speed = Math.sqrt(logo.vx * logo.vx + logo.vy * logo.vy);
+                if (speed > constants.MAX_SPEED) {
+                    const ratio = constants.MAX_SPEED / speed;
+                    logo.vx *= ratio;
+                    logo.vy *= ratio;
                 }
 
-                // Update scale
-                logo.scale += logo.scaleVelocity;
-                if (logo.scale > 1.2 || logo.scale < 0.8) {
-                    logo.scaleVelocity *= -1;
-                }
-
+                // Mouse interaction
                 const dx = logo.x - mousePos.current.x;
                 const dy = logo.y - mousePos.current.y;
-                const distance = Math.sqrt(dx ** 2 + dy ** 2);
-                const mouseRadius = 100;
-
-                if (distance < mouseRadius) {
-                    const force = (mouseRadius - distance) / mouseRadius * 0.25;
-                    logo.vx += (dx / distance) * force;
-                    logo.vy += (dy / distance) * force;
-                    // Add scale effect when near mouse
-                    logo.scale = Math.min(1.2, 1 + ((mouseRadius - distance) / mouseRadius) * 0.2);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < constants.MOUSE_INFLUENCE_RADIUS) {
+                    const force = (constants.MOUSE_INFLUENCE_RADIUS - distance) / constants.MOUSE_INFLUENCE_RADIUS;
+                    logo.vx += (dx / distance) * force * constants.MOUSE_FORCE;
+                    logo.vy += (dy / distance) * force * constants.MOUSE_FORCE;
                 }
 
-                logo.x += logo.vx;
-                logo.y += logo.vy;
+                // Update position
+                logo.x += logo.vx * (deltaTime / 16); // Normalize to 60fps
+                logo.y += logo.vy * (deltaTime / 16);
 
-                const logoWidth = logo.element.offsetWidth;
-                const logoHeight = logo.element.offsetHeight;
-
-                if (logo.x < 0) {
-                    logo.x = 0;
-                    logo.vx *= -0.8;
-                } else if (logo.x > width - logoWidth) {
-                    logo.x = width - logoWidth;
-                    logo.vx *= -0.8;
+                // Wrap around virtual space
+                if (logo.x < -constants.LOGO_SIZE) {
+                    logo.x = virtualWidth;
+                } else if (logo.x > virtualWidth) {
+                    logo.x = -constants.LOGO_SIZE;
                 }
 
-                if (logo.y < 0) {
-                    logo.y = 0;
-                    logo.vy *= -0.8;
-                } else if (logo.y > height - logoHeight) {
-                    logo.y = height - logoHeight;
-                    logo.vy *= -0.8;
+                if (logo.y < -constants.LOGO_SIZE) {
+                    logo.y = virtualHeight;
+                } else if (logo.y > virtualHeight) {
+                    logo.y = -constants.LOGO_SIZE;
                 }
 
-                // Apply both position and scale transforms
-                logo.element.style.transform = `translate(${logo.x}px, ${logo.y}px) scale(${logo.scale})`;
+                // Map to container space and apply transform
+                const mappedX = (logo.x % containerWidth + containerWidth) % containerWidth;
+                const mappedY = (logo.y % containerHeight + containerHeight) % containerHeight;
+
+                logo.element.style.transform = `translate3d(${mappedX}px, ${mappedY}px, 0) scale(${logo.scale})`;
             });
 
             animationFrameId = requestAnimationFrame(animate);
         };
 
-        animate();
+        animationFrameId = requestAnimationFrame(animate);
         return () => cancelAnimationFrame(animationFrameId);
     }, [logos.length]);
 
     useEffect(() => {
-        const handleMouseMove = (e) => {
+        const handleMouseMove = (e: MouseEvent): void => {
             const container = containerRef.current;
             if (!container) return;
 
@@ -203,7 +268,7 @@ const AnimatedLogos = () => {
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
 
-    const setLogoRef = (index, element) => {
+    const setLogoRef = (index: number, element: HTMLDivElement | null): void => {
         if (logosRef.current[index]) {
             logosRef.current[index].element = element;
         }
@@ -215,7 +280,7 @@ const AnimatedLogos = () => {
                 <div
                     key={id}
                     ref={(el) => setLogoRef(index, el)}
-                    className={`absolute w-32 h-32 transition-all duration-300 ${
+                    className={`absolute w-32 h-32 will-change-transform ${
                         mounted ? 'opacity-100' : 'opacity-0'
                     }`}
                 >

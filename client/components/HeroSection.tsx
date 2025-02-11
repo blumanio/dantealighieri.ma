@@ -88,7 +88,7 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section 
+    <section
       className="relative min-h-screen bg-gradient-to-b from-teal-600/80 to-teal-700/80 pt-24"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
@@ -96,7 +96,7 @@ const HeroSection: React.FC = () => {
         <AnimatedLogos />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 pt-16 pb-16">
+      <div className="relative z-10 mt-6 mx-auto px-4 pt-16 pb-16">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
@@ -107,62 +107,46 @@ const HeroSection: React.FC = () => {
             </p>
           </div>
 
-          <div 
-            className="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 lg:p-8"
+          <div
+            className="bg-white/10 rounded-2xl shadow-xl p-6 lg:p-8"
             role="search"
             aria-label={t('programSearch')}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <SelectField
-                name="degreeType"
-                value={filters.degreeType}
-                onChange={handleFilterChange}
-                options={degreeTypes}
-                label={t('selectDegreeType')}
-                placeholder={t('selectDegreeType')}
-                language={language}
-              />
-              
-              <SelectField
-                name="accessType"
-                value={filters.accessType}
-                onChange={handleFilterChange}
-                options={accessTypes}
-                label={t('selectAccessType')}
-                placeholder={t('selectAccessType')}
-                language={language}
-              />
-              
-              <SelectField
-                name="courseLanguage"
-                value={filters.courseLanguage}
-                onChange={handleFilterChange}
-                options={courseLanguages}
-                label={t('selectLanguage')}
-                placeholder={t('selectLanguage')}
-                language={language}
-              />
-              
-              <SelectField
-                name="academicArea"
-                value={filters.academicArea}
-                onChange={handleFilterChange}
-                options={academicAreas}
-                label={t('selectAcademicArea')}
-                placeholder={t('selectAcademicArea')}
-                language={language}
-              />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-end gap-4 mb-6 p-2 sm:p-4  rounded-xl shadow-lg relative z-10">
+              <div className="w-full sm:w-[40%]  relative z-20">
+                <SelectField
+                  name="degreeType"
+                  value={filters.degreeType}
+                  onChange={handleFilterChange}
+                  options={degreeTypes}
+                  label={t('selectDegreeType')}
+                  placeholder={t('selectDegreeType')}
+                  language={language}
+                />
+              </div>
+
+              <div className="w-full sm:w-[40%]  relative z-20">
+                <SelectField
+                  name="courseLanguage"
+                  value={filters.courseLanguage}
+                  onChange={handleFilterChange}
+                  options={courseLanguages}
+                  label={t('selectLanguage')}
+                  placeholder={t('selectLanguage')}
+                  language={language}
+                />
+              </div>
+
+              <button
+                onClick={handleSearch}
+                onKeyDown={handleKeyDown}
+                className="w-full sm:w-12 h-12 bg-teal-600 hover:bg-teal-700 text-white rounded-full sm:rounded-full transition-colors flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300 relative z-20"
+                aria-label={t('searchPrograms')}
+              >
+                <Search className="w-5 h-5" aria-hidden="true" />
+              </button>
             </div>
 
-            <button
-              onClick={handleSearch}
-              onKeyDown={handleKeyDown}
-              className="w-full bg-white hover:bg-teal-50 text-teal-600 font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300"
-              aria-label={t('searchPrograms')}
-            >
-              <Search className="w-5 h-5" aria-hidden="true" />
-              <span>{t('searchPrograms')}</span>
-            </button>
           </div>
         </div>
       </div>
