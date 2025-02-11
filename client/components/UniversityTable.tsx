@@ -335,7 +335,7 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
             <div className="flex items-center justify-center mt-4 space-x-2">
                 <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-2 py-1 text-sm font-semibold rounded-full animate-pulse">
                     <span className="h-2 w-2 rounded-full bg-green-500 animate-ping"></span>
-                    <span>Last update: 26/01/2025</span>
+                    <span>Last update: 11/02/2025 we're updating now </span>
                 </span>
             </div>
 
