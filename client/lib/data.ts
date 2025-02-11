@@ -819,7 +819,7 @@ export const italianUniversities = [
     "scholarship_available": 'yes',
     "application_link": 'https://www.univr.it/en/our-services/international-degree-seeking-students',
     "intakes": [{
-      "name": "second call", 
+      "name": "second call",
       "start_date": "17 February 2025 ",
       "end_date": "17 March 2025",
       'notes': "non-EU students, holding a foreign degree and residing in a non-EU country, can apply for pre-admission and for the awarding of 31 students support and benefits: the call for applications is open from 17 February to 17 March 2025."
@@ -829,21 +829,7 @@ export const italianUniversities = [
 
   ,
 
-  {
-    "id": 46,
-    "name": "University of Padua (Second Call)",
-    "location": "Padua, Italy",
-    "admission_fee": 30,
-    "english_requirement": "English Proficiency",
-    "deadline": "2 May",
-    "status": null,
-    "cgpa_requirement": "MINIMUM CGPA 3.1 FOR PAKISTAN",
-    "housing_available": null,
-    "scholarship_available": null,
-    "application_link": null,
-    "intakes": [],
 
-  },
   {
     "id": 47,
     "name": "University of Calabria",
@@ -856,7 +842,12 @@ export const italianUniversities = [
     "housing_available": null,
     "scholarship_available": null,
     "application_link": null,
-    "intakes": [],
+    "intakes": [{
+      "name": "",
+      "start_date": "-",
+      "end_date": "-",
+      'notes': "NON-EU student, living abroad, and you want to enroll in a 2nd Cycle Degree Course (Two Years’ Master’s Degree), the new UnicalAdmission call for the academic year 2025/2026 will, presumably be published at the end of February 2025, on this page, with all the useful information to participate"
+    }],
 
   },
   {
@@ -871,24 +862,22 @@ export const italianUniversities = [
     "housing_available": null,
     "scholarship_available": null,
     "application_link": null,
-    "intakes": [],
+    "intakes": [{
+      "name": "first call",
+      "start_date": "13 November 2024",
+      "end_date": "21 November 2024",
+    }, {
+      "name": "second call",
+      "start_date": "9 january 2025",
+      "end_date": "16 january 2025",
+    }, {
+      "name": "second call",
+      "start_date": "10 march 2025",
+      "end_date": "18 march 2025",
+    }],
 
   },
-  {
-    "id": 49,
-    "name": "University of Messina (Second Call)",
-    "location": "Messina, Italy",
-    "admission_fee": 0,
-    "english_requirement": "IELTS Required",
-    "deadline": "3 May",
-    "status": null,
-    "cgpa_requirement": "NO CGPA REQUIREMENT",
-    "housing_available": null,
-    "scholarship_available": null,
-    "application_link": null,
-    "intakes": [],
 
-  },
 
   {
     "id": 50,
@@ -932,7 +921,11 @@ export const italianUniversities = [
     "housing_available": null,
     "scholarship_available": null,
     "application_link": null,
-    "intakes": [],
+    "intakes": [{
+      "name": "second call",
+      "start_date": "-",
+      "end_date": "July 12, 2025",
+    }],
 
   },
   {
@@ -993,7 +986,26 @@ export const italianUniversities = [
     "housing_available": null,
     "scholarship_available": null,
     "application_link": null,
-    "intakes": [],
+    "intakes": [{
+      "name": "first call",
+      "start_date": "January 15th",
+      "end_date": "April 30th",
+      'notes': "master's degree courses in Small business management in international markets, Green economy and sustainable transitions, Physics."
+    }, {
+      "name": "second call",
+      "start_date": "April 1s",
+      "end_date": "July 31st",
+      'notes': " for all other courses."
+    },
+    {
+      "name": "Applications on Universitaly",
+      "end_date": "May 30th",
+      'notes': "for our master's degree courses in Small business management in international markets, Green economy and sustainable transitions, Physics."
+    }, {
+      "name": "Applications on Universitaly",
+      "end_date": " July 31st",
+      'notes': "All applications received after these dates will be automatically rejected."
+    }],
 
   },
   {
@@ -1011,21 +1023,6 @@ export const italianUniversities = [
     "intakes": [],
 
   },
-  {
-    "id": 58,
-    "name": "University of Naples Federico II",
-    "location": "Naples, Italy",
-    "admission_fee": 0,
-    "english_requirement": "English Proficiency",
-    "deadline": null,
-    "status": null,
-    "cgpa_requirement": "NO CGPA REQUIREMENT",
-    "housing_available": null,
-    "scholarship_available": null,
-    "application_link": null,
-    "intakes": [],
-
-  }
 
 
   ,
@@ -1054,10 +1051,20 @@ export const italianUniversities = [
     "deadline": null,
     "status": null,
     "cgpa_requirement": "NO CGPA REQUIREMENT",
-    "housing_available": null,
-    "scholarship_available": null,
-    "application_link": null,
-    "intakes": [],
+    "housing_available": 'yes',
+    "scholarship_available": 'yes',
+    "application_link": 'https://www.unipa.it/mobilita/en/new-students/new-students---enrolment/enrolment-procedures-for-extra-eu-foreign-students/',
+    "intakes": [{
+      "name": "Master Degree",
+      "start_date": "13 January, 2025",
+      'end_date': "20 July, 2025",
+      'notes': "You must complete all necessary procedures to obtain a student visa by  November 29, 2025."
+    }, {
+      "name": "Bachelor’s degree",
+      "start_date": "12 March, 2025",
+      'end_date': "9 August , 2025",
+      'notes': "You must start a pre.enrollment application within  9th August , 2025. Your visa must be granted by 29 November 2025."
+    }],
 
   },
   {
