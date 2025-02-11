@@ -9,7 +9,9 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { useLanguage } from '../app/[lang]/LanguageContext'
 
 interface MobileNavProps {
-  menuItems: { [key: string]: { [key: string]: string } }
+  menuItems: {
+    [key: string]: { [key: string]: string };
+  };
 }
 
 const menu = [
@@ -19,6 +21,7 @@ const menu = [
   { name: 'programs', href: '/', icon: GraduationCap },
   { name: 'requirements', href: '/', icon: FileCheck },
   { name: 'services', href: '/', icon: Globe2 },
+
 ]
 
 const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
@@ -105,11 +108,10 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
                   <button
                     key={code}
                     onClick={() => handleLanguageChange(code as 'en' | 'ar' | 'it')}
-                    className={`px-4 py-2 border text-sm font-medium transition-colors ${
-                      language === code
-                        ? 'bg-white text-teal-700 border-teal-700'
-                        : 'bg-teal-700 text-white border-white'
-                    }`}
+                    className={`px-4 py-2 border text-sm font-medium transition-colors ${language === code
+                      ? 'bg-white text-teal-700 border-teal-700'
+                      : 'bg-teal-700 text-white border-white'
+                      }`}
                   >
                     {name}
                   </button>

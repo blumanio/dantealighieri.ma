@@ -9,16 +9,16 @@ import LanguageSwitcher from './LanguageSwitcher'
 import { useLanguage } from '../app/[lang]/LanguageContext'
 
 // Improved type definitions with strict typing
-type Language = 'en' | 'ar' | 'it'
+type Language = 'en' | 'ar' | 'it';
 
-interface MenuItem {
-  readonly about: string
-  readonly universities: string
-  readonly apply: string
-  readonly soon: string
-}
+// Convert MenuItem to an index signature type
+type MenuItem = {
+  [key: string]: string;
+};
 
-type MenuItems = Record<Language, MenuItem>
+type MenuItems = {
+  [K in Language]: MenuItem;
+};
 
 const menuItems: MenuItems = {
   en: {
@@ -26,20 +26,29 @@ const menuItems: MenuItems = {
     universities: 'Universities deadline',
     apply: 'Apply',
     soon: 'Soon',
+    programs: 'Programs',
+    requirements: 'Requirements',
+    services: 'Services'
   },
   ar: {
     about: 'حول',
     universities: 'مواعيد الجامعات',
     apply: 'تقديم',
     soon: 'قريباً',
+    programs: 'البرامج',
+    requirements: 'المتطلبات',
+    services: 'الخدمات'
   },
   it: {
     about: 'Chi Siamo',
     universities: 'Scadenze Universitarie',
     apply: 'Applica',
     soon: 'Presto',
-  },
-} as const
+    programs: 'Programmi',
+    requirements: 'Requisiti',
+    services: 'Servizi'
+  }
+} as const;
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -62,10 +71,9 @@ const Header: React.FC = () => {
   ]
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-teal-700/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-teal-700/95 backdrop-blur-sm shadow-lg' : 'bg-transparent'
+        }`}
       role="banner"
     >
       <div className="container mx-auto px-4">
@@ -87,15 +95,14 @@ const Header: React.FC = () => {
               ))}
 
               <div className="relative">
-                <button 
+                <button
                   className="bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-full transition-colors backdrop-blur-sm"
                   aria-label={`${currentMenu.apply} (${currentMenu.soon})`}
                 >
                   {currentMenu.apply}
-                  <span 
-                    className={`absolute -top-3 ${
-                      isRTL ? 'left-0' : 'right-0'
-                    } bg-teal-500 text-white text-xs px-2 py-0.5 rounded-full`}
+                  <span
+                    className={`absolute -top-3 ${isRTL ? 'left-0' : 'right-0'
+                      } bg-teal-500 text-white text-xs px-2 py-0.5 rounded-full`}
                     aria-hidden="true"
                   >
                     {currentMenu.soon}
