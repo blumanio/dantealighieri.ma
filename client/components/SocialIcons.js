@@ -65,42 +65,51 @@ export const LinkedInIcon = ({ className }) => (
 export const DanteAlighieriLogo = ({ className }) => (
   <svg
     className={className}
-    viewBox='0 0 300 100'
-    xmlns='http://www.w3.org/2000/svg'
+    viewBox="0 0 300 100"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
       <style>
-        @import
-        url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&amp;family=Roboto:wght@300&amp;display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&amp;family=Roboto:wght@300&amp;display=swap');
       </style>
     </defs>
 
+    {/* Graduation Hat */}
+    <g transform="translate(170,20) scale(0.5)">
+      <polygon points="20,0 40,10 20,20 0,10" fill="currentColor"/>
+      <rect x="16" y="20" width="8" height="10" fill="currentColor"/>
+      <circle cx="20" cy="30" r="2" fill="currentColor"/>
+    </g>
+
+    {/* Main Text */}
     <text
-      x='150'
-      y='50'
+      x="150"
+      y="50"
       fontFamily="'Roboto Condensed', sans-serif"
-      fontSize='34'
-      fontWeight='700'
-      fill='currentColor'
-      textAnchor='middle'
+      fontSize="34"
+      fontWeight="700"
+      fill="currentColor"
+      textAnchor="middle"
     >
       DANTEMA
     </text>
 
+    {/* Tagline */}
     <text
-      x='150'
-      y='80'
+      x="150"
+      y="80"
       fontFamily="'Roboto', sans-serif"
-      fontSize='18'
-      fontWeight='300'
-      fill='currentColor'
-      fillOpacity='0.8'
-      textAnchor='middle'
+      fontSize="18"
+      fontWeight="300"
+      fill="currentColor"
+      fillOpacity="0.8"
+      textAnchor="middle"
     >
       Study in Italy
     </text>
   </svg>
-)
+);
+
 export const TikTokIcon = ({ className }) => (
   <svg
     className={className}

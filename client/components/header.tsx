@@ -8,10 +8,8 @@ import { DanteAlighieriLogo } from './SocialIcons'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useLanguage } from '../app/[lang]/LanguageContext'
 
-// Improved type definitions with strict typing
 type Language = 'en' | 'ar' | 'it';
 
-// Convert MenuItem to an index signature type
 type MenuItem = {
   [key: string]: string;
 };
@@ -22,6 +20,7 @@ type MenuItems = {
 
 const menuItems: MenuItems = {
   en: {
+    blog: 'Blog',
     about: 'About',
     universities: 'Universities deadline',
     apply: 'Apply',
@@ -31,6 +30,7 @@ const menuItems: MenuItems = {
     services: 'Services'
   },
   ar: {
+    blog: 'مدونة',
     about: 'حول',
     universities: 'مواعيد الجامعات',
     apply: 'تقديم',
@@ -40,6 +40,7 @@ const menuItems: MenuItems = {
     services: 'الخدمات'
   },
   it: {
+    blog: 'Blog',
     about: 'Chi Siamo',
     universities: 'Scadenze Universitarie',
     apply: 'Applica',
@@ -66,13 +67,17 @@ const Header: React.FC = () => {
   }, [])
 
   const navigationLinks = [
+    { href: '/blog', text: currentMenu.blog },
     { href: '/about', text: currentMenu.about },
     { href: `/${language}/services`, text: currentMenu.universities },
   ]
 
   return (
     <header
-      className={` top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-gradient-to-b from-teal-600/80 to-teal-700/80' : 'bg-gradient-to-b from-teal-600/80 to-teal-700/80'
+      className={`font-poppins top-0 left-0 right-0 z-50 transition-all duration-300 
+        ${isScrolled 
+          ? 'bg-gradient-to-b from-teal-600/90 to-teal-700/90 backdrop-blur-sm shadow-lg' 
+          : 'bg-gradient-to-b from-teal-600/80 to-teal-700/80'
         }`}
       role="banner"
     >
@@ -88,36 +93,33 @@ const Header: React.FC = () => {
                 <Link
                   key={href}
                   href={href}
-                  className="text-white hover:text-teal-100 transition-colors"
+                  className="text-white hover:text-teal-100 transition-colors text-sm font-poppins
+                           tracking-wide hover:scale-105 transform duration-200"
                 >
                   {text}
                 </Link>
               ))}
 
-              {/* <div className="relative">
-                <button
-                  className="bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-full transition-colors backdrop-blur-sm"
-                  aria-label={`${currentMenu.apply} (${currentMenu.soon})`}
-                >
-                  {currentMenu.apply}
-                  <span
-                    className={`absolute -top-3 ${isRTL ? 'left-0' : 'right-0'
-                      } bg-teal-500 text-white text-xs px-2 py-0.5 rounded-full`}
-                    aria-hidden="true"
-                  >
-                    {currentMenu.soon}
-                  </span>
-                </button>
-              </div> */}
-
-              {/* <LanguageSwitcher /> */}
-
-              <div className="text-white">
+              {/* Auth Buttons with Poppins */}
+              <div className="text-white font-poppins">
                 <SignedOut>
-                  <SignInButton />
+                  <SignInButton mode="modal">
+                    <button className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full 
+                                   transition-all duration-200 text-sm font-medium
+                                   hover:scale-105 transform backdrop-blur-sm">
+                      Sign In
+                    </button>
+                  </SignInButton>
                 </SignedOut>
                 <SignedIn>
-                  <UserButton afterSignOutUrl="/" />
+                  <UserButton 
+                    afterSignOutUrl="/"
+                    appearance={{
+                      elements: {
+                        avatarBox: "h-8 w-8 rounded-full hover:scale-105 transform duration-200"
+                      }
+                    }} 
+                  />
                 </SignedIn>
               </div>
             </div>

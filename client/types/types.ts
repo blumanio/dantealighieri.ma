@@ -80,17 +80,26 @@ export interface PaymentFormProps {
     courses: Course[];
     isLoadingCourses: boolean;
   }
-  // types/page.d.ts
+// types/types.ts
 export interface BasePageProps {
-  params: {
+  params: Promise<{
     lang: string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;
 }
 
-export interface BlogPageProps extends BasePageProps {
-  params: {
+// For blog pages
+export interface BlogPageProps {
+  params: Promise<{
     lang: string;
-    slug?: string;
-  };
+    slug: string;
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;
+}
+
+export interface BlogIndexProps {
+  params: Promise<{
+      lang: string;
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;
 }

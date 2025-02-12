@@ -4,9 +4,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface NavPost {
   slug: string;
-  frontmatter: {
-    title: string;
-  };
+  title: string;
+  date?: string;
 }
 
 interface BlogNavigationProps {
@@ -28,7 +27,7 @@ export function BlogNavigation({ prevPost, nextPost, lang }: BlogNavigationProps
           <ChevronLeft className="w-5 h-5 mr-2" />
           <div>
             <div className="text-sm text-textSecondary">Previous</div>
-            <div className="font-heading font-semibold">{prevPost.frontmatter.title}</div>
+            <div className="font-heading font-semibold">{prevPost.title}</div>
           </div>
         </Link>
       ) : (
@@ -42,7 +41,7 @@ export function BlogNavigation({ prevPost, nextPost, lang }: BlogNavigationProps
         >
           <div>
             <div className="text-sm text-textSecondary">Next</div>
-            <div className="font-heading font-semibold">{nextPost.frontmatter.title}</div>
+            <div className="font-heading font-semibold">{nextPost.title}</div>
           </div>
           <ChevronRight className="w-5 h-5 ml-2" />
         </Link>

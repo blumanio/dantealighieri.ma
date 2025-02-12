@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import ClerkWrapper from './utils/clerck';
 import { LanguageProvider } from './[lang]/LanguageContext';
 import dynamic from 'next/dynamic';
+import { Poppins } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -42,7 +43,11 @@ function LoadingFallback() {
     </div>
   );
 }
-
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
 export default function RootLayout({
   children,
   params,
@@ -51,8 +56,8 @@ export default function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={params.lang || 'en'}>
-      <body className={inter.className}>
+    <html lang={params.lang || 'en'} className={poppins.variable}>
+      <body className= 'className="font-poppins" ${inter.className}'>
         <Suspense fallback={<LoadingFallback />}>
           <LayoutContent lang={params.lang}>
             {children}
