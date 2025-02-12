@@ -18,7 +18,7 @@ const LOGO_HEIGHT = 128; // Height of each logo container
 const AnimatedLogos = () => {
     const [offset, setOffset] = useState(0);
     const containerRef = useRef(null);
-    const animationRef = useRef(null);
+    const animationRef = useRef<number | null>(null);
 
     // Double the logos to create seamless loop
     const extendedLogos = [...ALL_LOGOS, ...ALL_LOGOS];
