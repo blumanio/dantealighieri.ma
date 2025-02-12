@@ -1,6 +1,6 @@
 ---
-title: 'Top Italian Universities with No Application Fees in 2024'
-date: '2024-02-12'
+title: 'Top Italian Universities with No Application Fees in 2025'
+date: '2025-02-12'
 excerpt: 'Discover Italian universities offering English-taught programs without application fees'
 ---
 
