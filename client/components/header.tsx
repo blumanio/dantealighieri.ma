@@ -80,7 +80,7 @@ const Header: React.FC = () => {
         <nav className="flex w-full items-center justify-between h-24" role="navigation" aria-label="Main navigation">
           <div className={`flex w-full items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
             <Link href="/" className="flex items-center space-x-2" aria-label="Home">
-              <DanteAlighieriLogo className="h-12 w-auto text-white" aria-hidden="true" />
+              <DanteAlighieriLogo className="h-24 w-auto text-white" aria-hidden="true" />
             </Link>
 
             <div className={`hidden md:flex items-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>

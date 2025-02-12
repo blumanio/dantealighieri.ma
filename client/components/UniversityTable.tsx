@@ -334,7 +334,7 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
             <div className="flex items-center justify-center mt-4 space-x-2">
                 <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-2 py-1 text-sm font-semibold rounded-full animate-pulse">
                     <span className="h-2 w-2 rounded-full bg-green-500 animate-ping"></span>
-                    <span>Last update: 11/02/2025 we're updating now </span>
+                    <span>Last update: 11/02/2025 </span>
                 </span>
             </div>
 
@@ -397,16 +397,16 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
 
                             {/* Expand/Collapse Button */}
                             <button
-                                onClick={() => toggleRow(uni.id)}
-                                className="w-full flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-700 pt-2"
-                            >
-                                <span>{expandedRows.has(uni.id) ? 'Show less' : 'Show more'}</span>
-                                {expandedRows.has(uni.id) ? (
-                                    <ChevronUp className="h-4 w-4" />
-                                ) : (
-                                    <ChevronDown className="h-4 w-4" />
-                                )}
-                            </button>
+    onClick={() => toggleRow(uni.id)}
+    className="w-full flex items-center justify-center gap-2 text-sm !text-white hover:text-gray-200 pt-2"
+>
+    <span className="!text-white">{expandedRows.has(uni.id) ? 'Show less' : 'Show more'}</span>
+    {expandedRows.has(uni.id) ? (
+        <ChevronUp className="h-4 w-4 !text-white" />
+    ) : (
+        <ChevronDown className="h-4 w-4 !text-white" />
+    )}
+</button>
                         </div>
 
                         {/* Expanded Content for Mobile */}
@@ -428,7 +428,7 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
                                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">University</th>
                                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Location</th>
                                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Status</th>
-                                <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Deadline</th>
+                                {/* <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Deadline</th> */}
                                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Fee</th>
                                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-900">Requirements</th>
                                 <th className="px-6 py-4 text-center text-sm font-medium text-gray-900">Actions</th>
@@ -455,12 +455,12 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
                                                 {uni.status}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        {/* <td className="px-6 py-4">
                                             <div className={`flex items-center gap-2 ${!isSignedIn ? 'blur-sm' : ''}`}>
                                                 <Calendar className="h-4 w-4 text-gray-500" />
                                                 <span>{uni.deadline || 'TBA'}</span>
                                             </div>
-                                        </td>
+                                        </td> */}
                                         <td className="px-6 py-4">
                                             <div className={`flex items-center gap-2 ${!isSignedIn ? 'blur-sm' : ''}`}>
                                                 <Euro className="h-4 w-4 text-gray-500" />
@@ -478,7 +478,7 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
                                         <td className="px-6 py-4 text-center">
                                             <button
                                                 onClick={() => toggleRow(uni.id)}
-                                                className="text-teal-600 hover:text-teal-700"
+                                                className=" hover:text-teal-700"
                                             >
                                                 {expandedRows.has(uni.id) ? (
                                                     <ChevronUp className="h-5 w-5 inline" />
