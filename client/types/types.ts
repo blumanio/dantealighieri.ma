@@ -80,3 +80,17 @@ export interface PaymentFormProps {
     courses: Course[];
     isLoadingCourses: boolean;
   }
+  // types/page.d.ts
+export interface BasePageProps {
+  params: {
+    lang: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export interface BlogPageProps extends BasePageProps {
+  params: {
+    lang: string;
+    slug?: string;
+  };
+}

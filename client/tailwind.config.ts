@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import typographyPlugin from '@tailwindcss/typography'
 
 const config = {
   darkMode: ['class'],
@@ -48,6 +49,7 @@ const config = {
       fontFamily: {
         heading: ['Merriweather', 'serif'],
         body: ['Open Sans', 'sans-serif'],
+        poppins: ['var(--font-poppins)', 'sans-serif'],
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],
@@ -93,7 +95,8 @@ const config = {
       }
     },
   },
-  plugins: [require('tailwindcss-animate')]
+  plugins: [require('tailwindcss-animate'),
+    typographyPlugin,]
 } satisfies Config
 
 export default config 

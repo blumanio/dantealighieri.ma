@@ -397,16 +397,16 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
 
                             {/* Expand/Collapse Button */}
                             <button
-    onClick={() => toggleRow(uni.id)}
-    className="w-full flex items-center justify-center gap-2 text-sm !text-white hover:text-gray-200 pt-2"
->
-    <span className="!text-white">{expandedRows.has(uni.id) ? 'Show less' : 'Show more'}</span>
-    {expandedRows.has(uni.id) ? (
-        <ChevronUp className="h-4 w-4 !text-white" />
-    ) : (
-        <ChevronDown className="h-4 w-4 !text-white" />
-    )}
-</button>
+                                onClick={() => toggleRow(uni.id)}
+                                className="w-full flex items-center justify-center gap-2 text-sm !text-white hover:text-gray-200 pt-2"
+                            >
+                                <span className="!text-white">{expandedRows.has(uni.id) ? 'Show less' : 'Show more'}</span>
+                                {expandedRows.has(uni.id) ? (
+                                    <ChevronUp className="h-4 w-4 !text-white" />
+                                ) : (
+                                    <ChevronDown className="h-4 w-4 !text-white" />
+                                )}
+                            </button>
                         </div>
 
                         {/* Expanded Content for Mobile */}
