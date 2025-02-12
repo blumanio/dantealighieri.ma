@@ -272,9 +272,17 @@ export default async function BlogPostPage({ params, searchParams }: BlogPagePro
             </div>
         );
     } catch {
-        return {
-            title: 'Blog Post Not Found',
-            description: 'The requested blog post could not be found.'
-        };
+        return (
+            <div className="container py-12">
+                <div className="max-w-4xl mx-auto text-center">
+                    <h1 className="text-4xl font-bold text-primary mb-4 font-poppins">
+                        Blog Post Not Found
+                    </h1>
+                    <p className="text-textPrimary font-poppins">
+                        The requested blog post could not be found.
+                    </p>
+                </div>
+            </div>
+        );
     }
 }
