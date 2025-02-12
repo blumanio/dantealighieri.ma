@@ -161,7 +161,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
             onChange={e => setSearchTerm(e.target.value)}
             className={`w-full rounded-full border p-2 ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} focus:outline-none focus:ring-2 focus:ring-indigo-300`}
           />
-          <Search className={`absolute top-1/2 -translate-y-1/2 transform text-gray-400 h-4 w-4 ${isRTL ? 'right-3' : 'left-3'}`} />
+          {/* <Search className={`absolute top-1/2 -translate-y-1/2 transform text-gray-400 h-4 w-4 ${isRTL ? 'right-3' : 'left-3'}`} /> */}
         </div>
       </div>
 

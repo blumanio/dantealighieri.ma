@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info } from 'lucide-react'
+import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info,PenIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -15,12 +15,13 @@ interface MobileNavProps {
 }
 
 const menu = [
-  { name: 'about', href: '/', icon: Info },
   { name: 'universities', href: '/services', icon: School },
-  { name: 'apply', href: '/', icon: CalendarCheck },
   { name: 'programs', href: '/program-search', icon: GraduationCap },
-  { name: 'requirements', href: '/', icon: FileCheck },
-  { name: 'services', href: '/', icon: Globe2 },
+  { name: 'blog', href: '/blog', icon: PenIcon },
+  { name: 'about', href: '/about', icon: Info },
+  { name: 'apply', href: '/', icon: CalendarCheck },
+  // { name: 'requirements', href: '/', icon: FileCheck },
+  // { name: 'services', href: '/', icon: Globe2 },
 
 ]
 
@@ -101,7 +102,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
               })}
             </nav>
 
-            <div className="p-6">
+            {/* <div className="p-6">
               <h3 className="mb-4 text-lg font-semibold text-teal-700">Select Language</h3>
               <div className="flex flex-col">
                 {Object.entries(languageNames[language]).map(([code, name]) => (
@@ -117,7 +118,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </SheetContent>
       </Sheet>
