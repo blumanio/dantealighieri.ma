@@ -21,7 +21,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
   const { language, setLanguage } = useLanguage()
 
   const menu = [
-    { name: 'universities', href: `/${language}/services`, icon: School },
+    { name: 'universities', href: `/${language}/universities`, icon: School },
     { name: 'programs', href: `/${language}/program-search`, icon: GraduationCap },
     { name: 'IMAT', href: '/imat', icon: University },
     { name: 'TOLC', href: '/tolc', icon: University },
