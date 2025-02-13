@@ -17,26 +17,6 @@ const ALL_LOGOS: Logo[] = [
     { src: '/ferrara.svg', id: 'ferrara' },
     { src: '/marche.svg', id: 'marche' },
     { src: '/palermo.svg', id: 'palermo' },
-    { src: '/polimi.svg', id: 'polimi' },
-    { src: '/brescia.svg', id: 'brescia' },
-    { src: '/sapienza.svg', id: 'sapienza' },
-    { src: '/perugia.svg', id: 'perugia' },
-    { src: '/torino.svg', id: 'torino' },
-    { src: '/foggia.svg', id: 'foggia' },
-    { src: '/bicocca.svg', id: 'bicocca' },
-    { src: '/ferrara.svg', id: 'ferrara' },
-    { src: '/marche.svg', id: 'marche' },
-    { src: '/palermo.svg', id: 'palermo' },
-    { src: '/polimi.svg', id: 'polimi' },
-    { src: '/brescia.svg', id: 'brescia' },
-    { src: '/sapienza.svg', id: 'sapienza' },
-    { src: '/perugia.svg', id: 'perugia' },
-    { src: '/torino.svg', id: 'torino' },
-    { src: '/foggia.svg', id: 'foggia' },
-    { src: '/bicocca.svg', id: 'bicocca' },
-    { src: '/ferrara.svg', id: 'ferrara' },
-    { src: '/marche.svg', id: 'marche' },
-    { src: '/palermo.svg', id: 'palermo' },
     { src: '/polimi.svg', id: 'polimi' }
 ];
 
@@ -45,17 +25,20 @@ const AnimatedLogos: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number | null>(null);
 
-    // Triple the logos to ensure smooth looping
-    const extendedLogos = [...ALL_LOGOS];
+    // Double the logos array to create seamless loop
+    const extendedLogos = [...ALL_LOGOS, ...ALL_LOGOS];
     
     useEffect(() => {
         const SCROLL_SPEED = 0.4;
-        const singleSetHeight = ALL_LOGOS.length * 16; // Smaller base height for mobile
+        const containerWidth = ALL_LOGOS.length * 48;
         
         const animate = () => {
             setTransform(prev => {
                 const newTransform = prev + SCROLL_SPEED;
-                return newTransform >= singleSetHeight * 2 ? singleSetHeight : newTransform;
+                if (newTransform >= containerWidth) {
+                    return 0;
+                }
+                return newTransform;
             });
             animationRef.current = requestAnimationFrame(animate);
         };
@@ -71,19 +54,19 @@ const AnimatedLogos: React.FC = () => {
 
     return (
         <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden">
-            <div className="flex justify-end h-full">
+            <div className="flex h-full mb-4">
                 <div className="relative w-48 sm:w-40 md:w-48 lg:w-64">
                     <div 
-                        className="absolute w-full transition-transform duration-1000 ease-linear"
+                        className="absolute h-full whitespace-nowrap transition-transform duration-1000 ease-linear"
                         style={{
-                            transform: `translateY(-${transform}px)`,
+                            transform: `translateX(-${transform}px)`,
                             willChange: 'transform'
                         }}
                     >
                         {extendedLogos.map((logo, index) => (
                             <div
                                 key={`${logo.id}-${index}`}
-                                className="w-full aspect-square"
+                                className="inline-block w-48 sm:w-40 md:w-48 lg:w-64 aspect-square"
                             >
                                 <Image
                                     src={logo.src}
