@@ -75,6 +75,8 @@ const Header: React.FC = () => {
 
   const navigationLinks = [
     { href: `/${language}/services`, text: currentMenu.universities },
+    { href: `/${language}/program-search`, text: currentMenu.programs },
+
     { href: '/imat', text: currentMenu.imat },
     { href: '/tolc', text: currentMenu.tolc },
     { href: '/blog', text: currentMenu.blog },

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info, PenIcon } from 'lucide-react'
+import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info, PenIcon, University } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -22,10 +22,13 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
 
   const menu = [
     { name: 'universities', href: `/${language}/services`, icon: School },
-    { name: 'programs', href: '/program-search', icon: GraduationCap },
+    { name: 'programs', href: `/${language}/program-search`, icon: GraduationCap },
+    { name: 'IMAT', href: '/imat', icon: University },
+    { name: 'TOLC', href: '/tolc', icon: University },
+
     { name: 'blog', href: '/blog', icon: PenIcon },
     { name: 'about', href: '/about', icon: Info },
-    { name: 'apply', href: '/', icon: CalendarCheck },
+    // { name: 'apply', href: '/', icon: CalendarCheck },
     // { name: 'requirements', href: '/', icon: FileCheck },
     // { name: 'services', href: '/', icon: Globe2 },
 

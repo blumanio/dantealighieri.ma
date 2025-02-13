@@ -7,6 +7,7 @@ import _ from 'lodash';
 import PaginatedCourses from './PaginatedCourses';
 import { useLanguage } from '../app/[lang]/LanguageContext';
 import { academicAreas, accessTypes, courseLanguages, degreeTypes } from '../constants/constants';
+import AnimatedLogos from './AnimatedLogos';
 
 interface Course {
   _id: string;
@@ -97,6 +98,9 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
 
   return (
     <div className={`space-y-6 rounded-lg bg-gray-100 ${isRTL ? 'rtl' : 'ltr'}`}>
+       <div className="w-full relative">
+            <AnimatedLogos />
+          </div>
       <div className="rounded-lg bg-white p-4 shadow-sm">
         <h2 className="mb-4 text-2xl font-bold text-gray-800">{t('searchTitle')}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

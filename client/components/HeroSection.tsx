@@ -39,11 +39,11 @@ const HeroSection: React.FC = () => {
           {/* Hero Content */}
           <div className="flex flex-col items-center text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Discover Your Future in Italy
+            Start Your Italian Dream Education
             </h1>
             <p className="text-lg text-teal-50 mb-6">
-              Explore world-class academic programs at Italy's prestigious universities. 
-              Your journey to excellence starts here.
+            Get expert guidance, step-by-step resources, and premium services to make your 
+            study journey to Italy simple, clear, and successful.
             </p>
             <button
               onClick={handleExplore}
@@ -56,7 +56,7 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Animated Logos */}
-          <div className="w-full h-32 relative">
+          <div className="w-full relative">
             <AnimatedLogos />
           </div>
         </div>

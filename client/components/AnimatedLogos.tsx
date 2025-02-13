@@ -29,16 +29,14 @@ const AnimatedLogos: React.FC = () => {
     const extendedLogos = [...ALL_LOGOS, ...ALL_LOGOS];
     
     useEffect(() => {
-        const SCROLL_SPEED = 0.4;
-        const containerWidth = ALL_LOGOS.length * 48;
+        const SCROLL_SPEED = 0.5;
+        const LOGO_WIDTH = 160; // Base width in pixels
+        const totalWidth = ALL_LOGOS.length * LOGO_WIDTH;
         
         const animate = () => {
             setTransform(prev => {
                 const newTransform = prev + SCROLL_SPEED;
-                if (newTransform >= containerWidth) {
-                    return 0;
-                }
-                return newTransform;
+                return newTransform >= totalWidth ? 0 : newTransform;
             });
             animationRef.current = requestAnimationFrame(animate);
         };
@@ -53,31 +51,32 @@ const AnimatedLogos: React.FC = () => {
     }, []);
 
     return (
-        <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden">
-            <div className="flex h-full mb-4">
-                <div className="relative w-48 sm:w-40 md:w-48 lg:w-64">
-                    <div 
-                        className="absolute h-full whitespace-nowrap transition-transform duration-1000 ease-linear"
-                        style={{
-                            transform: `translateX(-${transform}px)`,
-                            willChange: 'transform'
-                        }}
-                    >
-                        {extendedLogos.map((logo, index) => (
-                            <div
-                                key={`${logo.id}-${index}`}
-                                className="inline-block w-48 sm:w-40 md:w-48 lg:w-64 aspect-square"
-                            >
+        <div className="w-full h-full overflow-hidden">
+            <div className="relative h-32 md:h-40 lg:h-48">
+                <div 
+                    className="absolute whitespace-nowrap transition-transform duration-1000 ease-linear"
+                    style={{
+                        transform: `translateX(-${transform}px)`,
+                        willChange: 'transform'
+                    }}
+                >
+                    {extendedLogos.map((logo, index) => (
+                        <div
+                            key={`${logo.id}-${index}`}
+                            className="inline-block w-32 md:w-40 lg:w-48 h-32 md:h-40 lg:h-48"
+                        >
+                            <div className="w-full h-full p-4 md:p-6 lg:p-8">
                                 <Image
                                     src={logo.src}
                                     alt={`${logo.id} logo`}
                                     width={256}
                                     height={256}
-                                    className="w-full h-full p-2 sm:p-3 md:p-4 lg:p-6 object-contain"
+                                    className="w-full h-full object-contain"
+                                    priority={index < ALL_LOGOS.length}
                                 />
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
