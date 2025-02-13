@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info,PenIcon } from 'lucide-react'
+import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info, PenIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -14,22 +14,22 @@ interface MobileNavProps {
   };
 }
 
-const menu = [
-  { name: 'universities', href: '/services', icon: School },
-  { name: 'programs', href: '/program-search', icon: GraduationCap },
-  { name: 'blog', href: '/blog', icon: PenIcon },
-  { name: 'about', href: '/about', icon: Info },
-  { name: 'apply', href: '/', icon: CalendarCheck },
-  // { name: 'requirements', href: '/', icon: FileCheck },
-  // { name: 'services', href: '/', icon: Globe2 },
-
-]
 
 const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const { language, setLanguage } = useLanguage()
 
+  const menu = [
+    { name: 'universities', href: `/${language}/services`, icon: School },
+    { name: 'programs', href: '/program-search', icon: GraduationCap },
+    { name: 'blog', href: '/blog', icon: PenIcon },
+    { name: 'about', href: '/about', icon: Info },
+    { name: 'apply', href: '/', icon: CalendarCheck },
+    // { name: 'requirements', href: '/', icon: FileCheck },
+    // { name: 'services', href: '/', icon: Globe2 },
+
+  ]
   const languageNames = {
     en: { ar: 'Arabic', en: 'English', it: 'Italian' },
     ar: { ar: 'عربي', en: 'الانجليزية', it: 'الايطالية' },
