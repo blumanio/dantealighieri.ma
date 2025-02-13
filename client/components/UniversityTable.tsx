@@ -18,6 +18,7 @@ import {
     GraduationCap,
     Laptop
 } from 'lucide-react';
+import AnimatedLogos from './AnimatedLogos';
 
 // Interfaces
 export interface University {
@@ -330,7 +331,12 @@ export function UniversityTable({ universities, isSignedIn }: UniversityTablePro
 
     return (
         <div className="space-y-4">
+
+            <div className="w-full relative">
+                <AnimatedLogos />
+            </div>
             {/* Last update indicator */}
+
             <div className="flex items-center justify-center mt-4 space-x-2">
                 <span className="inline-flex items-center space-x-2 bg-green-100 text-green-700 px-2 py-1 text-sm font-semibold rounded-full animate-pulse">
                     <span className="h-2 w-2 rounded-full bg-green-500 animate-ping"></span>
