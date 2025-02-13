@@ -21,6 +21,9 @@ type MenuItems = {
 const menuItems: MenuItems = {
   en: {
     blog: 'Blog',
+    imat: 'IMAT',
+    tolc: 'TOLC',
+
     about: 'About',
     universities: 'Universities deadline',
     apply: 'Apply',
@@ -30,6 +33,8 @@ const menuItems: MenuItems = {
     services: 'Services'
   },
   ar: {
+    imat: 'IMAT',
+    tolc: 'TOLC',
     blog: 'مدونة',
     about: 'حول',
     universities: 'مواعيد الجامعات',
@@ -40,6 +45,8 @@ const menuItems: MenuItems = {
     services: 'الخدمات'
   },
   it: {
+    imat: 'IMAT',
+    tolc: 'TOLC',
     blog: 'Blog',
     about: 'Chi Siamo',
     universities: 'Scadenze Universitarie',
@@ -67,16 +74,18 @@ const Header: React.FC = () => {
   }, [])
 
   const navigationLinks = [
+    { href: `/${language}/services`, text: currentMenu.universities },
+    { href: '/imat', text: currentMenu.imat },
+    { href: '/tolc', text: currentMenu.tolc },
     { href: '/blog', text: currentMenu.blog },
     { href: '/about', text: currentMenu.about },
-    { href: `/${language}/services`, text: currentMenu.universities },
   ]
 
   return (
     <header
       className={`font-poppins top-0 left-0 right-0 z-50 transition-all duration-300 
-        ${isScrolled 
-          ? 'bg-gradient-to-b from-teal-600/90 to-teal-700/90 backdrop-blur-sm shadow-lg' 
+        ${isScrolled
+          ? 'bg-gradient-to-b from-teal-600/90 to-teal-700/90 backdrop-blur-sm shadow-lg'
           : 'bg-gradient-to-b from-teal-600/80 to-teal-700/80'
         }`}
       role="banner"
@@ -112,13 +121,13 @@ const Header: React.FC = () => {
                   </SignInButton>
                 </SignedOut>
                 <SignedIn>
-                  <UserButton 
+                  <UserButton
                     afterSignOutUrl="/"
                     appearance={{
                       elements: {
                         avatarBox: "h-8 w-8 rounded-full hover:scale-105 transform duration-200"
                       }
-                    }} 
+                    }}
                   />
                 </SignedIn>
               </div>
