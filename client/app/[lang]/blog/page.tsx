@@ -159,7 +159,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                                         {authorName}
                                                     </p>
                                                     <p className="text-xs font-poppins text-textSecondary">
-                                                        Founder & CEO
+                                                        Founder
                                                     </p>
                                                 </div>
                                                 <div className="ml-auto">
