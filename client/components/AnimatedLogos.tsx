@@ -1,7 +1,13 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
-const ALL_LOGOS = [
+interface Logo {
+    src: string;
+    id: string;
+}
+
+const ALL_LOGOS: Logo[] = [
     { src: '/brescia.svg', id: 'brescia' },
     { src: '/sapienza.svg', id: 'sapienza' },
     { src: '/perugia.svg', id: 'perugia' },
@@ -34,10 +40,10 @@ const ALL_LOGOS = [
     { src: '/polimi.svg', id: 'polimi' }
 ];
 
-const AnimatedLogos = () => {
+const AnimatedLogos: React.FC = () => {
     const [transform, setTransform] = useState(0);
-    const containerRef = useRef(null);
-    const animationRef = useRef(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const animationRef = useRef<number | null>(null);
 
     // Triple the logos to ensure smooth looping
     const extendedLogos = [...ALL_LOGOS];
@@ -49,17 +55,15 @@ const AnimatedLogos = () => {
         const animate = () => {
             setTransform(prev => {
                 const newTransform = prev + SCROLL_SPEED;
-                if (newTransform >= singleSetHeight * 2) {
-                    return singleSetHeight;
-                }
-                return newTransform;
+                return newTransform >= singleSetHeight * 2 ? singleSetHeight : newTransform;
             });
             animationRef.current = requestAnimationFrame(animate);
         };
 
         animationRef.current = requestAnimationFrame(animate);
+        
         return () => {
-            if (animationRef.current) {
+            if (animationRef.current !== null) {
                 cancelAnimationFrame(animationRef.current);
             }
         };
@@ -81,9 +85,11 @@ const AnimatedLogos = () => {
                                 key={`${logo.id}-${index}`}
                                 className="w-full aspect-square"
                             >
-                                <img
+                                <Image
                                     src={logo.src}
                                     alt={`${logo.id} logo`}
+                                    width={256}
+                                    height={256}
                                     className="w-full h-full p-2 sm:p-3 md:p-4 lg:p-6 object-contain"
                                 />
                             </div>
