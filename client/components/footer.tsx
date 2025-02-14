@@ -55,7 +55,7 @@ const Footer = () => {
             <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">Contact Us</h3>
             <div className="space-y-3 text-sm text-gray-600">
               <p>Email: contact@dantealighieri.com</p>
-              <p>Phone: +39 123 456 789</p>
+              <p>Phone: +393519000615</p>
               <p>Location: Milan, Italy</p>
             </div>
           </div>
