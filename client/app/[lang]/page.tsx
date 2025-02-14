@@ -45,9 +45,9 @@ export async function generateMetadata({ params }: BasePageProps) {
   const validatedLang = getValidLanguage(resolvedParams.lang);
   
   const titles: Record<ValidLanguage, string> = {
-    en: 'Welcome',
-    it: 'Benvenuto',
-    ar: 'مرحباً'
+    en: 'DanteMa - Study in Italy',
+    it: 'DanteMa - Study in Italy',
+    ar: 'DanteMa - Study in Italy'
   };
 
   return {
