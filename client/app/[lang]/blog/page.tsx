@@ -64,12 +64,12 @@ async function getPosts(lang: string): Promise<Post[]> {
             });
 
         const posts = await Promise.all(postsPromises);
-        
+
         // Filter out any null posts and sort by date
         return posts
             .filter((post): post is Post => post !== null)
-            .sort((a, b) => 
-                new Date(b.frontmatter.date).getTime() - 
+            .sort((a, b) =>
+                new Date(b.frontmatter.date).getTime() -
                 new Date(a.frontmatter.date).getTime()
             );
     } catch (error) {
@@ -81,13 +81,13 @@ async function getPosts(lang: string): Promise<Post[]> {
 export default async function BlogPage({ params }: BlogIndexProps) {
     const resolvedParams = await params;
     const lang = resolvedParams.lang;
-    
+
     const posts = await getPosts(lang);
 
     const authorNames = {
-        en: 'Mohamed El Aammari',
-        it: 'Mohamed El Aammari',
-        ar: 'محمد العماري'
+        en: 'DanteMa Team',
+        it: 'DanteMa Team',
+        ar: ' فريق دانتيما'
     };
 
     const authorName = authorNames[lang as keyof typeof authorNames] || authorNames.en;
@@ -117,7 +117,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                 <div className="p-8">
                                     <div className="flex flex-col h-full">
                                         <header>
-                                            <time 
+                                            <time
                                                 dateTime={post.frontmatter.date}
                                                 className="inline-block mb-4 text-sm font-poppins text-textSecondary
                                                          bg-background rounded-full px-4 py-1"
@@ -141,7 +141,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                                    flex-grow">
                                             {post.frontmatter.excerpt}
                                         </p>
-                                        
+
                                         {/* Author Section */}
                                         <div className="mt-6 pt-6 border-t border-gray-100">
                                             <div className="flex items-center">
@@ -166,10 +166,10 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                                     <span className="inline-flex items-center text-sm font-poppins
                                                                  text-primary group-hover:text-primary-light
                                                                  transition-colors duration-200">
-                                                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" 
-                                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                                                                  d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                                         </svg>
                                                     </span>
                                                 </div>
