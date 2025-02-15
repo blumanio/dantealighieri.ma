@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { BlogNavigation } from '@/components/BlogNavigation';
 import HeroSection from '@/components/HeroSection';
 import Services from '@/components/services';
+import AboutFounder from '@/components/AboutFounder';
 
 const VALID_LANGUAGES = ['en', 'it', 'ar'] as const;
 type ValidLanguage = typeof VALID_LANGUAGES[number];
@@ -25,6 +26,7 @@ export default async function Page({ params, searchParams }: BasePageProps) {
         <main>
           <HeroSection />
           <Services />
+          <AboutFounder />
           <BlogNavigation
             prevPost={null}
             nextPost={null}
