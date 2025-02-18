@@ -76,9 +76,9 @@ export const DanteAlighieriLogo = ({ className }) => (
 
     {/* Graduation Hat */}
     <g transform="translate(170,20) scale(0.5)">
-      <polygon points="20,0 40,10 20,20 0,10" fill="currentColor"/>
-      <rect x="16" y="20" width="8" height="10" fill="currentColor"/>
-      <circle cx="20" cy="30" r="2" fill="currentColor"/>
+      <polygon points="20,0 40,10 20,20 0,10" fill="currentColor" />
+      <rect x="16" y="20" width="8" height="10" fill="currentColor" />
+      <circle cx="20" cy="30" r="2" fill="currentColor" />
     </g>
 
     {/* Main Text */}
@@ -93,6 +93,28 @@ export const DanteAlighieriLogo = ({ className }) => (
     >
       DANTEMA
     </text>
+
+    {/* Italian Flag Brush Strokes - Thin horizontal stripe */}
+    <g transform="translate(30,60) scale(1,0.15)">
+      {/* Green Stripe */}
+      <path
+        d="M0,0 C10,-2 20,2 80,0 L80,20 C20,22 10,18 0,20 Z"
+        fill="#009246"
+        opacity="0.9"
+      />
+      {/* White Stripe */}
+      <path
+        d="M80,0 C90,-2 100,2 160,0 L160,20 C100,22 90,18 80,20 Z"
+        fill="#ffffff"
+        opacity="0.9"
+      />
+      {/* Red Stripe */}
+      <path
+        d="M160,0 C170,-2 180,2 240,0 L240,20 C180,22 170,18 160,20 Z"
+        fill="#ce2b37"
+        opacity="0.9"
+      />
+    </g>
 
     {/* Tagline */}
     <text

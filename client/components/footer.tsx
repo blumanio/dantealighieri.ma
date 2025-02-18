@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { Facebook, Instagram, Linkedin, Youtube, MessageCircle } from 'lucide-react';
+import Link from 'next/link';
 import { useLanguage } from '../app/[lang]/LanguageContext';
+import { DanteAlighieriLogo } from './SocialIcons';
 
 const Footer = () => {
   const { language, t } = useLanguage();
@@ -22,30 +24,33 @@ const Footer = () => {
     { Icon: MessageCircle, href: '#', label: 'WhatsApp' },
     { Icon: Youtube, href: '#', label: 'YouTube' }
   ];
-  
+
+  // Reverse the order of social links for RTL
+  const orderedSocialLinks = isRTL ? [...socialLinks].reverse() : socialLinks;
+
   return (
     <footer className="bg-white shadow-md mt-12 pt-5" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 py-8">
-        <div className="space-y-8 md:space-y-0 md:flex md:justify-between">
+        <div className="space-y-8 md:space-y-0 md:flex md:flex-row-reverse md:justify-between">
           {/* Logo and Description */}
-          <div className="text-center md:text-left md:max-w-xs">
-            <a href={`/${language}`} className="inline-block">
-              <span className="text-2xl font-bold text-teal-700">DanteMa</span>
-            </a>
-            <p className="mt-4 text-sm text-gray-600">
+          <div className="md:max-w-xs">
+            <Link href={`/${language}`} className="inline-block" aria-label="Home">
+              <DanteAlighieriLogo className="h-24 w-auto text-gray-900 mx-auto md:mx-0" aria-hidden="true" />
+            </Link>
+            <p className="mt-4 text-sm text-gray-600 text-center md:text-right">
               {t('footer', 'description')}
             </p>
           </div>
 
           {/* Navigation Links */}
-          <div className="text-center md:text-left">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+          <div>
+            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4 text-center md:text-right">
               {t('footer', 'quickLinks')}
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-center md:text-right">
               {footerLinks.map((link) => (
                 <li key={link.name}>
-                  <a 
+                  <a
                     href={link.href}
                     className="text-gray-600 hover:text-teal-600 transition-colors"
                   >
@@ -57,11 +62,11 @@ const Footer = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="text-center md:text-left">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+          <div>
+            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4 text-center md:text-right">
               {t('footer', 'contactUs')}
             </h3>
-            <div className="space-y-3 text-sm text-gray-600">
+            <div className="space-y-3 text-sm text-gray-600 text-center md:text-right">
               <p>{t('footer', 'email')}</p>
               <p>{t('footer', 'phone')}</p>
               <p>{t('footer', 'location')}</p>
@@ -69,12 +74,12 @@ const Footer = () => {
           </div>
 
           {/* Social Links */}
-          <div className="text-center md:text-left">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+          <div>
+            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4 text-center md:text-right">
               {t('footer', 'followUs')}
             </h3>
-            <div className="flex justify-center md:justify-start space-x-4">
-              {socialLinks.map(({ Icon, href, label }) => (
+            <div className="flex items-center justify-center md:justify-end gap-4">
+              {orderedSocialLinks.map(({ Icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
