@@ -33,7 +33,7 @@ interface ProgramSearchProps {
 }
 const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   const { language = defaultLanguage, t } = useLanguage();
-  
+
   useEffect(() => {
     setFormData(prev => ({ ...prev }));
   }, [language]);
@@ -98,11 +98,11 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
 
   return (
     <div className={`space-y-6 rounded-lg bg-gray-100 ${isRTL ? 'rtl' : 'ltr'}`}>
-       <div className="w-full relative">
-            <AnimatedLogos />
-          </div>
+      <div className="w-full relative">
+        <AnimatedLogos />
+      </div>
       <div className="rounded-lg bg-white p-4 shadow-sm">
-        <h2 className="mb-4 text-2xl font-bold text-gray-800">{t('searchTitle')}</h2>
+        <h2 className="mb-4 text-2xl font-bold text-gray-800">{t('programSearch', 'searchTitle')}</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           <select
             name="degreeType"
@@ -149,7 +149,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
             onChange={handleChange}
             className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           >
-            <option value="">{t('academicArea')}</option>
+            <option value="">{t('programSearch', 'academicArea')}</option>
             {academicAreas.map(area => (
               <option key={area.value} value={area.value}>
                 {area.label[language]}
@@ -161,7 +161,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
         <div className="relative mt-4">
           <input
             type="text"
-            placeholder={t('searchWithinResults')}
+            placeholder={t('programSearch', 'searchPlaceholder')}
             onChange={e => setSearchTerm(e.target.value)}
             className={`w-full rounded-full border p-2 ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} focus:outline-none focus:ring-2 focus:ring-indigo-300`}
           />
@@ -172,14 +172,14 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
       {isLoading ? (
         <div className="flex h-64 items-center justify-center">
           <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-indigo-500"></div>
-          <span className="ml-3">{t('loadingMessage')}</span>
+          <span className="ml-3">{t('programSearch', 'loadingMessage')}</span>
         </div>
       ) : filteredCourses.length > 0 ? (
         <PaginatedCourses filteredCourses={filteredCourses} />
       ) : (
         <div className="py-8 text-center text-gray-600">
           <Filter className="mx-auto mb-4 h-12 w-12" />
-          <p className="text-xl">{t('noResults')}</p>
+          <p className="text-xl">{t('programSearch', 'noResults')}</p>
         </div>
       )}
     </div>

@@ -63,10 +63,9 @@ export const translations: Record<Locale, Translation> = {
         "Comprehensive support from application to graduation"
       ],
       connectWith: "Connect With Me:",
-      imageAlt: {
-        graduation: "Founder Graduation",
-        diploma: "Founder Diploma"
-      }
+      imageAltGraduation: "Founder Graduation",
+      imageAltDiploma: "Founder Diploma"
+
     },
     about: {
       pageTitle: "About danteMa Educational Services",
@@ -101,6 +100,16 @@ export const translations: Record<Locale, Translation> = {
       linkAbout: "About",
       linkUniversities: "Universities",
       linkCourses: "Courses"
+    },
+    programSearch: {
+      searchTitle: "Search Programs",
+      degreeType: "Degree Type",
+      accessType: "Access Type",
+      courseLanguage: "Course Language",
+      academicArea: "Academic Area",
+      searchPlaceholder: "Search within results...",
+      noResults: "No programs found",
+      loadingMessage: "Loading programs..."
     }
 
   },
@@ -165,10 +174,9 @@ export const translations: Record<Locale, Translation> = {
         "Supporto completo dall'application alla laurea"
       ],
       connectWith: "Connettiti Con Me:",
-      imageAlt: {
-        graduation: "Laurea del Fondatore",
-        diploma: "Diploma del Fondatore"
-      }
+      imageAltGraduation: "Laurea del Fondatore",
+      imageAltDiploma: "Diploma del Fondatore"
+
     },
     about: {
       pageTitle: "Chi è danteMa Servizi Educativi",
@@ -204,6 +212,16 @@ export const translations: Record<Locale, Translation> = {
       linkUniversities: "Università",
       linkCourses: "corsi"
 
+    },
+    programSearch: {
+      searchTitle: "Cerca Programmi",
+      degreeType: "Tipo di Laurea",
+      accessType: "Tipo di Accesso",
+      courseLanguage: "Lingua del Corso",
+      academicArea: "Area Accademica",
+      searchPlaceholder: "Cerca nei risultati...",
+      noResults: "Nessun programma trovato",
+      loadingMessage: "Caricamento programmi..."
     }
   },
   ar: {
@@ -269,10 +287,9 @@ export const translations: Record<Locale, Translation> = {
         "دعم شامل من التقديم حتى التخرج"
       ],
       connectWith: "تواصل معي:",
-      imageAlt: {
-        graduation: "تخرج المؤسس",
-        diploma: "شهادة المؤسس"
-      }
+      imageAltGraduation: "تخرج المؤسس",
+      imageAltDiploma: "شهادة المؤسس"
+
     }
     ,
     about: {
@@ -311,6 +328,16 @@ export const translations: Record<Locale, Translation> = {
 
 
 
+    },
+    programSearch: {
+      searchTitle: "البحث عن البرامج",
+      degreeType: "نوع الدرجة",
+      accessType: "نوع الوصول",
+      courseLanguage: "لغة الدورة",
+      academicArea: "المجال الأكاديمي",
+      searchPlaceholder: "البحث في النتائج...",
+      noResults: "لم يتم العثور على برامج",
+      loadingMessage: "جاري تحميل البرامج..."
     }
   }
 }

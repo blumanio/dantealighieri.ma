@@ -2,10 +2,7 @@
 
 export type Locale = 'en' | 'it' | 'ar';
 
-export interface ImageAlt {
-  graduation: string;
-  diploma: string;
-}
+
 
 export interface FeatureTranslation {
   title: string;
@@ -68,7 +65,8 @@ export interface FounderTranslation {
   experienceDesc: string;
   stats: string[];
   connectWith: string;
-  imageAlt: ImageAlt;
+  imageAltGraduation: string
+  imageAltDiploma: string
 }
 export interface AboutTranslation {
   pageTitle: string;
@@ -104,6 +102,16 @@ export interface FooterTranslation {
   linkUniversities: string;
   linkCourses: string;
 }
+export interface programSearchTranslation {
+  searchTitle: string;
+  degreeType: string;
+  accessType: string;
+  courseLanguage: string;
+  academicArea: string;
+  searchPlaceholder: string;
+  noResults: string;
+  loadingMessage: string;
+}
 
 export interface Translation {
   common: CommonTranslation;
@@ -114,6 +122,7 @@ export interface Translation {
   founder: FounderTranslation;
   about: AboutTranslation;
   footer: FooterTranslation;
+  programSearch: programSearchTranslation;
 
 }
 
