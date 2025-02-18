@@ -36,7 +36,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
             setInternalLanguage(urlLang);
             document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr';
         }
-    }, [pathname]);
+    }, [pathname, language]); // Added language to dependency array
 
     const setLanguage = (newLanguage: Locale) => {
         console.log('Setting language:', newLanguage);
@@ -50,18 +50,18 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     ): Translation[T][K] => {
         if (!translations[language]) {
             console.warn(`Missing translations for language: ${language}`);
-            return translations.en[section]?.[key] ?? (key as any);
+            return translations.en[section]?.[key] ?? (String(key) as any);
         }
         
         if (!translations[language][section]) {
-            console.warn(`Missing section "${section}" for language: ${language}`);
-            return translations.en[section]?.[key] ?? (key as any);
+            console.warn(`Missing section "${String(section)}" for language: ${language}`);
+            return translations.en[section]?.[key] ?? (String(key) as any);
         }
         
         const translation = translations[language][section]?.[key];
         if (!translation) {
-            console.warn(`Missing translation for key "${key}" in section "${section}" for language: ${language}`);
-            return translations.en[section]?.[key] ?? (key as any);
+            console.warn(`Missing translation for key "${String(key)}" in section "${String(section)}" for language: ${language}`);
+            return translations.en[section]?.[key] ?? (String(key) as any);
         }
         
         return translation;
