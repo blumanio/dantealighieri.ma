@@ -323,7 +323,7 @@ export const translations: Record<Locale, Translation> = {
       copyright: "صنع بالكثير من ☕️ و ❤️ في ميلانو 🇮🇹",
       linkAbout: "عن الشركة",
       linkUniversities: "الجامعات",
-      linkCourses: "الدورات"
+      linkCourses: "التخصصات"
 
 
 
