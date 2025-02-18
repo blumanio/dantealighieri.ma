@@ -1,14 +1,17 @@
-// LanguageContext.tsx
 'use client';
+
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { translations } from '../../../client/app/i18n/translations';
-import { Locale } from '../../../client/app/i18n/types';
+import { Locale, Translation, TranslationKey } from '../../../client/app/i18n/types';
 
 interface LanguageContextType {
     language: Locale;
     setLanguage: (language: Locale) => void;
-    t: (section: string, key: string) => string;
+    t: <T extends keyof Translation, K extends keyof Translation[T]>(
+        section: T,
+        key: K
+    ) => Translation[T][K];
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -41,27 +44,30 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
         document.documentElement.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
     };
 
-    const t = (section: string, key: string): string => {
+    const t = <T extends keyof Translation, K extends keyof Translation[T]>(
+        section: T,
+        key: K
+    ): Translation[T][K] => {
         if (!translations[language]) {
             console.warn(`Missing translations for language: ${language}`);
-            return translations.en[section]?.[key] || key;
+            return translations.en[section]?.[key] ?? (key as any);
         }
         
         if (!translations[language][section]) {
             console.warn(`Missing section "${section}" for language: ${language}`);
-            return translations.en[section]?.[key] || key;
+            return translations.en[section]?.[key] ?? (key as any);
         }
         
         const translation = translations[language][section]?.[key];
         if (!translation) {
             console.warn(`Missing translation for key "${key}" in section "${section}" for language: ${language}`);
-            return translations.en[section]?.[key] || key;
+            return translations.en[section]?.[key] ?? (key as any);
         }
         
         return translation;
     };
 
-    const value = {
+    const value: LanguageContextType = {
         language,
         setLanguage,
         t
