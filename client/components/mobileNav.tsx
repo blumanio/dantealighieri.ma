@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Menu, X, GraduationCap, School, CalendarCheck, FileCheck, Globe2, Info, PenIcon, University } from 'lucide-react'
-import Image from 'next/image'
+import { Menu, X, GraduationCap, School, Globe, Info, PenIcon, University } from 'lucide-react'
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import { useLanguage } from '../app/[lang]/LanguageContext'
+import { usePathname } from 'next/navigation'
 
 interface MobileNavProps {
   menuItems: {
@@ -14,25 +14,21 @@ interface MobileNavProps {
   };
 }
 
-
 const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const { language, setLanguage } = useLanguage()
+  const pathname = usePathname()
 
   const menu = [
-    { name: 'universities', href: `/${language}/universities`, icon: School },
-    { name: 'programs', href: `/${language}/program-search`, icon: GraduationCap },
+    { name: 'universities', href: `/universities`, icon: School },
+    { name: 'programs', href: `/program-search`, icon: GraduationCap },
     { name: 'IMAT', href: '/imat', icon: University },
     { name: 'TOLC', href: '/tolc', icon: University },
-
     { name: 'blog', href: '/blog', icon: PenIcon },
     { name: 'about', href: '/about', icon: Info },
-    // { name: 'apply', href: '/', icon: CalendarCheck },
-    // { name: 'requirements', href: '/', icon: FileCheck },
-    // { name: 'services', href: '/', icon: Globe2 },
-
   ]
+
   const languageNames = {
     en: { ar: 'Arabic', en: 'English', it: 'Italian' },
     ar: { ar: 'عربي', en: 'الانجليزية', it: 'الايطالية' },
@@ -48,11 +44,25 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
     return () => window.removeEventListener('resize', checkIsMobile)
   }, [])
 
-  const toggleMenu = () => setIsOpen(!isOpen)
-
   const handleLanguageChange = (selectedLanguage: 'en' | 'ar' | 'it') => {
-    setLanguage(selectedLanguage)
+    if (selectedLanguage === language) {
+      return
+    }
+
+    // Update direction
     document.documentElement.dir = selectedLanguage === 'ar' ? 'rtl' : 'ltr'
+
+    // Update language state
+    setLanguage(selectedLanguage)
+
+    // Construct new path
+    const newPath = `/${selectedLanguage}${pathname.replace(/^\/[a-z]{2}/, '')}`
+    
+    // Close sheet
+    setIsOpen(false)
+
+    // Navigate to new path
+    window.location.href = newPath
   }
 
   if (!isMobile) return null
@@ -62,7 +72,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <button
-            onClick={toggleMenu}
+            onClick={() => setIsOpen(!isOpen)}
             className="m-4 rounded-full bg-teal-700 p-2 shadow-lg transition-all hover:bg-teal-600 active:scale-95"
           >
             {isOpen ? (
@@ -74,7 +84,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
         </SheetTrigger>
         <SheetContent side="right" className="w-[300px] bg-white p-0 sm:w-[400px]">
           <div className="flex flex-col h-full">
-            <div className="flex flex-col items-center justify-center bg-teal-600 p-6 text-white">
+            <div className="flex flex-col items-center justify-center gap-4 bg-teal-600 p-6 text-white">
               <SignedOut>
                 <SignInButton>
                   <button className="rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-700">
@@ -105,23 +115,31 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
               })}
             </nav>
 
-            {/* <div className="p-6">
-              <h3 className="mb-4 text-lg font-semibold text-teal-700">Select Language</h3>
-              <div className="flex flex-col">
-                {Object.entries(languageNames[language]).map(([code, name]) => (
-                  <button
-                    key={code}
-                    onClick={() => handleLanguageChange(code as 'en' | 'ar' | 'it')}
-                    className={`px-4 py-2 border text-sm font-medium transition-colors ${language === code
-                      ? 'bg-white text-teal-700 border-teal-700'
-                      : 'bg-teal-700 text-white border-white'
-                      }`}
-                  >
-                    {name}
-                  </button>
-                ))}
+            <div className="border-t p-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-teal-700">
+                  <Globe className="h-5 w-5" />
+                  <span className="text-sm font-medium">
+                    {languageNames[language][language]}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  {Object.entries(languageNames[language]).map(([code, name]) => (
+                    <button
+                      key={code}
+                      onClick={() => handleLanguageChange(code as 'en' | 'ar' | 'it')}
+                      className={`w-full rounded-lg px-4 py-2 text-sm font-medium transition-colors
+                        ${language === code
+                          ? 'bg-teal-50 text-teal-700 ring-1 ring-teal-700'
+                          : 'bg-white text-teal-700 ring-1 ring-gray-200 hover:ring-teal-700'
+                        }`}
+                    >
+                      {name}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </SheetContent>
       </Sheet>

@@ -1,25 +1,29 @@
 'use client';
-
 import React from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { useLanguage } from '../app/[lang]/LanguageContext';
 import AnimatedLogos from './AnimatedLogos';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { translations } from '../../client/app/i18n/translations';
+import { Locale } from '../../client/app/i18n/types';
 
 const HeroSection: React.FC = () => {
   const router = useRouter();
   const params = useParams();
-  const { language = 'en', t } = useLanguage();
+  const { language = 'en' } = useLanguage();
   const isRTL = language === 'ar';
+
+  // Ensure we have valid translations and provide a fallback
+  const currentTranslations = translations[language as Locale] || translations.en;
 
   const handleExplore = () => {
     router.push(`/${language}/program-search`);
   };
 
   return (
-    <section
+<section
+      key={language} // This forces full re-render on language change
       className="relative min-h-screen bg-gradient-to-b from-teal-600/80 to-teal-700/80 overflow-hidden"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
@@ -42,37 +46,44 @@ const HeroSection: React.FC = () => {
             {/* Text Content */}
             <div className="flex-1 text-center lg:text-left">
               <motion.h1 
+                key={`title-${language}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
               >
-                Start Your Italian Dream Education
+                {currentTranslations.hero.title}
               </motion.h1>
               <motion.p 
+                key={`subtitle-${language}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-lg text-teal-50 mb-6"
               >
-                Get expert guidance, step-by-step resources, and premium services to make your 
-                study journey to Italy simple, clear, and successful.
+                {currentTranslations.hero.subtitle}
               </motion.p>
               <motion.button
+                key={`button-${language}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 onClick={handleExplore}
-                className="inline-flex items-center px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full transition-colors shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300 gap-3"
-                aria-label="Explore all Italian programs"
+                className={`inline-flex items-center px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-full 
+                  transition-colors shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-teal-300 gap-3
+                  ${isRTL ? 'flex-row-reverse' : ''}`}
+                aria-label={currentTranslations.common.search}
               >
                 <Search className="w-5 h-5" aria-hidden="true" />
-                <span className="text-base font-medium">Explore All Italian Programs</span>
+                <span className="text-base font-medium">
+                  {currentTranslations.hero.ctaButton}
+                </span>
               </motion.button>
             </div>
 
             {/* Graduation Image */}
             <motion.div 
+              key={`image-${language}`}
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}

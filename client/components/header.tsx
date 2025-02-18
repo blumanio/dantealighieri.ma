@@ -1,12 +1,12 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
-import MobileNav from './mobileNav'
-import { DanteAlighieriLogo } from './SocialIcons'
-import LanguageSwitcher from './LanguageSwitcher'
-import { useLanguage } from '../app/[lang]/LanguageContext'
+'use client';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import MobileNav from './mobileNav';
+import { DanteAlighieriLogo } from './SocialIcons';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '../app/[lang]/LanguageContext';
 
 type Language = 'en' | 'ar' | 'it';
 
@@ -23,7 +23,6 @@ const menuItems: MenuItems = {
     blog: 'Blog',
     imat: 'IMAT',
     tolc: 'TOLC',
-
     about: 'About',
     universities: 'Universities deadline',
     apply: 'Apply',
@@ -36,7 +35,7 @@ const menuItems: MenuItems = {
     imat: 'IMAT',
     tolc: 'TOLC',
     blog: 'مدونة',
-    about: 'حول',
+    about: 'من نحن',
     universities: 'مواعيد الجامعات',
     apply: 'تقديم',
     soon: 'قريباً',
@@ -59,29 +58,39 @@ const menuItems: MenuItems = {
 } as const;
 
 const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const { language = 'en' } = useLanguage()
-  const isRTL = language === 'ar'
-  const currentMenu = menuItems[language as Language] || menuItems.en
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { language, setLanguage } = useLanguage();
+  const pathname = usePathname();
+
+  // Sync language with URL on mount and pathname change
+  useEffect(() => {
+    const urlLang = pathname.split('/')[1] as Language;
+    if (urlLang && ['en', 'ar', 'it'].includes(urlLang) && urlLang !== language) {
+      setLanguage(urlLang);
+      document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr';
+    }
+  }, [pathname, language, setLanguage]);
+
+  const isRTL = language === 'ar';
+  const currentMenu = menuItems[language as Language] || menuItems.en;
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navigationLinks = [
     { href: `/${language}/universities`, text: currentMenu.universities },
     { href: `/${language}/program-search`, text: currentMenu.programs },
-
-    { href: '/imat', text: currentMenu.imat },
-    { href: '/tolc', text: currentMenu.tolc },
-    { href: '/blog', text: currentMenu.blog },
-    { href: '/about', text: currentMenu.about },
-  ]
+    { href: `/${language}/imat`, text: currentMenu.imat },
+    { href: `/${language}/tolc`, text: currentMenu.tolc },
+    { href: `/${language}/blog`, text: currentMenu.blog },
+    { href: `/${language}/about`, text: currentMenu.about },
+  ];
 
   return (
     <header
@@ -95,7 +104,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4">
         <nav className="flex w-full items-center justify-between h-24" role="navigation" aria-label="Main navigation">
           <div className={`flex w-full items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <Link href="/" className="flex items-center space-x-2" aria-label="Home">
+            <Link href={`/${language}`} className="flex items-center space-x-2" aria-label="Home">
               <DanteAlighieriLogo className="h-24 w-auto text-white" aria-hidden="true" />
             </Link>
 
@@ -110,8 +119,7 @@ const Header: React.FC = () => {
                   {text}
                 </Link>
               ))}
-
-              {/* Auth Buttons with Poppins */}
+              <LanguageSwitcher />
               <div className="text-white font-poppins">
                 <SignedOut>
                   <SignInButton mode="modal">
@@ -142,7 +150,7 @@ const Header: React.FC = () => {
         </nav>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

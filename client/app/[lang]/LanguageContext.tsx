@@ -1,95 +1,74 @@
+// LanguageContext.tsx
 'use client';
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
-
-type Language = 'en' | 'ar' | 'it';
-
-interface Translations {
-    [key: string]: { [key: string]: string };
-}
+import { usePathname } from 'next/navigation';
+import { translations } from '../../../client/app/i18n/translations';
+import { Locale } from '../../../client/app/i18n/types';
 
 interface LanguageContextType {
-    language: Language;
-    setLanguage: (language: Language) => void;
-    t: (key: string) => string;
+    language: Locale;
+    setLanguage: (language: Locale) => void;
+    t: (section: string, key: string) => string;
 }
-
-const translations: Translations = {
-    en: {
-        searchTitle: 'Search Programs',
-        academicArea: 'Academic Area',
-        // Add all your English translations here
-    },
-    ar: {
-        searchTitle: 'ابحث عن البرامج',
-        academicArea: 'المجال الأكاديمي',
-        // Add all your Arabic translations here
-    },
-    it: {
-        searchTitle: 'Cerca programmi',
-        academicArea: 'Area accademica',
-        // Add all your Italian translations here
-    },
-};
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 interface LanguageProviderProps {
     children: ReactNode;
-    initialLang?: Language;
+    initialLang?: Locale;
 }
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     children,
     initialLang = 'en'
 }) => {
-    const [language, setLanguage] = useState<Language>(initialLang);
-    const searchParams = useSearchParams();
+    const [language, setInternalLanguage] = useState<Locale>(initialLang);
+    const pathname = usePathname();
 
+    // Sync with URL path
     useEffect(() => {
-        const urlLang = searchParams.get('lang') as Language;
-        if (urlLang && translations[urlLang]) {
-            setLanguage(urlLang);
+        const urlLang = pathname.split('/')[1] as Locale;
+        if (urlLang && ['en', 'ar', 'it'].includes(urlLang) && urlLang !== language) {
+            console.log('Setting language from URL:', urlLang);
+            setInternalLanguage(urlLang);
             document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr';
         }
-    }, [searchParams]);
+    }, [pathname]);
 
-    // Add missing translations
-    const translations: Translations = {
-        en: {
-            searchTitle: 'Search Programs',
-            academicArea: 'Academic Area',
-            searchWithinResults: 'Search within results...',
-            loadingMessage: 'Loading...',
-            noResults: 'No results found',
-            selectLanguage:'Select Language',
-            selectDegreeType:'Select Degree',
-            programSearch:'Program Search',
-            explorePrograms:'DanteMa your All-in-One study in Italy platform, programs, scholarships,TOLC, IMAT and more',
-            findYourPerfectProgram:'Find your perfect program',
-        },
-        ar: {
-            searchTitle: 'ابحث عن البرامج',
-            academicArea: 'المجال الأكاديمي',
-            searchWithinResults: 'البحث في النتائج...',
-            loadingMessage: 'جار التحميل...',
-            noResults: 'لم يتم العثور على نتائج'
-        },
-        it: {
-            searchTitle: 'Cerca programmi',
-            academicArea: 'Area accademica',
-            searchWithinResults: 'Cerca nei risultati...',
-            loadingMessage: 'Caricamento...',
-            noResults: 'Nessun risultato trovato'
-        }
+    const setLanguage = (newLanguage: Locale) => {
+        console.log('Setting language:', newLanguage);
+        setInternalLanguage(newLanguage);
+        document.documentElement.dir = newLanguage === 'ar' ? 'rtl' : 'ltr';
     };
 
-    const t = (key: string): string => {
-        return translations[language]?.[key] || key;
+    const t = (section: string, key: string): string => {
+        if (!translations[language]) {
+            console.warn(`Missing translations for language: ${language}`);
+            return translations.en[section]?.[key] || key;
+        }
+        
+        if (!translations[language][section]) {
+            console.warn(`Missing section "${section}" for language: ${language}`);
+            return translations.en[section]?.[key] || key;
+        }
+        
+        const translation = translations[language][section]?.[key];
+        if (!translation) {
+            console.warn(`Missing translation for key "${key}" in section "${section}" for language: ${language}`);
+            return translations.en[section]?.[key] || key;
+        }
+        
+        return translation;
+    };
+
+    const value = {
+        language,
+        setLanguage,
+        t
     };
 
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t }}>
+        <LanguageContext.Provider value={value}>
             {children}
         </LanguageContext.Provider>
     );
