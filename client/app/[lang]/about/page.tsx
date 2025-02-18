@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FaGraduationCap, FaHandshake, FaGlobe, FaUsers } from 'react-icons/fa';
 import { useLanguage } from '../LanguageContext';
+import { AboutTranslation } from '@/app/i18n/types';
 
 interface FeatureItem {
   icon: React.ReactNode;
@@ -78,10 +79,10 @@ const AboutPage: React.FC = () => {
                   {item.icon}
                 </div>
                 <h4 className='mt-4 text-lg font-medium text-gray-900'>
-                  {t('about', `featureTitle${item.index}`)}
+                  {t('about', `featureTitle${item.index}` as keyof AboutTranslation)}
                 </h4>
                 <p className='mt-2 text-base text-gray-500'>
-                  {t('about', `featureDescription${item.index}`)}
+                  {t('about', `featureDescription${item.index}` as keyof AboutTranslation)}
                 </p>
               </div>
             ))}

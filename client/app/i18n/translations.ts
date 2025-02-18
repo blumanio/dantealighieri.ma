@@ -102,8 +102,8 @@ export const translations: Record<Locale, Translation> = {
       linkUniversities: "Universities",
       linkCourses: "Courses"
     }
-  
-},
+
+  },
   it: {
     common: {
       search: "Cerca",
