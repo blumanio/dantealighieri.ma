@@ -108,7 +108,7 @@ export const translations: Record<Locale, Translation> = {
       loadingMessage: "Loading programs..."
     },
     universities: {
-      pageTitle: "Italian Universities Courses 2025/2026",
+      pageTitle: "Italian Universities Deadlines 2025/2026",
       found: "Found",
       university: "university",
 
@@ -259,7 +259,7 @@ export const translations: Record<Locale, Translation> = {
       loadingMessage: "Caricamento programmi..."
     },
     universities: {
-      pageTitle: "Corsi Universitari Italiani 2025/2026",
+      pageTitle: "Scadenza Università Italiane 2025/2026",
       found: "Trovate",
       university: "università",
 
@@ -411,7 +411,7 @@ export const translations: Record<Locale, Translation> = {
       loadingMessage: "جاري تحميل البرامج..."
     },
     universities: {
-      pageTitle: "البرامج الجامعية الإيطالية 2025/2026",
+      pageTitle: " التسجيل بالجامعات الايطالية لسنة 2025/2026",
       found: "تم العثور على",
       university: "جامعة",
 

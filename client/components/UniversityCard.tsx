@@ -182,7 +182,7 @@ const UniversityCard = ({ university, isSignedIn, isExpanded, onToggle, t }: Uni
                         <div className="bg-white rounded-lg p-4 shadow-sm">
                             <div className={`flex items-center gap-2 text-gray-600 text-sm mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                                 <GraduationCap className="h-4 w-4" />
-                                <span>{t('universities', 'requirements')}</span>
+                                <span>{t('universities', 'requirements')}</span> <span>GCPA</span>
                             </div>
                             <p className={`font-medium ${isRTL ? 'text-right' : ''}`}>
                                 {university.cgpa_requirement}
@@ -190,7 +190,7 @@ const UniversityCard = ({ university, isSignedIn, isExpanded, onToggle, t }: Uni
                         </div>
 
                         {/* Apply Button */}
-                        {university.application_link && (
+                        {/* {university.application_link && (
                             <a
                                 href={university.application_link}
                                 target="_blank"
@@ -199,13 +199,68 @@ const UniversityCard = ({ university, isSignedIn, isExpanded, onToggle, t }: Uni
                            bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg
                            transition-colors duration-200"
                             >
-                                {/* {t('universities', 'apply')} */}
+                                {t('universities', 'apply')}
                                 <ExternalLink className="h-4 w-4" />
                             </a>
-                        )}
+                        )} */}
                     </div>
+                    {/* Intakes Section */}
+                    {university.intakes && university.intakes.length > 0 && (
+                        <div className="space-y-4">
+                            <h4 className="font-medium text-gray-900">
+                                {t('universities', 'availableIntakes')}
+                            </h4>
+                            <div className="space-y-3">
+                                {university.intakes.map((intake, index) => (
+                                    <div
+                                        key={index}
+                                        className="bg-white rounded-lg p-4 shadow-sm"
+                                    >
+                                        <h5 className="font-medium text-gray-900 mb-3">
+                                            {intake.name}
+                                        </h5>
+                                        <div className="space-y-2">
+                                            {intake.start_date && (
+                                                <div className="flex items-center justify-between text-sm">
+                                                    <span className="text-gray-600">{t('universities', 'start')}:</span>
+                                                    <span className="font-medium">{intake.start_date}</span>
+                                                </div>
+                                            )}
+                                            {intake.end_date && (
+                                                <div className="flex items-center justify-between text-sm">
+                                                    <span className="text-gray-600">{t('universities', 'end')}:</span>
+                                                    <span className="font-medium">{intake.end_date}</span>
+                                                </div>
+                                            )}
+                                            {intake.notes && (
+                                                <div className="mt-3 text-sm text-teal-600 bg-teal-50 rounded-md p-2">
+                                                    {intake.notes}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                    {/* Action Button */}
+                    {university.application_link && (
+                        <a
+                            href={university.application_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-6 inline-flex w-full justify-center items-center gap-2 px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium"
+                        >
+                            {t('universities', 'apply')}
+                            <ExternalLink className="h-4 w-4" />
+                        </a>
+                    )}
                 </div>
+
             )}
+
+
+
         </div>
     )
 }

@@ -1172,7 +1172,7 @@ export const italianUniversities = [
     "location": "Milan, Italy",
     "admission_fee": 150,
     "english_requirement": "IELTS 6.0 or TOEFL iBT 78 or ENGLISH TOLC-I with a minimum score of 68/90",
-    "deadline": "27 February 2025",
+    "deadline": "27 February",
     "status": "Open",
     "cgpa_requirement": "Minimum 2.8/4.0",
     "housing_available": true,
@@ -1181,24 +1181,24 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Early Bird (all study areas)",
-        "start_date": "1 October 2024",
-        "end_date": "2 December 2024",
+        "start_date": "1 October",
+        "end_date": "2 December",
         "notes": "Early Bird call fee (all study areas) - €100"
       },
       {
         "name": "Standard fee (Architecture and Design) - €150",
-        "start_date": "3 December 2024",
-        "end_date": "30 January 2025"
+        "start_date": "3 December",
+        "end_date": "30 January"
       },
       {
         "name": "Standard fee (Engineering) - €150",
-        "start_date": "13 January 2025",
-        "end_date": "27 February 2025"
+        "start_date": "13 January",
+        "end_date": "27 February"
       },
       {
         "name": "EEA call fee (all study areas) - €150",
-        "start_date": "3 March 2025",
-        "end_date": "15 May 2025"
+        "start_date": "3 March",
+        "end_date": "15 May"
       }
     ]
   },
@@ -1218,29 +1218,29 @@ export const italianUniversities = [
       {
         "name": "graduate admission 1",
         "start_date": null,
-        "end_date": "29 April 2025",
+        "end_date": "29 April",
         "notes": "specific deadlines may vary depending on the program"
       },
       {
         "name": "graduate admission 2",
         "start_date": null,
-        "end_date": "1 July 2025"
+        "end_date": "1 July"
       },
       {
         "name": "graduate admission 3",
         "start_date": null,
-        "end_date": "1 July 2025",
+        "end_date": "1 July",
         "notes": "to open only in case of places available from intake 1 and intake 2"
       },
       {
         "name": "post graduate admission 1",
         "start_date": null,
-        "end_date": "27 February 2025"
+        "end_date": "27 February"
       },
       {
         "name": "post graduate admission 2",
         "start_date": null,
-        "end_date": "23 April 2025",
+        "end_date": "23 April",
         "notes": "specific deadlines may vary depending on the program"
       }
     ]
@@ -1251,17 +1251,17 @@ export const italianUniversities = [
     "location": "Padua, Italy",
     "admission_fee": 30,
     "english_requirement": "IELTS 6.5 or equivalent",
-    "deadline": "7 January 2025",
+    "deadline": "7 January",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
     "scholarship_available": true,
-    "application_link": "https://www.unipd.it/sites/unipd.it/files/2024/2025_Bando_Magistrali_non-UE_EN_V4_Financial.pdf",
+    "application_link": "https://www.unipd.it/sites/unipd.it/files/2025_Bando_Magistrali_non-UE_EN_V4_Financial.pdf",
     "intakes": [
       {
         "name": "first Intake",
-        "start_date": "7 January 2025",
-        "end_date": "7 March 2025",
+        "start_date": "7 January",
+        "end_date": "7 March",
         "notes": "The application must be submitted by accessing the personal area of the https://apply.unipd.it/ portal"
       }
     ]
@@ -1272,7 +1272,7 @@ export const italianUniversities = [
     "location": "Milan, Italy",
     "admission_fee": 30,
     "english_requirement": "IELTS 6.0 or equivalent",
-    "deadline": "31 March 2025",
+    "deadline": "31 March",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
@@ -1281,9 +1281,9 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "first Intake",
-        "start_date": "22 January 2025",
-        "end_date": "30 April 2025",
-        "notes": "The application deadline for non-EU students VISA applicants is 30 April 2025. ~ The new academic offer will be published on 3rd March 2025."
+        "start_date": "22 January",
+        "end_date": "30 April",
+        "notes": "The application deadline for non-EU students VISA applicants is 30 April. ~ The new academic offer will be published on 3rd March."
       }
     ]
   },
@@ -1293,7 +1293,7 @@ export const italianUniversities = [
     "location": "Pisa, Italy",
     "admission_fee": 30,
     "english_requirement": "IELTS 5.5 or equivalent",
-    "deadline": "30 November 2024",
+    "deadline": "30 November",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
@@ -1314,7 +1314,7 @@ export const italianUniversities = [
     "location": "Naples, Italy",
     "admission_fee": 40,
     "english_requirement": "IELTS 6.0 or equivalent",
-    "deadline": "30 November 2024",
+    "deadline": "30 November",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
@@ -1323,8 +1323,8 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": " ",
-        "start_date": "1 February 2025",
-        "end_date": "31 July 2025",
+        "start_date": "1 February",
+        "end_date": "31 July",
         "notes": null
       }
     ]
@@ -1335,7 +1335,7 @@ export const italianUniversities = [
     "location": "Milan, Italy",
     "admission_fee": 30,
     "english_requirement": "IELTS 6.0 or equivalent",
-    "deadline": "10 February 2025",
+    "deadline": "10 February",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
@@ -1344,14 +1344,14 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Fall Intake",
-        "start_date": "1 September 2024",
-        "end_date": "31 January 2025",
+        "start_date": "1 September",
+        "end_date": "31 January",
         "notes": null
       },
       {
         "name": "Spring Intake",
-        "start_date": "1 February 2025",
-        "end_date": "31 July 2025",
+        "start_date": "1 February",
+        "end_date": "31 July",
         "notes": null
       }
     ]
@@ -1362,7 +1362,7 @@ export const italianUniversities = [
     "location": "Rome, Italy",
     "admission_fee": 35,
     "english_requirement": "B2 level with one of: IELTS 5.5+, TOEFL iBT 80+, Cambridge B2 First+, Trinity ISE II+",
-    "deadline": "29 April 2025",
+    "deadline": "29 April",
     "status": "Open",
     "cgpa_requirement": "Varies by program (70-90/100)",
     "housing_available": true,
@@ -1371,14 +1371,14 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Non-EU Application Period (Visa Required)",
-        "start_date": "28 January 2025",
-        "end_date": "29 April 2025",
+        "start_date": "28 January",
+        "end_date": "29 April",
         "notes": "For international students requiring visa"
       },
       {
         "name": "EU/Equivalent Application Period",
-        "start_date": "28 January 2025",
-        "end_date": "29 July 2025",
+        "start_date": "28 January",
+        "end_date": "29 July",
         "notes": "For EU and equivalent students"
       }
     ]
@@ -1389,7 +1389,7 @@ export const italianUniversities = [
     "location": "Genoa, Italy",
     "admission_fee": 50,
     "english_requirement": "IELTS 5.5 or equivalent",
-    "deadline": "14 March 2025",
+    "deadline": "14 March",
     "status": "Open",
     "cgpa_requirement": "not required",
     "housing_available": true,
@@ -1398,9 +1398,9 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Fall Intake",
-        "start_date": "18 November 2024",
-        "end_date": "14 March 2025",
-        "notes": "Presentazione candidature su UNIGEAPPLY per corsi di laurea magistrale in lingua INGLESE per l'A.A. 2025/2026 (pre-valutazione obbligatoria)"
+        "start_date": "18 November",
+        "end_date": "14 March",
+        "notes": "Presentazione candidature su UNIGEAPPLY per corsi di laurea magistrale in lingua INGLESE per l'A.A./2026 (pre-valutazione obbligatoria)"
       }
     ]
   },
@@ -1410,7 +1410,7 @@ export const italianUniversities = [
     "location": "Florence, Italy",
     "admission_fee": 50,
     "english_requirement": "IELTS 5.5 or equivalent",
-    "deadline": "29 August 2025",
+    "deadline": "29 August",
     "status": "Open",
     "cgpa_requirement": "Not required",
     "housing_available": true,
@@ -1419,20 +1419,20 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "First Intake",
-        "start_date": "2 December 2024",
-        "end_date": "21 February 2025",
-        "notes": "Outcomes will be notified by the admission boards approximately by March 14, 2025 (this is an estimated time, which may vary depending on the number of applications received)."
+        "start_date": "2 December",
+        "end_date": "21 February",
+        "notes": "Outcomes will be notified by the admission boards approximately by March 14, (this is an estimated time, which may vary depending on the number of applications received)."
       },
       {
         "name": "Second Intake",
-        "start_date": "17 March 2025",
-        "end_date": "16 May 2025",
-        "notes": "Outcomes will be notified by the admission boards approximately by June 20, 2025 (this is an estimated time, which may vary depending on the number of applications received)."
+        "start_date": "17 March",
+        "end_date": "16 May",
+        "notes": "Outcomes will be notified by the admission boards approximately by June 20, (this is an estimated time, which may vary depending on the number of applications received)."
       },
       {
         "name": "Third Intake (EU and specific non-EU)",
-        "start_date": "7 July 2025",
-        "end_date": "29 August 2025",
+        "start_date": "7 July",
+        "end_date": "29 August",
         "notes": "Non-EU citizens already living in Italy with a long-term residence permit or with a valid residence permit for: Work Family reunification, Religious reasons, Asylum"
       }
     ]
@@ -1443,7 +1443,7 @@ export const italianUniversities = [
     "location": "Turin, Italy",
     "admission_fee": 50,
     "english_requirement": null,
-    "deadline": "9 May 2025",
+    "deadline": "9 May",
     "status": "Open",
     "cgpa_requirement": null,
     "housing_available": true,
@@ -1452,32 +1452,32 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "First Session (EU and Non-EU)",
-        "start_date": "28 January 2025",
-        "end_date": "4 March 2025",
+        "start_date": "28 January",
+        "end_date": "4 March",
         "notes": "For both EU and non-EU applicants requiring visa"
       },
       {
         "name": "Second Session (EU and Non-EU)",
-        "start_date": "28 January 2025",
-        "end_date": "3 April 2025",
+        "start_date": "28 January",
+        "end_date": "3 April",
         "notes": "For both EU and non-EU applicants requiring visa"
       },
       {
         "name": "Third Session (EU and Non-EU)",
-        "start_date": "28 January 2025",
-        "end_date": "30 April 2025",
+        "start_date": "28 January",
+        "end_date": "30 April",
         "notes": "For both EU and non-EU applicants requiring visa"
       },
       {
         "name": "Fourth Session (EU only)",
-        "start_date": "29 April 2025",
-        "end_date": "9 July 2025",
+        "start_date": "29 April",
+        "end_date": "9 July",
         "notes": "Exclusively for EU and Equivalent applicants"
       },
       {
         "name": "Fifth Session (EU only)",
-        "start_date": "29 April 2025",
-        "end_date": "22 August 2025",
+        "start_date": "29 April",
+        "end_date": "22 August",
         "notes": "Exclusively for EU and Equivalent applicants"
       }
     ]
@@ -1488,7 +1488,7 @@ export const italianUniversities = [
     "location": "Macerata, Italy",
     "admission_fee": 0,
     "english_requirement": "English Proficiency",
-    "deadline": "31 March 2025",
+    "deadline": "31 March",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
@@ -1497,8 +1497,8 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "First Session (EU and Non-EU)",
-        "start_date": "7 October 2024",
-        "end_date": "31 March 2025",
+        "start_date": "7 October",
+        "end_date": "31 March",
         "notes": "Consult our application guidelines here. > https://apply.unimc.it/en_GB/news/new/26-complete-your-online-application-unimc"
       }
     ]
@@ -1509,17 +1509,17 @@ export const italianUniversities = [
     "location": "Camerino, Italy",
     "admission_fee": 20,
     "english_requirement": "English Proficiency",
-    "deadline": "30 March 2025",
+    "deadline": "30 March",
     "status": "Open",
     "cgpa_requirement": "MINIMUM CGPA 3 FOR PAKISTAN",
     "housing_available": null,
     "scholarship_available": null,
-    "application_link": "https://international.unicam.it/admissions/pre-admissions-2025-2026",
+    "application_link": "https://international.unicam.it/admissions/pre-admissions-2026",
     "intakes": [
       {
         "name": "First Session (EU and Non-EU)",
-        "start_date": "20 November 2024",
-        "end_date": "31 March 2025",
+        "start_date": "20 November",
+        "end_date": "31 March",
         "notes": null
       }
     ]
@@ -1530,7 +1530,7 @@ export const italianUniversities = [
     "location": "L'Aquila, Italy",
     "admission_fee": 0,
     "english_requirement": "English Proficiency",
-    "deadline": "5 March 2025",
+    "deadline": "5 March",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": "yes",
@@ -1540,7 +1540,7 @@ export const italianUniversities = [
       {
         "name": "First Session (EU and Non-EU)",
         "start_date": null,
-        "end_date": "5 March 2025",
+        "end_date": "5 March",
         "notes": null
       }
     ]
@@ -1551,7 +1551,7 @@ export const italianUniversities = [
     "location": "Ancona, Italy",
     "admission_fee": 10,
     "english_requirement": "B2 level (e.g., IELTS 5.5, TOEFL iBT 69)",
-    "deadline": "1 July 2025",
+    "deadline": "1 July",
     "status": "Close",
     "cgpa_requirement": "Varies by program",
     "housing_available": true,
@@ -1560,26 +1560,26 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "1st Call",
-        "start_date": "16 December 2024",
-        "end_date": "31 January 2025",
+        "start_date": "16 December",
+        "end_date": "31 January",
         "notes": "All international students. International students may submit a maximum of two applications for different courses."
       },
       {
         "name": "2st Call",
-        "start_date": "1 March 2025",
-        "end_date": "30 April 2025",
+        "start_date": "1 March",
+        "end_date": "30 April",
         "notes": "All international students"
       },
       {
         "name": "3st Call",
-        "start_date": "1 June 2025",
-        "end_date": "1 July 2025",
+        "start_date": "1 June",
+        "end_date": "1 July",
         "notes": "All international students"
       },
       {
         "name": "4st Call",
-        "start_date": "1 August 2025",
-        "end_date": "15 September 2025",
+        "start_date": "1 August",
+        "end_date": "15 September",
         "notes": "EU and EU equivalent"
       }
     ]
@@ -1590,17 +1590,17 @@ export const italianUniversities = [
     "location": "Trento, Italy",
     "admission_fee": 30,
     "english_requirement": "English Proficiency",
-    "deadline": "6 March 2025",
+    "deadline": "6 March",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": "yes",
     "scholarship_available": "yes",
-    "application_link": "https://www.unitn.it/sites/default/files/2025-01/ENG_Ceils-NonUE_2025.pdf",
+    "application_link": "https://www.unitn.it/sites/default/files-01/ENG_Ceils-NonUE_2025.pdf",
     "intakes": [
       {
         "name": "first session",
         "start_date": null,
-        "end_date": "5 February 2025",
+        "end_date": "5 February",
         "notes": "the only session available for non-European candidates"
       }
     ]
@@ -1611,7 +1611,7 @@ export const italianUniversities = [
     "location": "Venice, Italy",
     "admission_fee": 30,
     "english_requirement": "English Proficiency",
-    "deadline": "9 January 2025",
+    "deadline": "9 January",
     "status": "Open",
     "cgpa_requirement": "MINIMUM 2.8 CGPA REQUIRED",
     "housing_available": null,
@@ -1620,26 +1620,26 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Admission round 1",
-        "start_date": "19 December 2024",
-        "end_date": "9 January 2025",
+        "start_date": "19 December",
+        "end_date": "9 January",
         "notes": "Possibility to apply for scholarships for high-achieving students: YES"
       },
       {
         "name": "Admission round 2",
-        "start_date": "28 January 2025",
-        "end_date": "20 February 2025",
+        "start_date": "28 January",
+        "end_date": "20 February",
         "notes": "Possibility to apply for scholarships for high-achieving students: YES"
       },
       {
         "name": "Admission round 3",
-        "start_date": "12 March 2025",
-        "end_date": "3 April 2025",
+        "start_date": "12 March",
+        "end_date": "3 April",
         "notes": "Possibility to apply for scholarships for high-achieving students: NO"
       },
       {
         "name": "Admission round 4",
-        "start_date": "15 April 2025",
-        "end_date": "6 May 2025",
+        "start_date": "15 April",
+        "end_date": "6 May",
         "notes": "Possibility to apply for scholarships for high-achieving students: NO"
       }
     ]
@@ -1650,7 +1650,7 @@ export const italianUniversities = [
     "location": "Siena, Italy",
     "admission_fee": 40,
     "english_requirement": "IELTS Required",
-    "deadline": "6 May 2025",
+    "deadline": "6 May",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
@@ -1660,7 +1660,7 @@ export const italianUniversities = [
       {
         "name": "Admission round 4",
         "start_date": null,
-        "end_date": "6 May 2025",
+        "end_date": "6 May",
         "notes": "The submission period for applications will begin in the coming days, with start dates varying by degree program."
       }
     ]
@@ -1680,8 +1680,8 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "First intake",
-        "start_date": "20 January 2025",
-        "end_date": "20 March 2025",
+        "start_date": "20 January",
+        "end_date": "20 March",
         "notes": null
       }
     ]
@@ -1692,7 +1692,7 @@ export const italianUniversities = [
     "location": "Trieste, Italy",
     "admission_fee": 10,
     "english_requirement": "English Proficiency",
-    "deadline": "7 February 2025",
+    "deadline": "7 February",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
@@ -1702,15 +1702,15 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "first intake",
-        "start_date": "7 January 2025",
-        "end_date": "7 February 2025",
+        "start_date": "7 January",
+        "end_date": "7 February",
         "notes": "Prospective students can apply for an assessment during 2 rounds"
       },
       {
         "name": "second intake",
-        "start_date": "1 March 2025",
-        "end_date": "31 May 2025",
-        "notes": "An application fee of €10,00 will be charged. The fee allows applying to up to 3 programmes. Students who received a positive assessment in 2024 need to apply again, but free of charge."
+        "start_date": "1 March",
+        "end_date": "31 May",
+        "notes": "An application fee of €10,00 will be charged. The fee allows applying to up to 3 programmes. Students who received a positive assessment in need to apply again, but free of charge."
       }
     ]
   },
@@ -1720,7 +1720,7 @@ export const italianUniversities = [
     "location": "Rome, Italy",
     "admission_fee": 30,
     "english_requirement": "English Proficiency",
-    "deadline": "31 May 2025",
+    "deadline": "31 May",
     "status": "Open",
     "cgpa_requirement": "DIFFERENT CGPA REQUIREMENTS",
     "housing_available": null,
@@ -1729,8 +1729,8 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Early Bird (all study areas)",
-        "start_date": "20 January 2025",
-        "end_date": "23 May 2025",
+        "start_date": "20 January",
+        "end_date": "23 May",
         "notes": "Note that procedures, deadlines and requirements may vary depending on programme/course. Students may apply for admission even if they have not yet earned/completed their Bachelor's degree."
       }
     ]
@@ -1741,7 +1741,7 @@ export const italianUniversities = [
     "location": "Messina, Italy",
     "admission_fee": 15,
     "english_requirement": "IELTS Required",
-    "deadline": "21 February 2025",
+    "deadline": "21 February",
     "status": "open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
@@ -1750,14 +1750,14 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "first call",
-        "start_date": "3 March 2025",
-        "end_date": "28 March 2025",
+        "start_date": "3 March",
+        "end_date": "28 March",
         "notes": "Applications for Bachelor's Degree and Master's Degree Programmes taught in English and Italian and Single-Cycle Degree Programmes taught in Italian"
       },
       {
         "name": "second call",
-        "start_date": "18 April 2025",
-        "end_date": "30 May 2025",
+        "start_date": "18 April",
+        "end_date": "30 May",
         "notes": "Applications for Bachelor's Degree and Master's Degree Programmes taught in English and Italian and Single-Cycle Degree Programmes taught in Italian"
       }
     ]
@@ -1768,7 +1768,7 @@ export const italianUniversities = [
     "location": "Pavia, Italy",
     "admission_fee": 35,
     "english_requirement": "English Proficiency",
-    "deadline": "18 March 2025",
+    "deadline": "18 March",
     "status": null,
     "cgpa_requirement": "MINIMUM 2.65 CGPA REQUIRED",
     "housing_available": null,
@@ -1777,18 +1777,18 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "first call",
-        "start_date": "13 November 2024",
-        "end_date": "21 November 2024"
+        "start_date": "13 November",
+        "end_date": "21 November"
       },
       {
         "name": "second call",
-        "start_date": "9 January 2025",
-        "end_date": "16 January 2025"
+        "start_date": "9 January",
+        "end_date": "16 January"
       },
       {
         "name": "third call",
-        "start_date": "10 March 2025",
-        "end_date": "18 March 2025"
+        "start_date": "10 March",
+        "end_date": "18 March"
       }
     ]
   },
@@ -1798,7 +1798,7 @@ export const italianUniversities = [
     "location": "Ferrara, Italy",
     "admission_fee": 20,
     "english_requirement": "English Proficiency",
-    "deadline": "30 April 2025",
+    "deadline": "30 April",
     "status": "Open",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
@@ -1807,26 +1807,26 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "first call",
-        "start_date": "15 January 2025",
-        "end_date": "30 April 2025",
+        "start_date": "15 January",
+        "end_date": "30 April",
         "notes": "master's degree courses in Small business management in international markets, Green economy and sustainable transitions, Physics."
       },
       {
         "name": "second call",
-        "start_date": "1 April 2025",
-        "end_date": "31 July 2025",
+        "start_date": "1 April",
+        "end_date": "31 July",
         "notes": "for all other courses."
       },
       {
         "name": "Applications on Universitaly",
         "start_date": null,
-        "end_date": "30 May 2025",
+        "end_date": "30 May",
         "notes": "for our master's degree courses in Small business management in international markets, Green economy and sustainable transitions, Physics."
       },
       {
         "name": "Applications on Universitaly",
         "start_date": null,
-        "end_date": "31 July 2025",
+        "end_date": "31 July",
         "notes": "All applications received after these dates will be automatically rejected."
       }
     ]
@@ -1846,15 +1846,15 @@ export const italianUniversities = [
     "intakes": [
       {
         "name": "Master Degree",
-        "start_date": "13 January 2025",
-        "end_date": "20 July 2025",
-        "notes": "You must complete all necessary procedures to obtain a student visa by November 29, 2025."
+        "start_date": "13 January",
+        "end_date": "20 July",
+        "notes": "You must complete all necessary procedures to obtain a student visa by November 29,."
       },
       {
         "name": "Bachelor's degree",
-        "start_date": "12 March 2025",
-        "end_date": "9 August 2025",
-        "notes": "You must start a pre-enrollment application within 9th August, 2025. Your visa must be granted by 29 November 2025."
+        "start_date": "12 March",
+        "end_date": "9 August",
+        "notes": "You must start a pre-enrollment application within 9th August,. Your visa must be granted by 29 November."
       }
     ]
   },
@@ -1874,7 +1874,7 @@ export const italianUniversities = [
       {
         "name": "second call",
         "start_date": null,
-        "end_date": "12 July 2025"
+        "end_date": "12 July"
       }
     ]
   }
