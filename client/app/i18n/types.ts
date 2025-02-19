@@ -72,6 +72,7 @@ export interface UniversitiesTranslation {
   filterByFee: string;
   paid: string;
   protectedContent: string;
+  apply:string
 }
 
 export interface ServicesTranslation {

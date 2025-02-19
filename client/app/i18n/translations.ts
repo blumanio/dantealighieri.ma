@@ -145,7 +145,8 @@ export const translations: Record<Locale, Translation> = {
       filterByStatus: "Filter by status",
       filterByFee: "Filter by fee type",
       paid: "Paid",
-      protectedContent:'members only'
+      protectedContent:'members only',
+      apply:'apply'
 
       
     }
@@ -296,7 +297,8 @@ export const translations: Record<Locale, Translation> = {
       filterByStatus: "Filtra per stato",
       filterByFee: "Filtra per tipo di tassa",
       paid:'Pagato',
-      protectedContent:'riservato ai membri' 
+      protectedContent:'riservato ai membri' ,
+      apply:'iscriviti'
 
     }
   },
@@ -448,7 +450,8 @@ export const translations: Record<Locale, Translation> = {
       filterByStatus: "فيلتر حسب الحالة",
       filterByFee: "فيلتر حسب نوع الرسوم",
       paid: "مدفوع",
-      protectedContent: " خاص بالاعضاء المسجلين فقط"
+      protectedContent: " خاص بالاعضاء المسجلين فقط",
+      apply:'التسجيل'
     }
   }
 }
