@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { useLanguage } from '../app/[lang]/LanguageContext';
+import Image from 'next/image';
 import AnimatedLogos from './AnimatedLogos';
 import { motion } from 'framer-motion';
 import { translations } from '../../client/app/i18n/translations';
@@ -29,13 +30,14 @@ const HeroSection: React.FC = () => {
     >
       {/* Background Map - Bottom Layer */}
       <div className="absolute inset-0" aria-hidden="true">
-        <div className="w-full h-full">
-          <img
+        {/* <Image
             src="/italy-map.svg"
             alt=""
-            className="w-full h-full object-contain opacity-40"
-          />
-        </div>
+            layout="fill"
+            objectFit="contain"
+            className="opacity-40"
+          /> */}
+          
       </div>
 
       {/* Content Container */}
@@ -90,10 +92,12 @@ const HeroSection: React.FC = () => {
               className="flex-1 relative"
             >
               <div className="relative w-full max-w-[500px] mx-auto aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-                <img
+              <Image
                   src="/images/graduation.jpg"
                   alt="Graduation"
                   className="w-full h-full object-cover"
+                  width={400} // Set an appropriate width
+                  height={600} // Set an appropriate height
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-teal-900/30 to-transparent" />

@@ -2,13 +2,6 @@
 
 export type Locale = 'en' | 'it' | 'ar';
 
-
-
-export interface FeatureTranslation {
-  title: string;
-  description: string;
-}
-
 export interface CommonTranslation {
   search: string;
   about: string;
@@ -35,6 +28,9 @@ export interface ProgramsTranslation {
   searchPlaceholder: string;
   noResults: string;
   loadingMessage: string;
+  
+  clickLink: string;
+  signInToAccess: string
 }
 
 export interface UniversitiesTranslation {
@@ -43,6 +39,39 @@ export interface UniversitiesTranslation {
   deadline: string;
   fee: string;
   location: string;
+  pageTitle: string;
+  found: string;
+  university: string;
+
+  lastUpdate: string;
+  login: string;
+  loginPrompt: string;
+  showMore: string;
+  showLess: string;
+  locationTBA: string;
+  tba: string;
+  free: string;
+  open: string;
+  closed: string;
+  comingSoon: string;
+  availableIntakes: string;
+  start: string;
+  end: string;
+  notes: string;
+  resources: string;
+  watchTutorial: string;
+  readBlog: string;
+  visitWebsite: string;
+  searchPlaceholder: string;
+  filters: string;
+  feeFilter: string;
+  clearFilters: string;
+  clearAllFilters: string;
+  noResults: string;
+  filterByStatus: string;
+  filterByFee: string;
+  paid: string;
+  protectedContent: string;
 }
 
 export interface ServicesTranslation {
@@ -65,9 +94,10 @@ export interface FounderTranslation {
   experienceDesc: string;
   stats: string[];
   connectWith: string;
-  imageAltGraduation: string
-  imageAltDiploma: string
+  imageAltGraduation: string;
+  imageAltDiploma: string;
 }
+
 export interface AboutTranslation {
   pageTitle: string;
   subtitle: string;
@@ -89,6 +119,7 @@ export interface AboutTranslation {
   ctaButtonText: string;
   imageAltUniversity: string;
 }
+
 export interface FooterTranslation {
   description: string;
   quickLinks: string;
@@ -102,7 +133,8 @@ export interface FooterTranslation {
   linkUniversities: string;
   linkCourses: string;
 }
-export interface programSearchTranslation {
+
+export interface ProgramSearchTranslation {
   searchTitle: string;
   degreeType: string;
   accessType: string;
@@ -122,8 +154,7 @@ export interface Translation {
   founder: FounderTranslation;
   about: AboutTranslation;
   footer: FooterTranslation;
-  programSearch: programSearchTranslation;
-
+  programSearch: ProgramSearchTranslation;
 }
 
 // Type guard for checking valid locale

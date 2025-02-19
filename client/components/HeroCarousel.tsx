@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../app/[lang]/LanguageContext';
 
@@ -108,7 +109,7 @@ const HeroCarousel = () => {
         <div className="absolute inset-0 transition-opacity duration-500">
           {slide.type !== 'text-only' && slide.image && (
             <div className="absolute inset-0">
-              <img
+              <Image
                 src={slide.image}
                 alt=""
                 className="h-full w-full object-cover"

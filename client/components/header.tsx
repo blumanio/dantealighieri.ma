@@ -39,7 +39,7 @@ const menuItems: MenuItems = {
     universities: 'مواعيد الجامعات',
     apply: 'تقديم',
     soon: 'قريباً',
-    programs: 'التخصصات',
+    programs: 'البرامج',
     requirements: 'المتطلبات',
     services: 'الخدمات'
   },

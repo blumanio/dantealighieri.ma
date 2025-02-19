@@ -1,149 +1,91 @@
 import React from 'react';
 import ReactCountryFlag from 'react-country-flag';
-import { useUser } from '@clerk/nextjs';
-
-interface IconProps {
-  type: 'university' | 'location' | 'graduation' | 'locked' | 'unlocked' | 'language' | 'link';
-  languageCode?: string;
-}
-
-interface CourseProps {
-  course: {
-    _id: string;
-    nome: string;
-    link: string;
-    tipo: string;
-    uni: string;
-    accesso: string;
-    area: string;
-    lingua: string;
-    comune: string;
-  };
-}
+import { SignInButton, useUser } from '@clerk/nextjs';
+import { Lock, MapPin } from 'lucide-react';
+import { useLanguage } from '@/app/[lang]/LanguageContext';
 
 const LANGUAGE_CODES = {
   English: 'GB',
   Italian: 'IT',
-} as const;
+};
 
-const Icon: React.FC<IconProps> = ({ type, languageCode }) => {
-  const icons = {
-    university: '🏛️',
-    location: '📍',
-    graduation: '🎓',
-    locked: '🔒',
-    unlocked: '🔓',
-    link: '↗️',
-    language: '🌐',
-  };
+interface Course {
+  uni: string;
+  comune: string;
+  link: string;
+  nome: string;
+}
+const ProgramRow = ({ course }: { course: Course }) => {
+  const { isSignedIn } = useUser();
+  const { language, t } = useLanguage()
+  const isRTL = language === 'ar'
 
-  if (type === 'language' && languageCode) {
-    if (languageCode === 'multiply') {
-      return (
-        <div className="flex">
-          <ReactCountryFlag
-            countryCode={LANGUAGE_CODES.Italian}
-            svg
-            className="mr-1"
-            style={{ width: '1.25em', height: '1.25em' }}
-            title="Italian"
-          />
-          <ReactCountryFlag
-            countryCode={LANGUAGE_CODES.English}
-            svg
-            className="mr-2"
-            style={{ width: '1.25em', height: '1.25em' }}
-            title="English"
-          />
-        </div>
-      );
-    }
+  if (!isSignedIn) {
     return (
-      <ReactCountryFlag
-        countryCode={languageCode}
-        svg
-        className="mr-2"
-        style={{ width: '1.25em', height: '1.25em' }}
-        title={`Language: ${languageCode === 'GB' ? 'English' : 'Italian'}`}
-      />
+      <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+        <div className="p-6">
+          <div className="flex justify-between items-start gap-4 mb-4">
+            <div className="flex-1 text-left">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {course.uni}
+              </h3>
+              <div className="flex items-center gap-2 text-gray-600 text-sm">
+                <MapPin className="h-4 w-4" />
+                <span>{course.comune}</span>
+              </div>
+            </div>
+            <span className="px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap bg-red-50 text-red-700 ring-1 ring-red-600/20">
+              Restricted
+            </span>
+          </div>
+
+          <p className="text-lg font-semibold text-gray-400">{course.nome}</p>
+
+          <div className="mt-6 text-center">
+            <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="flex flex-col items-center gap-4">
+                <div className="p-3 bg-gray-100 rounded-full">
+                  <Lock className="h-6 w-6 text-gray-600" />
+                </div>
+                <div className="space-y-2">
+                  <h4 className="font-medium text-gray-900">{t('universities', 'protectedContent')}</h4>
+                  <p className="text-sm text-gray-600 max-w-sm mx-auto">
+                    {t('programs', 'signInToAccess')}
+                  </p>
+                </div>
+                <SignInButton mode="modal">
+                  <button className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-lg transition-colors duration-200 text-sm">
+                    {t('universities', 'login')}
+                    <span className={`${isRTL ? 'rotate-180' : ''}`}>→</span>
+                  </button>
+                </SignInButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
   return (
-    <span
-      className={`mr-2 ${
-        type === 'locked' ? 'text-red-600' : type === 'unlocked' ? 'text-green-600' : 'text-gray-600'
-      }`}
-    >
-      {icons[type]}
-    </span>
-  );
-};
-
-const ProgramRow: React.FC<CourseProps> = ({ course }) => {
-  const { isSignedIn } = useUser(); // Using useUser hook for client-side user check
-
-  return (
-    <div className="group mb-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-5 shadow-sm transition-all duration-300 hover:border-indigo-100 hover:shadow-md relative">
-      {/* Login message inside the card */}
-      {!isSignedIn && ( 
-        <div className="w-50 absolute top-2 left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-800 text-sm p-1 rounded-md shadow-md z-10">
-          Sign in to view detailed course information
-        </div>
-      )}
-
-      <div className="flex flex-col sm:flex-row items-start justify-between gap-2 sm:gap-4">
-        {/* Course Name */}
-        {!isSignedIn ? (
-          <span className="font-inter text-lg font-semibold text-gray-400 cursor-not-allowed">
-            {course.nome}
-          </span>
-        ) : (
-          <a
-            href={course.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-inter text-lg font-semibold text-indigo-700 decoration-2 hover:text-indigo-800 hover:underline"
-          >
-            {course.nome}
-            <Icon type="link" />
-          </a>
-        )}
-
-        <div className="flex flex-row sm:flex-col items-start sm:items-end gap-2 w-full sm:w-auto">
-          {/* Icons for Access and Language */}
-          <div className={`flex items-center gap-2 ${!isSignedIn ? 'blur-sm' : ''}`}>
-            <Icon type={course.accesso === 'Libero' ? 'unlocked' : 'locked'} />
-            <Icon
-              type="language"
-              languageCode={
-                course.lingua === 'IT'
-                  ? LANGUAGE_CODES.Italian
-                  : course.lingua === 'EN'
-                  ? LANGUAGE_CODES.English
-                  : course.lingua.toLowerCase() === 'più lingue'
-                  ? 'multiply'
-                  : course.lingua
-              }
-            />
-          </div>
-
-          {/* Location */}
-          <div className={`flex items-center text-sm ${!isSignedIn ? 'blur-sm' : 'text-gray-600'}`}>
-            <Icon type="location" />
-            <span className="font-medium">{course.comune}</span>
-          </div>
-        </div>
+    <div className="group mb-4 rounded-xl border border-gray-200 bg-white p-3 sm:p-5 shadow-sm transition-all duration-300 hover:border-indigo-100 hover:shadow-md">
+      <span className="text-sm text-gray-500"> {t('programs', 'clickLink')}</span>
+      <div className="flex items-center gap-2">
+        <a
+          href={course.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-inter text-lg font-semibold text-indigo-700 decoration-2 hover:text-indigo-800 hover:underline"
+        >
+          {course.nome} ↗️
+        </a>
       </div>
-
-      {/* University */}
-      <div
-        className={`mt-3 flex items-center ${
-          !isSignedIn ? 'blur-sm' : 'text-gray-700 font-medium tracking-wide'
-        }`}
-      >
-        <Icon type="university" />
-        <span>{course.uni}</span>
+      <div className="flex items-center text-sm text-gray-600 mt-2">
+        <MapPin className="h-4 w-4" />
+        <span className="ml-1 font-medium">{course.comune}</span>
+      </div>
+      <div className="mt-3 text-gray-700 font-medium tracking-wide">
+        🏛️ {course.uni}
       </div>
     </div>
   );

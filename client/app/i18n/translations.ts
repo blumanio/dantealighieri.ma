@@ -26,15 +26,11 @@ export const translations: Record<Locale, Translation> = {
       academicArea: "Academic Area",
       searchPlaceholder: "Search within results...",
       noResults: "No programs found",
-      loadingMessage: "Loading programs..."
+      loadingMessage: "Loading programs...",
+      clickLink: 'Click to open official page',
+      signInToAccess: 'Sign in to access protected content'
     },
-    universities: {
-      status: "Status",
-      requirements: "Requirements",
-      deadline: "Application Deadline",
-      fee: "Application Fee",
-      location: "Location"
-    },
+
     services: {
       title: "Our Services",
       description: "At our consultancy, we specialize in providing guidance for students seeking educational opportunities in Italy. Our services range from university admissions to scholarship assistance.",
@@ -110,6 +106,48 @@ export const translations: Record<Locale, Translation> = {
       searchPlaceholder: "Search within results...",
       noResults: "No programs found",
       loadingMessage: "Loading programs..."
+    },
+    universities: {
+      pageTitle: "Italian Universities Courses 2025/2026",
+      found: "Found",
+      university: "university",
+
+      lastUpdate: "Last update",
+      login: "Log in",
+      loginPrompt: "to unlock detailed information about programs, fees, and requirements.",
+      showMore: "Show more",
+      showLess: "Show less",
+      locationTBA: "Location TBA",
+      tba: "TBA",
+      free: "Free",
+      open: "Open",
+      closed: "Closed",
+      comingSoon: "Coming Soon",
+      availableIntakes: "Available Intakes",
+      start: "Start",
+      end: "End",
+      notes: "Notes",
+      resources: "Resources",
+      watchTutorial: "Watch Tutorial",
+      readBlog: "Read Blog Post",
+      visitWebsite: "Visit University Website",
+      status: "Status",
+      requirements: "Requirements",
+      deadline: "Application Deadline",
+      fee: "Application Fee",
+      location: "Location",
+      searchPlaceholder: "Search universities by name or location...",
+      filters: "Filters",
+      feeFilter: "Fee Type",
+      clearFilters: "Clear filters",
+      clearAllFilters: "Clear all filters and search",
+      noResults: "No universities found matching your criteria",
+      filterByStatus: "Filter by status",
+      filterByFee: "Filter by fee type",
+      paid: "Paid",
+      protectedContent:'members only'
+
+      
     }
 
   },
@@ -137,15 +175,12 @@ export const translations: Record<Locale, Translation> = {
       academicArea: "Area Accademica",
       searchPlaceholder: "Cerca nei risultati...",
       noResults: "Nessun programma trovato",
-      loadingMessage: "Caricamento programmi..."
+      loadingMessage: "Caricamento programmi...",
+      
+      clickLink: 'Clicca per aprire la pagina ufficiale',
+      signInToAccess: 'Accedi per accedere al contenuto protetto'
     },
-    universities: {
-      status: "Stato",
-      requirements: "Requisiti",
-      deadline: "Scadenza",
-      fee: "Tassa",
-      location: "Località"
-    },
+
     services: {
       title: "I Nostri Servizi",
       description: "La nostra consulenza è specializzata nel fornire orientamento agli studenti che cercano opportunità di studio in Italia. I nostri servizi spaziano dalle ammissioni universitarie all'assistenza per le borse di studio.",
@@ -222,6 +257,47 @@ export const translations: Record<Locale, Translation> = {
       searchPlaceholder: "Cerca nei risultati...",
       noResults: "Nessun programma trovato",
       loadingMessage: "Caricamento programmi..."
+    },
+    universities: {
+      pageTitle: "Corsi Universitari Italiani 2025/2026",
+      found: "Trovate",
+      university: "università",
+
+      lastUpdate: "Ultimo aggiornamento",
+      login: "Accedi",
+      loginPrompt: "per sbloccare informazioni dettagliate su programmi, tasse e requisiti.",
+      showMore: "Mostra di più",
+      showLess: "Mostra meno",
+      locationTBA: "Località da definire",
+      tba: "Da definire",
+      free: "Gratuito",
+      open: "Aperto",
+      closed: "Chiuso",
+      comingSoon: "Prossimamente",
+      availableIntakes: "Periodi di Ammissione",
+      start: "Inizio",
+      end: "Fine",
+      notes: "Note",
+      resources: "Risorse",
+      watchTutorial: "Guarda il Tutorial",
+      readBlog: "Leggi il Blog",
+      visitWebsite: "Visita il Sito Web",
+      status: "Stato",
+      requirements: "Requisiti",
+      deadline: "Scadenza",
+      fee: "Tassa",
+      location: "Località",
+      searchPlaceholder: "Cerca università per nome o località...",
+      filters: "Filtri",
+      feeFilter: "Tipo di Tassa",
+      clearFilters: "Cancella filtri",
+      clearAllFilters: "Cancella tutti i filtri e la ricerca",
+      noResults: "Nessuna università trovata con i criteri selezionati",
+      filterByStatus: "Filtra per stato",
+      filterByFee: "Filtra per tipo di tassa",
+      paid:'Pagato',
+      protectedContent:'riservato ai membri' 
+
     }
   },
   ar: {
@@ -250,15 +326,11 @@ export const translations: Record<Locale, Translation> = {
       academicArea: "المجال الأكاديمي",
       searchPlaceholder: "البحث في النتائج...",
       noResults: "لم يتم العثور على برامج",
-      loadingMessage: "جاري تحميل البرامج..."
+      loadingMessage: "جاري تحميل البرامج...",
+      clickLink: "انقر هنا للتحقق من البرنامج",
+      signInToAccess: "تسجيل الدخول للوصول إلى المحتوى المحمي"
     },
-    universities: {
-      status: "الحالة",
-      requirements: "المتطلبات",
-      deadline: "الموعد النهائي",
-      fee: "الرسوم",
-      location: "الموقع"
-    },
+
     services: {
       title: "خدماتنا",
       description: "نحن متخصصون في تقديم التوجيه للطلاب الباحثين عن فرص تعليمية في إيطاليا. تتنوع خدماتنا من القبول الجامعي إلى المساعدة في المنح الدراسية.",
@@ -323,7 +395,7 @@ export const translations: Record<Locale, Translation> = {
       copyright: "صنع بالكثير من ☕️ و ❤️ في ميلانو 🇮🇹",
       linkAbout: "عن الشركة",
       linkUniversities: "الجامعات",
-      linkCourses: "التخصصات"
+      linkCourses: "البرامج"
 
 
 
@@ -337,6 +409,48 @@ export const translations: Record<Locale, Translation> = {
       searchPlaceholder: "البحث في النتائج...",
       noResults: "لم يتم العثور على برامج",
       loadingMessage: "جاري تحميل البرامج..."
+    },
+    universities: {
+      pageTitle: "البرامج الجامعية الإيطالية 2025/2026",
+      found: "تم العثور على",
+      university: "جامعة",
+
+      lastUpdate: "آخر تحديث",
+      login: "تسجيل الدخول",
+      loginPrompt: "لفتح معلومات مفصلة عن البرامج والرسوم والمتطلبات.",
+      showMore: "عرض المزيد",
+      showLess: "عرض أقل",
+      locationTBA: "الموقع قيد التحديد",
+      tba: "قيد التحديد",
+      free: "مجاني",
+      open: "التسجيل مفتوح",
+      closed: "مغلق",
+      comingSoon: "قريباً",
+      availableIntakes: "فترات القبول المتاحة",
+      start: "البداية",
+      end: "النهاية",
+      notes: "ملاحظات",
+      resources: "الموارد",
+      watchTutorial: "مشاهدة الشرح",
+      readBlog: "قراءة المدونة",
+      visitWebsite: "زيارة موقع الجامعة",
+      status: "الحالة",
+      requirements: "المتطلبات",
+      deadline: "الموعد النهائي",
+      fee: "الرسوم",
+      location: "الموقع",
+      searchPlaceholder: "ابحث عن الجامعات حسب الاسم أو الموقع...",
+      filters: "فيلتر",
+      feeFilter: "نوع الرسوم",
+      clearFilters: "مسح الفيلتر",
+      clearAllFilters: "مسح كل عوامل الفيلتر والبحث",
+      noResults: "لم يتم العثور على جامعات تطابق المعايير المحددة",
+      filterByStatus: "فيلتر حسب الحالة",
+      filterByFee: "فيلتر حسب نوع الرسوم",
+      paid: "مدفوع",
+      protectedContent: " خاص بالاعضاء المسجلين فقط"
     }
   }
 }
+
+

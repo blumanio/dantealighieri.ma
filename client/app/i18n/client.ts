@@ -9,7 +9,7 @@ const TranslationsContext = createContext<Translation | null>(null);
 
 export const TranslationsProvider = TranslationsContext.Provider;
 
-export function useTranslations() {
+export function useTranslations(p0: string) {
   const translations = useContext(TranslationsContext);
   if (!translations) {
     throw new Error('useTranslations must be used within a TranslationsProvider');

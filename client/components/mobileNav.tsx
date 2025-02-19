@@ -19,7 +19,8 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
   const [isMobile, setIsMobile] = useState(false)
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
-
+const { t } = useLanguage()
+  const isRTL = language === 'ar'
   const menu = [
     { name: 'universities', href: `/universities`, icon: School },
     { name: 'programs', href: `/program-search`, icon: GraduationCap },
@@ -57,7 +58,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
 
     // Construct new path
     const newPath = `/${selectedLanguage}${pathname.replace(/^\/[a-z]{2}/, '')}`
-    
+
     // Close sheet
     setIsOpen(false)
 
@@ -66,6 +67,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
   }
 
   if (!isMobile) return null
+
+  
+
 
   return (
     <div className="fixed right-0 top-0 z-50 md:hidden">
@@ -86,10 +90,16 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems }) => {
           <div className="flex flex-col h-full">
             <div className="flex flex-col items-center justify-center gap-4 bg-teal-600 p-6 text-white">
               <SignedOut>
-                <SignInButton>
-                  <button className="rounded-full bg-white px-6 py-2 text-sm font-semibold text-teal-700">
-                    Student Login
-                  </button>
+                <SignInButton mode="modal">
+                <button className="inline-flex items-center gap-2 px-6 py-2.5
+                    bg-teal-600 hover:bg-teal-700 
+                    text-white font-medium rounded-lg
+                    border-transparent sm:border-white
+                    transition-colors duration-200 text-sm">
+  {t('universities', 'login')}
+  <span className={`${isRTL ? 'rotate-180' : ''}`}>→</span>
+</button>
+
                 </SignInButton>
               </SignedOut>
               <SignedIn>

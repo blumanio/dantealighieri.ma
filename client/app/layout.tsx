@@ -14,15 +14,15 @@ const inter = Inter({ subsets: ['latin'] });
 
 // Dynamically import TawkMessenger with no SSR
 //const TawkMessenger = dynamic(
-  //() => import('../components/TawkMessengerComponent'),
- // { ssr: false }
+//() => import('../components/TawkMessengerComponent'),
+// { ssr: false }
 //);
 
 // Create a separate component for the content that needs Suspense
-function LayoutContent({ 
-  children, 
-  lang 
-}: { 
+function LayoutContent({
+  children,
+  lang
+}: {
   children: React.ReactNode;
   lang: string;
 }) {
@@ -39,7 +39,41 @@ function LayoutContent({
 function LoadingFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">Loading...</div>
+      <div className="text-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <circle fill="#008C45" stroke="#008C45" stroke-width="15" r="15" cx="40" cy="65">
+          <animate
+            attributeName="cy"
+            calcMode="spline"
+            dur="2"
+            values="65;135;65;"
+            keySplines=".5 0 .5 1;.5 0 .5 1"
+            repeatCount="indefinite"
+            begin="-.4"
+          />
+        </circle>
+        <circle fill="#FFFFFF" stroke="#FFFFFF" stroke-width="15" r="15" cx="100" cy="65">
+          <animate
+            attributeName="cy"
+            calcMode="spline"
+            dur="2"
+            values="65;135;65;"
+            keySplines=".5 0 .5 1;.5 0 .5 1"
+            repeatCount="indefinite"
+            begin="-.2"
+          />
+        </circle>
+        <circle fill="#CD212A" stroke="#CD212A" stroke-width="15" r="15" cx="160" cy="65">
+          <animate
+            attributeName="cy"
+            calcMode="spline"
+            dur="2"
+            values="65;135;65;"
+            keySplines=".5 0 .5 1;.5 0 .5 1"
+            repeatCount="indefinite"
+            begin="0"
+          />
+        </circle>
+      </svg></div>
     </div>
   );
 }
@@ -57,7 +91,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.lang || 'en'} className={poppins.variable}>
-      <body className= 'className="font-poppins" ${inter.className}'>
+      <body className='className="font-poppins" ${inter.className}'>
         <Suspense fallback={<LoadingFallback />}>
           <LayoutContent lang={params.lang}>
             {children}

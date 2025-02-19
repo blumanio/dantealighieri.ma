@@ -10,7 +10,41 @@ export default function NotFound() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">Loading...</div>
+          <div className="text-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+    <circle fill="#008C45" stroke="#008C45" stroke-width="15" r="15" cx="40" cy="65">
+        <animate 
+            attributeName="cy" 
+            calcMode="spline" 
+            dur="2" 
+            values="65;135;65;" 
+            keySplines=".5 0 .5 1;.5 0 .5 1" 
+            repeatCount="indefinite" 
+            begin="-.4"
+        />
+    </circle>
+    <circle fill="#FFFFFF" stroke="#FFFFFF" stroke-width="15" r="15" cx="100" cy="65">
+        <animate 
+            attributeName="cy" 
+            calcMode="spline" 
+            dur="2" 
+            values="65;135;65;" 
+            keySplines=".5 0 .5 1;.5 0 .5 1" 
+            repeatCount="indefinite" 
+            begin="-.2"
+        />
+    </circle>
+    <circle fill="#CD212A" stroke="#CD212A" stroke-width="15" r="15" cx="160" cy="65">
+        <animate 
+            attributeName="cy" 
+            calcMode="spline" 
+            dur="2" 
+            values="65;135;65;" 
+            keySplines=".5 0 .5 1;.5 0 .5 1" 
+            repeatCount="indefinite" 
+            begin="0"
+        />
+    </circle>
+</svg></div>
         </div>
       }
     >

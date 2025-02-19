@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Facebook, Instagram, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useLanguage } from '../app/[lang]/LanguageContext'
 
@@ -13,7 +14,8 @@ const AboutFounder = () => {
     const images = [
         {
             src: "/images/graduation.jpg",
-            alt: t('founder', 'imageAltGraduation')
+            alt: t('founder', 'imageAltGraduation'),
+
         },
         {
             src: "/images/diploma.jpg",
@@ -39,9 +41,9 @@ const AboutFounder = () => {
     }
 
     const slideVariants = {
-        hidden: (isRTL: boolean) => ({ 
+        hidden: (isRTL: boolean) => ({
             x: isRTL ? -100 : 100,
-            opacity: 0 
+            opacity: 0
         }),
         visible: {
             x: 0,
@@ -71,15 +73,17 @@ const AboutFounder = () => {
                     >
                         <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
                             <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
-                                <div 
+                                <div
                                     className="absolute inset-0 flex transition-transform duration-300 ease-out"
                                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                                 >
                                     {images.map((image, index) => (
                                         <div key={index} className="relative min-w-full">
-                                            <img
+                                            <Image
                                                 src={image.src}
                                                 alt={image.alt}
+                                                width={400} // Set an appropriate width
+                                                height={600} // Set an appropriate height
                                                 className="object-cover w-full h-full"
                                             />
                                             <div className="absolute inset-0 bg-teal-600/10" />
@@ -107,9 +111,8 @@ const AboutFounder = () => {
                                         <button
                                             key={index}
                                             onClick={() => setCurrentSlide(index)}
-                                            className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                                                currentSlide === index ? 'bg-white' : 'bg-white/50'
-                                            }`}
+                                            className={`w-2.5 h-2.5 rounded-full transition-colors ${currentSlide === index ? 'bg-white' : 'bg-white/50'
+                                                }`}
                                         />
                                     ))}
                                 </div>
