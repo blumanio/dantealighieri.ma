@@ -1303,7 +1303,7 @@ export const italianUniversities = [
       {
         "name": "Fall Intake",
         "start_date": null,
-        "end_date": null,
+        "end_date": "30 June",
         "notes": "-"
       }
     ]
@@ -1575,12 +1575,6 @@ export const italianUniversities = [
         "start_date": "1 June",
         "end_date": "1 July",
         "notes": "All international students"
-      },
-      {
-        "name": "4st Call",
-        "start_date": "1 August",
-        "end_date": "15 September",
-        "notes": "EU and EU equivalent"
       }
     ]
   },
@@ -1591,7 +1585,7 @@ export const italianUniversities = [
     "admission_fee": 30,
     "english_requirement": "English Proficiency",
     "deadline": "6 March",
-    "status": "Open",
+    "status": "Closed",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": "yes",
     "scholarship_available": "yes",

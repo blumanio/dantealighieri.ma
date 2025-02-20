@@ -277,7 +277,7 @@ export const UniversityTable = ({ universities, isSignedIn }: UniversityTablePro
                 <div className="mt-8 text-center">
                     <span className="inline-flex items-center gap-2 text-sm text-gray-500">
                         <span className="h-2 w-2 rounded-full bg-green-500"></span>
-                        {t('universities', 'lastUpdate')}: 11/02/2025
+                        {t('universities', 'lastUpdate')}: 20/02/2025
                     </span>
                 </div>
             </div>
