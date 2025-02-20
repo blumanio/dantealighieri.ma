@@ -1295,16 +1295,21 @@ export const italianUniversities = [
     "english_requirement": "IELTS 5.5 or equivalent",
     "deadline": "30 November",
     "status": "Open",
-    "cgpa_requirement": "not required",
+    "cgpa_requirement": "GPA Requirements Varies",
     "housing_available": true,
     "scholarship_available": true,
     "application_link": "https://www.unipi.it/index.php/english",
     "intakes": [
       {
-        "name": "Fall Intake",
-        "start_date": null,
-        "end_date": "30 June",
-        "notes": "-"
+        "name": "first Intake",
+        "start_date": '6 December',
+        "end_date": "9 January",
+        "notes": "Application Fee: 10 or 20 0r 30 Euros"
+      }, {
+        "name": "second Intake",
+        "start_date": '8 February',
+        "end_date": "28 February",
+        "notes": "Application Fee: 10 or 20 0r 30 Euros"
       }
     ]
   },
@@ -1599,7 +1604,7 @@ export const italianUniversities = [
       }
     ]
   },
-  { 
+  {
     "id": 22,
     "name": "Ca' Foscari University of Venice",
     "location": "Venice, Italy",
@@ -1736,7 +1741,7 @@ export const italianUniversities = [
     "admission_fee": 15,
     "english_requirement": "IELTS Required",
     "status": "Open",
-    'deadline':'30 May',  
+    'deadline': '30 May',
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
     "scholarship_available": null,
@@ -1751,7 +1756,7 @@ export const italianUniversities = [
       {
         "name": "second call",
         "start_date": "18 April",
-        "end_date": "30 May", 
+        "end_date": "30 May",
         "notes": "Applications for Bachelor's Degree and Master's Degree Programmes taught in English and Italian and Single-Cycle Degree Programmes taught in Italian"
       }
     ]
