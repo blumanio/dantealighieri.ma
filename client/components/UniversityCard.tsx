@@ -115,7 +115,7 @@ const UniversityCard = ({ university, isSignedIn, isExpanded, onToggle, t }: Uni
                             <span>{t('universities', 'deadline')}</span>
                         </div>
                         <p className={`font-medium ${!isSignedIn ? 'blur-sm' : ''} ${isRTL ? 'text-right' : ''}`}>
-                            {university.deadline || t('universities', 'tba')}
+                            {university.intakes ? university.intakes[university.intakes.length - 1].end_date || t('universities', 'tba') : t('universities', 'tba')}
                         </p>
                     </div>
 

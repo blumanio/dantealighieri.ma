@@ -1605,7 +1605,7 @@ export const italianUniversities = [
       }
     ]
   },
-  {
+  { 
     "id": 22,
     "name": "Ca' Foscari University of Venice",
     "location": "Venice, Italy",
@@ -1864,7 +1864,7 @@ export const italianUniversities = [
     "location": "Bari, Italy",
     "admission_fee": 0,
     "english_requirement": "English Proficiency",
-    "deadline": null,
+    "deadline": '12 July',
     "status": 'Open',
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
