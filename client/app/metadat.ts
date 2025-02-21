@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://dantealighieri.ma'),
   title: 'DanteMa Study in Italy',
   description: 'by Mohamed El Aammari',
-  
+
   openGraph: {
     type: 'website',
     siteName: 'DanteMa',
@@ -20,12 +20,7 @@ export const metadata: Metadata = {
     ],
   },
 
-  twitter: {
-    card: 'summary_large_image',
-    title: 'DanteMa Study in Italy',
-    description: 'by Mohamed El Aammari',
-    images: ['/og-image.png'],
-  },
+
 
   icons: {
     icon: [
