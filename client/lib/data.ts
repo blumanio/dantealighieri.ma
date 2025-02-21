@@ -1686,7 +1686,7 @@ export const italianUniversities = [
     "admission_fee": 10,
     "english_requirement": "English Proficiency",
     "deadline": "7 February",
-    "status": "Open",
+    "status": "Closed",
     "cgpa_requirement": "NO CGPA REQUIREMENT",
     "housing_available": null,
     "scholarship_available": null,

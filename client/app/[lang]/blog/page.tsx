@@ -117,7 +117,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                 <div className="p-8">
                                     <div className="flex flex-col h-full">
                                         <header>
-                                            <time
+                                            {/* <time
                                                 dateTime={post.frontmatter.date}
                                                 className="inline-block mb-4 text-sm font-poppins text-textSecondary
                                                          bg-background rounded-full px-4 py-1"
@@ -130,7 +130,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                                         day: 'numeric'
                                                     }
                                                 )}
-                                            </time>
+                                            </time> */}
                                             <h2 className="text-2xl font-poppins font-semibold text-primary 
                                                        mb-4 line-clamp-2 group-hover:text-primary-light
                                                        transition-colors duration-200">

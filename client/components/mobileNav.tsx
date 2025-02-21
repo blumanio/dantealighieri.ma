@@ -72,7 +72,7 @@ const { t } = useLanguage()
 
 
   return (
-    <div className="fixed right-0 top-0 z-50 md:hidden">
+    <div className="sticky top-0 right-0 z-50 md:hidden w-full">
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <button
