@@ -1379,12 +1379,6 @@ export const italianUniversities = [
         "start_date": "28 January",
         "end_date": "29 April",
         "notes": "For international students requiring visa"
-      },
-      {
-        "name": "EU/Equivalent Application Period",
-        "start_date": "28 January",
-        "end_date": "29 July",
-        "notes": "For EU and equivalent students"
       }
     ]
   },
