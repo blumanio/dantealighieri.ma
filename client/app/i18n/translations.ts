@@ -46,7 +46,7 @@ export const translations: Record<Locale, Translation> = {
       intro: "My journey combines academic excellence with professional success in Italy's tech industry. As a web developer at a leading Italian consultancy, I've contributed to projects for global industry leaders including Luxottica, Ray-Ban, UniCredit, and Whirlpool.",
       achievementsTitle: "Professional & Academic Achievements:",
       achievements: [
-        "Web Developer for top Italian consultancy firm, working with global brands",
+        
         "Graduated with perfect score (110/110) in Master's Degree",
         "Secured 4 prestigious scholarships throughout my academic journey",
         "Successfully balanced professional work with academic excellence"
@@ -197,7 +197,6 @@ export const translations: Record<Locale, Translation> = {
       intro: "Il mio percorso combina l'eccellenza accademica con il successo professionale nel settore tecnologico italiano. Come sviluppatore web presso una delle principali società di consulenza italiane, ho contribuito a progetti per leader mondiali del settore tra cui Luxottica, Ray-Ban, UniCredit e Whirlpool.",
       achievementsTitle: "Risultati Professionali e Accademici:",
       achievements: [
-        "Sviluppatore Web per primaria società di consulenza italiana, collaborando con marchi globali",
         "Laureato con il massimo dei voti (110/110) nella Laurea Magistrale",
         "Ottenuto 4 prestigiose borse di studio durante il percorso accademico",
         "Bilanciato con successo lavoro professionale ed eccellenza accademica"
@@ -348,7 +347,6 @@ export const translations: Record<Locale, Translation> = {
       intro: "تجمع رحلتي بين التفوق الأكاديمي والنجاح المهني في قطاع التكنولوجيا الإيطالي. كمطور ويب في شركة استشارات إيطالية رائدة، ساهمت في مشاريع لشركات عالمية رائدة منها Luxottica وRay-Ban وUniCredit وWhirlpool.",
       achievementsTitle: "الإنجازات المهنية والأكاديمية:",
       achievements: [
-        "مطور ويب لشركة استشارات إيطالية رائدة، العمل مع علامات تجارية عالمية",
         "تخرجت بدرجة كاملة (110/110) في درجة الماجستير",
         "حصلت على 4 منح دراسية مرموقة خلال رحلتي الأكاديمية",
       ],
