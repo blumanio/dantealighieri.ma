@@ -64,72 +64,71 @@ export const LinkedInIcon = ({ className }) => (
 
 export const DanteAlighieriLogo = ({ className }) => (
   <svg
-    className={className}
-    viewBox="0 0 300 100"
-    xmlns="http://www.w3.org/2000/svg"
+  className={className}
+  viewBox="0 0 300 100"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@300&display=swap');
+    </style>
+  </defs>
+
+  {/* Graduation Hat (Centered Above) */}
+  <g transform="translate(135, 10) scale(0.6)">
+    <polygon points="20,0 40,10 20,20 0,10" fill="#009246" />
+    <rect x="16" y="20" width="8" height="10" fill="#009246" />
+    <path d="M20,30 Q25,35 30,30" stroke="#ce2b37" strokeWidth="1" fill="none" />
+  </g>
+
+  {/* Main Text */}
+  <text
+    x="150"
+    y="50"
+    fontFamily="'Roboto Condensed', sans-serif"
+    fontSize="34"
+    fontWeight="700"
+    fill="currentColor"
+    textAnchor="middle"
+    letterSpacing="1"
   >
-    <defs>
-      <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&amp;family=Roboto:wght@300&amp;display=swap');
-      </style>
-    </defs>
+    DANTEMA
+  </text>
 
-    {/* Graduation Hat */}
-    <g transform="translate(170,20) scale(0.5)">
-      <polygon points="20,0 40,10 20,20 0,10" fill="currentColor" />
-      <rect x="16" y="20" width="8" height="10" fill="currentColor" />
-      <circle cx="20" cy="30" r="2" fill="currentColor" />
-    </g>
+  {/* Italian Flag Brush Strokes */}
+  <g transform="translate(30, 65) scale(1, 0.25)">
+    <path
+      d="M0,0 C10,-2 20,2 80,0 L80,20 C20,22 10,18 0,20 Z"
+      fill="#009246"
+      opacity="0.9"
+    />
+    <path
+      d="M80,0 C90,-2 100,2 160,0 L160,20 C100,22 90,18 80,20 Z"
+      fill="#ffffff"
+      opacity="0.9"
+    />
+    <path
+      d="M160,0 C170,-2 180,2 240,0 L240,20 C180,22 170,18 160,20 Z"
+      fill="#ce2b37"
+      opacity="0.9"
+    />
+  </g>
 
-    {/* Main Text */}
-    <text
-      x="150"
-      y="50"
-      fontFamily="'Roboto Condensed', sans-serif"
-      fontSize="34"
-      fontWeight="700"
-      fill="currentColor"
-      textAnchor="middle"
-    >
-      DANTEMA
-    </text>
-
-    {/* Italian Flag Brush Strokes - Thin horizontal stripe */}
-    <g transform="translate(30,60) scale(1,0.15)">
-      {/* Green Stripe */}
-      <path
-        d="M0,0 C10,-2 20,2 80,0 L80,20 C20,22 10,18 0,20 Z"
-        fill="#009246"
-        opacity="0.9"
-      />
-      {/* White Stripe */}
-      <path
-        d="M80,0 C90,-2 100,2 160,0 L160,20 C100,22 90,18 80,20 Z"
-        fill="#ffffff"
-        opacity="0.9"
-      />
-      {/* Red Stripe */}
-      <path
-        d="M160,0 C170,-2 180,2 240,0 L240,20 C180,22 170,18 160,20 Z"
-        fill="#ce2b37"
-        opacity="0.9"
-      />
-    </g>
-
-    {/* Tagline */}
-    <text
-      x="150"
-      y="80"
-      fontFamily="'Roboto', sans-serif"
-      fontSize="18"
-      fontWeight="300"
-      fill="currentColor"
-      fillOpacity="0.8"
-      textAnchor="middle"
-    >
-      Study in Italy
-    </text>
-  </svg>
+  {/* Tagline */}
+  <text
+    x="150"
+    y="85"
+    fontFamily="'Roboto', sans-serif"
+    fontSize="20"
+    fontWeight="300"
+    fontStyle="italic"
+    fill="currentColor"
+    fillOpacity="0.7"
+    textAnchor="middle"
+  >
+    Study in Italy
+  </text>
+</svg>
 );
 
 export const TikTokIcon = ({ className }) => (
