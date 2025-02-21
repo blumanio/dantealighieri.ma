@@ -95,7 +95,7 @@ export const translations: Record<Locale, Translation> = {
       copyright: "Made with a lot of ☕️ and ❤️ in Milan 🇮🇹",
       linkAbout: "About",
       linkUniversities: "Universities",
-      linkCourses: "Courses"
+      linkCourses: "Search programs"
     },
     programSearch: {
       searchTitle: "Search Programs",
@@ -397,7 +397,7 @@ export const translations: Record<Locale, Translation> = {
       copyright: "صنع بالكثير من ☕️ و ❤️ في ميلانو 🇮🇹",
       linkAbout: "عن الشركة",
       linkUniversities: "الجامعات",
-      linkCourses: "البرامج"
+      linkCourses: "ابحث عن تخصصك"
 
 
 
