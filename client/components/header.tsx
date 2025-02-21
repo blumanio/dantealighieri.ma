@@ -105,33 +105,33 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4">
         <nav className="flex w-full items-center justify-between h-24" role="navigation" aria-label="Main navigation">
           <div className={`flex w-full items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <div className="text-white font-poppins">
-      <SignedOut>
-        <SignInButton mode="modal">
-          <button className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full 
+            <div className="text-white font-poppins">
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full 
                            transition-all duration-200 text-sm font-medium
                            hover:scale-105 transform backdrop-blur-sm">
-            Sign In
-          </button>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: "h-8 w-8 rounded-full hover:scale-105 transform duration-200"
-              }
-            }}
-          />
-          <div className="text-sm text-center md:text-left">
-            <span> {user?.firstName || 'there'}!</span>
-          </div>
-        </div>
-      </SignedIn>
-    </div>
-            <Link href={`/${language}`} className="flex items-center space-x-2" aria-label="Home">
+                    Sign In
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
+                  <UserButton
+                    afterSignOutUrl="/"
+                    appearance={{
+                      elements: {
+                        avatarBox: "h-8 w-8 rounded-full hover:scale-105 transform duration-200"
+                      }
+                    }}
+                  />
+                  <div className="text-sm text-center md:text-left">
+                    <span> {user?.firstName || 'there'}!</span>
+                  </div>
+                </div>
+              </SignedIn>
+            </div>
+            <Link href={`/${language}`} className="flex items-center space-x-2 max-w-60" aria-label="Home">
               <DanteAlighieriLogo className="h-24 w-auto text-white" aria-hidden="true" />
             </Link>
 
