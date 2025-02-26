@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, ChevronRight, ChevronLeft, Clock, BadgeCheck, GraduationCap, ShieldCheck } from 'lucide-react';
 
 interface FormData {
@@ -16,6 +16,13 @@ interface FormData {
 }
 
 const MultiStepForm = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
     // Add country code to the form data
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
@@ -54,42 +61,50 @@ const MultiStepForm = () => {
     ];
     // Inside your MultiStepForm component
     // Inside your MultiStepForm component
-    const handleSubmit = async () => {
-        if (validateStep(5)) {
-          try {
-            console.log('Submitting form data:', formData);
-      
-            const response = await fetch(`http://localhost:5000/api/applications`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              credentials: 'include',
-              body: JSON.stringify(formData),
+    const handleSubmit = async (e?: React.SyntheticEvent) => {
+        // if (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        // }
+
+        if (!validateStep(5) || isSubmitting) return;
+
+        setIsSubmitting(true);
+        setSubmitError(null);
+
+        try {
+            const response = await fetch('https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/applications', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
             });
-      
-            console.log('Response status:', response.status);
-            
-            const responseData = await response.json();
-            console.log('Response data:', responseData);
-      
+
+            alert(`submitting: ${response.ok}`);
+            const data = await response.json();
             if (!response.ok) {
-              throw new Error(responseData.message || 'Failed to submit application');
+                throw new Error(data.message || 'Failed to submit application');
             }
-      
-            if (responseData.success) {
-              localStorage.setItem('applicationId', responseData.applicationId);
-              setCurrentStep(6);
+
+            if (data.success) {
+                setCurrentStep(6);
             } else {
-              throw new Error(responseData.message);
+                throw new Error(data.message);
             }
-          } catch (error) {
-            console.error('Error submitting application:', error);
-            // Add user-friendly error handling
-            setErrors({ submit: (error as Error).message || 'Failed to submit application. Please try again.' });
-          }
+        } catch (error) {
+            console.error('Submission error:', error);
+            setSubmitError((error as Error).message || 'Failed to submit. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
-      };
+    };
+
+    // Prevent render until mounted to avoid hydration issues
+    if (!isMounted) {
+        return null;
+    }
     const validateStep = (step: number) => {
         const newErrors: { [key: string]: string } = {};
 
@@ -426,53 +441,72 @@ const MultiStepForm = () => {
                 </div>
 
                 {currentStep < 6 && (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-between items-center z-50">
-        {currentStep > 1 ? (
-            <button
-                type="button"
-                onClick={(e) => {
-                    e.preventDefault();
-                    handleBack();
-                }}
-                className="flex items-center justify-center px-6 py-4 text-teal-600 font-medium touch-manipulation active:text-teal-800"
-            >
-                <ChevronLeft className="w-5 h-5 mr-1" />
-                Back
-            </button>
-        ) : (
-            <div className="w-20"></div>
-        )}
-        <button
-            type="button"
-            onClick={(e) => {
-                e.preventDefault();
-                if (currentStep === 5) {
-                    handleSubmit();
-                } else {
-                    handleNext();
-                }
-            }}
-            className={`flex items-center justify-center px-8 py-4 ${
-                currentStep === 5
-                    ? 'bg-blue-600 active:bg-blue-800'
-                    : 'bg-teal-600 active:bg-teal-800'
-            } text-white rounded-xl font-medium text-lg transition-colors touch-manipulation min-w-[140px]`}
-            disabled={currentStep === 5 && !formData.confirmed}
-        >
-            {currentStep === 5 ? (
-                <>
-                    Submit Application
-                    <ChevronRight className="w-5 h-5 ml-1" />
-                </>
-            ) : (
-                <>
-                    Next
-                    <ChevronRight className="w-5 h-5 ml-1" />
-                </>
-            )}
-        </button>
-    </div>
-)}
+                    <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-between items-center z-50">
+                        {currentStep > 1 ? (
+                            <button
+                                type="button"
+
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleBack();
+                                }}
+                                className="flex items-center justify-center px-6 py-4 text-teal-600 font-medium 
+                          cursor-pointer select-none touch-manipulation tap-highlight-transparent"
+                                style={{
+                                    WebkitTapHighlightColor: 'transparent',
+                                    WebkitTouchCallout: 'none',
+                                    WebkitUserSelect: 'none',
+                                    userSelect: 'none'
+                                }}
+                            >
+                                <ChevronLeft className="w-5 h-5 mr-1" />
+                                Back
+                            </button>
+                        ) : (
+                            <div className="w-20"></div>
+                        )}
+                        <button
+                            type="button"
+
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (currentStep === 5) {
+                                    alert(`currentStep: ${currentStep}`);
+
+                                    handleSubmit();
+                                } else {
+                                    handleNext();
+                                }
+                            }}
+                            className={`flex items-center justify-center px-8 py-4 
+                      ${currentStep === 5
+                                    ? 'bg-blue-600 active:bg-blue-700'
+                                    : 'bg-teal-600 active:bg-teal-700'
+                                } text-white rounded-xl font-medium text-lg transition-colors
+                      cursor-pointer select-none touch-manipulation tap-highlight-transparent
+                      min-w-[140px] min-h-[56px]`}
+                            style={{
+                                WebkitTapHighlightColor: 'transparent',
+                                WebkitTouchCallout: 'none',
+                                WebkitUserSelect: 'none',
+                                userSelect: 'none'
+                            }}
+                            disabled={currentStep === 5 && !formData.confirmed}
+                        >
+                            {currentStep === 5 ? (
+                                <div className="flex items-center">
+                                    Submit Application
+                                    <ChevronRight className="w-5 h-5 ml-1" />
+                                </div>
+                            ) : (
+                                <div className="flex items-center">
+                                    Next
+                                    <ChevronRight className="w-5 h-5 ml-1" />
+                                </div>
+                            )}
+                        </button>
+                    </div>
+                )}
 
                 {currentStep < 6 && <div className="h-20" />}
             </div>
