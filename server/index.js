@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
-import applicationRoutes from "./routes/application.js";
 import { Webhook } from "svix";
 import User from "./models/User.js";
 import {
@@ -173,6 +172,129 @@ app.post(
     }
   }
 );
+// Define the Application schema and model in index.js
+const applicationSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  phone: {
+    countryCode: {
+      type: String,
+      required: true
+    },
+    number: {
+      type: String,
+      required: true
+    }
+  },
+  education: {
+    degree: {
+      type: String,
+      required: true
+    },
+    graduationYear: {
+      type: Number,
+      required: true
+    },
+    points: {
+      type: String,
+      required: true
+    }
+  },
+  studyPreference: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'contacted', 'processing', 'approved', 'rejected'],
+    default: 'pending'
+  }
+}, {
+  timestamps: true
+});
+
+const Application = mongoose.model('Application', applicationSchema);
+
+// Add POST endpoint for applications, similar to your courses endpoint
+app.post("/api/applications", async (req, res) => {
+  console.log("Received application data:", req.body);
+
+  try {
+    // Transform the data to match your schema structure
+    const {
+      firstName,
+      lastName,
+      email,
+      countryCode,
+      whatsapp,
+      lastDegree,
+      graduationYear,
+      degreePoints,
+      studyPreference
+    } = req.body;
+
+    // Create application object
+    const applicationData = {
+      firstName,
+      lastName,
+      email,
+      phone: {
+        countryCode,
+        number: whatsapp
+      },
+      education: {
+        degree: lastDegree,
+        graduationYear: parseInt(graduationYear),
+        points: degreePoints
+      },
+      studyPreference
+    };
+
+    const application = new Application(applicationData);
+    const savedApplication = await application.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Application submitted successfully!",
+      applicationId: savedApplication._id
+    });
+  } catch (error) {
+    console.error("Error saving application:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the application.",
+      error: error.message
+    });
+  }
+});
+
+// Add GET endpoint for applications
+app.get("/api/applications", async (req, res) => {
+  try {
+    const applications = await Application.find();
+    res.json(applications);
+  } catch (error) {
+    console.error("Error fetching applications:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
 app.post("/upload", uploadDocuments, async (req, res) => {
   try {
     await client.connect();
@@ -237,5 +359,4 @@ app.use((req, res, next) => {
 //   });
 // }
 app.use("/posts", postRoutes);
-app.use("/api/applications", applicationRoutes);
 export default app;

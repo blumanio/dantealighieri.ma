@@ -1,4 +1,4 @@
-import PostApplication from "../models/application.js";
+import PostApplication from "../models/Application.js";
 
 export const createApplication = async (req, res) => {
   console.log(
@@ -7,7 +7,24 @@ export const createApplication = async (req, res) => {
   );
 
   try {
-    const newApplication = new PostApplication(req.body);
+    // Transform the data to match your schema structure
+    const applicationData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: {
+        countryCode: req.body.countryCode,
+        number: req.body.whatsapp
+      },
+      education: {
+        degree: req.body.lastDegree,
+        graduationYear: parseInt(req.body.graduationYear),
+        points: req.body.degreePoints
+      },
+      studyPreference: req.body.studyPreference
+    };
+
+    const newApplication = new PostApplication(applicationData);
     await newApplication.save();
 
     res.status(201).json({
