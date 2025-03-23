@@ -40,13 +40,27 @@ const isStaticFile = (pathname: string): boolean => {
   return pattern.test(pathname);
 };
 
-const middleware = (auth: any, req:any) => {
+const middleware = (auth: any, req: NextRequest) => {
   try {
     if (!req?.nextUrl) {  
       return NextResponse.next();
     }
 
-    const { pathname } = req.nextUrl;
+    const hostname = req.headers.get('host');
+    const { pathname, search } = req.nextUrl;
+    
+    // Handle domain redirect from dantealighieri.ma to studentitaly.it
+    if (hostname === 'dantealighieri.ma' || hostname === 'www.dantealighieri.ma') {
+      // Create the new URL with the same path and search params
+      const newUrl = new URL(`https://studentitaly.it${pathname}${search}`);
+      return NextResponse.redirect(newUrl, { status: 308 }); // 308 = Permanent Redirect
+    }
+    
+    // Handle www to non-www redirect for canonical URLs
+    if (hostname === 'www.studentitaly.it') {
+      const newUrl = new URL(`https://studentitaly.it${pathname}${search}`);
+      return NextResponse.redirect(newUrl, { status: 308 });
+    }
 
     // Handle public routes and static files
     if (isPublicPath(pathname) || isStaticFile(pathname)) {
