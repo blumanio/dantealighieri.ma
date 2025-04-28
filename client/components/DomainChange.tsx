@@ -13,7 +13,7 @@ export default function DomainChangePopup() {
     // Only activate on the specific domain
     const currentDomain = window.location.hostname;
     const isDanteAlighieriDomain = currentDomain === 'dantealighieri.ma' || 
-                                  currentDomain.includes('.dantealighieri.ma');
+                                  currentDomain.includes('dantealighieri.ma');
     
     // Don't show popup if not on the target domain
     if (!isDanteAlighieriDomain) {
