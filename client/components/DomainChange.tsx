@@ -1,4 +1,3 @@
-'use client';
 import { useState, useEffect } from 'react';
 import { X, ExternalLink, Check } from 'lucide-react';
 
@@ -8,8 +7,18 @@ export default function DomainChangePopup() {
   const [countdown, setCountdown] = useState(5);
   const [isRedirecting, setIsRedirecting] = useState(false);
   
-  // Show popup only on first visit after a short delay for better UX
+  // Show popup only on first visit, after a short delay, and only on dantealighieri.ma domain
   useEffect(() => {
+    // Only activate on the specific domain
+    const currentDomain = window.location.hostname;
+    const isDanteAlighieriDomain = currentDomain === 'dantealighieri.ma' || 
+                                  currentDomain.endsWith('.dantealighieri.ma');
+    
+    // Don't show popup if not on the target domain
+    if (!isDanteAlighieriDomain) {
+      return;
+    }
+    
     const timer = setTimeout(() => {
       // Check if this is user's first visit
       const isFirstVisit = !localStorage.getItem('has-visited-site');
@@ -38,8 +47,8 @@ export default function DomainChangePopup() {
       
       return () => clearTimeout(timer);
     } else if (isRedirecting && countdown === 0) {
-      // Redirect would happen here in a real implementation
-      window.location.href = "https://studentitaly.it";
+      // Redirect to the new domain
+      window.location.href = "https://yournewdomain.com";
     }
   }, [isRedirecting, countdown]);
   
@@ -81,7 +90,7 @@ export default function DomainChangePopup() {
             <div>
               <h4 className="text-gray-900 font-medium text-lg mb-2">Our domain has changed</h4>
               <p className="text-gray-600 mb-3">
-                We've moved to a new home at <a href="https://studentitaly.it" className="text-blue-600 font-medium hover:underline">https://studentitaly.it</a>. 
+                We've moved to a new home at <a href="https://yournewdomain.com" className="text-blue-600 font-medium hover:underline">yournewdomain.com</a>. 
                 Please update your bookmarks.
               </p>
               <p className="text-gray-500 text-sm mb-4">
@@ -108,13 +117,13 @@ export default function DomainChangePopup() {
                 <ExternalLink size={16} className="ml-2" />
               </button>
             )}
-           { /*<button 
+            <button 
               onClick={handleClose}
               className="flex-1 bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded-md hover:bg-gray-200 transition-colors flex items-center justify-center"
             >
               I'll update later
               <Check size={16} className="ml-2" />
-            </button>*/}
+            </button>
           </div>
         </div>
         
