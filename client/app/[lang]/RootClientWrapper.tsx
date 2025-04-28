@@ -74,8 +74,8 @@ export default function RootClientWrapper({
 
                     {/* Floating Elements */}
                     <WhatsAppButton />
-                    <ScrollToTop />
-                    <DomainChangePopup/>
+                    {/*<ScrollToTop />*/}
+                    
 
                     {/* Loading Bar */}
                     <div className="fixed top-0 left-0 right-0 h-1 bg-primary/20 z-50 loading-bar"></div>
