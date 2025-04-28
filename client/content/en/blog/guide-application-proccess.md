@@ -46,7 +46,7 @@ This guide aims to clarify the academic options available in Italy and simplify 
 ## How to Search for a Program
 
 - **Steps**:  
-  1. Visit [Universities deadline](https://dantealighieri.ma/en/universities).  
+  1. Visit [Universities deadline](https://STUDENTITALY.it/en/universities).  
   2. Select "What to Study".  
   3. Enter the program name in English (e.g., "Engineering").  
   4. Specify the level and language, then click "Apply Filter".  

@@ -46,10 +46,10 @@ excerpt: 'دليل شامل لفهم مستويات الدراسة وكيفية 
 ## كيفية البحث عن التخصص
 
 - **الخطوات**:  
-  1. اذهب الى [Program search](https://dantealighieri.ma/en/program-search).  
+  1. اذهب الى [Program search](https://STUDENTITALY.it/en/program-search).  
   2. ابحث عن التخصص الذي تريد تسجل فيها, تختار لغة و مستوى و نوع الولوج هل بالامتحان ام بدونه, في خانة البحث ممكن تكتب كلمة للبحث في النتائج
     3.  تصفح البرامج وادخل موقع الجامعة بالضغط على اسم التخصص
-  4. بعدها تروح [DanteMa Universities deadlines](https://dantealighieri.ma/en/universities).  
+  4. بعدها تروح [STUDENTITALY Universities deadlines](https://STUDENTITALY.it/en/universities).  
   5. هنا تجد الجامعات و تاريخ بداية و نهاية التسجيل.  
  
 - **نصيحة**: اقرأ إعلان التقديم (*Bando*) للتأكد من الشروط.
