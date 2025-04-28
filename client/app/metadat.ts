@@ -1,21 +1,21 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://dantealighieri.ma'),
-  title: 'DanteMa Study in Italy',
+  metadataBase: new URL('https://studentitaly.it'),
+  title: 'Studentitaly.it - Study in Italy',
   description: 'by Mohamed El Aammari',
 
   openGraph: {
     type: 'website',
-    siteName: 'DanteMa',
-    title: 'DanteMa Study in Italy',
+    siteName: 'Studentitaly.it',
+    title: 'Studentitaly.it - Study in Italy',
     description: 'by Mohamed El Aammari',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'DanteMa - Study in Italy'
+        alt: 'Studentitaly.it - Study in Italy'
       }
     ],
   },
