@@ -12,6 +12,8 @@ export default function DomainChangePopup() {
     useEffect(() => {
         // Only activate on the specific domain
         const currentDomain = window.location.hostname;
+        console.log('Current domain:', currentDomain);  // Debugging line
+
         const isDanteAlighieriDomain = currentDomain === 'dantealighieri.ma' ||
             currentDomain.includes('dante');
 
