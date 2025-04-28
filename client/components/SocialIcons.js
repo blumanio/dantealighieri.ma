@@ -92,7 +92,7 @@ export const DanteAlighieriLogo = ({ className }) => (
     textAnchor="middle"
     letterSpacing="1"
   >
-    DANTEMA
+    STUDENTITALY
   </text>
 
   {/* Italian Flag Brush Strokes */}
