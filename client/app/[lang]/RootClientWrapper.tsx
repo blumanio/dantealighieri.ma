@@ -7,8 +7,6 @@ import ConstructionToast from '@/components/ConstructionToast';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import HeroSection from '@/components/HeroSection';
 import { Suspense } from 'react';
-import ScrollToTop from '@/components/ScrollToTop';
-import DomainChangePopup from '@/components/DomainChange';
 
 type Lang = 'en' | 'it' | 'ar';
 
