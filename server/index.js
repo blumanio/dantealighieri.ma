@@ -24,7 +24,7 @@ const app = express();
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-const allowedOrigins = ["https://dantealighieri.ma", "http://localhost:3000"];
+const allowedOrigins = ["https://studentitaly.it", "http://localhost:3000"];
 console.log("index js ");
 
 const corsOptions = {

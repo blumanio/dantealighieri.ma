@@ -14,7 +14,7 @@
             { key: 'Access-Control-Allow-Credentials', value: 'true' },
             {
               key: 'Access-Control-Allow-Origin',
-              value: 'https://dantealighieri.ma'
+              value: 'https://studentitaly.it'
             },
             {
               key: 'Access-Control-Allow-Methods',
