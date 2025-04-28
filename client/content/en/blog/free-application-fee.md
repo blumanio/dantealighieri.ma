@@ -78,8 +78,8 @@ Starting your Italian education journey is easier than you think. Here's what yo
 
 We're here to support your academic journey! Follow us for more updates:
 
-- Instagram: [[dantema](https://www.instagram.com/dantealighieri.ma/)]
+- Instagram: [[Studentitaly.it](https://www.instagram.com/Studentitaly.it/)]
 
-- Facebook: [[DanteMa](https://www.facebook.com/etudesenitalie/)]
+- Facebook: [[Studentitaly.it](https://www.facebook.com/etudesenitalie/)]
 
 _Find this helpful? Share it with friends planning to study in Italy!_

@@ -40,7 +40,7 @@ function LoadingFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-        <circle fill="#008C45" stroke="#008C45" stroke-width="15" r="15" cx="40" cy="65">
+        <circle fill="#008C45" stroke="#008C45" strokeWidth="15" r="15" cx="40" cy="65">
           <animate
             attributeName="cy"
             calcMode="spline"
@@ -51,7 +51,7 @@ function LoadingFallback() {
             begin="-.4"
           />
         </circle>
-        <circle fill="#FFFFFF" stroke="#FFFFFF" stroke-width="15" r="15" cx="100" cy="65">
+        <circle fill="#FFFFFF" stroke="#FFFFFF" strokeWidth="15" r="15" cx="100" cy="65">
           <animate
             attributeName="cy"
             calcMode="spline"
@@ -62,7 +62,7 @@ function LoadingFallback() {
             begin="-.2"
           />
         </circle>
-        <circle fill="#CD212A" stroke="#CD212A" stroke-width="15" r="15" cx="160" cy="65">
+        <circle fill="#CD212A" stroke="#CD212A" strokeWidth="15" r="15" cx="160" cy="65">
           <animate
             attributeName="cy"
             calcMode="spline"

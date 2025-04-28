@@ -46,7 +46,7 @@ export const translations: Record<Locale, Translation> = {
       intro: "My journey combines academic excellence with professional success in Italy's tech industry. As a web developer at a leading Italian consultancy, I've contributed to projects for global industry leaders including Luxottica, Ray-Ban, UniCredit, and Whirlpool.",
       achievementsTitle: "Professional & Academic Achievements:",
       achievements: [
-        
+
         "Graduated with perfect score (110/110) in Master's Degree",
         "Secured 4 prestigious scholarships throughout my academic journey",
         "Successfully balanced professional work with academic excellence"
@@ -64,10 +64,10 @@ export const translations: Record<Locale, Translation> = {
 
     },
     about: {
-      pageTitle: "About danteMa Educational Services",
+      pageTitle: "About Studentitaly.it Educational Services",
       subtitle: "Your Gateway to Italian Higher Education",
       missionTitle: "Our Mission",
-      missionDescription: "At danteMa, we are dedicated to bridging the gap between international students and prestigious Italian universities. Our mission is to empower students with the knowledge, resources, and support they need to successfully pursue their academic dreams in Italy.",
+      missionDescription: "At Studentitaly.it, we are dedicated to bridging the gap between international students and prestigious Italian universities. Our mission is to empower students with the knowledge, resources, and support they need to successfully pursue their academic dreams in Italy.",
       whyChooseUsTitle: "Why Choose Us?",
       featureTitle1: "Specialized Expertise",
       featureDescription1: "Deep understanding of both Moroccan and Italian educational systems",
@@ -78,7 +78,7 @@ export const translations: Record<Locale, Translation> = {
       featureTitle4: "Proven Track Record",
       featureDescription4: "High success rates in university admissions and scholarship applications",
       ourStoryTitle: "Our Story",
-      ourStoryFoundingStory: "Founded in 2020, danteMa Educational Services was born out of a passion for education and a desire to create opportunities for International students. Our founders, having experienced the transformative power of studying abroad, recognized the need for specialized support for students aspiring to study in Italy.",
+      ourStoryFoundingStory: "Founded in 2020, Studentitaly.it Educational Services was born out of a passion for education and a desire to create opportunities for International students. Our founders, having experienced the transformative power of studying abroad, recognized the need for specialized support for students aspiring to study in Italy.",
       ourStoryImpact: "Over the years, we have helped hundreds of students navigate the complex process of applying to Italian universities, securing scholarships, and adapting to life in Italy. Our team of experienced advisors, many of whom have studied in Italy themselves, bring a wealth of knowledge and personal insights to guide students through every step of their journey.",
       ctaTitle: "Ready to Start Your Italian Academic Journey?",
       ctaButtonText: "Contact Us Today",
@@ -145,10 +145,10 @@ export const translations: Record<Locale, Translation> = {
       filterByStatus: "Filter by status",
       filterByFee: "Filter by fee type",
       paid: "Paid",
-      protectedContent:'members only',
-      apply:'apply'
+      protectedContent: 'members only',
+      apply: 'apply'
 
-      
+
     }
 
   },
@@ -177,7 +177,7 @@ export const translations: Record<Locale, Translation> = {
       searchPlaceholder: "Cerca nei risultati...",
       noResults: "Nessun programma trovato",
       loadingMessage: "Caricamento programmi...",
-      
+
       clickLink: 'Clicca per aprire la pagina ufficiale',
       signInToAccess: 'Accedi per accedere al contenuto protetto'
     },
@@ -214,10 +214,10 @@ export const translations: Record<Locale, Translation> = {
 
     },
     about: {
-      pageTitle: "Chi è danteMa Servizi Educativi",
+      pageTitle: "Chi è Studentitaly.it Servizi Educativi",
       subtitle: "La Tua Porta d'Accesso all'Istruzione Superiore Italiana",
       missionTitle: "La Nostra Missione",
-      missionDescription: "In danteMa, ci dedichiamo a colmare il divario tra studenti internazionali e prestigiose università italiane. La nostra missione è fornire agli studenti le conoscenze, le risorse e il supporto necessari per perseguire con successo i loro sogni accademici in Italia.",
+      missionDescription: "In Studentitaly.it, ci dedichiamo a colmare il divario tra studenti internazionali e prestigiose università italiane. La nostra missione è fornire agli studenti le conoscenze, le risorse e il supporto necessari per perseguire con successo i loro sogni accademici in Italia.",
       whyChooseUsTitle: "Perché Sceglierci?",
       featureTitle1: "Competenza Specializzata",
       featureDescription1: "Profonda comprensione dei sistemi educativi marocchino e italiano",
@@ -228,7 +228,7 @@ export const translations: Record<Locale, Translation> = {
       featureTitle4: "Comprovata Esperienza",
       featureDescription4: "Alto tasso di successo nelle ammissioni universitarie e nelle domande di borsa di studio",
       ourStoryTitle: "La Nostra Storia",
-      ourStoryFoundingStory: "Fondato nel 2020, danteMa Servizi Educativi è nato dalla passione per l'istruzione e dal desiderio di creare opportunità per gli studenti internazionali. I nostri fondatori, avendo sperimentato il potere trasformativo dello studio all'estero, hanno riconosciuto la necessità di un supporto specializzato per gli studenti che aspirano a studiare in Italia.",
+      ourStoryFoundingStory: "Fondato nel 2020, Studentitaly.it Servizi Educativi è nato dalla passione per l'istruzione e dal desiderio di creare opportunità per gli studenti internazionali. I nostri fondatori, avendo sperimentato il potere trasformativo dello studio all'estero, hanno riconosciuto la necessità di un supporto specializzato per gli studenti che aspirano a studiare in Italia.",
       ourStoryImpact: "Nel corso degli anni, abbiamo aiutato centinaia di studenti a navigare nel complesso processo di iscrizione alle università italiane, ottenendo borse di studio e adattandosi alla vita in Italia. Il nostro team di consulenti esperti, molti dei quali hanno studiato in Italia, porta una ricchezza di conoscenze e intuizioni personali per guidare gli studenti in ogni fase del loro percorso.",
       ctaTitle: "Pronto per Iniziare il Tuo Percorso Accademico in Italia?",
       ctaButtonText: "Contattaci Oggi",
@@ -295,9 +295,9 @@ export const translations: Record<Locale, Translation> = {
       noResults: "Nessuna università trovata con i criteri selezionati",
       filterByStatus: "Filtra per stato",
       filterByFee: "Filtra per tipo di tassa",
-      paid:'Pagato',
-      protectedContent:'riservato ai membri' ,
-      apply:'iscriviti'
+      paid: 'Pagato',
+      protectedContent: 'riservato ai membri',
+      apply: 'iscriviti'
 
     }
   },
@@ -449,7 +449,7 @@ export const translations: Record<Locale, Translation> = {
       filterByFee: "فيلتر حسب نوع الرسوم",
       paid: "مدفوع",
       protectedContent: " خاص بالاعضاء المسجلين فقط",
-      apply:'التسجيل'
+      apply: 'التسجيل'
     }
   }
 }

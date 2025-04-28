@@ -1510,7 +1510,7 @@ export const italianUniversities = [
     "english_requirement": "English Proficiency",
     "deadline": "30 March",
     "status": "Open",
-    "cgpa_requirement": "MINIMUM CGPA 3 FOR PAKISTAN",
+    "cgpa_requirement": "MINIMUM CGPA 3",
     "housing_available": null,
     "scholarship_available": null,
     "application_link": "https://international.unicam.it/admissions/pre-admissions-2026",
@@ -1691,7 +1691,7 @@ export const italianUniversities = [
     "housing_available": null,
     "scholarship_available": null,
     "application_link": null,
-    "notes": "Not accepting application from: Ethiopia, Iran, Pakistan",
+    "notes": "",
     "intakes": [
       {
         "name": "first intake",

@@ -77,7 +77,7 @@ language: 'ar'
 
 نحن هنا لدعم رحلتك الأكاديمية! تابعنا للمزيد من التحديثات:
 
-* إنستغرام: [[dantema](https://www.instagram.com/dantealighieri.ma/)]
-* فيسبوك: [[DanteMa](https://www.facebook.com/etudesenitalie/)]
+* إنستغرام: [[Studentitaly.it](https://www.instagram.com/Studentitaly.it/)]
+* فيسبوك: [[Studentitaly.it](https://www.facebook.com/etudesenitalie/)]
 
 *هل وجدت هذا مفيداً؟ شاركه مع الأصدقاء الذين يخططون للدراسة في إيطاليا!*
