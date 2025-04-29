@@ -5,6 +5,7 @@ import { Facebook, Instagram, Linkedin, ChevronLeft, ChevronRight } from 'lucide
 import Image from 'next/image'
 import { useState } from 'react'
 import { useLanguage } from '../app/[lang]/LanguageContext'
+import ContactCTA from './contactCTA'
 
 const AboutFounder = () => {
     const { language, t } = useLanguage()
@@ -195,7 +196,7 @@ const AboutFounder = () => {
                                 </ul>
                             </motion.div>
 
-                            
+
                         </div>
                     </div>
                 </div>
@@ -204,6 +205,8 @@ const AboutFounder = () => {
             {/* Decorative Background Elements */}
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10"></div>
             <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
+           
+            <ContactCTA></ContactCTA>
         </section>
     )
 }
