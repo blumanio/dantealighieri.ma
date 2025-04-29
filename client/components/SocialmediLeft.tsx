@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter, Linkedin, Youtube, MessageSquare } from '
 export default function SocialmediLeft() {
   const socials = [
     { icon: Facebook, href: 'https://www.facebook.com/etudesenitalie/', color: '#1877F2', hoverBg: 'hover:bg-[#1877F2]' },
-    { icon: Instagram, href: 'https://www.instagram.com/dantealighieri.ma/', color: '#E4405F', hoverBg: 'hover:bg-[#E4405F]' },
+    { icon: Instagram, href: 'https://www.instagram.com/STUDENTITALY.it/', color: '#E4405F', hoverBg: 'hover:bg-[#E4405F]' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/104561766', color: '#0A66C2', hoverBg: 'hover:bg-[#0A66C2]' },
     { icon: MessageSquare, href: 'https://wa.me/393519000615', color: '#25D366', hoverBg: 'hover:bg-[#25D366]' }
   ];

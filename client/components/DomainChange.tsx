@@ -52,7 +52,7 @@ export default function DomainChangePopup() {
             return () => clearTimeout(timer);
         } else if (isRedirecting && countdown === 0) {
             // Redirect to the new domain
-            window.location.href = "https://yournewdomain.com";
+            window.location.href = "https://studentitaly.it";
         }
     }, [isRedirecting, countdown]);
 
@@ -94,7 +94,7 @@ export default function DomainChangePopup() {
                         <div>
                             <h4 className="text-gray-900 font-medium text-lg mb-2">Our domain has changed</h4>
                             <p className="text-gray-600 mb-3">
-                                We've moved to a new home at <a href="https://yournewdomain.com" className="text-blue-600 font-medium hover:underline">yournewdomain.com</a>.
+                                We've moved to a new home at <a href="https://studentitaly.it" className="text-blue-600 font-medium hover:underline">studentitaly.it</a>.
                                 Please update your bookmarks.
                             </p>
                             <p className="text-gray-500 text-sm mb-4">

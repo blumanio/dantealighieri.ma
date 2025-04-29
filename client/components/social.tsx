@@ -56,14 +56,14 @@ const Social = () => {
                 <FacebookIcon className='h-5 w-5' />
               </a>
               <a
-                href='https://www.instagram.com/dantealighieri.ma/'
+                href='https://www.instagram.com/studentitaly.it'
                 target='_blank'
                 rel='noopener noreferrer'
               >
                 <InstagramIcon className='h-5 w-5' />
               </a>
               <a
-                href='https://www.tiktok.com/@dantealighieri_ma'
+                href='https://www.tiktok.com/@studentitaly.it'
                 target='_blank'
                 rel='noopener noreferrer'
               >
