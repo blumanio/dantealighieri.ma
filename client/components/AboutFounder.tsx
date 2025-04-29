@@ -15,7 +15,6 @@ const AboutFounder = () => {
         {
             src: "/images/graduation.jpg",
             alt: t('founder', 'imageAltGraduation'),
-
         },
         {
             src: "/images/diploma.jpg",
@@ -53,15 +52,15 @@ const AboutFounder = () => {
     }
 
     const socialLinks = [
-        { Icon: Linkedin, href: 'https://www.linkedin.com/in/mohamedelaammari/', color: 'text-blue-600' },
-        { Icon: Instagram, href: 'https://www.instagram.com/moelaammari/', color: 'text-pink-600' },
-        { Icon: Facebook, href: 'https://www.facebook.com/moelaammari', color: 'text-blue-500' }
+        { Icon: Linkedin, href: 'https://www.linkedin.com/in/mohamedelaammari/', color: 'text-primary hover:text-primary-dark' },
+        { Icon: Instagram, href: 'https://www.instagram.com/moelaammari/', color: 'text-secondary hover:text-secondary-dark' },
+        { Icon: Facebook, href: 'https://www.facebook.com/moelaammari', color: 'text-primary hover:text-primary-dark' }
     ]
 
     return (
-        <section id="about-founder" className="bg-background relative z-30 overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
-            <div className="container mx-auto px-4 py-8 sm:py-12 lg:py-16">
-                <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+        <section id="about-founder" className="bg-neutral-50 relative z-30 overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+            <div className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+                <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
                     {/* Image Slider */}
                     <motion.div
                         custom={isRTL}
@@ -72,9 +71,9 @@ const AboutFounder = () => {
                         className="w-full lg:w-5/12"
                     >
                         <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto">
-                            <div className="relative aspect-[3/4] rounded-lg overflow-hidden shadow-xl">
+                            <div className="relative aspect-[3/4] rounded-xl overflow-hidden shadow-medium hover:shadow-hard transition-shadow duration-300">
                                 <div
-                                    className="absolute inset-0 flex transition-transform duration-300 ease-out"
+                                    className="absolute inset-0 flex transition-transform duration-500 ease-out"
                                     style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                                 >
                                     {images.map((image, index) => (
@@ -82,11 +81,11 @@ const AboutFounder = () => {
                                             <Image
                                                 src={image.src}
                                                 alt={image.alt}
-                                                width={400} // Set an appropriate width
-                                                height={600} // Set an appropriate height
+                                                width={400}
+                                                height={600}
                                                 className="object-cover w-full h-full"
                                             />
-                                            <div className="absolute inset-0 bg-teal-600/10" />
+                                            <div className="absolute inset-0 bg-primary/10 hover:bg-primary/5 transition-colors duration-300" />
                                         </div>
                                     ))}
                                 </div>
@@ -94,25 +93,31 @@ const AboutFounder = () => {
                                 {/* Navigation buttons */}
                                 <button
                                     onClick={isRTL ? nextSlide : prevSlide}
-                                    className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-2 shadow-lg hover:bg-white transition-colors`}
+                                    className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 
+                                    bg-white/90 rounded-full p-2 shadow-soft hover:shadow-medium hover:bg-white 
+                                    transition-all duration-300 hover:scale-110`}
                                 >
-                                    <ChevronLeft className="w-6 h-6 text-gray-800" />
+                                    <ChevronLeft className="w-6 h-6 text-primary" />
                                 </button>
                                 <button
                                     onClick={isRTL ? prevSlide : nextSlide}
-                                    className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 bg-white/90 rounded-full p-2 shadow-lg hover:bg-white transition-colors`}
+                                    className={`absolute ${isRTL ? 'left-3' : 'right-3'} top-1/2 -translate-y-1/2 
+                                    bg-white/90 rounded-full p-2 shadow-soft hover:shadow-medium hover:bg-white 
+                                    transition-all duration-300 hover:scale-110`}
                                 >
-                                    <ChevronRight className="w-6 h-6 text-gray-800" />
+                                    <ChevronRight className="w-6 h-6 text-primary" />
                                 </button>
 
                                 {/* Dots indicator */}
-                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-3">
                                     {images.map((_, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setCurrentSlide(index)}
-                                            className={`w-2.5 h-2.5 rounded-full transition-colors ${currentSlide === index ? 'bg-white' : 'bg-white/50'
-                                                }`}
+                                            className={`w-3 h-3 rounded-full transition-all duration-300 
+                                                ${currentSlide === index
+                                                    ? 'bg-white scale-110 shadow-soft'
+                                                    : 'bg-white/50 hover:bg-white/75'}`}
                                         />
                                     ))}
                                 </div>
@@ -127,12 +132,12 @@ const AboutFounder = () => {
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true, amount: 0.3 }}
-                            className="text-textPrimary text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-6"
+                            className="text-textPrimary text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-8"
                         >
                             {t('founder', 'title')}
                         </motion.h1>
 
-                        <div className="space-y-6">
+                        <div className="space-y-8">
                             <motion.p
                                 variants={fadeInVariants}
                                 initial="hidden"
@@ -148,16 +153,18 @@ const AboutFounder = () => {
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.3 }}
-                                className="bg-teal-50 p-4 sm:p-6 rounded-lg"
+                                className="bg-primary/5 p-6 sm:p-8 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300"
                             >
-                                <h2 className="text-teal-700 font-semibold text-lg sm:text-xl mb-4">
+                                <h2 className="text-primary font-semibold text-lg sm:text-xl mb-4">
                                     {t('founder', 'achievementsTitle')}
                                 </h2>
-                                <ul className="space-y-3">
+                                <ul className="space-y-4">
                                     {t('founder', 'achievements').map((achievement, index) => (
-                                        <li key={index} className="flex items-start text-textSecondary">
-                                            <span className="text-teal-600 mr-2 text-lg">•</span>
-                                            <span className="text-base sm:text-lg">{achievement}</span>
+                                        <li key={index} className="flex items-start text-textSecondary group">
+                                            <span className="text-primary mr-3 text-lg group-hover:text-secondary transition-colors duration-300">•</span>
+                                            <span className="text-base sm:text-lg group-hover:text-primary transition-colors duration-300">
+                                                {achievement}
+                                            </span>
                                         </li>
                                     ))}
                                 </ul>
@@ -168,53 +175,35 @@ const AboutFounder = () => {
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.3 }}
+                                className="bg-white p-6 sm:p-8 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300"
                             >
-                                <h2 className="text-textPrimary text-xl sm:text-2xl font-semibold mb-4">
+                                <h2 className="text-primary text-xl sm:text-2xl font-semibold mb-4">
                                     {t('founder', 'experienceTitle')}
                                 </h2>
-                                <p className="text-textSecondary text-base sm:text-lg mb-4">
+                                <p className="text-textSecondary text-base sm:text-lg mb-6">
                                     {t('founder', 'experienceDesc')}
                                 </p>
-                                <ul className="space-y-3">
+                                <ul className="space-y-4">
                                     {t('founder', 'stats').map((stat, index) => (
-                                        <li key={index} className="flex items-start text-textSecondary">
-                                            <span className="text-teal-600 mr-2 text-lg">•</span>
-                                            <span className="text-base sm:text-lg">{stat}</span>
+                                        <li key={index} className="flex items-start text-textSecondary group">
+                                            <span className="text-secondary mr-3 text-lg group-hover:text-primary transition-colors duration-300">•</span>
+                                            <span className="text-base sm:text-lg group-hover:text-primary transition-colors duration-300">
+                                                {stat}
+                                            </span>
                                         </li>
                                     ))}
                                 </ul>
                             </motion.div>
 
-                            <motion.div
-                                variants={fadeInVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, amount: 0.3 }}
-                                className="pt-4"
-                            >
-                                <p className="text-textPrimary font-semibold text-lg mb-4">
-                                    {t('founder', 'connectWith')}
-                                </p>
-                                <div className="flex space-x-5">
-                                    {socialLinks.map((social, index) => (
-                                        <motion.a
-                                            key={index}
-                                            href={social.href}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className={`${social.color} hover:opacity-80 transition-opacity`}
-                                        >
-                                            <social.Icon size={28} />
-                                        </motion.a>
-                                    ))}
-                                </div>
-                            </motion.div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Decorative Background Elements */}
+            <div className="absolute top-1/4 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+            <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
         </section>
     )
 }
