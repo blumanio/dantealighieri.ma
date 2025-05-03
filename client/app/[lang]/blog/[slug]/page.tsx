@@ -180,7 +180,6 @@ export async function generateMetadata(
         };
     }
 }
-
 export default async function BlogPostPage({ params, searchParams }: BlogPageProps) {
     const resolvedParams = await params;
     const { lang, slug } = resolvedParams;
@@ -209,20 +208,20 @@ export default async function BlogPostPage({ params, searchParams }: BlogPagePro
         ];
 
         return (
-            <div className="container py-12">
-                <article className="max-w-4xl mx-auto">
+            <div className="container py-12 bg-neutral-50">
+                <article className="max-w-4xl mx-auto bg-white rounded-xl shadow-soft p-8 hover:shadow-medium transition-shadow duration-300">
                     <Breadcrumb items={breadcrumbItems} />
 
-                    <header className="mb-8">
-                        <h1 className="text-4xl font-bold text-primary mb-4 font-poppins">
+                    <header className="mb-8 group">
+                        <h1 className="text-4xl font-bold text-primary mb-4 font-poppins group-hover:text-primary-dark transition-colors duration-300">
                             {frontmatter.title}
                         </h1>
                         <div className="flex items-center gap-4 text-textSecondary">
-                            <time dateTime={frontmatter.date} className="text-base font-poppins">
+                            <time dateTime={frontmatter.date} className="text-base font-poppins hover:text-primary transition-colors duration-300">
                                 {formattedDate}
                             </time>
                             {frontmatter.author && (
-                                <span className="text-base font-poppins">
+                                <span className="text-base font-poppins hover:text-primary transition-colors duration-300">
                                     by {frontmatter.author}
                                 </span>
                             )}
@@ -232,7 +231,7 @@ export default async function BlogPostPage({ params, searchParams }: BlogPagePro
                                 {frontmatter.tags.map(tag => (
                                     <span
                                         key={tag}
-                                        className="px-3 py-1 bg-background rounded-full text-sm text-textSecondary"
+                                        className="px-3 py-1 bg-primary-light/10 rounded-full text-sm text-primary-dark hover:bg-primary-light/20 hover:text-primary transition-all duration-300 cursor-pointer"
                                     >
                                         {tag}
                                     </span>
@@ -243,42 +242,45 @@ export default async function BlogPostPage({ params, searchParams }: BlogPagePro
 
                     <div
                         className="prose prose-lg max-w-none font-poppins
-              prose-headings:font-poppins prose-headings:text-primary
-              prose-p:text-textPrimary prose-p:font-poppins
-              prose-a:text-accent hover:prose-a:text-accent-light
-              prose-strong:text-textPrimary prose-strong:font-medium
-              prose-code:text-accent-dark prose-code:bg-background prose-code:px-1 prose-code:rounded
-              prose-ul:text-textPrimary prose-ol:text-textPrimary
-              prose-li:text-textPrimary prose-li:marker:text-primary
-              prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
-              prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4
-              prose-h3:text-xl prose-h3:font-medium prose-h3:mb-3
-              prose-pre:bg-background prose-pre:border prose-pre:border-border
-              prose-img:rounded-lg prose-img:shadow-md
-              rtl:prose-headings:font-arabic rtl:prose-p:font-arabic
-              rtl:prose-ul:font-arabic rtl:prose-ol:font-arabic"
+                            prose-headings:font-poppins prose-headings:text-primary hover:prose-headings:text-primary-dark
+                            prose-p:text-textPrimary prose-p:font-poppins
+                            prose-a:text-secondary hover:prose-a:text-secondary-dark hover:prose-a:underline
+                            prose-strong:text-primary prose-strong:font-medium
+                            prose-code:text-accent prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                            prose-ul:text-textPrimary prose-ol:text-textPrimary
+                            prose-li:text-textPrimary prose-li:marker:text-secondary
+                            prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
+                            prose-h2:text-2xl prose-h2:font-semibold prose-h2:mb-4
+                            prose-h3:text-xl prose-h3:font-medium prose-h3:mb-3
+                            prose-pre:bg-neutral-100 prose-pre:border prose-pre:border-neutral-200 prose-pre:shadow-sm
+                            prose-img:rounded-lg prose-img:shadow-medium hover:prose-img:shadow-hard transition-shadow
+                            prose-blockquote:border-l-secondary prose-blockquote:bg-neutral-50 prose-blockquote:px-6 prose-blockquote:py-2 prose-blockquote:rounded-r-lg
+                            rtl:prose-headings:font-arabic rtl:prose-p:font-arabic
+                            rtl:prose-ul:font-arabic rtl:prose-ol:font-arabic"
                         dir={lang === 'ar' ? 'rtl' : 'ltr'}
                         dangerouslySetInnerHTML={{ __html: content }}
                     />
 
-                    <footer className="mt-8 pt-8 border-t border-border">
-                        <BlogNavigation
-                            prevPost={adjacentPosts.prev}
-                            nextPost={adjacentPosts.next}
-                            lang={lang}
-                        />
+                    <footer className="mt-8 pt-8 border-t border-neutral-200">
+                        <div className="hover:bg-neutral-50 rounded-lg transition-colors duration-300 p-4">
+                            <BlogNavigation
+                                prevPost={adjacentPosts.prev}
+                                nextPost={adjacentPosts.next}
+                                lang={lang}
+                            />
+                        </div>
                     </footer>
                 </article>
             </div>
         );
     } catch {
         return (
-            <div className="container py-12">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-4xl font-bold text-primary mb-4 font-poppins">
+            <div className="container py-12 bg-neutral-50">
+                <div className="max-w-4xl mx-auto text-center bg-white rounded-xl shadow-soft p-8 hover:shadow-medium transition-all duration-300">
+                    <h1 className="text-4xl font-bold text-primary mb-4 font-poppins hover:text-primary-dark transition-colors duration-300">
                         Blog Post Not Found
                     </h1>
-                    <p className="text-textPrimary font-poppins">
+                    <p className="text-textPrimary font-poppins hover:text-primary transition-colors duration-300">
                         The requested blog post could not be found.
                     </p>
                 </div>
