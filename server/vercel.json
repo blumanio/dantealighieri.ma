@@ -8,74 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/api/generated-posts",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/generated-posts/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/autopost",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/autopost/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/posts",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/posts/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/courses",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/courses/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/applications",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/applications/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/webhooks",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/webhooks/(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "index.js"
-    },
-    {
       "src": "/(.*)",
-      "status": 308,
-      "headers": {
-        "Location": "https://studentitaly.it/$1"
-      }
-    }
-  ],
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://studentitaly.it" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,DELETE,PATCH,POST,PUT,OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
-      ]
+      "dest": "/index.js"
     }
   ]
 }

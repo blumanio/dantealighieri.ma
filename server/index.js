@@ -46,6 +46,9 @@ const corsOptions = {
 // Apply CORS middleware
 app.use(cors(corsOptions));
 app.use("/api/posts", postRoutes);
+app.get('/api/test-generated-posts', (req, res) => {
+  res.status(200).json({ message: 'Generated Posts route test is working' });
+});
 app.use('/api/generated-posts', generatedPostRoutes);
 app.use("/api/autopost", autoPostRoutes);
 // Handle preflight requests
@@ -328,11 +331,15 @@ app.post("/upload", uploadDocuments, async (req, res) => {
   }
 });
 // Connect to MongoDB and start the server
+// Modify your mongoose connection to include better error handling
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((error) => {
     console.error("Error connecting to the database:", error);
+    // Add more detailed logging here
+    console.error("Connection string:", CONNECTION_URL.replace(/mongodb\+srv:\/\/([^:]+):[^@]+@/, 'mongodb+srv://[USERNAME]:[PASSWORD]@')); // Log connection string with password redacted
+    console.error("Error details:", JSON.stringify(error, null, 2));
   });
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
