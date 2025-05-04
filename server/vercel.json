@@ -19,7 +19,7 @@
   ],
   "redirects": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api).*)",
       "destination": "https://studentitaly.it/$1",
       "permanent": true
     }

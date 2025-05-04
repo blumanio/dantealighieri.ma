@@ -23,7 +23,8 @@ const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
 
 // --- Data Fetching Function (getPosts) ---
 async function getPosts(lang: string): Promise<Post[]> {
-    console.log(`[getPosts] Attempting to fetch posts for lang: ${lang}`);
+    console.log('API_URL:', API_URL); // Debugging line to check API_URL
+    console.log(`[getPosts for ${lang}] Fetching posts...`);
     try {
         const res = await fetch(`${API_URL}/api/generated-posts?lang=${lang}`, {
             next: { revalidate: 60 } // Revalidate every 60 seconds
@@ -40,8 +41,8 @@ async function getPosts(lang: string): Promise<Post[]> {
 
         // Basic check and cast (more robust validation recommended)
         const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug && p.frontmatter).map((p: any) => ({
-             ...p,
-             lang: lang // Optionally add lang to each post object if needed later
+            ...p,
+            lang: lang // Optionally add lang to each post object if needed later
         })) as Post[];
 
 
@@ -57,12 +58,12 @@ async function getPosts(lang: string): Promise<Post[]> {
 
         // Sorting - Ensure date comparison is robust
         const sortedPosts = posts.sort((a, b) => {
-             const dateA = new Date(a.frontmatter.date).getTime();
-             const dateB = new Date(b.frontmatter.date).getTime();
-             // Handle invalid dates if necessary (e.g., put them at the end)
-             if (isNaN(dateB)) return -1;
-             if (isNaN(dateA)) return 1;
-             return dateB - dateA; // Newest first
+            const dateA = new Date(a.frontmatter.date).getTime();
+            const dateB = new Date(b.frontmatter.date).getTime();
+            // Handle invalid dates if necessary (e.g., put them at the end)
+            if (isNaN(dateB)) return -1;
+            if (isNaN(dateA)) return 1;
+            return dateB - dateA; // Newest first
         });
 
         // console.log(`[getPosts for ${lang}] Posts after processing:`, JSON.stringify(sortedPosts, null, 2));
@@ -88,7 +89,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
     const formatDate = (dateString: string, locale: string) => {
         try {
             const dateObj = new Date(dateString);
-             if (isNaN(dateObj.getTime())) { return "Invalid Date"; } // Handle invalid date
+            if (isNaN(dateObj.getTime())) { return "Invalid Date"; } // Handle invalid date
             return dateObj.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
         } catch {
             return "Invalid Date";
@@ -148,7 +149,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                                     </span>
                                     {/* Author */}
                                     <span className="inline-flex items-center whitespace-nowrap">
-                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                                         {post.frontmatter.author}
                                     </span>
                                 </div>
@@ -167,7 +168,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                     ))}
                 </div>
             ) : (
-                 // Display message if no posts are found
+                // Display message if no posts are found
                 <p className="text-center text-gray-500 mt-16 text-lg">
                     No blog posts found for this language ({lang}). Check back later! {/* Increased top margin */}
                 </p>
