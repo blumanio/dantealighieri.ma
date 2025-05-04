@@ -35,10 +35,11 @@ interface BlogPost {
 const API_URL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:5000'  // Use HTTP for local development
   : 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app'; 
+  console.log(`process.env.NODE_ENVprocess.env.NODE_ENVprocess.env.NODE_ENV: ${API_URL} ${process.env.NODE_ENV}`);
 // Fetch Single Post Data (Cached)
 const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
     console.log(`[getPost] Fetching post for lang: ${lang}, slug: ${slug}`);
-    const targetUrl = `${API_URL}/api/generated-posts/${slug}?lang=${lang}`; // Ensure API filters by lang
+    const targetUrl = `https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/generated-posts/${slug}?lang=${lang}`; // Ensure API filters by lang
     console.log(`[getPost] Target URL: ${targetUrl}`);
 
     try {
