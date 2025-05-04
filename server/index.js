@@ -360,7 +360,7 @@ app.use((req, res, next) => {
 //     });
 //   });
 // }
-app.use("/posts", postRoutes);
+app.use("/api/posts", postRoutes);
 app.use('/api/generated-posts', generatedPostRoutes);
-app.use("/api/autopost", autoPostRoutes); 
+app.use("/api/autopost", autoPostRoutes);
 export default app;
