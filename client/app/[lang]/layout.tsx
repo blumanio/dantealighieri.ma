@@ -27,7 +27,7 @@ export default async function LangLayout({
         <div className="sticky top-0 z-[1000] bg-white/80 backdrop-blur-sm border-b border-neutral-200 transition-all duration-300">
           <Header />
         </div>
-<BottomMenu menuItems={{}} />
+{/*<BottomMenu menuItems={{}} />*/}
         {/* Main content area with padding for bottom nav */}
         <main className="flex-grow w-full pb-[56px]"> {/* Added pb-[56px] for bottom nav height */}
           <div className="transition-all duration-300 ease-in-out">
