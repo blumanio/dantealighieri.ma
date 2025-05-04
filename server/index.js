@@ -45,7 +45,9 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-
+app.use("/api/posts", postRoutes);
+app.use('/api/generated-posts', generatedPostRoutes);
+app.use("/api/autopost", autoPostRoutes);
 // Handle preflight requests
 app.options("*", cors(corsOptions));
 // const corsOptions = {
@@ -360,7 +362,5 @@ app.use((req, res, next) => {
 //     });
 //   });
 // }
-app.use("/api/posts", postRoutes);
-app.use('/api/generated-posts', generatedPostRoutes);
-app.use("/api/autopost", autoPostRoutes);
+
 export default app;

@@ -8,83 +8,51 @@
   ],
   "routes": [
     {
-      "src": "/api/generated-posts(.*)",
+      "src": "/api/generated-posts",
       "dest": "index.js"
     },
     {
-      "src": "/api/autopost(.*)",
+      "src": "/api/generated-posts/(.*)",
       "dest": "index.js"
     },
     {
-      "src": "/api/posts(.*)",
+      "src": "/api/autopost",
       "dest": "index.js"
     },
     {
-      "src": "/api/courses(.*)",
+      "src": "/api/autopost/(.*)",
       "dest": "index.js"
     },
     {
-      "src": "/api/applications(.*)",
+      "src": "/api/posts",
       "dest": "index.js"
     },
     {
-      "src": "/api/webhooks(.*)",
+      "src": "/api/posts/(.*)",
       "dest": "index.js"
     },
     {
-      "src": "/api/(.*)",
+      "src": "/api/courses",
       "dest": "index.js"
     },
     {
-      "src": "/(.*)",
-      "status": 308,
-      "headers": {
-        "Location": "https://studentitaly.it/$1"
-      }
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://studentitaly.it" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,DELETE,PATCH,POST,PUT,OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
-      ]
-    }
-  ]
-}{
-  "version": 2,
-  "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/generated-posts(.*)",
+      "src": "/api/courses/(.*)",
       "dest": "index.js"
     },
     {
-      "src": "/api/autopost(.*)",
+      "src": "/api/applications",
       "dest": "index.js"
     },
     {
-      "src": "/api/posts(.*)",
+      "src": "/api/applications/(.*)",
       "dest": "index.js"
     },
     {
-      "src": "/api/courses(.*)",
+      "src": "/api/webhooks",
       "dest": "index.js"
     },
     {
-      "src": "/api/applications(.*)",
-      "dest": "index.js"
-    },
-    {
-      "src": "/api/webhooks(.*)",
+      "src": "/api/webhooks/(.*)",
       "dest": "index.js"
     },
     {
@@ -101,7 +69,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "https://studentitaly.it" },
