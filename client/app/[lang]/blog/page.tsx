@@ -25,7 +25,7 @@ const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
 async function getPosts(lang: string): Promise<Post[]> {
     console.log(`[getPosts] Attempting to fetch posts for lang: ${lang}`);
     try {
-        const res = await fetch(`https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/generated-posts?lang=${lang}`, {
+        const res = await fetch(`${API_URL}/api/generated-posts?lang=${lang}`, {
             next: { revalidate: 60 } // Revalidate every 60 seconds
         });
 
