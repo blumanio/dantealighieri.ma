@@ -17,6 +17,13 @@
       "dest": "index.js"
     }
   ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://studentitaly.it/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

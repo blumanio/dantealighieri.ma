@@ -1,220 +1,190 @@
 // app/[lang]/blog/page.tsx
-import fs from 'fs/promises';
-import path from 'path';
-import matter from 'gray-matter';
 import Link from 'next/link';
-import Image from 'next/image';
-import { BlogIndexProps } from '@/types/types';
+import Image from 'next/image'; // Make sure Image is imported
+import { BlogIndexProps } from '@/types/types'; // Assuming this defines { params: { lang: string } }
 
+// Keep the Post interface - ensure coverImage is potentially returned by API
 interface Post {
     slug: string;
     frontmatter: {
         title: string;
-        date: string;
+        date: string; // Expecting ISO String
         excerpt: string;
-        author: string; // <-- Added explicit author type
+        author: string;
+        coverImage?: string; // Optional cover image URL
         [key: string]: any;
     };
+    // Added optional lang property if needed directly on post object
+    lang?: string;
 }
 
-async function ensureDirectory(dirPath: string): Promise<boolean> { // Added return type
-    try {
-        await fs.access(dirPath);
-        return true;
-    } catch {
-        return false;
-    }
-}
+// Define API Base URL
+const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
 
+// --- Data Fetching Function (getPosts) ---
 async function getPosts(lang: string): Promise<Post[]> {
+    console.log(`[getPosts] Attempting to fetch posts for lang: ${lang}`);
     try {
-        const postsDirectory = path.join(process.cwd(), 'content', lang, 'blog');
-        const directoryExists = await ensureDirectory(postsDirectory);
+        const res = await fetch(`${API_URL}/api/generated-posts?lang=${lang}`, {
+            next: { revalidate: 60 } // Revalidate every 60 seconds
+        });
 
-        if (!directoryExists) {
-            console.warn(`Blog directory not found for language: ${lang}`);
-            return [];
-        }
+        if (!res.ok) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] Fetch failed: ${res.status}`); return []; }
 
-        const files = await fs.readdir(postsDirectory);
+        let postsFromApi: any;
+        try {
+            postsFromApi = await res.json();
+        } catch (jsonError) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] JSON parse error:`, jsonError); return []; }
 
-        const postsPromises = files
-            .filter(filename => filename.endsWith('.md'))
-            .map(async (filename) => {
-                try {
-                    const slug = filename.replace('.md', '');
-                    const markdownWithMeta = await fs.readFile(
-                        path.join(postsDirectory, filename),
-                        'utf-8'
-                    );
-                    const { data: frontmatter } = matter(markdownWithMeta);
+        if (!Array.isArray(postsFromApi)) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] API response not array`); return []; }
 
-                    // Ensure all required fields have fallbacks
-                    return {
-                        slug,
-                        frontmatter: {
-                            title: frontmatter.title || 'Untitled',
-                            date: frontmatter.date || new Date().toISOString(),
-                            excerpt: frontmatter.excerpt || 'No excerpt available.', // Added period
-                            author: frontmatter.author || 'Studentitaly Staff', // <-- Read author with fallback
-                            ...frontmatter // Keep other potential fields
-                        }
-                    };
-                } catch (error) {
-                    console.error(`Error processing file ${filename}:`, error);
-                    return null;
-                }
-            });
+        // Basic check and cast (more robust validation recommended)
+        const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug && p.frontmatter).map((p: any) => ({
+             ...p,
+             lang: lang // Optionally add lang to each post object if needed later
+        })) as Post[];
 
-        const posts = await Promise.all(postsPromises);
 
-        // Filter out any null posts and sort by date
-        return posts
-            .filter((post): post is Post => post !== null)
-            .sort((a, b) =>
-                new Date(b.frontmatter.date).getTime() -
-                new Date(a.frontmatter.date).getTime()
-            );
-    } catch (error) {
-        console.error('Error getting posts:', error);
-        return [];
-    }
+        // Simplified fallback - API should ideally provide valid data
+        // Or handle defaults more robustly during mapping below/in component
+        posts.forEach(post => {
+            post.frontmatter = post.frontmatter || {};
+            post.frontmatter.title = post.frontmatter.title || 'Untitled';
+            post.frontmatter.date = post.frontmatter.date || new Date(0).toISOString(); // Use epoch as default invalid date
+            post.frontmatter.excerpt = post.frontmatter.excerpt || 'No excerpt available.';
+            post.frontmatter.author = post.frontmatter.author || 'Studentitaly Staff';
+        });
+
+        // Sorting - Ensure date comparison is robust
+        const sortedPosts = posts.sort((a, b) => {
+             const dateA = new Date(a.frontmatter.date).getTime();
+             const dateB = new Date(b.frontmatter.date).getTime();
+             // Handle invalid dates if necessary (e.g., put them at the end)
+             if (isNaN(dateB)) return -1;
+             if (isNaN(dateA)) return 1;
+             return dateB - dateA; // Newest first
+        });
+
+        // console.log(`[getPosts for ${lang}] Posts after processing:`, JSON.stringify(sortedPosts, null, 2));
+        return sortedPosts;
+
+    } catch (error) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] Unexpected error:`, error); return []; }
 }
 
+// --- BlogPage Component (Updated UI/UX) ---
 export default async function BlogPage({ params }: BlogIndexProps) {
-    const resolvedParams = await params;
-    const lang = resolvedParams.lang;
+    // Resolve params if needed, or directly access if not a promise
+    const lang = (await params).lang;
+
+    console.log(`[BlogPage] Fetching posts for lang: ${lang}`);
     const posts = await getPosts(lang);
 
-    // --- Removed the hardcoded authorNames object and authorName variable ---
+    console.log(`[BlogPage] Number of posts received: ${posts.length}`);
+
+    // Determine text direction
+    const textDir = lang === 'ar' ? 'rtl' : 'ltr';
+
+    // Helper function for date formatting (or create a separate component)
+    const formatDate = (dateString: string, locale: string) => {
+        try {
+            const dateObj = new Date(dateString);
+             if (isNaN(dateObj.getTime())) { return "Invalid Date"; } // Handle invalid date
+            return dateObj.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+        } catch {
+            return "Invalid Date";
+        }
+    };
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-neutral-50">
-            <header className="text-center mb-16 group">
-                <h1 className="text-4xl sm:text-5xl font-poppins font-bold text-primary mb-4 group-hover:text-primary-dark transition-colors duration-300">
-                    Blog Posts
-                </h1>
-                <p className="text-lg text-textSecondary font-poppins max-w-2xl mx-auto group-hover:text-primary transition-colors duration-300">
-                    Discover our latest articles, insights, and updates
-                </p>
-            </header>
+        <div className="container mx-auto px-4 py-8 lg:py-12" dir={textDir}> {/* Added dir */}
+            {/* Page Title */}
+            <h1 className="text-4xl lg:text-5xl font-extrabold mb-10 lg:mb-16 text-center text-gray-900">
+                Blog {/* Consider translating this */}
+            </h1>
 
+            {/* Posts Grid / No Posts Message */}
             {posts.length > 0 ? (
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 lg:grid-cols-3">
                     {posts.map((post) => (
-                        <Link
-                            key={post.slug}
-                            href={`/${lang}/blog/${post.slug}`}
-                            className="group block"
-                        >
-                            <article className="h-full bg-white rounded-2xl shadow-soft
-                                transition-all duration-300 ease-in-out transform
-                                hover:shadow-medium hover:-translate-y-2
-                                border border-neutral-200 overflow-hidden flex flex-col"> {/* Added flex flex-col */}
-                                <div className="p-8 flex flex-col flex-grow"> {/* Added flex flex-col flex-grow */}
-                                    <header className="mb-6">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <time
-                                                dateTime={post.frontmatter.date}
-                                                className="text-sm font-poppins text-textSecondary
-                                                bg-neutral-100 rounded-full px-4 py-1
-                                                group-hover:bg-primary-light/10 group-hover:text-primary
-                                                transition-all duration-300"
-                                            >
-                                                {new Date(post.frontmatter.date).toLocaleDateString(
-                                                    lang === 'en' ? 'en-US' : lang, // Use 'en-US' for reliable English formatting
-                                                    {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric'
-                                                    }
-                                                )}
-                                            </time>
-                                        </div>
-                                        <h2 className="text-2xl font-poppins font-semibold text-primary
-                                            mb-4 line-clamp-2 group-hover:text-primary-dark
-                                            transition-colors duration-300">
-                                            {post.frontmatter.title}
-                                        </h2>
-                                    </header>
-                                    {/* Display excerpt (already correct) */}
-                                    <p className="text-base font-poppins text-textSecondary mb-6 line-clamp-3
-                                        flex-grow group-hover:text-textPrimary transition-colors duration-300">
-                                        {post.frontmatter.excerpt}
-                                    </p>
+                        // Blog Post Card
+                        <div key={post.slug} className="bg-white rounded-lg overflow-hidden shadow-md transition-shadow duration-300 hover:shadow-xl flex flex-col group"> {/* Added group for hover effects */}
 
-                                    {/* Footer pushed to bottom */}
-                                    <div className="mt-auto pt-6 border-t border-neutral-200"> {/* Use mt-auto */}
-                                        <div className="flex items-center">
-                                            <div className="relative w-10 h-10 mr-4 rounded-full overflow-hidden
-                                                ring-2 ring-primary-light/20 group-hover:ring-primary-light/40
-                                                transition-all duration-300">
-                                                <Image
-                                                    // Using a placeholder image, update if you add author-specific images
-                                                    src="/images/user-women.webp"
-                                                    // --- Use dynamic author name for alt text ---
-                                                    alt={post.frontmatter.author}
-                                                    fill
-                                                    className="rounded-full object-cover transition-transform duration-300
-                                                        group-hover:scale-110"
-                                                    sizes="40px"
-                                                />
-                                            </div>
-                                            <div className="flex-1">
-                                                {/* --- Use dynamic author name from frontmatter --- */}
-                                                <p className="text-sm font-poppins font-medium text-primary
-                                                    group-hover:text-primary-dark transition-colors duration-300">
-                                                    {post.frontmatter.author}
-                                                </p>
-                                            </div>
-                                            <div className="ml-auto">
-                                                <span className="inline-flex items-center text-sm font-poppins
-                                                    text-primary group-hover:text-primary-dark transition-all duration-300">
-                                                    <svg className="w-5 h-5 transform group-hover:translate-x-1
-                                                        transition-all duration-300 ease-in-out"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                                            strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                        </div>
+                            {/* Optional Cover Image */}
+                            {post.frontmatter.coverImage ? (
+                                <Link href={`/${lang}/blog/${post.slug}`} className="block overflow-hidden">
+                                    <div className="aspect-video relative w-full"> {/* Consistent Aspect Ratio */}
+                                        <Image
+                                            src={post.frontmatter.coverImage}
+                                            alt={`Cover image for ${post.frontmatter.title}`}
+                                            fill
+                                            style={{ objectFit: 'cover' }} // Use style for object-fit
+                                            className="transition-transform duration-500 ease-in-out group-hover:scale-105" // Subtle zoom on hover
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Example sizes
+                                        />
                                     </div>
+                                </Link>
+                            ) : (
+                                // Optional: Placeholder if no image
+                                <div className="aspect-video w-full bg-gray-100"></div>
+                            )}
+
+                            {/* Card Content */}
+                            <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                                {/* Title */}
+                                <h2 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 hover:text-teal-700 transition-colors duration-200 line-clamp-2"> {/* Added line-clamp */}
+                                    <Link href={`/${lang}/blog/${post.slug}`}>
+                                        {post.frontmatter.title}
+                                    </Link>
+                                </h2>
+
+                                {/* Metadata (Date & Author) */}
+                                <div className="text-xs text-gray-500 mb-3 flex items-center flex-wrap gap-x-3">
+                                    {/* Date */}
+                                    <span className="inline-flex items-center whitespace-nowrap">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}> <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                        <time dateTime={post.frontmatter.date}>
+                                            {formatDate(post.frontmatter.date, lang === 'it' ? 'it-IT' : (lang === 'ar' ? 'ar-EG' : 'en-US'))}
+                                        </time>
+                                    </span>
+                                    {/* Author */}
+                                    <span className="inline-flex items-center whitespace-nowrap">
+                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                        {post.frontmatter.author}
+                                    </span>
                                 </div>
-                            </article>
-                        </Link>
+
+                                {/* Excerpt */}
+                                <p className="text-sm text-gray-700 mb-4 flex-grow line-clamp-3"> {/* Added line-clamp */}
+                                    {post.frontmatter.excerpt}
+                                </p>
+
+                                {/* Read More Link */}
+                                <Link href={`/${lang}/blog/${post.slug}`} className="inline-block text-sm font-medium text-teal-600 hover:text-teal-800 self-start mt-auto group-[.card-hover]:text-teal-700 transition-all duration-200 ease-in-out hover:translate-x-1"> {/* Adjusted hover color & added arrow effect */}
+                                    Read More <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">&rarr;</span>
+                                </Link>
+                            </div>
+                        </div>
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-16 bg-white rounded-2xl shadow-soft">
-                    <p className="text-xl font-poppins text-textSecondary hover:text-primary transition-colors duration-300">
-                        No blog posts found for this language.
-                    </p>
-                </div>
+                 // Display message if no posts are found
+                <p className="text-center text-gray-500 mt-16 text-lg">
+                    No blog posts found for this language ({lang}). Check back later! {/* Increased top margin */}
+                </p>
             )}
         </div>
     );
 }
 
-// generateMetadata function remains the same
-export async function generateMetadata({ params }: BlogIndexProps) {
-    const resolvedParams = await params;
-    const lang = resolvedParams.lang;
-
-    const titles = {
-        en: 'Blog Posts - Studentitaly', // Added site name
-        it: 'Articoli del Blog - Studentitaly',
-        ar: 'مقالات المدونة - Studentitaly' // Ensure correct translation if needed
-    };
-    const descriptions = {
-        en: 'Discover the latest articles, insights, and updates for international students planning to study in Italy.',
-        it: 'Scopri gli ultimi articoli, approfondimenti e aggiornamenti per studenti internazionali che intendono studiare in Italia.',
-        ar: 'اكتشف أحدث المقالات والأفكار والتحديثات للطلاب الدوليين الذين يخططون للدراسة في إيطاليا.' // Example
-    };
-
-
-    return {
-        title: titles[lang as keyof typeof titles] || titles.en,
-        description: descriptions[lang as keyof typeof descriptions] || descriptions.en
-    };
-}
+// --- Optional: generateMetadata for Blog Index Page ---
+// export async function generateMetadata({ params }: BlogIndexProps) {
+//   const lang = params.lang;
+//   // Example static metadata - could be dynamic based on language
+//   const titles = { en: 'Blog', ar: 'المدونة', it: 'Blog' };
+//   const descriptions = { en: 'Latest articles...', ar: 'أحدث المقالات...', it: 'Ultimi articoli...'};
+//   return {
+//     title: titles[lang] || 'Blog',
+//     description: descriptions[lang] || 'Read our latest posts.',
+//     // Add canonical URL, alternates for hreflang if needed
+//   };
+// }

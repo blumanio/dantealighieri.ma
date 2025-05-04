@@ -29,7 +29,9 @@ const menuItems: MenuItems = {
     soon: 'Soon',
     programs: 'Programs',
     requirements: 'Requirements',
-    services: 'Services'
+    services: 'Services',
+    home: 'Home',
+    profile: 'Profile'
   },
   ar: {
     imat: 'IMAT',
@@ -39,9 +41,11 @@ const menuItems: MenuItems = {
     universities: 'مواعيد الجامعات',
     apply: 'تقديم',
     soon: 'قريباً',
-    programs: "ابحث عن تخصصك "  ,
+    programs: "ابحث عن تخصصك",
     requirements: 'المتطلبات',
-    services: 'الخدمات'
+    services: 'الخدمات',
+    home: 'الرئيسية',
+    profile: 'الملف الشخصي'
   },
   it: {
     imat: 'IMAT',
@@ -53,7 +57,9 @@ const menuItems: MenuItems = {
     soon: 'Presto',
     programs: 'Programmi',
     requirements: 'Requisiti',
-    services: 'Servizi'
+    services: 'Servizi',
+    home: 'Home',
+    profile: 'Profilo'
   }
 } as const;
 
@@ -61,11 +67,11 @@ const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
-  const { user } = useUser()
+  const { user } = useUser();
 
   // Sync language with URL on mount and pathname change
   useEffect(() => {
-    const urlLang = pathname.split('/')[1] as Language;
+    const urlLang = pathname?.split('/')[1] as Language;
     if (urlLang && ['en', 'ar', 'it'].includes(urlLang) && urlLang !== language) {
       setLanguage(urlLang);
       document.documentElement.dir = urlLang === 'ar' ? 'rtl' : 'ltr';
@@ -131,6 +137,7 @@ const Header: React.FC = () => {
                 </div>
               </SignedIn>
             </div>
+            
             <Link href={`/${language}`} className="flex items-center space-x-2 max-w-60" aria-label="Home">
               <DanteAlighieriLogo className="h-24 w-auto text-white" aria-hidden="true" />
             </Link>
@@ -147,32 +154,12 @@ const Header: React.FC = () => {
                 </Link>
               ))}
               <LanguageSwitcher />
-              {/* <div className="text-white font-poppins">
-                <SignedOut>
-                  <SignInButton mode="modal">
-                    <button className="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full 
-                                   transition-all duration-200 text-sm font-medium
-                                   hover:scale-105 transform backdrop-blur-sm">
-                      Sign In
-                    </button>
-                  </SignInButton>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton
-                    afterSignOutUrl="/"
-                    appearance={{
-                      elements: {
-                        avatarBox: "h-8 w-8 rounded-full hover:scale-105 transform duration-200"
-                      }
-                    }}
-                  />
-                </SignedIn>
-              </div> */}
             </div>
-          </div>
 
-          <div className="md:hidden">
-            <MobileNav menuItems={menuItems} />
+            {/* Mobile Nav button positioned in the header */}
+            <div className="md:hidden z-50">
+              <MobileNav menuItems={menuItems} />
+            </div>
           </div>
         </nav>
       </div>

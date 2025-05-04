@@ -56,13 +56,25 @@ const AboutPage: React.FC = () => {
               <p className='text-textSecondary group-hover:text-primary-dark transition-colors duration-300'>
                 {t('about', 'missionDescription')}
               </p>
+              <div className='mt-20 p-6 rounded-lg hover:bg-white hover:shadow-soft transition-all duration-300'>
+          <h3 className='mb-4 text-2xl font-bold text-textPrimary hover:text-primary transition-colors duration-300'>
+            {t('about', 'ourStoryTitle')}
+          </h3>
+          <p className='text-textSecondary hover:text-primary-dark transition-colors duration-300'>
+            {t('about', 'ourStoryFoundingStory')}
+          </p>
+          <p className='mt-4 text-textSecondary hover:text-primary-dark transition-colors duration-300'>
+            {t('about', 'ourStoryImpact')}
+          </p>
+        </div>
             </div>
+            
             <div className='relative h-64 md:h-auto transform transition-transform duration-300 hover:scale-[1.02]'>
               <Image
-                src='/images/italian-university.jpg'
+                src='/images/1.jpg'
                 alt={t('about', 'imageAltUniversity')}
                 width={500}
-                height={300}
+                height={667}
                 className='rounded-lg object-cover w-full h-full shadow-medium hover:shadow-hard transition-shadow duration-300'
               />
             </div>
@@ -90,17 +102,7 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
 
-        <div className='mt-20 p-6 rounded-lg hover:bg-white hover:shadow-soft transition-all duration-300'>
-          <h3 className='mb-4 text-2xl font-bold text-textPrimary hover:text-primary transition-colors duration-300'>
-            {t('about', 'ourStoryTitle')}
-          </h3>
-          <p className='text-textSecondary hover:text-primary-dark transition-colors duration-300'>
-            {t('about', 'ourStoryFoundingStory')}
-          </p>
-          <p className='mt-4 text-textSecondary hover:text-primary-dark transition-colors duration-300'>
-            {t('about', 'ourStoryImpact')}
-          </p>
-        </div>
+        
 
         <ContactCTA></ContactCTA>
       </div>

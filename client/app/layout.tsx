@@ -91,6 +91,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.lang || 'en'} className={poppins.variable}>
+      <script src="//code.tidio.co/5x5vbeatvnqkj4tofmzqhw8rctjxtd17.js" async></script>
       <body className='className="font-poppins" ${inter.className}'>
         <Suspense fallback={<LoadingFallback />}>
           <LayoutContent lang={params.lang}>

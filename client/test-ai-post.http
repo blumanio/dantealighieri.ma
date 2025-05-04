@@ -1,0 +1,9 @@
+# @name Auto-generate blog post from URL
+POST http://localhost:3000/api/auto-post
+Content-Type: application/json
+
+{
+    
+    "blogUrl": "https://www.studenti.it/test-medicina-2025.html",
+    "lang": "en" 
+}

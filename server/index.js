@@ -6,6 +6,8 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
+import autoPostRoutes from "./routes/autoPost.js";
+import generatedPostRoutes from './routes/generatedPosts.js'
 import { Webhook } from "svix";
 import User from "./models/User.js";
 import {
@@ -353,10 +355,12 @@ app.use((req, res, next) => {
 //   // For development, add a catch-all route that returns a JSON response
 //   app.get("*", (req, res) => {
 //     res.json({
-//       message:
+//       mess
 //         "API is running. For client-side routes, please run the React development server.",
 //     });
 //   });
 // }
 app.use("/posts", postRoutes);
+app.use('/api/generated-posts', generatedPostRoutes);
+app.use("/api/autopost", autoPostRoutes); 
 export default app;

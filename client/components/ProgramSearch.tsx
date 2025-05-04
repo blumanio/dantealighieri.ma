@@ -1,8 +1,7 @@
-// ProgramSearch.tsx
-
 'use client';
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, Loader } from 'lucide-react';
+import { Search, Filter, Loader, GraduationCap } from 'lucide-react';
 import _ from 'lodash';
 import PaginatedCourses from './PaginatedCourses';
 import { useLanguage } from '../app/[lang]/LanguageContext';
@@ -20,9 +19,7 @@ interface Course {
   lingua: string;
   comune: string;
 }
-type Language = 'en' | 'ar' | 'it'
 
-const defaultLanguage: Language = 'ar' // Default language should be 'en'
 interface ProgramSearchProps {
   initialFilters?: {
     degreeType: string;
@@ -31,12 +28,10 @@ interface ProgramSearchProps {
     academicArea: string;
   };
 }
-const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
-  const { language = defaultLanguage, t } = useLanguage();
 
-  useEffect(() => {
-    setFormData(prev => ({ ...prev }));
-  }, [language]);
+const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
+  const { language = 'en', t } = useLanguage();
+  const isRTL = language === 'ar';
 
   const [formData, setFormData] = useState({
     degreeType: initialFilters?.degreeType || '',
@@ -47,6 +42,10 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setFormData(prev => ({ ...prev }));
+  }, [language]);
 
   const fetchAllCourses = async () => {
     setIsLoading(true);
@@ -93,95 +92,108 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
     }));
   };
 
-  const isRTL = language === 'ar';
-  console.log(language, isRTL);
-
   return (
-    <div className={`space-y-6 rounded-lg bg-gray-100 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="w-full relative">
+    <div className={`min-h-screen bg-neutral-50 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className="w-full">
         <AnimatedLogos />
       </div>
-      <div className="rounded-lg bg-white p-4 shadow-sm">
-        <h2 className="mb-4 text-2xl font-bold text-gray-800">{t('programSearch', 'searchTitle')}</h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <select
-            name="degreeType"
-            value={formData.degreeType}
-            onChange={handleChange}
-            className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-          >
-            {degreeTypes.map(lang => (
-              <option key={lang.value} value={lang.value}>
-                {lang.label[language]}
-              </option>
-            ))}
-          </select>
 
-          <select
-            name="accessType"
-            value={formData.accessType}
-            onChange={handleChange}
-            className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-          >
-            {accessTypes.map(lang => (
-              <option key={lang.value} value={lang.value}>
-                {lang.label[language]}
-              </option>
-            ))}
-          </select>
+      {/* Search Container */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-xl shadow-soft p-6 space-y-6">
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-primary/10 rounded-lg">
+              <GraduationCap className="h-6 w-6 text-primary" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-primary">
+              {t('programSearch', 'searchTitle')}
+            </h2>
+          </div>
 
-          <select
-            name="courseLanguage"
-            value={formData.courseLanguage}
-            onChange={handleChange}
-            className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-          >
-            {courseLanguages.map(lang => (
-              <option key={lang.value} value={lang.value}>
-                {lang.label[language]}
-              </option>
+          {/* Filters Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              {
+                name: 'degreeType',
+                options: degreeTypes,
+                value: formData.degreeType
+              },
+              {
+                name: 'accessType',
+                options: accessTypes,
+                value: formData.accessType
+              },
+              {
+                name: 'courseLanguage',
+                options: courseLanguages,
+                value: formData.courseLanguage
+              },
+              {
+                name: 'academicArea',
+                options: academicAreas,
+                value: formData.academicArea,
+                placeholder: t('programSearch', 'academicArea')
+              }
+            ].map((filter) => (
+              <select
+                key={filter.name}
+                name={filter.name}
+                value={filter.value}
+                onChange={handleChange}
+                className="w-full px-4 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200
+                         text-textPrimary focus:ring-2 focus:ring-primary/20 focus:border-primary/30
+                         transition-all duration-300"
+              >
+                {filter.placeholder && <option value="">{filter.placeholder}</option>}
+                {filter.options.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label[language]}
+                  </option>
+                ))}
+              </select>
             ))}
-          </select>
+          </div>
 
-          <select
-            name="academicArea"
-            value={formData.academicArea}
-            onChange={handleChange}
-            className="block w-full rounded-md border border-gray-300 p-2 focus:border-indigo-300 focus:ring focus:ring-indigo-200"
-          >
-            <option value="">{t('programSearch', 'academicArea')}</option>
-            {academicAreas.map(area => (
-              <option key={area.value} value={area.value}>
-                {area.label[language]}
-              </option>
-            ))}
-          </select>
+          {/* Search Input */}
+          <div className="relative mt-6">
+            <input
+              type="text"
+              placeholder={t('programSearch', 'searchPlaceholder')}
+              onChange={e => setSearchTerm(e.target.value)}
+              className={`w-full rounded-full px-12 py-3 bg-neutral-50 border border-neutral-200
+                       text-textPrimary placeholder-textSecondary
+                       focus:ring-2 focus:ring-primary/20 focus:border-primary/30
+                       transition-all duration-300`}
+            />
+            <Search className={`absolute top-1/2 -translate-y-1/2 transform text-primary/70 
+                            h-5 w-5 ${isRTL ? 'right-4' : 'left-4'}`} />
+          </div>
         </div>
 
-        <div className="relative mt-4">
-          <input
-            type="text"
-            placeholder={t('programSearch', 'searchPlaceholder')}
-            onChange={e => setSearchTerm(e.target.value)}
-            className={`w-full rounded-full border p-2 ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} focus:outline-none focus:ring-2 focus:ring-indigo-300`}
-          />
-          {/* <Search className={`absolute top-1/2 -translate-y-1/2 transform text-gray-400 h-4 w-4 ${isRTL ? 'right-3' : 'left-3'}`} /> */}
+        {/* Results Section */}
+        <div className="mt-8">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-16 space-y-4">
+              <div className="relative">
+                <div className="w-16 h-16 border-4 border-primary/20 rounded-full animate-spin">
+                  <div className="absolute top-0 left-0 w-16 h-16 border-4 border-primary rounded-full animate-spin-fast"></div>
+                </div>
+              </div>
+              <p className="text-textSecondary">{t('programSearch', 'loadingMessage')}</p>
+            </div>
+          ) : filteredCourses.length > 0 ? (
+            <PaginatedCourses filteredCourses={filteredCourses} />
+          ) : (
+            <div className="text-center py-16">
+              <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-full mb-4">
+                <Filter className="h-8 w-8 text-primary" />
+              </div>
+              <p className="text-xl text-textPrimary">{t('programSearch', 'noResults')}</p>
+            </div>
+          )}
         </div>
       </div>
-
-      {isLoading ? (
-        <div className="flex h-64 items-center justify-center">
-          <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-indigo-500"></div>
-          <span className="ml-3">{t('programSearch', 'loadingMessage')}</span>
-        </div>
-      ) : filteredCourses.length > 0 ? (
-        <PaginatedCourses filteredCourses={filteredCourses} />
-      ) : (
-        <div className="py-8 text-center text-gray-600">
-          <Filter className="mx-auto mb-4 h-12 w-12" />
-          <p className="text-xl">{t('programSearch', 'noResults')}</p>
-        </div>
-      )}
     </div>
   );
 };

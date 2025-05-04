@@ -11,9 +11,10 @@ import { translations } from '../../client/app/i18n/translations';
 import { Locale } from '../../client/app/i18n/types';
 
 const HeroSection: React.FC = () => {
+  
   const router = useRouter();
   const params = useParams();
-  const { language = 'en' } = useLanguage();
+  const { language = 'en',t } = useLanguage();
   const isRTL = language === 'ar';
   const currentTranslations = translations[language as Locale] || translations.en;
 
@@ -123,6 +124,20 @@ const HeroSection: React.FC = () => {
           </motion.div>
         </div>
       </div>
+        <div className='mt-20 text-center'>
+          <h3 className='mb-4 text-2xl font-bold text-textPrimary hover:text-primary transition-colors duration-300'>
+            {t('about', 'ctaTitle')}
+          </h3>
+          <div className='flex justify-center space-x-4'>
+            <a 
+              href='https://calendly.com/dantema/dante-alighieri-consulting' 
+              target='_blank'
+              className="inline-block bg-primary text-white px-8 py-4 rounded-full hover:bg-secondary hover:scale-105 hover:shadow-medium transform transition-all duration-300 shadow-soft"
+            >
+              {t('about', 'ctaButtonText')}
+            </a>
+          </div>
+        </div>
     </section>
   );
 };
