@@ -32,8 +32,9 @@ interface BlogPost {
 }
 
 // --- API Fetching Functions ---
-const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
-
+const API_URL = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5000'  // Use HTTP for local development
+  : 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app'; 
 // Fetch Single Post Data (Cached)
 const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
     console.log(`[getPost] Fetching post for lang: ${lang}, slug: ${slug}`);
@@ -282,7 +283,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                  {/* Previous/Next Navigation - only renders if prev or next exists */}
                  { (prev || next) && (
                     <div className="mt-12 pt-8 border-t border-gray-200">
-                        <BlogNavigation prevPost={prev} nextPost={next} lang={lang} />
+                        <BlogNavigation prevPost={prev} next={next} lang={lang} />
                     </div>
                  )}
             </article>
