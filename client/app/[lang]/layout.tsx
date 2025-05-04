@@ -3,7 +3,7 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';
 import ClientLayout from './ClientLayout';
 import ScrollToTop from '../../components/ScrollToTop';
-import BottomMenu from '@/components/MobileBottomNav';
+//import BottomMenu from '@/components/MobileBottomNav';
 import DomainChangePopup from '@/components/DomainChange';
 
 const languages = ['en', 'it', 'ar'] as const;
