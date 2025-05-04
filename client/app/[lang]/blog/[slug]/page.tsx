@@ -118,7 +118,7 @@ export async function generateMetadata(
     { params }: BlogPageProps,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const { lang, slug } = params; // Directly use params
+    const { lang, slug } = await params; // Await params to resolve the Promise
 
     try {
         // Fetch post data (will use cache if getPost already called)
@@ -165,7 +165,7 @@ export async function generateMetadata(
 
 // --- Main BlogPost Component ---
 export default async function BlogPost({ params }: BlogPageProps) {
-    const { lang, slug } = params; // Get lang and slug from params
+    const { lang, slug } = await params; // Await params to resolve the Promise
 
     // Fetch post data and adjacent post data in parallel
     const [post, adjacentData] = await Promise.all([
@@ -282,7 +282,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                  {/* Previous/Next Navigation - only renders if prev or next exists */}
                  { (prev || next) && (
                     <div className="mt-12 pt-8 border-t border-gray-200">
-                        <BlogNavigation prev={prev} next={next} lang={lang} />
+                        <BlogNavigation prevPost={prev} nextPost={next} lang={lang} />
                     </div>
                  )}
             </article>
