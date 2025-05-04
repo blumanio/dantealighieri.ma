@@ -283,7 +283,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                  {/* Previous/Next Navigation - only renders if prev or next exists */}
                  { (prev || next) && (
                     <div className="mt-12 pt-8 border-t border-gray-200">
-                        <BlogNavigation prevPost={prev} next={next} lang={lang} />
+                        <BlogNavigation prevPost={prev} nextPost={next} lang={lang} />
                     </div>
                  )}
             </article>
