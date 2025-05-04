@@ -46,10 +46,48 @@ const corsOptions = {
 // Apply CORS middleware
 app.use(cors(corsOptions));
 app.use("/api/posts", postRoutes);
-app.get('/api/test-generated-posts', (req, res) => {
-  res.status(200).json({ message: 'Generated Posts route test is working' });
+// Add this after your other endpoint definitions in index.js
+// Replace the app.use('/api/generated-posts', generatedPostRoutes) line
+
+// --- GET /api/generated-posts?lang=en (List of posts) ---
+app.get('/api/generated-posts', async (req, res) => {
+  console.log("Directly handling /api/generated-posts endpoint");
+  const startTime = Date.now();
+  console.log(`${new Date().toISOString()} - GET /api/generated-posts - Request received.`);
+  console.log('Query:', req.query);
+
+  try {
+    const { lang } = req.query; // Get requested language
+
+    // --- Query based on the CORRECT schema ---
+    let filter = {};
+    if (lang) {
+      filter.lang = lang;
+    }
+
+    const GeneratedPost = mongoose.model("GeneratedPost");
+    // Simple response to test if the route works
+    res.status(200).json({
+      message: 'Generated posts endpoint is responding',
+      filter: filter,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error(`[API Error] Error in direct generated-posts handler:`, error);
+    res.status(500).json({ success: false, error: 'Failed to fetch posts' });
+  }
 });
-app.use('/api/generated-posts', generatedPostRoutes);
+
+// Single post endpoint
+app.get('/api/generated-posts/:slug', async (req, res) => {
+  console.log("Directly handling /api/generated-posts/:slug endpoint");
+  res.status(200).json({
+    message: 'Single post endpoint is responding',
+    slug: req.params.slug,
+    timestamp: new Date().toISOString()
+  });
+});
 app.use("/api/autopost", autoPostRoutes);
 // Handle preflight requests
 app.options("*", cors(corsOptions));
