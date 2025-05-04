@@ -14,14 +14,10 @@
     },
     {
       "src": "/(.*)",
-      "dest": "index.js"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/((?!api).*)",
-      "destination": "https://studentitaly.it/$1",
-      "permanent": true
+      "status": 308,
+      "headers": {
+        "Location": "https://studentitaly.it/$1"
+      }
     }
   ],
   "headers": [
