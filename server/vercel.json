@@ -8,6 +8,26 @@
   ],
   "routes": [
     {
+      "src": "/api/healthcheck",
+      "dest": "server/api/index.js"
+    },
+    {
+      "src": "/api/courses",
+      "dest": "server/api/index.js"
+    },
+    {
+      "src": "/api/posts",
+      "dest": "server/api/index.js"
+    },
+    {
+      "src": "/api/generated-posts",
+      "dest": "server/api/index.js"
+    },
+    {
+      "src": "/api/autopost",
+      "dest": "server/api/index.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "server/api/index.js"
     }

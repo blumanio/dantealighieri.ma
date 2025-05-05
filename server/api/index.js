@@ -106,11 +106,15 @@ app.use(async (req, res, next) => {
 // Mount routers WITHOUT the /api prefix.
 // Vercel's rewrite rule (`/api/(.*)` -> `/index.js`) handles the /api part externally.
 // Express internally sees paths like `/posts`, `/generated-posts`, etc.
-app.use("/posts", postRoutes);
-app.use("/generated-posts", generatedPostRoutes);
-app.use("/autopost", autoPostRoutes);
-app.use("/courses", coursesRoutes);
-app.use("/healthcheck", healthcheckRouter); // <--- ADD THIS LINE TO USE THE ROUTER
+// Mount all routes under /api
+const apiRouter = express.Router();
+apiRouter.use("/posts", postRoutes);
+apiRouter.use("/generated-posts", generatedPostRoutes);
+apiRouter.use("/autopost", autoPostRoutes);
+apiRouter.use("/courses", coursesRoutes);
+apiRouter.use("/healthcheck", healthcheckRouter);
+
+app.use("/api", apiRouter);
 
 // --- Optional: Logging Middleware (place after routes if you only want to log successful routes) ---
 // app.use((req, res, next) => { ... });
