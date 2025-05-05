@@ -7,19 +7,11 @@
       "config": {
         "distDir": "build"
       }
-    },
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/index.js"
-    },
-    {
-      "source": "/((?!api/|favicon.ico|logo192.png|manifest.json|robots.txt).*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]
