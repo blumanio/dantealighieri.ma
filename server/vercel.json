@@ -8,8 +8,23 @@
   ],
   "routes": [
     {
+      "src": "/api/generated-posts",
+      "dest": "index.js"
+    },
+    {
+      "src": "/api/generated-posts/(.*)",
+      "dest": "index.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "index.js"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/index.js"
+      "status": 308,
+      "headers": {
+        "Location": "https://studentitaly.it/$1"
+      }
     }
   ]
 }
