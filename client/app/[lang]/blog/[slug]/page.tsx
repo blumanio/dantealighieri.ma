@@ -31,9 +31,7 @@ interface BlogPost {
 }
 
 // --- API Fetching Functions ---
-const API_URL = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:5000'
-  : 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app';
+const API_URL = process.env.NODE_ENV
 
 // Fetch Single Post Data (Cached)
 const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
@@ -57,7 +55,7 @@ const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
         }
 
         const response = await res.json();
-        
+
         // Handle new API response format
         let postFromApi: any;
         if (response.success && response.post) {
@@ -72,34 +70,30 @@ const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
         // Log the content format to debug
         console.log(`[getPost] Content type:`, typeof postFromApi.content);
         console.log(`[getPost] Content preview:`, postFromApi.content?.substring(0, 100));
-        
+
         // Ensure content is a string before parsing
-        const contentToProcess = typeof postFromApi.content === 'string' 
-            ? postFromApi.content 
+        const contentToProcess = typeof postFromApi.content === 'string'
+            ? postFromApi.content
             : '';
-            
+
         // Check if content is already HTML (basic check)
         const isContentHtml = contentToProcess.includes('<') && contentToProcess.includes('>');
 
         // Configure marked with more options for proper rendering
-        marked.setOptions({ 
+        marked.setOptions({
             gfm: true,
             breaks: true,
-            mangle: false,
-            smartLists: true,
-            smartypants: true,
-            xhtml: true
         });
-        
+
         // Parse markdown to HTML only if it's not already HTML
-        const parsedContent = isContentHtml 
-            ? contentToProcess 
+        const parsedContent = isContentHtml
+            ? contentToProcess
             : marked.parse(contentToProcess) as string;
-        
+
         // Log a preview of the parsed HTML to debug
-        console.log(`[getPost] Parsed HTML preview:`, 
-            typeof parsedContent === 'string' 
-                ? parsedContent.substring(0, 100) 
+        console.log(`[getPost] Parsed HTML preview:`,
+            typeof parsedContent === 'string'
+                ? parsedContent.substring(0, 100)
                 : 'Non-string content');
 
         // Construct the post data with proper content
@@ -110,8 +104,8 @@ const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
                 date: frontmatter.date || postFromApi.date || new Date().toISOString(),
                 excerpt: frontmatter.excerpt || postFromApi.excerpt || 'No excerpt available.',
                 author: frontmatter.author || postFromApi.author,
-                tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : 
-                      (postFromApi.tags ? postFromApi.tags : []),
+                tags: Array.isArray(frontmatter.tags) ? frontmatter.tags :
+                    (postFromApi.tags ? postFromApi.tags : []),
                 coverImage: frontmatter.coverImage || postFromApi.coverImage
             },
             content: parsedContent as string,
@@ -143,10 +137,10 @@ const getAdjacentPosts = cache(async (lang: string, currentSlug: string): Promis
         }
 
         const response = await res.json();
-        
+
         // Handle new API response format
         let adjacentData: any = { prev: null, next: null };
-        
+
         if (response.success) {
             // New API format
             adjacentData.prev = response.prev || null;
@@ -157,7 +151,7 @@ const getAdjacentPosts = cache(async (lang: string, currentSlug: string): Promis
         } else {
             console.warn(`[getAdjacentPosts] Unexpected API response structure:`, response);
         }
-        
+
         return {
             prev: adjacentData.prev || null,
             next: adjacentData.next || null
@@ -227,7 +221,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 { year: 'numeric', month: 'long', day: 'numeric' }
             );
         } else {
-             console.warn(`[BlogPost Render] Invalid date encountered: ${frontmatter.date}`);
+            console.warn(`[BlogPost Render] Invalid date encountered: ${frontmatter.date}`);
         }
     } catch (e) { console.error("[BlogPost Render] Error formatting date:", e); }
 
@@ -249,9 +243,9 @@ export default async function BlogPost({ params }: BlogPageProps) {
 
             {/* Article wrapper with background, padding, shadow */}
             <article className="max-w-4xl mx-auto bg-white p-6 sm:p-8 lg:p-10 rounded-lg shadow-lg">
-                 {/* Optional Featured Image */}
-                 {frontmatter.coverImage && (
-                     <div className="mb-8 -mt-6 -mx-6 sm:-mt-8 sm:-mx-8 lg:-mt-10 lg:-mx-10 aspect-[16/9] relative w-[calc(100%+theme(space.12))] sm:w-[calc(100%+theme(space.16))] lg:w-[calc(100%+theme(space.20))] overflow-hidden rounded-t-lg shadow-md">
+                {/* Optional Featured Image */}
+                {frontmatter.coverImage && (
+                    <div className="mb-8 -mt-6 -mx-6 sm:-mt-8 sm:-mx-8 lg:-mt-10 lg:-mx-10 aspect-[16/9] relative w-[calc(100%+theme(space.12))] sm:w-[calc(100%+theme(space.16))] lg:w-[calc(100%+theme(space.20))] overflow-hidden rounded-t-lg shadow-md">
                         <Image
                             src={frontmatter.coverImage}
                             alt={`Cover image for ${frontmatter.title}`}
@@ -261,7 +255,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 1024px"
                         />
                     </div>
-                 )}
+                )}
 
                 {/* Article Header */}
                 <header className="mb-8 border-b border-gray-200 pb-6">
@@ -280,19 +274,19 @@ export default async function BlogPost({ params }: BlogPageProps) {
                         </span>
                         {/* Author */}
                         {frontmatter.author && (
-                             <span className="flex items-center whitespace-nowrap">
+                            <span className="flex items-center whitespace-nowrap">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                                 {frontmatter.author}
-                             </span>
+                            </span>
                         )}
                     </div>
                     {/* Tags */}
                     {frontmatter.tags && frontmatter.tags.length > 0 && (
                         <div className="flex flex-wrap items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                             </svg>
                             {frontmatter.tags.map(tag => (
                                 <span key={tag} className="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-xs font-medium transition hover:bg-teal-200 cursor-pointer">
@@ -308,15 +302,15 @@ export default async function BlogPost({ params }: BlogPageProps) {
                     className="prose prose-lg lg:prose-xl max-w-none prose-p:leading-relaxed prose-headings:mt-8 prose-headings:mb-4 prose-li:my-1 prose-a:text-teal-600 hover:prose-a:text-teal-700 prose-img:rounded-md prose-img:shadow-sm"
                     dangerouslySetInnerHTML={{ __html: content || '<p>No content available</p>' }}
                 />
-                
-              
 
-                 {/* Previous/Next Navigation */}
-                 {(prev || next) && (
+
+
+                {/* Previous/Next Navigation */}
+                {(prev || next) && (
                     <div className="mt-12 pt-8 border-t border-gray-200">
                         <BlogNavigation prevPost={prev} nextPost={next} lang={lang} />
                     </div>
-                 )}
+                )}
             </article>
         </div>
     );
