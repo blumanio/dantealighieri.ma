@@ -12,6 +12,7 @@ import postRoutes from "./routes/posts.js";
 import autoPostRoutes from "./routes/autoPost.js";
 import generatedPostRoutes from './routes/generatedPosts.js';
 import coursesRoutes from './routes/courses.js';
+import healthcheckRouter from './routes/healthcheck.js'; // <--- ADD THIS IMPORT
 // No need to import Models here unless used directly in this file for other logic
 
 dotenv.config();
@@ -109,6 +110,7 @@ app.use("/posts", postRoutes);
 app.use("/generated-posts", generatedPostRoutes);
 app.use("/autopost", autoPostRoutes);
 app.use("/courses", coursesRoutes);
+app.use("/healthcheck", healthcheckRouter); // <--- ADD THIS LINE TO USE THE ROUTER
 
 // --- Optional: Logging Middleware (place after routes if you only want to log successful routes) ---
 // app.use((req, res, next) => { ... });
