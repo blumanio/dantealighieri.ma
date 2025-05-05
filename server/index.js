@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import autoPostRoutes from "./routes/autoPost.js";
-import generatedPostRoutes from './routes/generatedPosts.js'
+import GeneratedPost from "./models/GeneratedPost.js";
 import { Webhook } from "svix";
 import User from "./models/User.js";
 import {
@@ -19,9 +19,6 @@ import {
 dotenv.config();
 
 const app = express();
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-//app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Middleware setup
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -46,118 +43,45 @@ const corsOptions = {
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Add this after your other endpoint definitions in index.js
-// Replace the app.use('/api/generated-posts', generatedPostRoutes) line
-
-// --- GET /api/generated-posts?lang=en (List of posts) ---
-// --- GET /api/generated-posts?lang=en (List of posts) ---
-app.get('/api/generated-posts', async (req, res) => {
-  console.log("Directly handling /api/generated-posts endpoint");
-  const startTime = Date.now();
-  console.log(`${new Date().toISOString()} - GET /api/generated-posts - Request received.`);
-  console.log('Query:', req.query);
-
-  try {
-    const { lang } = req.query;
-    let filter = {};
-    if (lang) {
-      filter.lang = lang;
-    }
-    
-    // Fix: Actually fetch posts from database using filter
-    const GeneratedPost = mongoose.model("GeneratedPost");
-    const posts = await GeneratedPost.find(filter);
-    
-    const processingTime = Date.now() - startTime;
-    console.log(`${new Date().toISOString()} - GET /api/generated-posts - Response sent in ${processingTime}ms`);
-    
-    res.status(200).json({
-      success: true,
-      count: posts.length,
-      posts: posts
-    });
-  } catch (error) {
-    console.error(`[API Error] Error in direct generated-posts handler:`, error);
-    res.status(500).json({ success: false, error: 'Failed to fetch posts' });
-  }
-});
-
-// Single post endpoint
-// Single post endpoint
-app.get('/api/generated-posts/:slug', async (req, res) => {
-  console.log("Directly handling /api/generated-posts/:slug endpoint");
-  try {
-    const { slug } = req.params;
-    const { lang } = req.query;
-    
-    let filter = { slug };
-    if (lang) {
-      filter.lang = lang;
-    }
-    
-    const GeneratedPost = mongoose.model("GeneratedPost");
-    const post = await GeneratedPost.findOne(filter);
-    
-    if (!post) {
-      return res.status(404).json({
-        success: false,
-        message: 'Post not found'
-      });
-    }
-    
-    // Ensure content is included in the response
-    res.status(200).json({
-      success: true,
-      post: {
-        slug: post.slug,
-        frontmatter: {
-          title: post.title,
-          date: post.date,
-          excerpt: post.excerpt,
-          author: post.author,
-          tags: post.tags,
-          coverImage: post.coverImage
-        },
-        content: post.content, // Make sure content is included
-        lang: post.lang
-      }
-    });
-  } catch (error) {
-    console.error(`[API Error] Error in single post handler:`, error);
-    res.status(500).json({ success: false, error: 'Failed to fetch post' });
-  }
-});
-
 // Handle preflight requests
 app.options("*", cors(corsOptions));
-// const corsOptions = {
-//   origin: [
-//     "http://localhost:3000",
-//     "https://dantealighieri.ma",
-//     "https://frontend-git-main-mohamed-el-aammaris-projects.vercel.app",
-//     "https://frontend-m911g9pp6-mohamed-el-aammaris-projects.vercel.app",
-//   ],
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
 
-// app.use(cors(corsOptions));
-// API routes
+// Express middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// MongoDB connection
+// MongoDB connection setup
 const CONNECTION_URL =
   process.env.MONGODB_URI ||
   "mongodb+srv://medlique:HXRMVGMsPpdCjDSt@cluster0.4d0iacb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+// Connect to MongoDB first
+mongoose
+  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Connected to MongoDB successfully");
+
+    // Start the server after successful DB connection
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database:", error);
+    console.error("Connection string:", CONNECTION_URL.replace(/mongodb\+srv:\/\/([^:]+):[^@]+@/, 'mongodb+srv://[USERNAME]:[PASSWORD]@'));
+    console.error("Error details:", JSON.stringify(error, null, 2));
+  });
+
 mongoose.set("strictQuery", false);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// Define schema and model for courses
+
+// Schema Definitions
+// GeneratedPost model definition
+// Somewhere in your index.js, add this code to check
+// if the GeneratedPost model is properly registered
+
+
+// Course Schema
 const courseSchema = new mongoose.Schema({
   nome: String,
   link: String,
@@ -171,92 +95,7 @@ const courseSchema = new mongoose.Schema({
 
 const Course = mongoose.model("Course", courseSchema);
 
-// In your server file (e.g., index.js or server.js)
-
-// API endpoint to get courses
-app.get("/api/courses", async (req, res) => {
-  try {
-    const { tipo, accesso, lingua, area } = req.query;
-
-    let query = {};
-
-    if (tipo) {
-      console.log("tipo", tipo);
-      query.tipo = tipo;
-    }
-    if (lingua) {
-      console.log("tipo", lingua);
-      query.lingua = lingua;
-    }
-    if (area) {
-      console.log("area", area);
-      query.area = area;
-    }
-    if (accesso) {
-      console.log("accesso", accesso);
-      query.accesso = accesso;
-    }
-    console.log("query", query);
-
-    const courses = await Course.find(query);
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Webhook route
-app.post(
-  "/api/webhooks",
-  bodyParser.raw({ type: "application/json" }),
-  async (req, res) => {
-    console.log("Received a webhook request");
-
-    try {
-      const payloadString = req.body.toString();
-      const svixHeaders = req.headers;
-      console.log("Payload:", payloadString);
-      console.log("Headers:", svixHeaders);
-
-      const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
-      const evt = wh.verify(payloadString, svixHeaders);
-      console.log("Webhook verified");
-      console.log("Event:", evt);
-
-      const { id, ...attributes } = evt.data;
-      console.log("Event data:", evt.data);
-
-      const eventType = evt.type;
-      if (eventType === "user.created") {
-        console.log(`User ${id} was ${eventType}`);
-
-        const firstName = attributes.first_name;
-        const lastName = attributes.last_name;
-
-        const user = new User({
-          clerkUserId: id,
-          firstName,
-          lastName,
-        });
-
-        await user.save();
-        console.log("User saved to database");
-      }
-
-      res.status(200).json({
-        success: true,
-        message: "Webhook received",
-      });
-    } catch (err) {
-      console.error("Error handling webhook:", err.message);
-      res.status(400).json({
-        success: false,
-        message: err.message,
-      });
-    }
-  }
-);
-// Define the Application schema and model in index.js
+// Application Schema
 const applicationSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -313,12 +152,192 @@ const applicationSchema = new mongoose.Schema({
 
 const Application = mongoose.model('Application', applicationSchema);
 
-// Add POST endpoint for applications, similar to your courses endpoint
+// Route Handlers - Define these AFTER DB connection but BEFORE any middleware
+// API Routes - moved to the top for priority
+
+// Add this after your other routes in index.js
+app.get('/api/generated-posts', async (req, res) => {
+  console.log("Direct generated-posts handler called");
+  try {
+    const { lang } = req.query;
+    let filter = {};
+    if (lang) {
+      filter.lang = lang;
+    }
+
+    const posts = await GeneratedPost.find(filter);
+    console.log(`Found ${posts.length} posts`);
+
+    res.status(200).json(posts.map(post => ({
+      slug: post.slug,
+      frontmatter: {
+        title: post.title,
+        date: post.date,
+        excerpt: post.excerpt,
+        author: post.author,
+        tags: post.tags
+      }
+    })));
+  } catch (error) {
+    console.error("Error in direct handler:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/test-generated-posts', (req, res) => {
+  console.log(">>> HIT /api/test-generated-posts route handler <<<"); // Add this line
+  res.status(200).json({ message: 'Generated Posts test endpoint working' });
+});
+// API endpoint for generated posts (single post)
+app.get('/api/generated-posts/:slug', async (req, res) => {
+  console.log("Directly handling /api/generated-posts/:slug endpoint");
+  const startTime = Date.now();
+  console.log(`${new Date().toISOString()} - GET /api/generated-posts/${req.params.slug} - Request received.`);
+  console.log('Params:', req.params);
+  console.log('Query:', req.query);
+
+  try {
+    const { slug } = req.params;
+    const { lang } = req.query;
+
+    let filter = { slug };
+    if (lang) {
+      filter.lang = lang;
+    }
+
+    const post = await GeneratedPost.findOne(filter);
+
+    if (!post) {
+      console.log(`Post not found for filter: ${JSON.stringify(filter)}`);
+      return res.status(404).json({
+        success: false,
+        error: 'Post not found'
+      });
+    }
+
+    console.log(`Found post with slug: ${post.slug}, lang: ${post.lang}`);
+
+    res.status(200).json({
+      slug: post.slug,
+      lang: post.lang,
+      content: post.content,
+      frontmatter: {
+        title: post.title,
+        date: post.date,
+        excerpt: post.excerpt,
+        author: post.author,
+        tags: post.tags,
+        coverImage: post.coverImage
+      }
+    });
+  } catch (error) {
+    console.error(`[API Error] Error in single post handler:`, error);
+    res.status(500).json({ success: false, error: 'Failed to fetch post' });
+  }
+});
+
+// API endpoint for adjacent posts
+app.get('/api/generated-posts/:slug/adjacent', async (req, res) => {
+  console.log("Handling /api/generated-posts/:slug/adjacent endpoint");
+  try {
+    const { slug } = req.params;
+    const { lang } = req.query;
+
+    if (!lang) {
+      return res.status(400).json({ error: 'Language parameter is required' });
+    }
+
+    // Get the current post's date to find prev/next
+    const currentPost = await GeneratedPost.findOne({ slug, lang });
+
+    if (!currentPost) {
+      return res.status(404).json({ error: 'Current post not found' });
+    }
+
+    // Find previous post (published before this one)
+    const prevPost = await GeneratedPost.findOne({
+      lang,
+      date: { $lt: currentPost.date }
+    }).sort({ date: -1 }).select('slug title excerpt');
+
+    // Find next post (published after this one)
+    const nextPost = await GeneratedPost.findOne({
+      lang,
+      date: { $gt: currentPost.date }
+    }).sort({ date: 1 }).select('slug title excerpt');
+
+    res.status(200).json({
+      prev: prevPost ? {
+        slug: prevPost.slug,
+        frontmatter: {
+          title: prevPost.title,
+          excerpt: prevPost.excerpt
+        }
+      } : null,
+      next: nextPost ? {
+        slug: nextPost.slug,
+        frontmatter: {
+          title: nextPost.title,
+          excerpt: nextPost.excerpt
+        }
+      } : null
+    });
+  } catch (error) {
+    console.error("Error fetching adjacent posts:", error);
+    res.status(500).json({ error: "Failed to fetch adjacent posts" });
+  }
+});
+
+// API endpoint for courses
+app.get("/api/courses", async (req, res) => {
+  try {
+    const { tipo, accesso, lingua, area } = req.query;
+
+    let query = {};
+
+    if (tipo) {
+      console.log("tipo", tipo);
+      query.tipo = tipo;
+    }
+    if (lingua) {
+      console.log("lingua", lingua);
+      query.lingua = lingua;
+    }
+    if (area) {
+      console.log("area", area);
+      query.area = area;
+    }
+    if (accesso) {
+      console.log("accesso", accesso);
+      query.accesso = accesso;
+    }
+    console.log("query", query);
+
+    const courses = await Course.find(query);
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// API endpoint for applications (GET)
+app.get("/api/applications", async (req, res) => {
+  try {
+    const applications = await Application.find();
+    res.json(applications);
+  } catch (error) {
+    console.error("Error fetching applications:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// API endpoint for applications (POST)
 app.post("/api/applications", async (req, res) => {
   console.log("Received application data:", req.body);
 
   try {
-    // Transform the data to match your schema structure
     const {
       firstName,
       lastName,
@@ -331,7 +350,6 @@ app.post("/api/applications", async (req, res) => {
       studyPreference
     } = req.body;
 
-    // Create application object
     const applicationData = {
       firstName,
       lastName,
@@ -366,19 +384,59 @@ app.post("/api/applications", async (req, res) => {
   }
 });
 
-// Add GET endpoint for applications
-app.get("/api/applications", async (req, res) => {
-  try {
-    const applications = await Application.find();
-    res.json(applications);
-  } catch (error) {
-    console.error("Error fetching applications:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+// Webhook endpoint
+app.post(
+  "/api/webhooks",
+  bodyParser.raw({ type: "application/json" }),
+  async (req, res) => {
+    console.log("Received a webhook request");
+
+    try {
+      const payloadString = req.body.toString();
+      const svixHeaders = req.headers;
+      console.log("Payload:", payloadString);
+      console.log("Headers:", svixHeaders);
+
+      const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET_KEY);
+      const evt = wh.verify(payloadString, svixHeaders);
+      console.log("Webhook verified");
+      console.log("Event:", evt);
+
+      const { id, ...attributes } = evt.data;
+      console.log("Event data:", evt.data);
+
+      const eventType = evt.type;
+      if (eventType === "user.created") {
+        console.log(`User ${id} was ${eventType}`);
+
+        const firstName = attributes.first_name;
+        const lastName = attributes.last_name;
+
+        const user = new User({
+          clerkUserId: id,
+          firstName,
+          lastName,
+        });
+
+        await user.save();
+        console.log("User saved to database");
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Webhook received",
+      });
+    } catch (err) {
+      console.error("Error handling webhook:", err.message);
+      res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
-});
+);
+
+// File upload endpoint
 app.post("/upload", uploadDocuments, async (req, res) => {
   try {
     await client.connect();
@@ -407,45 +465,24 @@ app.post("/upload", uploadDocuments, async (req, res) => {
     await client.close();
   }
 });
-// Connect to MongoDB and start the server
-// Modify your mongoose connection to include better error handling
-mongoose
-  .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB successfully"))
-  .catch((error) => {
-    console.error("Error connecting to the database:", error);
-    // Add more detailed logging here
-    console.error("Connection string:", CONNECTION_URL.replace(/mongodb\+srv:\/\/([^:]+):[^@]+@/, 'mongodb+srv://[USERNAME]:[PASSWORD]@')); // Log connection string with password redacted
-    console.error("Error details:", JSON.stringify(error, null, 2));
-  });
+
+// Router-based routes (no longer needed with direct handler functions)
+// app.use("/api/posts", postRoutes);
+// app.use('/api/generated-posts', generatedPostRoutes);
+// app.use("/api/autopost", autoPostRoutes);
+
+// Logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   console.log("Headers:", JSON.stringify(req.headers, null, 2));
   console.log("Body:", JSON.stringify(req.body, null, 2));
   next();
 });
-// Serve static files
-//app.use(express.static(path.resolve(__dirname, "../client/build")));
 
-// Catch-all route
-//app.get("*", (req, res) => {
-//res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-//});
+// API 404 handler - must be last
+app.use('/api/*', (req, res) => {
+  console.log(`API route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: "API endpoint not found", path: req.originalUrl });
+});
 
-// Serve static files in production
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.resolve(__dirname, "../client/build")));
-
-//   // Wildcard route for serving index.html for any other route in production
-// } else {
-//   // For development, add a catch-all route that returns a JSON response
-//   app.get("*", (req, res) => {
-//     res.json({
-//       mess
-//         "API is running. For client-side routes, please run the React development server.",
-//     });
-//   });
-// }
-app.use("/api/posts", postRoutes);
-app.use("/api/autopost", autoPostRoutes);
 export default app;
