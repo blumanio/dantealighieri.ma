@@ -2,7 +2,7 @@
 import express from "express";
 import fetch from "node-fetch"; // Or use global fetch if Node.js >= 18
 import * as cheerio from "cheerio";
-import GeneratedPost from "../models/GeneratedPost.js"; // Import the UPDATED model definition
+import GeneratedPost from '../models/generatedPosts.js'; // Import the model
 
 const router = express.Router();
 
