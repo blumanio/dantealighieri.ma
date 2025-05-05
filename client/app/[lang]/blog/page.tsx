@@ -22,39 +22,58 @@ interface Post {
 const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
 
 // --- Data Fetching Function (getPosts) ---
+// --- Data Fetching Function (getPosts) ---
 async function getPosts(lang: string): Promise<Post[]> {
     console.log('API_URL:', API_URL); // Debugging line to check API_URL
     console.log(`[getPosts for ${lang}] Fetching posts...`);
     try {
-        const res = await fetch(`https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/generated-posts?lang=${lang}`, {
+        // Use environment variable instead of hardcoded URL
+        const res = await fetch(`${API_URL}/api/generated-posts?lang=${lang}`, {
             next: { revalidate: 60 } // Revalidate every 60 seconds
         });
 
-        if (!res.ok) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] Fetch failed: ${res.status}`); return []; }
+        if (!res.ok) {
+            console.error(`[getPosts for ${lang}] Fetch failed: ${res.status}`);
+            return [];
+        }
 
-        let postsFromApi: any;
+        let response: any;
         try {
-            postsFromApi = await res.json();
-        } catch (jsonError) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] JSON parse error:`, jsonError); return []; }
+            response = await res.json();
+        } catch (jsonError) {
+            console.error(`[getPosts for ${lang}] JSON parse error:`, jsonError);
+            return [];
+        }
 
-        if (!Array.isArray(postsFromApi)) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] API response not array`); return []; }
+        // Extract posts array from the response structure
+        let postsFromApi = [];
+        if (response.success && Array.isArray(response.posts)) {
+            postsFromApi = response.posts;
+        } else if (Array.isArray(response)) {
+            // Fallback for direct array response
+            postsFromApi = response;
+        } else {
+            console.error(`[getPosts for ${lang}] Invalid API response structure:`, response);
+            return [];
+        }
 
         // Basic check and cast (more robust validation recommended)
-        const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug && p.frontmatter).map((p: any) => ({
-            ...p,
-            lang: lang // Optionally add lang to each post object if needed later
-        })) as Post[];
+        const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug).map((p: any) => {
+            // Handle different possible structures coming from backend
+            const frontmatter = p.frontmatter || {};
 
-
-        // Simplified fallback - API should ideally provide valid data
-        // Or handle defaults more robustly during mapping below/in component
-        posts.forEach(post => {
-            post.frontmatter = post.frontmatter || {};
-            post.frontmatter.title = post.frontmatter.title || 'Untitled';
-            post.frontmatter.date = post.frontmatter.date || new Date(0).toISOString(); // Use epoch as default invalid date
-            post.frontmatter.excerpt = post.frontmatter.excerpt || 'No excerpt available.';
-            post.frontmatter.author = post.frontmatter.author || 'Studentitaly Staff';
-        });
+            return {
+                slug: p.slug,
+                frontmatter: {
+                    title: frontmatter.title || p.title || 'Untitled',
+                    date: frontmatter.date || p.date || new Date().toISOString(),
+                    excerpt: frontmatter.excerpt || p.excerpt || 'No excerpt available.',
+                    author: frontmatter.author || p.author || 'Studentitaly Staff',
+                    coverImage: frontmatter.coverImage || p.coverImage || undefined
+                },
+                lang: lang // Add lang to each post object
+            };
+        }) as Post[];
 
         // Sorting - Ensure date comparison is robust
         const sortedPosts = posts.sort((a, b) => {
@@ -66,10 +85,13 @@ async function getPosts(lang: string): Promise<Post[]> {
             return dateB - dateA; // Newest first
         });
 
-        // console.log(`[getPosts for ${lang}] Posts after processing:`, JSON.stringify(sortedPosts, null, 2));
+        console.log(`[getPosts for ${lang}] Found ${sortedPosts.length} posts`);
         return sortedPosts;
 
-    } catch (error) { /* ... error handling ... */ console.error(`[getPosts for ${lang}] Unexpected error:`, error); return []; }
+    } catch (error) {
+        console.error(`[getPosts for ${lang}] Unexpected error:`, error);
+        return [];
+    }
 }
 
 // --- BlogPage Component (Updated UI/UX) ---

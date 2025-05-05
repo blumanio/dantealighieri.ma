@@ -45,10 +45,11 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-app.use("/api/posts", postRoutes);
+
 // Add this after your other endpoint definitions in index.js
 // Replace the app.use('/api/generated-posts', generatedPostRoutes) line
 
+// --- GET /api/generated-posts?lang=en (List of posts) ---
 // --- GET /api/generated-posts?lang=en (List of posts) ---
 app.get('/api/generated-posts', async (req, res) => {
   console.log("Directly handling /api/generated-posts endpoint");
@@ -57,22 +58,24 @@ app.get('/api/generated-posts', async (req, res) => {
   console.log('Query:', req.query);
 
   try {
-    const { lang } = req.query; // Get requested language
-
-    // --- Query based on the CORRECT schema ---
+    const { lang } = req.query;
     let filter = {};
     if (lang) {
       filter.lang = lang;
     }
-
+    
+    // Fix: Actually fetch posts from database using filter
     const GeneratedPost = mongoose.model("GeneratedPost");
-    // Simple response to test if the route works
+    const posts = await GeneratedPost.find(filter);
+    
+    const processingTime = Date.now() - startTime;
+    console.log(`${new Date().toISOString()} - GET /api/generated-posts - Response sent in ${processingTime}ms`);
+    
     res.status(200).json({
-      message: 'Generated posts endpoint is responding',
-      filter: filter,
-      timestamp: new Date().toISOString()
+      success: true,
+      count: posts.length,
+      posts: posts
     });
-
   } catch (error) {
     console.error(`[API Error] Error in direct generated-posts handler:`, error);
     res.status(500).json({ success: false, error: 'Failed to fetch posts' });
@@ -80,15 +83,51 @@ app.get('/api/generated-posts', async (req, res) => {
 });
 
 // Single post endpoint
+// Single post endpoint
 app.get('/api/generated-posts/:slug', async (req, res) => {
   console.log("Directly handling /api/generated-posts/:slug endpoint");
-  res.status(200).json({
-    message: 'Single post endpoint is responding',
-    slug: req.params.slug,
-    timestamp: new Date().toISOString()
-  });
+  try {
+    const { slug } = req.params;
+    const { lang } = req.query;
+    
+    let filter = { slug };
+    if (lang) {
+      filter.lang = lang;
+    }
+    
+    const GeneratedPost = mongoose.model("GeneratedPost");
+    const post = await GeneratedPost.findOne(filter);
+    
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found'
+      });
+    }
+    
+    // Ensure content is included in the response
+    res.status(200).json({
+      success: true,
+      post: {
+        slug: post.slug,
+        frontmatter: {
+          title: post.title,
+          date: post.date,
+          excerpt: post.excerpt,
+          author: post.author,
+          tags: post.tags,
+          coverImage: post.coverImage
+        },
+        content: post.content, // Make sure content is included
+        lang: post.lang
+      }
+    });
+  } catch (error) {
+    console.error(`[API Error] Error in single post handler:`, error);
+    res.status(500).json({ success: false, error: 'Failed to fetch post' });
+  }
 });
-app.use("/api/autopost", autoPostRoutes);
+
 // Handle preflight requests
 app.options("*", cors(corsOptions));
 // const corsOptions = {
@@ -407,5 +446,6 @@ app.use((req, res, next) => {
 //     });
 //   });
 // }
-
+app.use("/api/posts", postRoutes);
+app.use("/api/autopost", autoPostRoutes);
 export default app;
