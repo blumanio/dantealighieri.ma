@@ -22,17 +22,25 @@ interface Post {
 const API_URL = process.env.API_BASE_URL;
 
 // --- Data Fetching Function (getPosts) ---
+// Define API Base URL (ensure this is at the top level of your module)
+const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
+
 async function getPosts(lang: string): Promise<Post[]> {
-    console.log('API_URL:', API_URL); // Debugging line to check API_URL
+    console.log('Using API_BASE_URL:', API_BASE_URL); // Check what this resolves to
     console.log(`[getPosts for ${lang}] Fetching posts...`);
+
+    // Construct the full absolute URL
+    const targetUrl = `${API_BASE_URL}/api/generated-posts?lang=${lang}`;
+    console.log(`[getPosts for ${lang}] Fetching absolute URL: ${targetUrl}`);
+
     try {
-        // Use environment variable instead of hardcoded URL
-        const res = await fetch(`https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/generated-posts?lang=${lang}`, {
-            next: { revalidate: 60 } // Revalidate every 60 seconds
+        const res = await fetch(targetUrl, { // Use the absolute targetUrl
+            next: { revalidate: 60 }
         });
 
         if (!res.ok) {
-            console.error(`[getPosts for ${lang}] Fetch failed: ${res.status}`);
+            const errorBody = await res.text().catch(() => "Could not read error body");
+            console.error(`[getPosts for ${lang}] Fetch failed with status ${res.status}. URL: ${targetUrl}. Body: ${errorBody}`);
             return [];
         }
 
@@ -40,7 +48,9 @@ async function getPosts(lang: string): Promise<Post[]> {
         try {
             response = await res.json();
         } catch (jsonError) {
-            console.error(`[getPosts for ${lang}] JSON parse error:`, jsonError);
+            console.error(`[getPosts for ${lang}] JSON parse error on URL ${targetUrl}:`, jsonError);
+            const textResponse = await res.text().catch(() => "Could not read text response after JSON error");
+            console.error(`[getPosts for ${lang}] Response text was: ${textResponse}`);
             return [];
         }
 
@@ -49,18 +59,14 @@ async function getPosts(lang: string): Promise<Post[]> {
         if (response.success && Array.isArray(response.posts)) {
             postsFromApi = response.posts;
         } else if (Array.isArray(response)) {
-            // Fallback for direct array response
             postsFromApi = response;
         } else {
-            console.error(`[getPosts for ${lang}] Invalid API response structure:`, response);
+            console.error(`[getPosts for ${lang}] Invalid API response structure from ${targetUrl}:`, response);
             return [];
         }
 
-        // Basic check and cast (more robust validation recommended)
         const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug).map((p: any) => {
-            // Handle different possible structures coming from backend
             const frontmatter = p.frontmatter || {};
-
             return {
                 slug: p.slug,
                 frontmatter: {
@@ -70,25 +76,23 @@ async function getPosts(lang: string): Promise<Post[]> {
                     author: frontmatter.author || p.author || 'Studentitaly Staff',
                     coverImage: frontmatter.coverImage || p.coverImage || undefined
                 },
-                lang: lang // Add lang to each post object
+                lang: lang
             };
         }) as Post[];
 
-        // Sorting - Ensure date comparison is robust
         const sortedPosts = posts.sort((a, b) => {
             const dateA = new Date(a.frontmatter.date).getTime();
             const dateB = new Date(b.frontmatter.date).getTime();
-            // Handle invalid dates if necessary (e.g., put them at the end)
             if (isNaN(dateB)) return -1;
             if (isNaN(dateA)) return 1;
-            return dateB - dateA; // Newest first
+            return dateB - dateA;
         });
 
-        console.log(`[getPosts for ${lang}] Found ${sortedPosts.length} posts`);
+        console.log(`[getPosts for ${lang}] Found ${sortedPosts.length} posts from ${targetUrl}`);
         return sortedPosts;
 
-    } catch (error) {
-        console.error(`[getPosts for ${lang}] Unexpected error:`, error);
+    } catch (error) { // This will now catch network errors or actual issues after URL parsing
+        console.error(`[getPosts for ${lang}] Unexpected error fetching from ${targetUrl}:`, error);
         return [];
     }
 }
