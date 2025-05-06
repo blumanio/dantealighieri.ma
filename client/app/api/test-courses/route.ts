@@ -52,7 +52,7 @@ export async function GET(request: any) {
     } catch (err) {
         console.error("Error fetching courses in Next.js API route /api/test-courses:", err);
         return NextResponse.json(
-            { message: "Failed to fetch courses (test endpoint)", error: err.message },
+            { message: "Failed to fetch courses (test endpoint)", error: (err as Error).message },
             { status: 500 }
         );
     }
