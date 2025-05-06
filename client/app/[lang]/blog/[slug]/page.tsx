@@ -31,7 +31,7 @@ interface BlogPost {
 }
 
 // --- API Fetching Functions ---
-const API_URL = process.env.NODE_ENV
+const API_URL = process.env.API_BASE_URL
 
 // Fetch Single Post Data (Cached)
 const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {

@@ -19,16 +19,15 @@ interface Post {
 }
 
 // Define API Base URL
-const API_URL = process.env.API_BASE_URL || 'http://localhost:5000';
+const API_URL = process.env.API_BASE_URL;
 
-// --- Data Fetching Function (getPosts) ---
 // --- Data Fetching Function (getPosts) ---
 async function getPosts(lang: string): Promise<Post[]> {
     console.log('API_URL:', API_URL); // Debugging line to check API_URL
     console.log(`[getPosts for ${lang}] Fetching posts...`);
     try {
         // Use environment variable instead of hardcoded URL
-        const res = await fetch(`${API_URL}/api/generated-posts?lang=${lang}`, {
+        const res = await fetch(`https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/generated-posts?lang=${lang}`, {
             next: { revalidate: 60 } // Revalidate every 60 seconds
         });
 
