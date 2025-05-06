@@ -57,7 +57,7 @@ const { t } = useLanguage()
     setLanguage(selectedLanguage)
 
     // Construct new path
-    const newPath = `/${selectedLanguage}${pathname.replace(/^\/[a-z]{2}/, '')}`
+    const newPath = `/${selectedLanguage}${pathname?.replace(/^\/[a-z]{2}/, '')}`
 
     // Close sheet
     setIsOpen(false)
