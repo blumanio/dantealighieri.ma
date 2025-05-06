@@ -1,7 +1,7 @@
 // routes/courses.js
 import express from 'express';
 import mongoose from 'mongoose';
-
+import Course from '../models/Course.js'; // Import the Course model
 const router = express.Router();
 
 // Access the Course model registered with Mongoose in index.js
