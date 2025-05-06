@@ -30,7 +30,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 
     // Sync with URL path
     useEffect(() => {
-        const urlLang = pathname.split('/')[1] as Locale;
+        const urlLang = pathname ? (pathname.split('/')[1] as Locale) : initialLang;
         if (urlLang && ['en', 'ar', 'it'].includes(urlLang) && urlLang !== language) {
             console.log('Setting language from URL:', urlLang);
             setInternalLanguage(urlLang);

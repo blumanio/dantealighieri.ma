@@ -24,10 +24,10 @@ export default function SearchPage() {
         <div className="bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 p-6 md:p-8">
           <ProgramSearch 
             initialFilters={{
-              degreeType: searchParams.get('degreeType') || '',
-              accessType: searchParams.get('accessType') || '',
-              courseLanguage: searchParams.get('courseLanguage') || '',
-              academicArea: searchParams.get('academicArea') || ''
+              degreeType: searchParams?.get('degreeType') || '',
+              accessType: searchParams?.get('accessType') || '',
+              courseLanguage: searchParams?.get('courseLanguage') || '',
+              academicArea: searchParams?.get('academicArea') || ''
             }} 
           />
         </div>
