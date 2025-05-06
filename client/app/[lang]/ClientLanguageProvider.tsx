@@ -39,11 +39,8 @@ export default async function Page({ params }: BasePageProps) {
 }
 
 // Static params generation remains unchanged
-export async function generateStaticParams() {
-  const locales = ['en', 'it', 'ar']; // Your supported locales
-  return locales.map((lang) => ({
-    lang: lang,
-  }));
+export function generateStaticParams() {
+  return VALID_LANGUAGES.map(lang => ({ lang }));
 }
 
 // Metadata generation with proper params handling

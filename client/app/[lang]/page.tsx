@@ -38,11 +38,8 @@ export default async function Page({ params, searchParams }: BasePageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const locales = ['en', 'it', 'ar']; // Your supported locales
-  return locales.map((lang) => ({
-    lang: lang,
-  }));
+export function generateStaticParams() {
+  return VALID_LANGUAGES.map(lang => ({ lang }));
 }
 
 export async function generateMetadata({ params }: BasePageProps) {
