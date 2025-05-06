@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server/api/index.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
     "start": "node api/index.js",
@@ -27,6 +27,6 @@
     "nodemon": "^2.0.15"
   },
   "engines": {
-    "node": "20.x"
+    "node": ">=18.0.0"
   }
 }

@@ -1,22 +1,29 @@
 // api/index.js
-import app from '../server/api/index.js';
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
 
-// More robust handler for Vercel
-export default async function handler(req, res) {
-  // Add a check to help debug the path issue
-  console.log('Vercel handler received request for:', req.url);
-  
-  // Handle favicon.ico requests directly
-  if (req.url === '/favicon.ico') {
-    res.status(204).end(); // No content for favicon
-    return;
-  }
-  
-  try {
-    // Forward all requests to your Express app
-    return app(req, res);
-  } catch (error) {
-    console.error('Error in Vercel handler:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
-  }
-}
+// Import routes from server directory
+import postRoutes from "./server/routes/posts.js";
+import autoPostRoutes from "./server/routes/autoPost.js";
+import generatedPostRoutes from './server/routes/generatedPosts.js';
+import coursesRoutes from './server/routes/courses.js';
+import healthcheckRouter from './server/routes/healthcheck.js';
+import testRouter from './server/routes/test.js';
+
+// Rest of your server code...
+
+// Mount API routes
+const apiRouter = express.Router();
+apiRouter.use("/posts", postRoutes);
+apiRouter.use("/generated-posts", generatedPostRoutes);
+apiRouter.use("/autopost", autoPostRoutes);
+apiRouter.use("/courses", coursesRoutes);
+apiRouter.use("/healthcheck", healthcheckRouter);
+apiRouter.use("/test", testRouter);
+
+app.use("/api", apiRouter);
+
+export default app;
