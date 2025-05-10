@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Loader, GraduationCap } from 'lucide-react';
 import _ from 'lodash';
 import PaginatedCourses from './PaginatedCourses';
-import { useLanguage } from '../app/[lang]/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext'
 import { academicAreas, accessTypes, courseLanguages, degreeTypes } from '../constants/constants';
 import AnimatedLogos from './AnimatedLogos';
 
@@ -46,12 +46,13 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   useEffect(() => {
     setFormData(prev => ({ ...prev }));
   }, [language]);
-
+  const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
   const fetchAllCourses = async () => {
+    const targetUrl = `${API_BASE_URL}/api/courses`;
     setIsLoading(true);
     try {
       const response = await fetch(
-        'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/courses'
+        targetUrl
       );
       const data = await response.json();
       setAllCourses(data);

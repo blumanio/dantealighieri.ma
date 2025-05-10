@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import AnimatedLogos from './AnimatedLogos'
 import UniversityCard from './UniversityCard'
-import { useLanguage } from '../app/[lang]/LanguageContext'
+import { useLanguage } from '@/context/LanguageContext'
 import { UniversitiesTranslation } from '@/app/i18n/types'
 import { SignInButton } from '@clerk/nextjs'
 

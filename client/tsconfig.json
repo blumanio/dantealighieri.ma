@@ -1,3 +1,4 @@
+// client/tsconfig.json
 {
   "compilerOptions": {
     "lib": [
@@ -8,15 +9,15 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": true, // Set to false if you want TypeScript to emit JS files (e.g., for a separate build step, usually true for Next.js)
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler", // Or "NodeNext" for newer Node versions/setups
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".",
+    "baseUrl": ".", // Correct: "." means the 'client' directory is the base
     "plugins": [
       {
         "name": "next"
@@ -24,19 +25,26 @@
     ],
     "paths": {
       "@/*": [
-        "./*"
+        "./*" // Correct: @/components will resolve to client/components, etc.
       ]
     },
-    "target": "ES2017"
+    "target": "ES2017" // Consider ES2020 or newer
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    "components/calendly.js"
-, "components/MobileBottomNav"  ],
+    "next-env.d.ts"
+    // If "components/calendly.js" is a critical JS file you want TS to be aware of
+    // and it's not picked up by allowJs for some reason, you can add it here.
+    // "components/calendly.js"
+    // For "components/MobileBottomNav":
+    // - If it's a file like "MobileBottomNav.tsx", it's covered by "**/*.tsx".
+    // - If it's a directory, files within should be .ts or .tsx to be covered.
+    ,
+    ".next/types/**/*.ts"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next" // Good practice to exclude the .next build output directory
   ]
 }

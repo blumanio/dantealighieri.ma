@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import FadeIn from '../lib/variants'
 import AnimatedCounter from '../lib/animatedCounter'
-import { useLanguage } from '../app/[lang]/LanguageContext'
+import { useLanguage } from '@/context/LanguageContext'
 import { School, GraduationCap } from 'lucide-react'
 
 const Services = () => {

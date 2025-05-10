@@ -2,7 +2,7 @@ import React from 'react';
 import ReactCountryFlag from 'react-country-flag';
 import { SignInButton, useUser } from '@clerk/nextjs';
 import { Lock, MapPin, ExternalLink, School, ArrowRight } from 'lucide-react';
-import { useLanguage } from '@/app/[lang]/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 const LANGUAGE_CODES = {
   English: 'GB',

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Facebook, Instagram, Linkedin, Youtube, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useLanguage } from '../app/[lang]/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext'
 import { DanteAlighieriLogo } from './SocialIcons';
 
 const Footer = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Globe } from 'lucide-react';
-import { useLanguage } from '../app/[lang]/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext'
 import { usePathname, useRouter } from 'next/navigation';
 
 const LanguageSwitcher: React.FC = () => {

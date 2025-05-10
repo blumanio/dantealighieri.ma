@@ -1,58 +1,52 @@
-// app/[lang]/page.tsx
-import { BasePageProps } from '@/types/types';
-import { LanguageProvider } from './LanguageContext';
-import { Suspense } from 'react';
-import { BlogNavigation } from '@/components/BlogNavigation';
-import HeroSection from '@/components/HeroSection';
-import Services from '@/components/services';
-import AboutFounder from '@/components/AboutFounder';
+// client/app/[lang]/layout.tsx
+//'use client'; // MUST BE THE VERY FIRST LINE
+import React, { Suspense } from 'react'; // Removed 'use' as it was not used in your last version
+import { LanguageProvider, defaultLang, supportedLanguages } from '@/context/LanguageContext';
+import ClientLayout from '@/components/ClientLayout';
+import { getValidLanguage } from '../config/i18n';
 
-const VALID_LANGUAGES = ['en', 'it', 'ar'] as const;
-type ValidLanguage = typeof VALID_LANGUAGES[number];
-
-function getValidLanguage(lang: string | undefined): ValidLanguage {
-  return VALID_LANGUAGES.includes(lang as ValidLanguage)
-    ? (lang as ValidLanguage)
-    : 'en';
+function LangLayoutLoadingFallback() {
+  console.log('[LangLayout_LOG] LangLayoutLoadingFallback rendered (Suspense)');
+  return <div>LANG LAYOUT SUSPENSE FALLBACK...</div>;
 }
 
-export default async function Page({ params, searchParams }: BasePageProps) {
-  const resolvedParams = await params;
-  const validatedLang = getValidLanguage(resolvedParams.lang);
+// Define props specifically for this component
+interface LangSpecificLayoutProps {
+  children: React.ReactNode;
+  params: { lang: string }; // CORRECT: params is an object for Client Components
+}
+
+export default  async function LangSpecificLayout({ children, params }: LangSpecificLayoutProps) {
+  //console.log('[LangLayout_LOG] START. Received params:', JSON.stringify(params));
+
+  if (!params || typeof (await params).lang !== 'string') {
+    console.error('[LangLayout_LOG] ERROR: params.lang is invalid or missing!', params);
+    const langToUse = defaultLang;
+    console.warn(`[LangLayout_LOG] Using default language "${langToUse}" due to invalid params.lang`);
+    return (
+      <LanguageProvider initialLang={langToUse}>
+        <ClientLayout lang={langToUse}>
+          <div>Error: Invalid language parameter. Displaying default content.</div>
+        </ClientLayout>
+      </LanguageProvider>
+    );
+  }
+
+  const currentLangInput = getValidLanguage((await params)?.lang);
+  const currentLang = getValidLanguage(currentLangInput);
 
   return (
-    <LanguageProvider initialLang={validatedLang}>
-      <Suspense fallback={<div>Loading content...</div>}>
-        <main>
-          <HeroSection />
-          <Services />
-          <AboutFounder />
-          <BlogNavigation
-            prevPost={null}
-            nextPost={null}
-            lang={validatedLang}
-          />
-        </main>
+    <LanguageProvider initialLang={currentLang}>
+      <Suspense fallback={<LangLayoutLoadingFallback />}>
+        <ClientLayout lang={currentLang}>
+          {children}
+        </ClientLayout>
       </Suspense>
     </LanguageProvider>
   );
 }
 
-export function generateStaticParams() {
-  return VALID_LANGUAGES.map(lang => ({ lang }));
-}
 
-export async function generateMetadata({ params }: BasePageProps) {
-  const resolvedParams = await params;
-  const validatedLang = getValidLanguage(resolvedParams.lang);
-  
-  const titles: Record<ValidLanguage, string> = {
-    en: 'Studentitaly.it - Study in Italy',
-    it: 'Studentitaly.it - Study in Italy',
-    ar: 'Studentitaly.it - Study in Italy'
-  };
 
-  return {
-    title: titles[validatedLang]
-  };
-}
+
+

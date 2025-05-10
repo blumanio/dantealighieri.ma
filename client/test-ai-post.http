@@ -1,9 +1,51 @@
-# @name Auto-generate blog post from URL
-POST http://localhost:3000/api/auto-post
+# REST Client Test for AutoPost API
+
+# Variables (optional, but good for reusability)
+# You can set these if you use the REST Client environment features,
+# or just replace them directly in the URL/body.
+@hostname = localhost
+@port = 3000
+@protocol = http
+@apiUrl = {{protocol}}://{{hostname}}:{{port}}/api/autopost/generate
+
+###
+# @name generateNewPost
+POST {{apiUrl}}
 Content-Type: application/json
 
 {
-    
-    "blogUrl": "https://www.studenti.it/test-medicina-2025.html",
-    "lang": "en" 
+  "blogUrl": "https://example.com/your-test-article-path",
+  "lang": "it"
+}
+
+###
+# Another example: Generate post in English
+# @name generateNewPostEnglish
+POST {{apiUrl}}
+Content-Type: application/json
+
+{
+  "blogUrl": "https://www.studenti.it/leonardo_da_vinci.html",
+  "lang": "en"
+}
+
+###
+# Example: Test missing blogUrl (should return 400 error)
+# @name generatePostMissingUrl
+POST {{apiUrl}}
+Content-Type: application/json
+
+{
+  "lang": "es"
+}
+
+###
+# Example: Test invalid blogUrl (should return 400 error)
+# @name generatePostInvalidUrl
+POST {{apiUrl}}
+Content-Type: application/json
+
+{
+  "blogUrl": "not-a-valid-url",
+  "lang": "fr"
 }

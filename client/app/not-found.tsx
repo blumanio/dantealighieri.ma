@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { LanguageProvider } from '../context/LanguageContext';
 
 function LoadingSpinner() {
   return (
@@ -57,7 +58,8 @@ function LoadingSpinner() {
 
 export default function NotFound() {
   return (
-    <Suspense fallback={<LoadingSpinner />}>
+    <Suspense fallback={<div>Loading page content...</div>}>
+      <LanguageProvider initialLang="en">
       <div className="min-h-screen flex flex-col bg-neutral-50">
         <Header />
 
@@ -118,6 +120,7 @@ export default function NotFound() {
 
         <Footer />
       </div>
+      </LanguageProvider>
     </Suspense>
   );
 }

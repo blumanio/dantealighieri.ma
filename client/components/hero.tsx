@@ -107,7 +107,7 @@ const Hero = () => {
               <p className='text-sm text-slate-600'>
                 Founder at DanteAlighieri.ma
               </p>
-              { <img src='/signature.png' alt='Signature' className='mt-2 h-8' /> }
+              {  src='/signature.png' alt='Signature' className='mt-2 h-8' /> }
             </div>*/}
           </div>
         </div>

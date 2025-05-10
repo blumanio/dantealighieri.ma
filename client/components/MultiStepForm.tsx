@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { Check, ChevronRight, ChevronLeft, Clock, BadgeCheck, GraduationCap, ShieldCheck } from 'lucide-react';
+import { APPLICATIONS_ENDPOINT } from '@/constants/constants';
 
 interface FormData {
     firstName: string;
@@ -39,7 +40,21 @@ const MultiStepForm = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    // Define a development API URL as a fallback
+    const DEV_API_URL = 'http://localhost:5000';
+    const PROD_API_URL = 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app';
 
+    // Add this helper function at the top of your component
+    const getApiUrl = () => {
+        // Check if we're in a browser environment
+        if (typeof window !== 'undefined') {
+            // Use http for localhost, https for production
+            return window.location.hostname === 'localhost'
+                ? DEV_API_URL
+                : PROD_API_URL;
+        }
+        return PROD_API_URL; // Default to production URL
+    };
     // MENA country codes
     const countryCodes = [
         { code: '+20', country: 'Egypt 🇪🇬' },
@@ -59,39 +74,73 @@ const MultiStepForm = () => {
         { code: '+212', country: 'Morocco 🇲🇦' },
         { code: '+218', country: 'Libya 🇱🇾' }
     ];
-    // Inside your MultiStepForm component
-    // Inside your MultiStepForm component
+    // Update this part in your MultiStepForm component
+
+    // Remove the alert before submission
     const handleSubmit = async (e?: React.SyntheticEvent) => {
-        // if (e) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        // }
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
 
         if (!validateStep(5) || isSubmitting) return;
 
         setIsSubmitting(true);
         setSubmitError(null);
 
+        // Use the Next.js API route instead of directly calling the backend
+        // The API route will handle forwarding to your backend
+        const apiUrl = 'http://localhost:5000/api/applications';
+        console.log('Submitting to API route:', apiUrl);
+
         try {
-            const response = await fetch('https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/applications', {
+            // Format the data to match your backend expectations
+            const submissionData = {
+                firstName: formData.firstName,
+                lastName: formData.lastName,
+                email: formData.email,
+                countryCode: formData.countryCode,
+                whatsapp: formData.whatsapp,
+                lastDegree: formData.lastDegree,
+                graduationYear: formData.graduationYear,
+                degreePoints: formData.degreePoints,
+                studyPreference: formData.studyPreference
+            };
+
+            console.log('Submission data:', submissionData);
+
+            const response = await fetch(getApiUrl() + '/api/applications', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(submissionData)
             });
 
-            alert(`submitting: ${response.ok}`);
-            const data = await response.json();
+            console.log('Response status:', response.status);
+
+            // For debugging
+            const responseText = await response.text();
+            console.log('Response text:', responseText);
+
+            // Try to parse JSON
+            let data;
+            try {
+                data = responseText ? JSON.parse(responseText) : {};
+            } catch (e) {
+                console.error('Error parsing response as JSON:', e);
+                throw new Error('Invalid response from server');
+            }
+
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to submit application');
+                throw new Error(data.message || `Server error: ${response.status}`);
             }
 
             if (data.success) {
                 setCurrentStep(6);
             } else {
-                throw new Error(data.message);
+                throw new Error(data.message || 'Unknown error occurred');
             }
         } catch (error) {
             console.error('Submission error:', error);
@@ -100,6 +149,7 @@ const MultiStepForm = () => {
             setIsSubmitting(false);
         }
     };
+
 
     // Prevent render until mounted to avoid hydration issues
     if (!isMounted) {
@@ -467,24 +517,23 @@ const MultiStepForm = () => {
                         )}
                         <button
                             type="button"
-
                             onClick={(e) => {
                                 e.preventDefault();
                                 if (currentStep === 5) {
-                                    alert(`currentStep: ${currentStep}`);
-
+                                    // Remove this alert
+                                    // alert(`currentStep: ${currentStep}`);
                                     handleSubmit();
                                 } else {
                                     handleNext();
                                 }
                             }}
                             className={`flex items-center justify-center px-8 py-4 
-                      ${currentStep === 5
+        ${currentStep === 5
                                     ? 'bg-blue-600 active:bg-blue-700'
                                     : 'bg-teal-600 active:bg-teal-700'
                                 } text-white rounded-xl font-medium text-lg transition-colors
-                      cursor-pointer select-none touch-manipulation tap-highlight-transparent
-                      min-w-[140px] min-h-[56px]`}
+        cursor-pointer select-none touch-manipulation tap-highlight-transparent
+        min-w-[140px] min-h-[56px]`}
                             style={{
                                 WebkitTapHighlightColor: 'transparent',
                                 WebkitTouchCallout: 'none',
@@ -493,7 +542,12 @@ const MultiStepForm = () => {
                             }}
                             disabled={currentStep === 5 && !formData.confirmed}
                         >
-                            {currentStep === 5 ? (
+                            {isSubmitting && currentStep === 5 ? (
+                                <div className="flex items-center">
+                                    <span className="mr-2">Submitting...</span>
+                                    {/* Add a simple loading spinner if desired */}
+                                </div>
+                            ) : currentStep === 5 ? (
                                 <div className="flex items-center">
                                     Submit Application
                                     <ChevronRight className="w-5 h-5 ml-1" />

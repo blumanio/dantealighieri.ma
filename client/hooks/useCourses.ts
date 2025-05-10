@@ -27,7 +27,7 @@ const useCourses = (formData: GFormData) => {
           area: formData.academicArea
         });
         const response = await axios.get<Course[]>(
-          `https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/courses?${params.toString()}`
+          `/api/courses?${params.toString()}`
         );
         setCourses(response.data);
       } catch (error) {

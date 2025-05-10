@@ -1,78 +1,56 @@
-  // next.config.js
+// next.config.mjs
 
-  /** @type {import('next').NextConfig} */
-  const nextConfig = {
-    experimental: {
-      appDir: true,
-    },
-    async headers() {
-      return [
-        {
-          // matching all API routes
-          source: '/api/:path*',
-          headers: [
-            { key: 'Access-Control-Allow-Credentials', value: 'true' },
-            {
-              key: 'Access-Control-Allow-Origin',
-              value: 'https://studentitaly.it'
-            },
-            {
-              key: 'Access-Control-Allow-Methods',
-              value: 'GET,DELETE,PATCH,POST,PUT,OPTIONS'
-            },
-            {
-              key: 'Access-Control-Allow-Headers',
-              value:
-                'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-            }
-          ]
-        }
-      ]
-    },
-    async redirects() {
-      return [
-        {
-          source: '/:path*',
-          destination: 'https://studentitaly.it/:path*',
-          permanent: true, // important for SEO
-        },
-      ];
-    },
-    async rewrites() {
-      return [
-        // API rewrites
-        {
-          source: '/api/:path*',
-          destination:
-            'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/:path*'
-        },
-        // Handle root path
-        {
-          source: '/',
-          destination: '/en'
-        },
-        // Handle paths without language prefix
-        {
-          source: '/:path*',
-          destination: '/en/:path*',
-          has: [
-            {
-              type: 'header',
-              key: 'accept-language',
-              value: '(?!.*(it|ar)).*'
-            }
-          ]
-        }
-      ]
-    },
-    // Enable image optimization for external images
-    images: {
-      domains: ['backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app']
-    },
-    // i18n configuration
-    i18n: {
-      locales: ['en', 'ar', 'it'],
-      defaultLocale: 'en',
-      localeDetection: false, // Prevent automatic locale detection
-    }
-  }
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: process.env.NODE_ENV === 'production' ? 'https://studentitaly.it' : 'http://localhost:3000',
+          },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,DELETE,PATCH,POST,PUT,OPTIONS' },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
+          },
+        ],
+      },
+    ];
+  },
+
+  async redirects() {
+    return []; // Keep empty, middleware handles i18n redirects
+  },
+
+  async rewrites() {
+    return [
+      // REMOVED: The rewrite for source: '/' because middleware now redirects to /en (URL changes)
+      // {
+      //   source: '/',
+      //   destination: '/en',
+      // },
+
+      // These accept-language based rewrites can serve as a fallback for direct access
+      // to non-prefixed paths if, for some reason, middleware didn't catch them or
+      // if you want to support content negotiation for users who land on, e.g., /about directly.
+      // However, with the robust middleware redirect, these become less critical.
+
+    ];
+  },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app',
+      },
+    ],
+  },
+};
+
+export default nextConfig;

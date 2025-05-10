@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useLanguage } from '../app/[lang]/LanguageContext';
+import { useLanguage } from '@/context/LanguageContext'
 
 // Carousel content types
 type SlideType = 'image-text' | 'image-only' | 'text-only';

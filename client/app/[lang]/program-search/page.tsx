@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import ProgramSearch from '@/components/ProgramSearch';
-import { LanguageProvider } from '../LanguageContext';
+import { LanguageProvider } from '../../../context/LanguageContext';
 
 export default function SearchPage() {
   const searchParams = useSearchParams();

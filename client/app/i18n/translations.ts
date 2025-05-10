@@ -1,4 +1,4 @@
-// lib/i18n/translations.ts
+// \client\app\i18n\translations.ts
 import { Locale, Translation } from './types';
 
 export const translations: Record<Locale, Translation> = {

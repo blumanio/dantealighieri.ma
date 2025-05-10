@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Facebook, Instagram, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useLanguage } from '../app/[lang]/LanguageContext'
+import { useLanguage } from '@/context/LanguageContext' // Assuming this path is correct
 import ContactCTA from './contactCTA'
 
 const AboutFounder = () => {
@@ -15,11 +15,11 @@ const AboutFounder = () => {
     const images = [
         {
             src: "/images/graduation.jpg",
-            alt: t('founder', 'imageAltGraduation'),
+            alt: t('founder', 'imageAltGraduation') as string, // Added 'as string' for type safety if t can return other types
         },
         {
             src: "/images/diploma.jpg",
-            alt: t('founder', 'imageAltDiploma')
+            alt: t('founder', 'imageAltDiploma') as string, // Added 'as string' for type safety
         }
     ]
 
@@ -41,8 +41,8 @@ const AboutFounder = () => {
     }
 
     const slideVariants = {
-        hidden: (isRTL: boolean) => ({
-            x: isRTL ? -100 : 100,
+        hidden: (isRTLParam: boolean) => ({ // Renamed isRTL to isRTLParam to avoid conflict with component's isRTL
+            x: isRTLParam ? -100 : 100,
             opacity: 0
         }),
         visible: {
@@ -52,11 +52,23 @@ const AboutFounder = () => {
         }
     }
 
+    // It's good practice to type socialLinks if possible, e.g., IconType from lucide-react
     const socialLinks = [
         { Icon: Linkedin, href: 'https://www.linkedin.com/in/mohamedelaammari/', color: 'text-primary hover:text-primary-dark' },
         { Icon: Instagram, href: 'https://www.instagram.com/moelaammari/', color: 'text-secondary hover:text-secondary-dark' },
         { Icon: Facebook, href: 'https://www.facebook.com/moelaammari', color: 'text-primary hover:text-primary-dark' }
     ]
+
+    // Ensure t function returns appropriate types or handle fallbacks
+    const founderTitle = t('founder', 'title') as string;
+    const founderIntro = t('founder', 'intro') as string;
+    const achievementsTitle = t('founder', 'achievementsTitle') as string;
+    const experienceTitle = t('founder', 'experienceTitle') as string;
+    const experienceDesc = t('founder', 'experienceDesc') as string;
+
+    // Retrieve achievements and stats, ensuring they are arrays
+    const achievementsList = t('founder', 'achievements');
+    const statsList = t('founder', 'stats');
 
     return (
         <section id="about-founder" className="bg-neutral-50 relative z-30 overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -64,7 +76,7 @@ const AboutFounder = () => {
                 <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
                     {/* Image Slider */}
                     <motion.div
-                        custom={isRTL}
+                        custom={isRTL} // Pass the component's isRTL here
                         variants={slideVariants}
                         initial="hidden"
                         whileInView="visible"
@@ -81,7 +93,7 @@ const AboutFounder = () => {
                                         <div key={index} className="relative min-w-full">
                                             <Image
                                                 src={image.src}
-                                                alt={image.alt}
+                                                alt={image.alt} // Already cast to string or ensure t() returns string
                                                 width={400}
                                                 height={600}
                                                 className="object-cover w-full h-full"
@@ -135,7 +147,7 @@ const AboutFounder = () => {
                             viewport={{ once: true, amount: 0.3 }}
                             className="text-textPrimary text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-8"
                         >
-                            {t('founder', 'title')}
+                            {founderTitle}
                         </motion.h1>
 
                         <div className="space-y-8">
@@ -146,7 +158,7 @@ const AboutFounder = () => {
                                 viewport={{ once: true, amount: 0.3 }}
                                 className="text-textSecondary text-base sm:text-lg"
                             >
-                                {t('founder', 'intro')}
+                                {founderIntro}
                             </motion.p>
 
                             <motion.div
@@ -157,10 +169,11 @@ const AboutFounder = () => {
                                 className="bg-primary/5 p-6 sm:p-8 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300"
                             >
                                 <h2 className="text-primary font-semibold text-lg sm:text-xl mb-4">
-                                    {t('founder', 'achievementsTitle')}
+                                    {achievementsTitle}
                                 </h2>
                                 <ul className="space-y-4">
-                                    {t('founder', 'achievements').map((achievement, index) => (
+                                    {/* Check if achievementsList is an array before mapping */}
+                                    {Array.isArray(achievementsList) && achievementsList.map((achievement: string, index: number) => (
                                         <li key={index} className="flex items-start text-textSecondary group">
                                             <span className="text-primary mr-3 text-lg group-hover:text-secondary transition-colors duration-300">•</span>
                                             <span className="text-base sm:text-lg group-hover:text-primary transition-colors duration-300">
@@ -179,13 +192,14 @@ const AboutFounder = () => {
                                 className="bg-white p-6 sm:p-8 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300"
                             >
                                 <h2 className="text-primary text-xl sm:text-2xl font-semibold mb-4">
-                                    {t('founder', 'experienceTitle')}
+                                    {experienceTitle}
                                 </h2>
                                 <p className="text-textSecondary text-base sm:text-lg mb-6">
-                                    {t('founder', 'experienceDesc')}
+                                    {experienceDesc}
                                 </p>
                                 <ul className="space-y-4">
-                                    {t('founder', 'stats').map((stat, index) => (
+                                    {/* THIS IS THE FIX: Check if statsList is an array before mapping */}
+                                    {Array.isArray(statsList) && statsList.map((stat: string, index: number) => (
                                         <li key={index} className="flex items-start text-textSecondary group">
                                             <span className="text-secondary mr-3 text-lg group-hover:text-primary transition-colors duration-300">•</span>
                                             <span className="text-base sm:text-lg group-hover:text-primary transition-colors duration-300">
@@ -195,8 +209,6 @@ const AboutFounder = () => {
                                     ))}
                                 </ul>
                             </motion.div>
-
-
                         </div>
                     </div>
                 </div>
@@ -205,8 +217,8 @@ const AboutFounder = () => {
             {/* Decorative Background Elements */}
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -z-10"></div>
             <div className="absolute bottom-1/4 right-0 w-72 h-72 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
-           
-            <ContactCTA></ContactCTA>
+
+            <ContactCTA />
         </section>
     )
 }

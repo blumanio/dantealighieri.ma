@@ -5,7 +5,7 @@ import { Menu, X, GraduationCap, School, Globe, Info, PenIcon, University } from
 import Link from 'next/link'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
-import { useLanguage } from '../app/[lang]/LanguageContext'
+import { useLanguage } from '@/context/LanguageContext'
 import { usePathname } from 'next/navigation'
 
 interface MobileNavProps {

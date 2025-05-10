@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { FaGraduationCap, FaHandshake, FaGlobe, FaUsers } from 'react-icons/fa';
-import { useLanguage } from '../LanguageContext';
+import { useLanguage } from '../../../context/LanguageContext';
 import { AboutTranslation } from '@/app/i18n/types';
 import ContactCTA from '@/components/contactCTA';
 

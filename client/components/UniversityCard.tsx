@@ -1,4 +1,4 @@
-import { useLanguage } from "@/app/[lang]/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { Translation } from "@/app/i18n/types";
 import { SignInButton } from "@clerk/nextjs";
 import { Calendar, ChevronDown, ChevronUp, Euro, ExternalLink, 
@@ -21,7 +21,7 @@ interface UniversityCardProps {
   isSignedIn: boolean;
   isExpanded: boolean;
   onToggle: () => void;
-  t: <T extends keyof Translation, K extends keyof Translation[T]>(section: T, key: K) => Translation[T][K];
+  t: any;
 }
 
 const UniversityCard = ({ university, isSignedIn, isExpanded, onToggle, t }: UniversityCardProps) => {
