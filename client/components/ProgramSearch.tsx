@@ -46,7 +46,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   useEffect(() => {
     setFormData(prev => ({ ...prev }));
   }, [language]);
-  const API_BASE_URL = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
+  const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
   const fetchAllCourses = async () => {
     const targetUrl = `${API_BASE_URL}/api/courses`;
     setIsLoading(true);
