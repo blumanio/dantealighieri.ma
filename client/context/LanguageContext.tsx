@@ -11,9 +11,9 @@ import React, {
 
 import { translations } from '@/app/i18n/translations';
 import type { Translation, Locale as Lang } from '@/app/i18n/types';
+import { defaultLang, supportedLanguages } from '@/constants/constants';
 
-export const supportedLanguages: Lang[] = ['en', 'it', 'ar'];
-export const defaultLang: Lang = 'en';
+
 
 interface LanguageContextType {
     language: Lang;
@@ -123,3 +123,5 @@ export const useLanguage = (): LanguageContextType => {
     }
     return context;
 };
+
+export { defaultLang, supportedLanguages };

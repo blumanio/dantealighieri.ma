@@ -7,19 +7,17 @@ interface Post {
   slug: string;
   frontmatter: {
     title: string;
-    date: string; 
+    date: string;
     excerpt: string;
     author: string;
-    coverImage?: string; 
+    coverImage?: string;
     [key: string]: any;
   };
   lang?: string;
 }
 
 // Define API_BASE_URL for server-side fetches (consistent with other server components)
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ||
-                     process.env.API_BASE_URL || 
-                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000');
+const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
 
 
 async function getPosts(lang: string): Promise<Post[]> {
@@ -27,9 +25,9 @@ async function getPosts(lang: string): Promise<Post[]> {
   // This API endpoint should list all posts for a given language
   // If your actual API is `/api/generated-posts?lang=${lang}` as before, use that.
   // If you created `/api/posts?lang=${lang}` or similar, use that.
-  const targetUrl = `${API_BASE_URL}/api/generated-posts?lang=${lang}`; 
+  const targetUrl = `${API_BASE_URL}/api/generated-posts?lang=${lang}`;
   console.log(`[BlogIndex - getPosts for ${lang}] Fetching posts from: ${targetUrl}`);
-  
+
   try {
     const res = await fetch(targetUrl, {
       next: { revalidate: 60 }
@@ -46,12 +44,12 @@ async function getPosts(lang: string): Promise<Post[]> {
     // Adapt this based on your actual API response for a list of posts
     let postsFromApi = [];
     if (response.success && Array.isArray(response.posts)) { // Example structure
-        postsFromApi = response.posts;
+      postsFromApi = response.posts;
     } else if (Array.isArray(response)) { // Another common structure: API directly returns an array
-        postsFromApi = response;
+      postsFromApi = response;
     } else {
-        console.error(`[BlogIndex - getPosts for ${lang}] Invalid API response structure from ${targetUrl}:`, response);
-        return [];
+      console.error(`[BlogIndex - getPosts for ${lang}] Invalid API response structure from ${targetUrl}:`, response);
+      return [];
     }
 
     const posts: Post[] = postsFromApi.filter((p: any) => p && p.slug).map((p: any) => {
@@ -65,7 +63,7 @@ async function getPosts(lang: string): Promise<Post[]> {
           author: frontmatter.author || p.author || 'Studentitaly Staff',
           coverImage: frontmatter.coverImage || p.coverImage || undefined
         },
-        lang: lang 
+        lang: lang
       };
     });
 
@@ -74,7 +72,7 @@ async function getPosts(lang: string): Promise<Post[]> {
       const dateB = new Date(b.frontmatter.date).getTime();
       if (isNaN(dateB)) return -1;
       if (isNaN(dateA)) return 1;
-      return dateB - dateA; 
+      return dateB - dateA;
     });
 
     console.log(`[BlogIndex - getPosts for ${lang}] Found ${sortedPosts.length} posts`);
@@ -121,53 +119,54 @@ export default async function BlogPage({ params }: BlogIndexProps) {
           {posts.map((post) => {
             let absoluteCoverImageUrl = post.frontmatter.coverImage;
             if (post.frontmatter.coverImage && !post.frontmatter.coverImage.startsWith('http')) {
-                absoluteCoverImageUrl = `${API_BASE_URL}${post.frontmatter.coverImage.startsWith('/') ? '' : '/'}${post.frontmatter.coverImage}`;
+              absoluteCoverImageUrl = `${API_BASE_URL}${post.frontmatter.coverImage.startsWith('/') ? '' : '/'}${post.frontmatter.coverImage}`;
             }
             return (
-            <div key={post.slug} className="bg-white rounded-lg overflow-hidden shadow-md transition-shadow duration-300 hover:shadow-xl flex flex-col group">
-              {absoluteCoverImageUrl && (
-                <Link href={`/${lang}/blog/${post.slug}`} className="block overflow-hidden">
-                  <div className="aspect-video relative w-full">
-                    <Image
-                      src={absoluteCoverImageUrl}
-                      alt={`Cover image for ${post.frontmatter.title}`}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      className="transition-transform duration-500 ease-in-out group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                </Link>
-              )}
-              <div className="p-5 sm:p-6 flex flex-col flex-grow">
-                <h2 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 hover:text-teal-700 transition-colors duration-200 line-clamp-2">
-                  <Link href={`/${lang}/blog/${post.slug}`}>
-                    {post.frontmatter.title}
+              <div key={post.slug} className="bg-white rounded-lg overflow-hidden shadow-md transition-shadow duration-300 hover:shadow-xl flex flex-col group">
+                {absoluteCoverImageUrl && (
+                  <Link href={`/${lang}/blog/${post.slug}`} className="block overflow-hidden">
+                    <div className="aspect-video relative w-full">
+                      <Image
+                        src={absoluteCoverImageUrl}
+                        alt={`Cover image for ${post.frontmatter.title}`}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="transition-transform duration-500 ease-in-out group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
                   </Link>
-                </h2>
-                <div className="text-xs text-gray-500 mb-3 flex items-center flex-wrap gap-x-3">
-                  <span className="inline-flex items-center whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}> <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    <time dateTime={post.frontmatter.date}>
-                      {formatDate(post.frontmatter.date, lang === 'it' ? 'it-IT' : (lang === 'ar' ? 'ar-EG' : 'en-US'))}
-                    </time>
-                  </span>
-                  {post.frontmatter.author && (
+                )}
+                <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 hover:text-teal-700 transition-colors duration-200 line-clamp-2">
+                    <Link href={`/${lang}/blog/${post.slug}`}>
+                      {post.frontmatter.title}
+                    </Link>
+                  </h2>
+                  <div className="text-xs text-gray-500 mb-3 flex items-center flex-wrap gap-x-3">
                     <span className="inline-flex items-center whitespace-nowrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}> <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      <time dateTime={post.frontmatter.date}>
+                        {formatDate(post.frontmatter.date, lang === 'it' ? 'it-IT' : (lang === 'ar' ? 'ar-EG' : 'en-US'))}
+                      </time>
+                    </span>
+                    {post.frontmatter.author && (
+                      <span className="inline-flex items-center whitespace-nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                         {post.frontmatter.author}
-                    </span>
-                  )}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-gray-700 mb-4 flex-grow line-clamp-3">
+                    {post.frontmatter.excerpt}
+                  </p>
+                  <Link href={`/${lang}/blog/${post.slug}`} className="inline-block text-sm font-medium text-teal-600 hover:text-teal-800 self-start mt-auto group-[.card-hover]:text-teal-700 transition-all duration-200 ease-in-out hover:translate-x-1">
+                    Read More <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">&rarr;</span>
+                  </Link>
                 </div>
-                <p className="text-sm text-gray-700 mb-4 flex-grow line-clamp-3">
-                  {post.frontmatter.excerpt}
-                </p>
-                <Link href={`/${lang}/blog/${post.slug}`} className="inline-block text-sm font-medium text-teal-600 hover:text-teal-800 self-start mt-auto group-[.card-hover]:text-teal-700 transition-all duration-200 ease-in-out hover:translate-x-1">
-                  Read More <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">&rarr;</span>
-                </Link>
               </div>
-            </div>
-          )})}
+            )
+          })}
         </div>
       ) : (
         <p className="text-center text-gray-500 mt-16 text-lg">

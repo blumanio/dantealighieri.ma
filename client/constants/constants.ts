@@ -222,3 +222,8 @@ export const paymentOptions = [
   { value: 'bankTransfer', label: 'Bank Transfer' },
   { value: 'paypal', label: 'PayPal' }
 ];
+
+import type { Locale as Lang } from './../app/i18n/types';
+
+export const supportedLanguages: Lang[] = ['en', 'it', 'ar'];
+export const defaultLang: Lang = 'en';
