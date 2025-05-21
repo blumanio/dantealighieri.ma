@@ -1,7 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { Check, ChevronRight, ChevronLeft, Clock, BadgeCheck, GraduationCap, ShieldCheck } from 'lucide-react';
-import { APPLICATIONS_ENDPOINT } from '@/constants/constants';
+// Removed: import { APPLICATIONS_ENDPOINT } from '@/constants/constants';
+// Assuming APPLICATIONS_ENDPOINT is no longer needed after switching to a relative path.
 
 interface FormData {
     firstName: string;
@@ -24,7 +25,7 @@ const MultiStepForm = () => {
     useEffect(() => {
         setIsMounted(true);
     }, []);
-    // Add country code to the form data
+
     const [formData, setFormData] = useState<FormData>({
         firstName: '',
         lastName: '',
@@ -40,22 +41,9 @@ const MultiStepForm = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    // Define a development API URL as a fallback
-    const DEV_API_URL = 'http://localhost:5000';
-    const PROD_API_URL = 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app';
 
-    // Add this helper function at the top of your component
-    const getApiUrl = () => {
-        // Check if we're in a browser environment
-        if (typeof window !== 'undefined') {
-            // Use http for localhost, https for production
-            return window.location.hostname === 'localhost'
-                ? DEV_API_URL
-                : PROD_API_URL;
-        }
-        return PROD_API_URL; // Default to production URL
-    };
-    // MENA country codes
+    // Removed DEV_API_URL, PROD_API_URL, and getApiUrl function
+
     const countryCodes = [
         { code: '+20', country: 'Egypt 🇪🇬' },
         { code: '+966', country: 'Saudi Arabia 🇸🇦' },
@@ -74,9 +62,7 @@ const MultiStepForm = () => {
         { code: '+212', country: 'Morocco 🇲🇦' },
         { code: '+218', country: 'Libya 🇱🇾' }
     ];
-    // Update this part in your MultiStepForm component
 
-    // Remove the alert before submission
     const handleSubmit = async (e?: React.SyntheticEvent) => {
         if (e) {
             e.preventDefault();
@@ -88,13 +74,7 @@ const MultiStepForm = () => {
         setIsSubmitting(true);
         setSubmitError(null);
 
-        // Use the Next.js API route instead of directly calling the backend
-        // The API route will handle forwarding to your backend
-        const apiUrl = 'http://localhost:5000/api/applications';
-        console.log('Submitting to API route:', apiUrl);
-
         try {
-            // Format the data to match your backend expectations
             const submissionData = {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
@@ -109,7 +89,8 @@ const MultiStepForm = () => {
 
             console.log('Submission data:', submissionData);
 
-            const response = await fetch(getApiUrl() + '/api/applications', {
+            // Using relative path for the API call
+            const response = await fetch('/api/applications', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -120,28 +101,33 @@ const MultiStepForm = () => {
 
             console.log('Response status:', response.status);
 
-            // For debugging
             const responseText = await response.text();
             console.log('Response text:', responseText);
 
-            // Try to parse JSON
             let data;
             try {
                 data = responseText ? JSON.parse(responseText) : {};
-            } catch (e) {
-                console.error('Error parsing response as JSON:', e);
-                throw new Error('Invalid response from server');
+            } catch (parseError) {
+                console.error('Error parsing response as JSON:', parseError);
+                // Use the responseText as the error message if parsing fails,
+                // as it might contain an HTML error page or other non-JSON informative text.
+                throw new Error(responseText || 'Invalid response format from server');
             }
 
             if (!response.ok) {
-                throw new Error(data.message || `Server error: ${response.status}`);
+                // If data.message exists, use it, otherwise use a generic server error or the responseText
+                const errorMessage = data?.message || (responseText && responseText.length < 500 ? responseText : `Server error: ${response.status}`);
+                throw new Error(errorMessage);
             }
 
-            if (data.success) {
+            // Assuming the backend returns a 'success' field in the JSON response
+            // Adjust if your backend's success response structure is different
+            if (data.id || data.success) { // Check for an ID or a success flag
                 setCurrentStep(6);
             } else {
-                throw new Error(data.message || 'Unknown error occurred');
+                throw new Error(data.message || 'Submission was not successful.');
             }
+
         } catch (error) {
             console.error('Submission error:', error);
             setSubmitError((error as Error).message || 'Failed to submit. Please try again.');
@@ -150,14 +136,12 @@ const MultiStepForm = () => {
         }
     };
 
-
-    // Prevent render until mounted to avoid hydration issues
     if (!isMounted) {
         return null;
     }
+
     const validateStep = (step: number) => {
         const newErrors: { [key: string]: string } = {};
-
         switch (step) {
             case 1:
                 if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
@@ -181,7 +165,6 @@ const MultiStepForm = () => {
                 if (!formData.confirmed) newErrors.confirmed = 'Please confirm your commitment to proceed';
                 break;
         }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -213,8 +196,6 @@ const MultiStepForm = () => {
         setCurrentStep(prev => prev - 1);
         window.scrollTo(0, 0);
     };
-
-    // ... Previous render step cases remain the same except for case 2 (Contact Information)
 
     const renderStep = () => {
         switch (currentStep) {
@@ -359,7 +340,6 @@ const MultiStepForm = () => {
                         </div>
                     </div>
                 );
-
             case 5:
                 return (
                     <div className="space-y-8">
@@ -367,7 +347,6 @@ const MultiStepForm = () => {
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">Ready to Start Your Journey?</h2>
                             <p className="text-gray-600 text-lg">Our premium service includes:</p>
                         </div>
-
                         <div className="space-y-6">
                             <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-lg">
                                 <ShieldCheck className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
@@ -376,7 +355,6 @@ const MultiStepForm = () => {
                                     <p className="text-gray-600">Expert consultation throughout your application process with dedicated support</p>
                                 </div>
                             </div>
-
                             <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-lg">
                                 <GraduationCap className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
                                 <div>
@@ -384,7 +362,6 @@ const MultiStepForm = () => {
                                     <p className="text-gray-600">Personalized university recommendations based on your profile and preferences</p>
                                 </div>
                             </div>
-
                             <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-lg">
                                 <Clock className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
                                 <div>
@@ -392,7 +369,6 @@ const MultiStepForm = () => {
                                     <p className="text-gray-600">We handle paperwork and communicate with universities on your behalf</p>
                                 </div>
                             </div>
-
                             <div className="flex items-start gap-4 p-4 bg-teal-50 rounded-lg">
                                 <BadgeCheck className="w-6 h-6 text-teal-600 flex-shrink-0 mt-1" />
                                 <div>
@@ -401,13 +377,11 @@ const MultiStepForm = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="border-t border-b py-6 my-6">
                             <div className="text-center mb-6">
                                 <p className="text-2xl font-bold text-gray-900">Service Fee: €500</p>
                                 <p className="text-gray-600 mt-2">Investment in your educational future</p>
                             </div>
-
                             <div className="flex items-start gap-3 bg-yellow-50 p-4 rounded-lg">
                                 <div className="min-w-4 mt-1">⚡</div>
                                 <p className="text-sm text-gray-700">
@@ -415,7 +389,6 @@ const MultiStepForm = () => {
                                 </p>
                             </div>
                         </div>
-
                         <div>
                             <label className="flex items-start gap-3">
                                 <input
@@ -433,7 +406,6 @@ const MultiStepForm = () => {
                         </div>
                     </div>
                 );
-
             case 6:
                 return (
                     <div className="text-center space-y-6 py-8">
@@ -449,103 +421,111 @@ const MultiStepForm = () => {
                                 Our team will review your application and contact you within 24 hours to discuss your educational journey in Italy.
                             </p>
                         </div>
+                        {/* Display submission error if any */}
+                        {submitError && (
+                            <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                                <p className="font-semibold">Submission Failed</p>
+                                <p>{submitError}</p>
+                            </div>
+                        )}
                     </div>
                 );
+            default:
+                return null;
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-xl mx-auto p-4 sm:p-6">
-                <div className="mb-6">
-                    <div className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
-                        {[1, 2, 3, 4, 5].map((step) => (
-                            <div
-                                key={step}
-                                className={`flex flex-col items-center ${step <= currentStep ? 'text-teal-600' : 'text-gray-300'
-                                    }`}
-                            >
+                {/* Progress Bar */}
+                {currentStep < 6 && (
+                    <div className="mb-6">
+                        <div className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
+                            {[1, 2, 3, 4, 5].map((step) => (
                                 <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${step < currentStep
-                                        ? 'border-teal-600 bg-teal-600 text-white'
-                                        : step === currentStep
-                                            ? 'border-teal-600 text-teal-600'
-                                            : 'border-gray-300'
-                                        }`}
+                                    key={step}
+                                    className={`flex flex-col items-center ${step <= currentStep ? 'text-teal-600' : 'text-gray-300'}`}
                                 >
-                                    {step < currentStep ? <Check className="w-5 h-5" /> : step}
-                                </div>
-                                <div className="h-1 w-full mt-2">
                                     <div
-                                        className={`h-full ${step < currentStep ? 'bg-teal-600' : 'bg-gray-200'
+                                        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${step < currentStep
+                                                ? 'border-teal-600 bg-teal-600 text-white'
+                                                : step === currentStep
+                                                    ? 'border-teal-600 text-teal-600'
+                                                    : 'border-gray-300'
                                             }`}
-                                    />
+                                    >
+                                        {step < currentStep ? <Check className="w-5 h-5" /> : step}
+                                    </div>
+                                    {/* Connector Line - simplified for brevity, ensure it renders correctly between items */}
+                                    {step < 5 && (
+                                        <div className="flex-auto border-t-2 transition-colors duration-500 ease-in-out mx-2
+                                            ${step < currentStep ? 'border-teal-600' : 'border-gray-300'}"
+                                            style={{ width: '100%', transform: 'translateY(-20px) translateX(calc(50% + 5px))', position: 'relative', zIndex: -1 }}>
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
+
 
                 <div className="bg-white rounded-xl shadow-sm p-6">
+                    {/* Display general submission error at the top of the current step if it's not success step */}
+                    {submitError && currentStep !== 6 && (
+                        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                            <p className="font-semibold">Submission Failed</p>
+                            <p>{submitError}</p>
+                        </div>
+                    )}
                     {renderStep()}
                 </div>
 
+                {/* Navigation Buttons */}
                 {currentStep < 6 && (
                     <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 flex justify-between items-center z-50">
                         {currentStep > 1 ? (
                             <button
                                 type="button"
-
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleBack();
                                 }}
-                                className="flex items-center justify-center px-6 py-4 text-teal-600 font-medium 
-                          cursor-pointer select-none touch-manipulation tap-highlight-transparent"
-                                style={{
-                                    WebkitTapHighlightColor: 'transparent',
-                                    WebkitTouchCallout: 'none',
-                                    WebkitUserSelect: 'none',
-                                    userSelect: 'none'
-                                }}
+                                className="flex items-center justify-center px-6 py-4 text-teal-600 font-medium cursor-pointer select-none touch-manipulation tap-highlight-transparent"
+                                style={{ WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
                             >
                                 <ChevronLeft className="w-5 h-5 mr-1" />
                                 Back
                             </button>
                         ) : (
-                            <div className="w-20"></div>
+                            <div className="w-20"></div> // Placeholder for alignment
                         )}
                         <button
-                            type="button"
+                            type="button" // Ensure this is not "submit" if not inside a <form> tag
                             onClick={(e) => {
                                 e.preventDefault();
                                 if (currentStep === 5) {
-                                    // Remove this alert
-                                    // alert(`currentStep: ${currentStep}`);
-                                    handleSubmit();
+                                    handleSubmit(); // handleSubmit already has e.preventDefault() if needed
                                 } else {
                                     handleNext();
                                 }
                             }}
                             className={`flex items-center justify-center px-8 py-4 
-        ${currentStep === 5
-                                    ? 'bg-blue-600 active:bg-blue-700'
-                                    : 'bg-teal-600 active:bg-teal-700'
-                                } text-white rounded-xl font-medium text-lg transition-colors
-        cursor-pointer select-none touch-manipulation tap-highlight-transparent
-        min-w-[140px] min-h-[56px]`}
-                            style={{
-                                WebkitTapHighlightColor: 'transparent',
-                                WebkitTouchCallout: 'none',
-                                WebkitUserSelect: 'none',
-                                userSelect: 'none'
-                            }}
-                            disabled={currentStep === 5 && !formData.confirmed}
+                                ${currentStep === 5 ? 'bg-blue-600 active:bg-blue-700' : 'bg-teal-600 active:bg-teal-700'}
+                                text-white rounded-xl font-medium text-lg transition-colors
+                                cursor-pointer select-none touch-manipulation tap-highlight-transparent
+                                min-w-[140px] min-h-[56px]`}
+                            style={{ WebkitTapHighlightColor: 'transparent', WebkitTouchCallout: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
+                            disabled={(currentStep === 5 && !formData.confirmed) || isSubmitting}
                         >
                             {isSubmitting && currentStep === 5 ? (
                                 <div className="flex items-center">
-                                    <span className="mr-2">Submitting...</span>
-                                    {/* Add a simple loading spinner if desired */}
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Submitting...
                                 </div>
                             ) : currentStep === 5 ? (
                                 <div className="flex items-center">
@@ -562,6 +542,7 @@ const MultiStepForm = () => {
                     </div>
                 )}
 
+                {/* Spacer for fixed bottom bar */}
                 {currentStep < 6 && <div className="h-20" />}
             </div>
         </div>

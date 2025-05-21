@@ -21,11 +21,12 @@ router.get('/', async (req, res) => {
       // Decide: Default language? Error? Return all?
       // For now, let's require it or default (example: default to 'it')
       // return res.status(400).json({ success: false, error: 'Language parameter ?lang= is required.' });
-       filter.lang = 'it'; // Example default
+       filter.lang = 'en'; // Example default
        console.warn("API Warning: No language specified, defaulting to 'it'.");
     }
 
     // Fetch posts matching the filter, sorted by date, selecting only needed fields
+    console.log(`pppppppppppppFormatting post ID: ${postsFromDb}`); // Debug log
     const postsFromDb = await GeneratedPost.find(filter)
       .sort({ "frontmatter.date": -1 }) // Sort by nested date field
       .select('slug lang frontmatter') // Select needed fields

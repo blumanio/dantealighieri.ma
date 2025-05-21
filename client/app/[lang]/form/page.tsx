@@ -22,7 +22,7 @@ export default function ApplicationPage() {
                 Complete the form below to start your journey
               </p>
             </div>
-            
+
             {/* Optional: Add your logo here */}
             <Image
               src="/images/logo.svg"
@@ -50,35 +50,35 @@ export default function ApplicationPage() {
         {/* Footer Information */}
         <div className="mt-12 text-center space-y-4">
           <div className="flex items-center justify-center space-x-2 text-sm text-textSecondary">
-            <svg 
-              className="w-5 h-5 text-primary" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              className="w-5 h-5 text-primary"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
             <p className="hover:text-primary transition-colors duration-300">
               Need help? Contact us at support@example.com
             </p>
           </div>
-          
+
           <p className="text-sm text-textSecondary">
             By submitting this form, you agree to our{' '}
-            <a 
-              href="/terms" 
+            <a
+              href="/terms"
               className="text-secondary hover:text-secondary-dark transition-colors duration-300 underline-offset-2 hover:underline"
             >
               Terms of Service
             </a>{' '}
             and{' '}
-            <a 
-              href="/privacy" 
+            <a
+              href="/privacy"
               className="text-secondary hover:text-secondary-dark transition-colors duration-300 underline-offset-2 hover:underline"
             >
               Privacy Policy

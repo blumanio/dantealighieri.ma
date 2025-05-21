@@ -1,74 +1,50 @@
 // app/api/applications/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import Application from '@/lib/models/Application';
+import dbConnect from '@/lib/dbConnect';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    await dbConnect();
     const body = await req.json();
     console.log('Application submitted to Next.js API route:', body);
-    
-    // Use the correct backend URL
-    // Make sure this URL matches exactly where your Express backend is hosted
-    const backendUrl = 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app/api/applications';
-    
-    console.log('Sending to backend URL:', backendUrl);
-    
-    try {
-      const response = await fetch(backendUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(body),
-      });
-      
-      console.log('Backend response status:', response.status);
-      
-      // Check if the response is ok
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`Backend responded with status ${response.status}:`, errorText);
-        return NextResponse.json(
-          { 
-            success: false, 
-            message: `Backend server error: ${response.statusText}`,
-            details: errorText || 'No details available'
-          },
-          { status: response.status }
-        );
-      }
 
-      // Try to parse the response as JSON
-      let data;
-      try {
-        const responseText = await response.text();
-        console.log('Raw response from backend:', responseText);
-        data = responseText ? JSON.parse(responseText) : {};
-      } catch (e) {
-        console.error('Error parsing backend response:', e);
-        return NextResponse.json(
-          { success: false, message: 'Invalid response from backend server' },
-          { status: 502 }
-        );
-      }
+    // Transform flat input into nested structure for MongoDB schema
+    const applicationData = {
+      firstName: body.firstName,
+      lastName: body.lastName,
+      email: body.email,
+      phone: {
+        countryCode: body.countryCode,
+        number: body.whatsapp,
+      },
+      education: {
+        degree: body.lastDegree,
+        graduationYear: parseInt(body.graduationYear, 10),
+        points: body.degreePoints,
+      },
+      studyPreference: body.studyPreference,
+    };
 
-      return NextResponse.json(data);
-    } catch (fetchError) {
-      console.error('Error fetching backend:', fetchError);
-      return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Failed to connect to backend server', 
-          error: fetchError instanceof Error ? fetchError.message : String(fetchError)
-        },
-        { status: 503 }
-      );
-    }
-  } catch (error) {
+    const newApplication = await Application.create(applicationData);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Application submitted successfully',
+        data: newApplication,
+      },
+      { status: 201 }
+    );
+  } catch (error: any) {
     console.error('API route processing error:', error);
     return NextResponse.json(
-      { success: false, message: 'Failed to process application data' },
-      { status: 400 }
+      {
+        success: false,
+        message: 'Failed to process application data',
+        error: error?.message || 'Internal server error',
+      },
+      { status: 500 }
     );
   }
 }
