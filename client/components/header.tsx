@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignInButton, useUser } from '@clerk/nextjs'; // Import useUser
 import MobileNav from './mobileNav';
 import { DanteAlighieriLogo } from './SocialIcons';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useLanguage, supportedLanguages, defaultLang } from '../context/LanguageContext';
-import type { Locale as Lang } from '@/app/i18n/types';
+import { useLanguage, defaultLang } from '../context/LanguageContext';
+// Removed unused imports: supportedLanguages, Lang type alias if not used elsewhere in this file
 
+// menuItems definition remains the same as you provided
 const menuItems = {
   en: {
     blog: 'Blog',
@@ -61,10 +62,11 @@ const menuItems = {
   },
 } as const;
 
+
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { language } = useLanguage();
-  const pathname = usePathname();
+  const pathname = usePathname(); // Keep this if used, otherwise it can be removed
 
   const currentMenu = menuItems[language] || menuItems[defaultLang];
   const isRTL = language === 'ar';
@@ -86,7 +88,28 @@ const Header: React.FC = () => {
     { href: `/${language}/about`, text: currentMenu.about },
   ];
 
-  if (!language) return null;
+  if (!language) return null; // Or a loading state for the language
+
+  // Component to render the user avatar link, ensuring useUser is called correctly
+  const UserProfileLink = () => {
+    const { user } = useUser();
+
+    if (!user) {
+      // Optional: Show a placeholder while user data is loading within SignedIn
+      return <div className="w-8 h-8 bg-gray-400 rounded-full animate-pulse"></div>;
+    }
+
+    return (
+      <Link href={`/${language}/profile`} aria-label={currentMenu.profile || "View Profile"}>
+        <img
+          src={user.imageUrl}
+          alt={user.fullName || user.username || currentMenu.profile || "User Profile"}
+          className="w-9 h-9 rounded-full cursor-pointer hover:ring-2 hover:ring-teal-100/70 transition-all"
+          // Adjust styling as needed to match UserButton or your design preference
+        />
+      </Link>
+    );
+  };
 
   return (
     <header
@@ -100,9 +123,14 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4">
         <nav className="flex w-full items-center justify-between h-24" role="navigation" aria-label="Main navigation">
           <div className={`flex w-full items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            {/* This div seems to be intentionally left empty as a spacer.
+                If you want the logo to be on the far left and nav links/auth on the far right,
+                you might need to adjust the overall flex layout of the parent `nav` or this `div`.
+                For now, preserving its structure.
+            */}
             <div className="text-white font-poppins">{/* Left side empty placeholder */}</div>
 
-            <Link href={`/${language}`} className="flex items-center space-x-2 max-w-60" aria-label="Home">
+            <Link href={`/${language}`} className="flex items-center space-x-2 max-w-60" aria-label={currentMenu.home || "Home"}>
               <DanteAlighieriLogo className="h-24 w-auto text-white" aria-hidden="true" />
             </Link>
 
@@ -112,7 +140,7 @@ const Header: React.FC = () => {
                   key={href}
                   href={href}
                   className="text-white hover:text-teal-100 transition-colors text-sm font-poppins
-                            tracking-wide hover:scale-105 transform duration-200"
+                             tracking-wide hover:scale-105 transform duration-200"
                 >
                   {text}
                 </Link>
@@ -123,8 +151,8 @@ const Header: React.FC = () => {
                   <SignInButton mode="modal">
                     <button
                       className="text-white hover:text-teal-100 transition-colors text-sm font-poppins
-                                tracking-wide hover:scale-105 transform duration-200 px-3 py-2 rounded-md
-                                border border-transparent hover:border-teal-200"
+                                 tracking-wide hover:scale-105 transform duration-200 px-3 py-2 rounded-md
+                                 border border-transparent hover:border-teal-200"
                       aria-label={currentMenu.signIn}
                     >
                       {currentMenu.signIn}
@@ -132,13 +160,14 @@ const Header: React.FC = () => {
                   </SignInButton>
                 </SignedOut>
                 <SignedIn>
-                  <UserButton afterSignOutUrl={`/${language}`} />
+                  <UserProfileLink />
                 </SignedIn>
               </div>
             </div>
 
             <div className="md:hidden z-50">
-              <MobileNav menuItems={menuItems} />
+              {/* Pass menuItems and language for MobileNav to construct links and get translations */}
+              <MobileNav menuItems={menuItems[language] || menuItems[defaultLang]} currentLanguage={language} />
             </div>
           </div>
         </nav>

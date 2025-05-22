@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
   const currentTranslations = translations[language as Locale] || translations.en;
 
   const handleExplore = () => {
-    router.push(`/${language}/program-search`);
+    router.push(`/${language}/form`);
   };
 
   const [imageNumber, setImageNumber] = useState(1);
@@ -80,7 +80,7 @@ const HeroSection: React.FC = () => {
                          hover:scale-105 active:scale-95 ${isRTL ? 'flex-row-reverse' : ''}`}
                 aria-label={currentTranslations.common.search}
               >
-                <Search className="w-5 h-5" aria-hidden="true" />
+                
                 <span className="text-base font-medium">
                   {currentTranslations.hero.ctaButton}
                 </span>

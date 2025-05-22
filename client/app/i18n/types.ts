@@ -11,6 +11,12 @@ export interface CommonTranslation {
   apply: string;
   soon: string;
   contactUs: string;
+  editMode: string;
+  notProvided: string;
+  viewMode: string;
+  selectOption: string;
+  saveChanges: string;
+  cancel: string;
 }
 
 export interface HeroTranslation {
@@ -28,7 +34,7 @@ export interface ProgramsTranslation {
   searchPlaceholder: string;
   noResults: string;
   loadingMessage: string;
-  
+
   clickLink: string;
   signInToAccess: string
 }
@@ -72,7 +78,7 @@ export interface UniversitiesTranslation {
   filterByFee: string;
   paid: string;
   protectedContent: string;
-  apply:string
+  apply: string
 }
 
 export interface ServicesTranslation {
@@ -146,6 +152,200 @@ export interface ProgramSearchTranslation {
   loadingMessage: string;
 }
 
+
+interface ProfileTranslations {
+  // General Page
+  pageTitle: string;
+  signInPrompt: string;
+  loading: string;
+
+  // Tabs
+  tabsPersonalData: string;
+  tabsFavorites: string;
+  tabsApplicationGuide: string;
+  tabsScholarships: string;
+
+  // Personal Data Section (from your last i18n structure)
+  personalDataTitle: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  nationality: string;
+  countryOfResidence: string;
+  address: string;
+  editButton: string; // Assuming these are for a manual form if not using Clerk's UI fully
+  saveButton: string;
+  cancelButton: string;
+  personalDataClerkNote: string; // New specific key for the note
+
+  // Account Settings (from your last i18n structure, if used directly)
+  accountSettingsTitle: string;
+  changePassword: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  languagePreference: string;
+  notifications: string;
+  emailNotifications: string;
+  deleteAccount: string;
+  deleteAccountWarning: string;
+
+  // My Applications (from your last i18n structure, if used directly)
+  myApplicationsTitle: string;
+  noApplications: string;
+  applicationDate: string;
+  programName: string;
+  universityName: string;
+  status: string;
+  viewDetails: string;
+
+  // Saved Programs (from your last i18n structure, if used directly)
+  savedProgramsTitle: string;
+  noSavedPrograms: string;
+  removeButton: string; // This was for saved programs
+
+  // Favorites Section specific keys
+  favoritesTitle: string;
+  favoritesUniversities: string;
+  favoritesCourses: string;
+  favoritesRemove: string; // Specific remove for favorites
+  favoritesNoUniversities: string;
+  favoritesNoCourses: string;
+  favoritesExploreNow: string;
+
+  // Application Guide Section specific keys
+  applicationGuideTitle: string;
+  applicationGuideSubtitle: string;
+  applicationGuidePhase: string; // For the "Phase X:" part
+  applicationGuideMarkAsComplete: string;
+  applicationGuideMarkAsIncomplete: string;
+  applicationGuideLearnMore: string;
+  // Dynamic keys like 'profile.checklistPhase1Title' or 'profile.checklistSomeItemLabel'
+  // used in `phase.titleKey` or `item.labelKey` would also be defined here if they are static.
+  // Example:
+  // checklistPhase1Title?: string;
+  // checklistPassportCopyLabel?: string;
+  // checklistPassportCopyDescription?: string;
+
+  // Scholarships Section specific keys
+  scholarshipsTitle: string;
+  scholarshipsProvider: string;
+  scholarshipsDeadline: string;
+  scholarshipsViewDetails: string;
+  scholarshipsNoScholarships: string;
+  scholarshipsCheckResources: string;
+
+  // new profile details 
+  customPersonalDataTitle: string
+  clerkProfileOverviewTitle: string
+  editCoreProfileLink: string
+  customPersonalDataMissingPrompt: string
+  addInfoPrompt: string
+  educationalInformationTitle: string
+  customEducationalDataMissingPrompt: string
+  favoritesConfirmRemoveCourse: string
+  loadingYourDetails: string
+}
+
+
+// This is the main interface for the entire object structure
+// you requested in the previous step (e.g., content of en.js, ar.js)
+interface IProfileFieldLabels {
+  clerkProfileOverviewTitle: string;
+  customPersonalDataTitle: string;
+  educationalInformationTitle: string;
+
+  profilePictureAlt: string;
+  emailLabel: string;
+  phoneLabel: string;
+  joinedDateLabel: string;
+  lastSignInLabel: string;
+
+  dateOfBirthLabel: string;
+  genderLabel: string;
+  nationalityLabel: string;
+  countryOfResidenceLabel: string;
+
+  addressSubHeader: string;
+  streetAddressLabel: string;
+  cityLabel: string;
+  stateProvinceLabel: string;
+  postalCodeLabel: string;
+  addressCountryLabel: string;
+
+  passportSubHeader: string;
+  passportNumberLabel: string;
+  passportExpiryDateLabel: string;
+
+  emergencyContactSubHeader: string;
+  emergencyContactNameLabel: string;
+  emergencyContactRelationshipLabel: string;
+  emergencyContactPhoneLabel: string;
+  emergencyContactEmailLabel: string;
+
+  highestLevelOfEducationLabel: string;
+  previousEducationSubHeader: string;
+  institutionNameLabel: string;
+  institutionCountryLabel: string;
+  institutionCityLabel: string;
+  degreeNameLabel: string;
+  fieldOfStudyLabel: string;
+  graduationYearLabel: string;
+  graduationMonthLabel: string;
+  gpaLabel: string;
+  gradingScaleLabel: string;
+
+  englishProficiencySubHeader: string;
+  isNativeEnglishSpeakerLabel: string;
+  englishTestTakenLabel: string;
+  englishOverallScoreLabel: string;
+  englishTestDateLabel: string;
+
+  otherTestsSubHeader: string;
+  testNameLabel: string;
+  testScoreLabel: string;
+  testDateTakenLabel: string;
+
+  genderMale: string;
+  genderFemale: string;
+  genderNonBinary: string;
+  genderPreferNotToSay: string;
+
+  educationLevelHighSchool: string;
+  educationLevelAssociate: string;
+  educationLevelBachelor: string;
+  educationLevelMaster: string;
+  educationLevelPhD: string;
+  educationLevelOther: string;
+
+  monthJanuary: string;
+  monthFebruary: string;
+  monthMarch: string;
+  monthApril: string;
+  monthMay: string;
+  monthJune: string;
+  monthJuly: string;
+  monthAugust: string;
+  monthSeptember: string;
+  monthOctober: string;
+  monthNovember: string;
+  monthDecember: string;
+
+  optionYes: string;
+  optionNo: string;
+
+  testTOEFL: string;
+  testIELTS: string;
+  testDuolingo: string;
+  testCambridge: string;
+  testOtherEnglish: string;
+
+  selectOption: string;
+  notProvided: string;
+
+}
 export interface Translation {
   common: CommonTranslation;
   hero: HeroTranslation;
@@ -156,6 +356,9 @@ export interface Translation {
   about: AboutTranslation;
   footer: FooterTranslation;
   programSearch: ProgramSearchTranslation;
+  profile: ProfileTranslations;
+  profileFieldLabels: IProfileFieldLabels;
+
 }
 
 // Type guard for checking valid locale

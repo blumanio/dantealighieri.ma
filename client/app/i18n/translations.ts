@@ -11,12 +11,18 @@ export const translations: Record<Locale, Translation> = {
       deadline: "Deadlines",
       apply: "Apply",
       soon: "Soon",
-      contactUs: "Contact Us"
+      contactUs: "Contact Us",
+      editMode: "Edit Mode",
+      viewMode: "View Mode",
+      selectOption: "-- Select an option --",
+      notProvided: "Not Provided",
+      saveChanges: "Save Changes",
+      cancel: "Cancel"
     },
     hero: {
       title: "Start Your Italian Dream Education",
       subtitle: "Get expert guidance, step-by-step resources, and premium services to make your study journey to Italy simple, clear, and successful.",
-      ctaButton: "Explore All Italian Programs"
+      ctaButton: "Start Here"
     },
     programs: {
       searchTitle: "Search Programs",
@@ -149,6 +155,188 @@ export const translations: Record<Locale, Translation> = {
       apply: 'apply'
 
 
+    },
+    profile: {
+      pageTitle: "My Profile & Journey",
+      signInPrompt: "Please sign in to view your profile.",
+      loading: "Loading profile...",
+
+      tabsPersonalData: "Personal Data",
+      tabsFavorites: "Favorites",
+      tabsApplicationGuide: "Application Guide",
+      tabsScholarships: "Scholarships",
+
+      personalDataTitle: "Account Information",
+      firstName: "First Name",
+      lastName: "Last Name",
+      email: "Email Address",
+      phoneNumber: "Phone Number",
+      dateOfBirth: "Date of Birth",
+      nationality: "Nationality",
+      countryOfResidence: "Country of Residence",
+      address: "Address",
+      editButton: "Edit Information",
+      saveButton: "Save Changes",
+      cancelButton: "Cancel",
+      personalDataClerkNote: "Your personal data is securely managed by Clerk. You can update your information, manage security settings, and connected accounts here.",
+
+      accountSettingsTitle: "Account Settings",
+      changePassword: "Change Password",
+      currentPassword: "Current Password",
+      newPassword: "New Password",
+      confirmNewPassword: "Confirm New Password",
+      languagePreference: "Language Preference",
+      notifications: "Notifications",
+      emailNotifications: "Receive email notifications",
+      deleteAccount: "Delete Account",
+      deleteAccountWarning: "Are you sure you want to delete your account? This action cannot be undone.",
+
+      myApplicationsTitle: "My Applications",
+      noApplications: "You have not submitted any applications yet.",
+      applicationDate: "Application Date",
+      programName: "Program Name",
+      universityName: "University Name",
+      status: "Status",
+      viewDetails: "View Details",
+
+      savedProgramsTitle: "Saved Programs",
+      noSavedPrograms: "You have not saved any programs yet.",
+      removeButton: "Remove", // For saved programs
+
+      favoritesTitle: "My Favorites",
+      favoritesUniversities: "Favorite Universities",
+      favoritesCourses: "Favorite Courses",
+      favoritesRemove: "Remove", // Specific for removing a favorite item
+      favoritesNoUniversities: "No favorite universities yet.",
+      favoritesNoCourses: "No favorite courses yet.",
+      favoritesExploreNow: "Explore now!",
+
+      applicationGuideTitle: "Guide: Applying to Italy from Abroad",
+      applicationGuideSubtitle: "Your step-by-step checklist for a smooth application process.",
+      applicationGuidePhase: "Phase",
+      applicationGuideMarkAsComplete: "Mark as Complete",
+      applicationGuideMarkAsIncomplete: "Mark as Incomplete",
+      applicationGuideLearnMore: "Learn More",
+      //   // Example static keys for checklist items (these would be part of your data structure if static)
+      //   // checklistPhase1Title: "Phase 1: Pre-application & Document Gathering",
+      //   // checklistPassportCopyLabel: "Prepare a valid passport copy",
+      //   // checklistPassportCopyDescription: "Ensure your passport is valid for at least 6 months beyond your intended stay.",
+
+      scholarshipsTitle: "Scholarship Opportunities",
+      scholarshipsProvider: "Provider",
+      scholarshipsDeadline: "Deadline",
+      scholarshipsViewDetails: "View Details",
+      scholarshipsNoScholarships: "No specific scholarships listed at the moment.",
+      scholarshipsCheckResources: "We recommend checking official university websites and government portals for opportunities.",
+
+      // new for details profile
+      customPersonalDataTitle: "Detailed Personal Data",
+      clerkProfileOverviewTitle: "Clerk Profile Overview",
+      editCoreProfileLink: "Edit Core Profile (via Clerk)",
+      customPersonalDataMissingPrompt: "Help us know you better! Please add your detailed personal information.",
+      addInfoPrompt: "Add Information",
+      educationalInformationTitle: "Educational Background",
+      customEducationalDataMissingPrompt: "Your educational background is important for applications. Please add your education details.",
+      favoritesConfirmRemoveCourse: "Are you sure you want to remove this course from your favorites?",
+      loadingYourDetails: "Loading your details...",
+    },
+    profileFieldLabels: {
+      clerkProfileOverviewTitle: "Clerk Profile Overview",
+      customPersonalDataTitle: "Detailed Personal Data",
+      educationalInformationTitle: "Educational Background",
+
+      profilePictureAlt: "Profile Picture",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      joinedDateLabel: "Joined Date",
+      lastSignInLabel: "Last Sign In",
+
+      dateOfBirthLabel: "Date of Birth",
+      genderLabel: "Gender",
+      nationalityLabel: "Nationality",
+      countryOfResidenceLabel: "Country of Residence",
+
+      addressSubHeader: "Full Address",
+      streetAddressLabel: "Street Address",
+      cityLabel: "City",
+      stateProvinceLabel: "State/Province/Region",
+      postalCodeLabel: "Postal Code",
+      addressCountryLabel: "Country (Address)",
+
+      passportSubHeader: "Passport Information",
+      passportNumberLabel: "Passport Number",
+      passportExpiryDateLabel: "Passport Expiry Date",
+
+      emergencyContactSubHeader: "Emergency Contact",
+      emergencyContactNameLabel: "Full Name",
+      emergencyContactRelationshipLabel: "Relationship",
+      emergencyContactPhoneLabel: "Phone Number",
+      emergencyContactEmailLabel: "Email (Emergency Contact)",
+
+      highestLevelOfEducationLabel: "Highest Level of Education Achieved",
+      previousEducationSubHeader: "Previous Education",
+      institutionNameLabel: "Institution Name",
+      institutionCountryLabel: "Country of Institution",
+      institutionCityLabel: "City of Institution",
+      degreeNameLabel: "Program/Degree Name",
+      fieldOfStudyLabel: "Field of Study/Major",
+      graduationYearLabel: "Graduation Year",
+      graduationMonthLabel: "Month of Graduation",
+      gpaLabel: "GPA / Grade",
+      gradingScaleLabel: "Grading Scale",
+
+      englishProficiencySubHeader: "English Language Proficiency",
+      isNativeEnglishSpeakerLabel: "Is English your first language?",
+      englishTestTakenLabel: "Test Taken",
+      englishOverallScoreLabel: "Overall Score",
+      englishTestDateLabel: "Test Date",
+
+      otherTestsSubHeader: "Other Standardized Tests",
+      testNameLabel: "Test Name",
+      testScoreLabel: "Test Score",
+      testDateTakenLabel: "Date Taken",
+
+      genderMale: "Male",
+      genderFemale: "Female",
+      genderNonBinary: "Non-binary",
+      genderPreferNotToSay: "Prefer not to say",
+
+      educationLevelHighSchool: "High School Diploma/GED",
+      educationLevelAssociate: "Associate's Degree",
+      educationLevelBachelor: "Bachelor's Degree",
+      educationLevelMaster: "Master's Degree",
+      educationLevelPhD: "Doctorate (PhD)",
+      educationLevelOther: "Other",
+
+      monthJanuary: "January",
+      monthFebruary: "February",
+      monthMarch: "March",
+      monthApril: "April",
+      monthMay: "May",
+      monthJune: "June",
+      monthJuly: "July",
+      monthAugust: "August",
+      monthSeptember: "September",
+      monthOctober: "October",
+      monthNovember: "November",
+      monthDecember: "December",
+
+      optionYes: "Yes",
+      optionNo: "No",
+
+      testTOEFL: "TOEFL",
+      testIELTS: "IELTS",
+      testDuolingo: "Duolingo",
+      testCambridge: "Cambridge English",
+      testOtherEnglish: "Other (English Test)",
+
+      selectOption: "-- Select an option --",
+      notProvided: "Not Provided",
+      genderLabel: "Gender",
+  genderMale: "Male",
+  genderFemale: "Female",
+  genderNonBinary: "Non-binary",
+  genderPreferNotToSay: "Prefer not to say"
     }
 
   },
@@ -299,6 +487,76 @@ export const translations: Record<Locale, Translation> = {
       protectedContent: 'riservato ai membri',
       apply: 'iscriviti'
 
+    },
+    // Italian
+    profile: {
+      pageTitle: "Il Mio Profilo e Percorso",
+      signInPrompt: "Effettua il login per visualizzare il tuo profilo.",
+      loading: "Caricamento profilo...",
+
+      tabsPersonalData: "Dati Personali",
+      tabsFavorites: "Preferiti",
+      tabsApplicationGuide: "Guida all'Ammissione",
+      tabsScholarships: "Borse di Studio",
+
+      personalDataTitle: "Informazioni Account",
+      firstName: "Nome",
+      lastName: "Cognome",
+      email: "Indirizzo Email",
+      phoneNumber: "Numero di Telefono",
+      dateOfBirth: "Data di Nascita",
+      nationality: "Nazionalità",
+      countryOfResidence: "Paese di Residenza",
+      address: "Indirizzo",
+      editButton: "Modifica Informazioni",
+      saveButton: "Salva Modifiche",
+      cancelButton: "Annulla",
+      personalDataClerkNote: "I tuoi dati personali sono gestiti in modo sicuro da Clerk. Puoi aggiornare le tue informazioni, gestire le impostazioni di sicurezza e gli account collegati qui.",
+
+      accountSettingsTitle: "Impostazioni Account",
+      changePassword: "Cambia Password",
+      currentPassword: "Password Attuale",
+      newPassword: "Nuova Password",
+      confirmNewPassword: "Conferma Nuova Password",
+      languagePreference: "Preferenza Lingua",
+      notifications: "Notifiche",
+      emailNotifications: "Ricevi notifiche via email",
+      deleteAccount: "Elimina Account",
+      deleteAccountWarning: "Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata.",
+
+      myApplicationsTitle: "Le Mie Candidature",
+      noApplications: "Non hai ancora inviato nessuna candidatura.",
+      applicationDate: "Data Candidatura",
+      programName: "Nome Programma",
+      universityName: "Nome Università",
+      status: "Stato",
+      viewDetails: "Visualizza Dettagli",
+
+      savedProgramsTitle: "Programmi Salvati",
+      noSavedPrograms: "Non hai ancora salvato nessun programma.",
+      removeButton: "Rimuovi", // For saved programs
+
+      favoritesTitle: "I Miei Preferiti",
+      favoritesUniversities: "Università Preferite",
+      favoritesCourses: "Corsi Preferiti",
+      favoritesRemove: "Rimuovi", // Specific for removing a favorite item
+      favoritesNoUniversities: "Nessuna università preferita ancora.",
+      favoritesNoCourses: "Nessun corso preferito ancora.",
+      favoritesExploreNow: "Esplora ora!",
+
+      applicationGuideTitle: "Guida: Fare domanda per l'Italia dall'estero",
+      applicationGuideSubtitle: "La tua checklist passo-passo per un processo di candidatura agevole.",
+      applicationGuidePhase: "Fase",
+      applicationGuideMarkAsComplete: "Segna come Completato",
+      applicationGuideMarkAsIncomplete: "Segna come Non Completato",
+      applicationGuideLearnMore: "Scopri di più",
+
+      scholarshipsTitle: "Opportunità di Borse di Studio",
+      scholarshipsProvider: "Ente Erogatore",
+      scholarshipsDeadline: "Scadenza",
+      scholarshipsViewDetails: "Visualizza Dettagli",
+      scholarshipsNoScholarships: "Nessuna borsa di studio specifica elencata al momento.",
+      scholarshipsCheckResources: "Ti consigliamo di controllare i siti web ufficiali delle università e i portali governativi per le opportunità."
     }
   },
   ar: {
@@ -450,6 +708,76 @@ export const translations: Record<Locale, Translation> = {
       paid: "مدفوع",
       protectedContent: " خاص بالاعضاء المسجلين فقط",
       apply: 'التسجيل'
+    },
+    // Arabic
+    profile: {
+      pageTitle: "ملفي الشخصي ورحلتي",
+      signInPrompt: "الرجاء تسجيل الدخول لعرض ملفك الشخصي.",
+      loading: "جاري تحميل الملف الشخصي...",
+
+      tabsPersonalData: "البيانات الشخصية",
+      tabsFavorites: "المفضلة",
+      tabsApplicationGuide: "دليل التقديم",
+      tabsScholarships: "المنح الدراسية",
+
+      personalDataTitle: "معلومات الحساب",
+      firstName: "الاسم الأول",
+      lastName: "اسم العائلة",
+      email: "البريد الإلكتروني",
+      phoneNumber: "رقم الهاتف",
+      dateOfBirth: "تاريخ الميلاد",
+      nationality: "الجنسية",
+      countryOfResidence: "بلد الإقامة",
+      address: "العنوان",
+      editButton: "تعديل المعلومات",
+      saveButton: "حفظ التغييرات",
+      cancelButton: "إلغاء",
+      personalDataClerkNote: "تتم إدارة بياناتك الشخصية بشكل آمن بواسطة Clerk. يمكنك تحديث معلوماتك وإدارة إعدادات الأمان والحسابات المتصلة هنا.",
+
+      accountSettingsTitle: "إعدادات الحساب",
+      changePassword: "تغيير كلمة المرور",
+      currentPassword: "كلمة المرور الحالية",
+      newPassword: "كلمة المرور الجديدة",
+      confirmNewPassword: "تأكيد كلمة المرور الجديدة",
+      languagePreference: "تفضيلات اللغة",
+      notifications: "الإشعارات",
+      emailNotifications: "استقبال إشعارات البريد الإلكتروني",
+      deleteAccount: "حذف الحساب",
+      deleteAccountWarning: "هل أنت متأكد أنك تريد حذف حسابك؟ هذا الإجراء لا يمكن التراجع عنه.",
+
+      myApplicationsTitle: "طلباتي",
+      noApplications: "لم تقم بتقديم أي طلبات بعد.",
+      applicationDate: "تاريخ التقديم",
+      programName: "اسم البرنامج",
+      universityName: "اسم الجامعة",
+      status: "الحالة",
+      viewDetails: "عرض التفاصيل",
+
+      savedProgramsTitle: "البرامج المحفوظة",
+      noSavedPrograms: "لم تقم بحفظ أي برامج بعد.",
+      removeButton: "إزالة", // For saved programs
+
+      favoritesTitle: "مفضلتي",
+      favoritesUniversities: "الجامعات المفضلة",
+      favoritesCourses: "الدورات المفضلة",
+      favoritesRemove: "إزالة", // Specific for removing a favorite item
+      favoritesNoUniversities: "لا توجد جامعات مفضلة بعد.",
+      favoritesNoCourses: "لا توجد دورات مفضلة بعد.",
+      favoritesExploreNow: "استكشف الآن!",
+
+      applicationGuideTitle: "دليل: التقديم للدراسة في إيطاليا من الخارج",
+      applicationGuideSubtitle: "قائمة مرجعية خطوة بخطوة لعملية تقديم سلسة.",
+      applicationGuidePhase: "مرحلة",
+      applicationGuideMarkAsComplete: "وضع علامة كمكتمل",
+      applicationGuideMarkAsIncomplete: "وضع علامة كغير مكتمل",
+      applicationGuideLearnMore: "اعرف المزيد",
+
+      scholarshipsTitle: "فرص المنح الدراسية",
+      scholarshipsProvider: "مقدم المنحة",
+      scholarshipsDeadline: "الموعد النهائي",
+      scholarshipsViewDetails: "عرض التفاصيل",
+      scholarshipsNoScholarships: "لا توجد منح دراسية محددة مدرجة في الوقت الحالي.",
+      scholarshipsCheckResources: "نوصي بمراجعة المواقع الرسمية للجامعات والبوابات الحكومية للبحث عن الفرص."
     }
   }
 }
