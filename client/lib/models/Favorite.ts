@@ -1,10 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose'; // Ensure Model is imported
 
-const favoriteSchema = new mongoose.Schema({
-  userId: { // To store the ID of the user who favorited the course
+// Define an interface for the Favorite document
+export interface IFavorite extends Document {
+  userId: string;
+  courseId: mongoose.Types.ObjectId; // Added courseId
+  courseUni: string;
+  courseNome: string;
+  courseLink: string;
+  courseComune: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const favoriteSchema = new Schema<IFavorite>({ // Use the interface with Schema
+  userId: {
     type: String,
     required: true,
-    index: true, // Index for efficient querying of a user's favorites
+    index: true,
+  },
+  courseId: { // Add courseId field
+    type: Schema.Types.ObjectId,
+    ref: 'Course',
+    required: true,
   },
   courseUni: {
     type: String,
@@ -17,16 +34,21 @@ const favoriteSchema = new mongoose.Schema({
   courseLink: {
     type: String,
     required: true,
+    index: true // Keep index on courseLink if it's frequently queried
   },
   courseComune: {
     type: String,
     required: true,
   },
-  // You could also store a unique identifier for the course if available
-  // courseId: { type: String, required: true, unique: true } // Example
 }, {
-  timestamps: true // Adds createdAt and updatedAt timestamps
+  timestamps: true,
 });
 
-// Prevent OverwriteModelError which can occur in Next.js dev environment
-export default mongoose.models.Favorite || mongoose.model('Favorite', favoriteSchema);
+// Compound index to prevent duplicate favorites
+favoriteSchema.index({ userId: 1, courseId: 1 }, { unique: true });
+
+// Ensure the model is correctly typed
+const Favorite: Model<IFavorite> =
+  mongoose.models.Favorite || mongoose.model<IFavorite>('Favorite', favoriteSchema);
+
+export default Favorite;

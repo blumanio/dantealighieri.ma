@@ -20,6 +20,9 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
         { id: 'favorites', labelKey: 'tabsFavorites', icon: Heart },
         { id: 'applicationGuide', labelKey: 'tabsApplicationGuide', icon: ListChecks },
         { id: 'scholarships', labelKey: 'tabsScholarships', icon: Award },
+        { id: 'premiumApplicationHub', labelKey: 'premiumApplicationHub', icon: UserIcon },
+        { id: 'userProfileDetails', labelKey: 'personalizedDeadlineTracker', icon: UserIcon },
+        { id: 'personalizedDeadlineTracker', labelKey: 'tabsPersonalizedDeadlineTracker', icon: UserIcon },
     ];
 
     return (

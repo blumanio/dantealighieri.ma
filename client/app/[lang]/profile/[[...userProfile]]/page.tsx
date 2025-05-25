@@ -10,8 +10,10 @@ import PersonalDataSection from '@/components/profile/PersonalDataSection';
 import FavoritesSection from '@/components/profile/FavoritesSection';
 import ApplicationGuideSection from '@/components/profile/ApplicationGuideSection';
 import ScholarshipsSection from '@/components/profile/ScholarshipsSection';
+import PersonalizedDeadlineTracker from '@/components/profile/PersonalizedDeadlineTracker'; // Adjust path
 import { Loader2 } from 'lucide-react'; // For a consistent loading spinner
 import UserProfileDetails from '@/components/profile/UserProfileDetails'; // Adjust path
+import PremiumApplicationHub from '@/components/profile/PremiumApplicationHub'; // Adjust path
 
 // --- Data Types (Consider moving to a dedicated types file e.g., types/profile.ts) ---
 // export interface FavoriteCourse { id: string; name: string; universityName: string; degreeType: string; link: string; } // Not needed if FavoritesSection fetches its own
@@ -46,7 +48,7 @@ const ProfilePage = ({ params }: Props) => {
     const { locale } = params;
     const { user, isSignedIn, isLoaded } = useUser(); // Use isLoaded
     const { language, t } = useLanguage(); // Assuming 'language' from context aligns with 'locale'
-    const [activeTab, setActiveTab] = useState('userProfileDetails');
+    const [activeTab, setActiveTab] = useState('userProfileDetails'); // Default tab
 
     // --- State for dynamic content (fetched by ProfilePage) ---
     // FavoritesSection now fetches its own courses.
@@ -173,6 +175,9 @@ const ProfilePage = ({ params }: Props) => {
                             />}
                         {activeTab === 'scholarships' && <ScholarshipsSection scholarships={scholarships} t={t} />}
                         {activeTab === 'userProfileDetails' && <UserProfileDetails t={t} lang={locale} />}
+                        {activeTab === 'personalizedDeadlineTracker' && <PersonalizedDeadlineTracker t={t} lang={locale} />}
+                        {activeTab === 'premiumApplicationHub' && <PremiumApplicationHub t={t} lang={locale} />}
+
 
                     </main>
                 </div>

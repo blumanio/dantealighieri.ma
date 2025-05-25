@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // The lang attribute here is a default. It will be updated by LanguageProvider for specific language pages.
     <html lang={DEFAULT_LANGUAGE} className={poppins.variable}>
       <head>
-        <script src="//code.tidio.co/5x5vbeatvnqkj4tofmzqhw8rctjxtd17.js" async></script>
+        {/* <script src="//code.tidio.co/5x5vbeatvnqkj4tofmzqhw8rctjxtd17.js" async></script>
         {/* Other meta tags, links etc. */}
       </head>
       <body className={`font-poppins ${inter.className}`}>

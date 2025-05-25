@@ -17,6 +17,8 @@ export interface CommonTranslation {
   selectOption: string;
   saveChanges: string;
   cancel: string;
+  daysRemaining: string,
+      moreInfo: string;
 }
 
 export interface HeroTranslation {
@@ -223,7 +225,7 @@ interface ProfileTranslations {
   applicationGuideMarkAsIncomplete: string;
   applicationGuideLearnMore: string;
   // Dynamic keys like 'profile.checklistPhase1Title' or 'profile.checklistSomeItemLabel'
-  // used in `phase.titleKey` or `item.labelKey` would also be defined here if they are static.
+  // used in `phase.titleKey` or `item.labelKey` would also be defined here if they are statifie  c.
   // Example:
   // checklistPhase1Title?: string;
   // checklistPassportCopyLabel?: string;
@@ -247,6 +249,10 @@ interface ProfileTranslations {
   customEducationalDataMissingPrompt: string
   favoritesConfirmRemoveCourse: string
   loadingYourDetails: string
+  personalizedDeadlineTrackerTitle: string
+  deadlineTrackerDescription : string
+  findAndTrackCourses: string
+  upcomingDeadlines: string
 }
 
 
@@ -344,6 +350,19 @@ interface IProfileFieldLabels {
 
   selectOption: string;
   notProvided: string;
+  startDateLabel: string;
+  deadlineTypeLabel: string;
+  applicationStatusLabel:string
+  NotStarted:string
+  Researching:string
+  PreparingDocuments:string
+  AwaitingPreEnrollment:string
+  Applied:string
+  AwaitingResults:string
+  Accepted:string
+  Rejected:string
+  Enrolled:string
+  notesLabel: string;
 
 }
 export interface Translation {
@@ -371,3 +390,34 @@ export type TranslationKey<
   T extends keyof Translation,
   K extends keyof Translation[T]
 > = `${T}.${K & string}`;
+
+
+ export interface CityCostMetric {
+    label: string;
+    value: string | number;
+    unit?: string;
+    icon: React.ElementType;
+    barPercentage?: number;
+    barColor?: string;
+  }
+}; 
+
+export interface CityData {
+  id: string;
+  cityName: string;
+  country: string;
+  region: string;
+  universityNames: string[];
+  heroImage: string;
+  overallScore: number;
+  monthlyEstimateEUR: number;
+  safetyScore: number;
+  studentFriendliness: number;
+  internetSpeedMbps?: number;
+  metrics: CityCostMetric[];
+  nomadListStyleTags?: { label: string; color: string }[];
+  dataSourceNotes?: string;
+  currencySymbol?: string;
+  latitude: number;
+  longitude: number;
+}
