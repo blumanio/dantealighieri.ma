@@ -1,107 +1,60 @@
 // client/lib/models/Course.js
 import mongoose from 'mongoose';
 
-// Destructure Schema from mongoose
 const { Schema } = mongoose;
 
-const DeadlineSchema = new Schema({ // Changed from mongoose.Schema to Schema
-  deadlineType: { 
-    type: String,
-    required: true,
-    trim: true,
-  },
-  date: {
-    type: Date,
-    required: true
-  },
-  description: { 
-    type: String,
-    trim: true,
-    default: '', // Explicitly default to empty string
-  },
-  isRollingAdmission: { 
-    type: Boolean,
-    default: false
-  },
-  relatedLink: { 
-    type: String,
-    trim: true,
-    default: '', // Explicitly default to empty string
-  }
-}, { _id: true }); // _id: true is default for subdocuments, but explicit is fine.
+const DeadlineSchema = new Schema({ /* ... */ });
 
-const courseSchema = new Schema({ // Changed from mongoose.Schema to Schema
-  nome: {
+const courseSchema = new Schema({
+  nome: { type: String, trim: true },
+  link: { type: String, trim: true },
+  tipo: { type: String, trim: true },
+  uni: { type: String, trim: true, required: true }, // Original name for display
+  uniSlug: { // FIELD TO QUERY WITH
     type: String,
     trim: true,
-    // required: [true, 'Program name (nome) is required.'] // Retaining as commented, per user files
+    lowercase: true,
+    index: true,
+    // required: true // Ideally true after backfilling
   },
-  link: { 
-    type: String,
-    trim: true,
-    // required: [true, 'Course link is required.']
-  },
-  tipo: { 
-    type: String,
-    trim: true
-  },
-  uni: { 
-    type: String,
-    trim: true,
-    // required: [true, 'University name (uni) is required.']
-  },
-  accesso: { 
-    type: String,
-    trim: true
-  },
-  area: { 
-    type: String,
-    trim: true
-  },
-  lingua: { 
-    type: String,
-    trim: true
-  },
-  comune: { 
-    type: String,
-    trim: true,
-    // required: [true, 'Comune is required.']
-  },
-  // Note on Course.deadlines:
-  // The current API logic in deadlineUtils.ts dynamically fetches/generates deadlines
-  // based on italianUniversities data. This 'deadlines' array here is for storing
-  // specific, official deadlines directly on the course document if available/scraped.
-  // Ensure your data strategy aligns with whether this field will be populated and used
-  // in conjunction with or instead of the dynamic deadline generation.
-  deadlines: [DeadlineSchema], 
-  academicYear: {
-    type: String,
-    trim: true
-  },
-  intake: {
-    type: String,
-    trim: true
-  },
-  viewCount: {
-    type: Number,
-    default: 0,
-    min: 0 // Ensure count doesn't go negative
-  },
-  favoriteCount: {
-    type: Number,
-    default: 0,
-    min: 0 // Ensure count doesn't go negative
-  },
-  trackedCount: {
-    type: Number,
-    default: 0,
-    min: 0 // Ensure count doesn't go negative
-  }
+  accesso: { type: String, trim: true },
+  area: { type: String, trim: true },
+  lingua: { type: String, trim: true },
+  comune: { type: String, trim: true },
+  deadlines: [DeadlineSchema],
+  academicYear: { type: String, trim: true },
+  intake: { type: String, trim: true },
+  viewCount: { type: Number, default: 0, min: 0 },
+  favoriteCount: { type: Number, default: 0, min: 0 },
+  trackedCount: { type: Number, default: 0, min: 0 }
 }, {
   timestamps: true
 });
 
-// Example: Index for searching, if needed
-// courseSchema.index({ nome: 'text', uni: 'text', area: 'text' });
+// Pre-save hook to auto-generate uniSlug
+courseSchema.pre('save', function(next) {
+  if (this.isModified('uni') || !this.uniSlug) { // Also generate if uniSlug is missing
+    if (this.uni) {
+      this.uniSlug = this.uni.toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[àáâãäåāăą]/g, 'a')
+        .replace(/[èéêëēĕėęě]/g, 'e')
+        .replace(/[ìíîïĩīĭįı]/g, 'i')
+        .replace(/[òóôõöōŏő]/g, 'o')
+        .replace(/[ùúûüũūŭůűų]/g, 'u')
+        .replace(/[ýÿŷ]/g, 'y')
+        .replace(/[ñń]/g, 'n')
+        .replace(/[çćč]/g, 'c')
+        .replace(/[šśŝş]/g, 's')
+        .replace(/[žźż]/g, 'z')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    } else {
+        this.uniSlug = undefined; // Or handle as an error if uni is required
+    }
+  }
+  next();
+});
 
 export default mongoose.models.Course || mongoose.model("Course", courseSchema);

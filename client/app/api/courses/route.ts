@@ -1,21 +1,21 @@
 // app/api/courses/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect'; // Adjust path if you placed dbConnect elsewhere
-import Course from '@/lib/models/Course';   // Adjust path to your Course model
+import dbConnect from '@/lib/dbConnect';
+import Course from '@/lib/models/Course';
 
 export async function GET(request: NextRequest) {
-    const requestUrl = request.url; // For logging
+    const requestUrl = request.url; 
     console.log(`[API/COURSES] GET request received for ${requestUrl}`);
     
     try {
-        await dbConnect(); // Ensure DB is connected
+        await dbConnect(); 
 
         const { searchParams } = new URL(requestUrl);
         const tipo = searchParams.get('tipo');
         const accesso = searchParams.get('accesso');
         const lingua = searchParams.get('lingua');
         const area = searchParams.get('area');
-        // const lang = searchParams.get('lang'); // If you need to filter by general request language
+        const uniSlugParam = searchParams.get('uniSlug'); // EXPECTING uniSlug
 
         let query: any = {};
 
@@ -23,12 +23,20 @@ export async function GET(request: NextRequest) {
         if (lingua) query.lingua = lingua;
         if (area) query.area = area;
         if (accesso) query.accesso = accesso;
-        // if (lang) query.someLangFieldInDb = lang;
+        
+        if (uniSlugParam) {
+            // Query directly against the uniSlug field.
+            // Slugs should be stored consistently (e.g., lowercase).
+            query.uniSlug = uniSlugParam.toLowerCase(); 
+            console.log(`[API/COURSES] Filtering by university slug: "${uniSlugParam}"`);
+        } else {
+            console.log(`[API/COURSES] No uniSlug provided, fetching all courses (or based on other filters).`);
+        }
 
-        console.log("[API/COURSES] Executing Course.find with query:", query);
+        console.log("[API/COURSES] Executing Course.find with query:", JSON.stringify(query));
 
         const courses = await Course.find(query).lean();
-        console.log(`[API/COURSES] Found ${courses.length} courses`);
+        console.log(`[API/COURSES] Found ${courses.length} courses for query.`);
 
         return NextResponse.json(courses, { status: 200 });
 

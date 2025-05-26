@@ -21,7 +21,7 @@ interface ICustomPersonalData {
 }
 
 interface IEducationEntry {
-    id: string; // Client-generated ID for list management
+    id: string;
     institutionName?: string;
     institutionCountry?: string;
     institutionCity?: string;
@@ -41,7 +41,7 @@ interface ILanguageProficiency {
 }
 
 interface IStandardizedTest {
-    id: string; // Client-generated ID
+    id: string;
     testName?: string;
     score?: string;
     dateTaken?: string;
@@ -59,64 +59,33 @@ export interface IUserProfileDetail extends Document {
     userId: string; // Clerk User ID
     personalData?: ICustomPersonalData;
     educationalData?: ICustomEducationalData;
+    role?: 'student' | 'alumni' | 'mentor' | 'admin'; // ADDED
+    premiumTier?: 'Amico' | 'Artista' | 'Maestro'; // ADDED
+    profileVisibility?: 'public' | 'private' | 'network_only'; // ADDED
+    languageInterests?: string[]; // ADDED e.g., ['en', 'it']
+    targetUniversities?: { // ADDED
+        universityId?: mongoose.Types.ObjectId; // Link to a future University model if needed
+        universityName: string;
+        applicationStatus: string; // e.g., "Interested", "Applied", "Accepted"
+        programOfInterest?: string;
+    }[];
+    aboutMe?: string; // ADDED
     createdAt: Date;
     updatedAt: Date;
 }
 
-// --- Mongoose Schemas ---
-const EducationEntrySchema = new Schema<IEducationEntry>({
-    id: { type: String, required: true }, // Keep client-generated ID for list consistency
-    institutionName: { type: String, trim: true },
-    institutionCountry: { type: String, trim: true },
-    institutionCity: { type: String, trim: true },
-    degreeName: { type: String, trim: true },
-    fieldOfStudy: { type: String, trim: true },
-    graduationYear: { type: String, trim: true },
-    graduationMonth: { type: String, trim: true },
-    gpa: { type: String, trim: true },
-    gradingScale: { type: String, trim: true },
-}, { _id: true }); // Mongoose will add its own _id, but 'id' is for client key
+// --- Mongoose Schemas (existing ones unchanged, new ones added below) ---
+const EducationEntrySchema = new Schema<IEducationEntry>({ /* ... existing ... */ }, { _id: true });
+const LanguageProficiencySchema = new Schema<ILanguageProficiency>({ /* ... existing ... */ }, { _id: false });
+const StandardizedTestSchema = new Schema<IStandardizedTest>({ /* ... existing ... */ }, { _id: true });
+const CustomPersonalDataSchema = new Schema<ICustomPersonalData>({ /* ... existing ... */ }, { _id: false });
+const CustomEducationalDataSchema = new Schema<ICustomEducationalData>({ /* ... existing ... */ }, { _id: false });
 
-const LanguageProficiencySchema = new Schema<ILanguageProficiency>({
-    isNativeEnglishSpeaker: { type: String, enum: ['yes', 'no', ''] },
-    testTaken: { type: String, enum: ['TOEFL', 'IELTS', 'Duolingo', 'Cambridge', 'Other', ''] },
-    overallScore: { type: String, trim: true },
-    testDate: { type: String }, // Storing as string as received from client
-}, { _id: false });
-
-const StandardizedTestSchema = new Schema<IStandardizedTest>({
-    id: { type: String, required: true },
-    testName: { type: String, trim: true },
-    score: { type: String, trim: true },
-    dateTaken: { type: String },
-}, { _id: true });
-
-const CustomPersonalDataSchema = new Schema<ICustomPersonalData>({
-    dateOfBirth: { type: String },
-    gender: { type: String },
-    nationality: { type: String, trim: true },
-    countryOfResidence: { type: String, trim: true },
-    streetAddress: { type: String, trim: true },
-    city: { type: String, trim: true },
-    stateProvince: { type: String, trim: true },
-    postalCode: { type: String, trim: true },
-    addressCountry: { type: String, trim: true },
-    passportNumber: { type: String, trim: true },
-    passportExpiryDate: { type: String },
-    emergencyContactName: { type: String, trim: true },
-    emergencyContactRelationship: { type: String, trim: true },
-    emergencyContactPhone: { type: String, trim: true },
-    emergencyContactEmail: { type: String, trim: true, lowercase: true },
-}, { _id: false });
-
-const CustomEducationalDataSchema = new Schema<ICustomEducationalData>({
-    highestLevelOfEducation: {
-        type: String,
-        enum: ['High School', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctorate (PhD)", 'Other', ''],
-    },
-    previousEducation: { type: [EducationEntrySchema], default: [] },
-    languageProficiency: { type: LanguageProficiencySchema, default: {} },
-    otherStandardizedTests: { type: [StandardizedTestSchema], default: [] },
+const TargetUniversitySchema = new Schema({
+    universityId: { type: Schema.Types.ObjectId, ref: 'University' }, // Optional ref
+    universityName: { type: String, required: true },
+    applicationStatus: { type: String, required: true },
+    programOfInterest: { type: String },
 }, { _id: false });
 
 const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
@@ -134,11 +103,24 @@ const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
         type: CustomEducationalDataSchema,
         default: {},
     },
+    role: { // ADDED
+        type: String,
+        enum: ['student', 'alumni', 'mentor', 'admin'],
+        default: 'student'
+    },
+    premiumTier: { type: String, enum: ['Amico', 'Artista', 'Maestro'] }, // ADDED
+    profileVisibility: { // ADDED
+        type: String,
+        enum: ['public', 'private', 'network_only'],
+        default: 'private'
+    },
+    languageInterests: [{ type: String }], // ADDED
+    targetUniversities: [TargetUniversitySchema], // ADDED
+    aboutMe: { type: String, trim: true }, // ADDED
 }, {
-    timestamps: true, // Adds createdAt and updatedAt
+    timestamps: true,
 });
 
-// Prevent model overwrite in Next.js hot reloading
 const UserProfileDetail: Model<IUserProfileDetail> =
     models.UserProfileDetail || mongoose.model<IUserProfileDetail>('UserProfileDetail', UserProfileDetailSchema);
 

@@ -363,7 +363,68 @@ interface IProfileFieldLabels {
   Rejected:string
   Enrolled:string
   notesLabel: string;
+   role_student: string;
+  role_alumni: string;
+  role_mentor: string;
+  role_admin: string;
+  tier_Amico: string;
+  tier_Artista: string;
+  tier_Maestro: string;
 
+}
+export interface UniversityHubsTranslation {
+   pageTitle: string;
+  pageSubtitle: string;
+  errorFetchingCourses: string;
+  coursesOfferedTitle: string;
+  noCoursesListed: string;
+  studentNetworkTitle: string;
+  networkDescription: string;
+  discussionsTitle: string;
+  housingBoardTitle: string;
+  studyGroupsTitle: string;
+  newDiscussionButton: string;
+  newDiscussionFormTitle: string;
+  postTitlePlaceholder: string;
+  postContentPlaceholder: string;
+  submitPost: string;
+  noPostsYet: string; // e.g., "No {{type}} yet. Be the first to create one!"
+  noDiscussionsYet: string;
+  showComments: string; // e.g., "Show Comments ({{count}})"
+  hideComments: string;
+  addCommentPlaceholder: string;
+  errorCreatingPost: string;
+  errorAddingComment: string;
+  signInToPost: string;
+  postContentRequired: string;
+  visitOfficialWebsite: string;
+  coursesTab: string;
+  networkTab: string;
+  discussionsTab: string; // For sub-navigation or specific titles
+  housingTab: string;
+  studyGroupsTab: string;
+  careerTab: string;
+  aboutTab: string; 
+  seekingHousing: string;
+  offeringHousing: string;
+  seekingHousingButton: string;
+  offeringHousingButton: string;
+  newSeekingPostTitle: string;
+  newOfferingPostTitle: string;
+  housingPostPlaceholder: string;
+  submitAdButton: string;
+  lookingForGroupButton: string;
+  formingGroupButton: string;
+  newLookingPostTitle: string;
+  newFormingPostTitle: string;
+  studyGroupTitlePlaceholder: string;
+  studyGroupDescPlaceholder: string;
+  createPostButton: string;
+  postType_discussion: string;
+  postType_housing_seeking: string;
+  postType_housing_offering: string;
+  postType_study_group_looking: string;
+  postType_study_group_forming: string;
 }
 export interface Translation {
   common: CommonTranslation;
@@ -377,6 +438,7 @@ export interface Translation {
   programSearch: ProgramSearchTranslation;
   profile: ProfileTranslations;
   profileFieldLabels: IProfileFieldLabels;
+  universityHubs: UniversityHubsTranslation;
 
 }
 
