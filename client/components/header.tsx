@@ -151,15 +151,11 @@ const Header: React.FC = () => {
             >
               {currentMenu.profile}
             </Link>
-            <SignOutButton
-                signOutCallback={() => {
-                    setIsDropdownOpen(false);
-                    // Optional: redirect after sign out, e.g., router.push('/')
-                }}
-            >
+            <SignOutButton>
               <button
                 className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                 role="menuitem"
+                onClick={() => setIsDropdownOpen(false)}
               >
                 {currentMenu.signOut || 'Sign Out'}
               </button>

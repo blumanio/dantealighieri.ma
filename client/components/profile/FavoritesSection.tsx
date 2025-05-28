@@ -117,7 +117,7 @@ const FavoritesSection: React.FC<FavoritesSectionProps> = ({ universities, t }) 
         ) : (
           <p className="text-neutral-500 text-sm">
             {t('profile', 'favoritesNoUniversities')} {' '}
-            <Link href="/search" className="text-primary hover:underline">
+            <Link href="/program-search" className="text-primary hover:underline">
               {t('profile', 'favoritesExploreNow')}
             </Link>
           </p>
@@ -166,7 +166,7 @@ const FavoritesSection: React.FC<FavoritesSectionProps> = ({ universities, t }) 
         {!isLoadingCourses && !errorCourses && favoriteCourses.length === 0 && (
           <p className="text-neutral-500 text-sm">
             {t('profile', 'favoritesNoCourses')} {' '}
-            <Link href="/search" className="text-primary hover:underline">
+            <Link href="/program-search" className="text-primary hover:underline">
               {t('profile', 'favoritesExploreNow')}
             </Link>
           </p>

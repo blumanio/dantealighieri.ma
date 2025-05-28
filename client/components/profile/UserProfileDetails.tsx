@@ -118,6 +118,7 @@ const saveActualCustomProfileData = async (
 // --- Main Component ---
 const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
     const { user, isLoaded } = useUser();
+    console.log("UserProfileDetails.tsx loaded", user);
 
     const [customPersonalData, setCustomPersonalData] = useState<CustomPersonalData>({});
     const [customEducationalData, setCustomEducationalData] = useState<CustomEducationalData>({ previousEducation: [{id: Date.now().toString()}], otherStandardizedTests: [], languageProficiency: {isNativeEnglishSpeaker: ''} });
@@ -330,13 +331,13 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
 
     return (
         <div className="space-y-10">
-            {/* --- Section 1: Clerk Profile Overview --- */}
+            {/* --- Section 1: Clerk Profile Overview --- 
             <section>
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                     <h3 className="text-xl font-semibold text-neutral-800 flex items-center mb-2 sm:mb-0">
                         <UserCircle size={28} className="mr-3 text-primary" /> {t('profile', 'clerkProfileOverviewTitle')}
                     </h3>
-                    {/* Ensure this Link points to the page where <UserProfile /> is fully rendered for editing */}
+                     Ensure this Link points to the page where <UserProfile /> is fully rendered for editing 
                     <Link href={`/${lang}/profile`} passHref legacyBehavior>
                         <a className="text-sm text-primary hover:underline flex items-center">
                             <Edit3 size={16} className="mr-1" /> {t('profile', 'editCoreProfileLink')}
@@ -372,6 +373,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                     {user.lastSignInAt && renderDisplayField('lastSignInLabel', new Date(user.lastSignInAt), CalendarIcon)}
                 </div>
             </section>
+            */}
 
             {/* Save Status Message */}
             {saveStatus && (
@@ -389,16 +391,16 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                     </h3>
                     <button
                         onClick={() => setIsEditingPersonal(!isEditingPersonal)}
-                        className="text-sm text-primary hover:underline flex items-center px-3 py-1.5 rounded-md hover:bg-primary/10 transition-colors"
+                        className="text-sm text-white hover:underline flex items-center px-3 py-1.5 rounded-md hover:test-primary hover:bg-primary/10 transition-colors"
                     >
-                        {isEditingPersonal ? <><Save size={16} className="mr-1" /> {t('common', 'viewMode')}</> : <><Edit3 size={16} className="mr-1" /> {t('common', 'editMode')}</>}
+                        {isEditingPersonal ? <><Save size={16} className=" mr-1" /> {t('common', 'viewMode')}</> : <><Edit3 size={16} className="mr-1 text-white" /> {t('common', 'editMode')}</>}
                     </button>
                 </div>
                 {customPersonalDataMissing && !isEditingPersonal && (
                      <div className="mb-4 p-3 bg-blue-50 border border-blue-300 text-blue-700 rounded-md text-sm flex items-center">
                         <AlertCircle size={20} className="mr-2 flex-shrink-0" />
                         <span>{t('profile', 'customPersonalDataMissingPrompt')}</span>
-                        <button onClick={() => setIsEditingPersonal(true)} className="font-semibold hover:underline ml-1 shrink-0">{t('profile', 'addInfoPrompt')}</button>
+                        <button onClick={() => setIsEditingPersonal(true)} className="font-semibold text-white hover:underline ml-1 shrink-0">{t('profile', 'addInfoPrompt')}</button>
                     </div>
                 )}
                 <form onSubmit={handleSavePersonalData} className="bg-white shadow-sm rounded-lg p-4 sm:p-6 border border-neutral-200">
@@ -433,10 +435,10 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
 
                     {isEditingPersonal && (
                         <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
-                            <button type="button" onClick={() => { setIsEditingPersonal(false); fetchActualCustomProfileData(); /* Re-fetch to discard changes */ }} className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-md order-2 sm:order-1">
+                            <button type="button" onClick={() => { setIsEditingPersonal(false); fetchActualCustomProfileData(); /* Re-fetch to discard changes */ }} className="text-white px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-md order-2 sm:order-1">
                                 {t('common', 'cancel')}
                             </button>
-                            <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-md flex items-center justify-center disabled:opacity-70 order-1 sm:order-2" disabled={isLoadingCustomData}>
+                            <button type="submit" className="text-white px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-md flex items-center justify-center disabled:opacity-70 order-1 sm:order-2" disabled={isLoadingCustomData}>
                                 {isLoadingCustomData ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <Save size={16} className="mr-2" />}
                                 {t('common', 'saveChanges')}
                             </button>
@@ -453,16 +455,16 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                     </h3>
                      <button
                         onClick={() => setIsEditingEducation(!isEditingEducation)}
-                        className="text-sm text-primary hover:underline flex items-center px-3 py-1.5 rounded-md hover:bg-primary/10 transition-colors"
+                        className="text-sm text-white hover:underline flex items-center px-3 py-1.5 rounded-md hover:bg-primary/10 transition-colors"
                     >
-                        {isEditingEducation ? <><Save size={16} className="mr-1" /> {t('common', 'viewMode')}</> : <><Edit3 size={16} className="mr-1" /> {t('common', 'editMode')}</>}
+                        {isEditingEducation ? <><Save size={16} className="mr-1" /> {t('common', 'viewMode')}</> : <><Edit3 size={16} className="mr-1 text-white" /> {t('common', 'editMode')}</>}
                     </button>
                 </div>
                  {customEducationalDataMissing && !isEditingEducation && (
                      <div className="mb-4 p-3 bg-blue-50 border border-blue-300 text-blue-700 rounded-md text-sm flex items-center">
                         <AlertCircle size={20} className="mr-2 flex-shrink-0" />
                          <span>{t('profile', 'customEducationalDataMissingPrompt')}</span>
-                        <button onClick={() => setIsEditingEducation(true)} className="font-semibold hover:underline ml-1 shrink-0">{t('profile', 'addInfoPrompt')}</button>
+                        <button onClick={() => setIsEditingEducation(true)} className=" text-white font-semibold hover:underline ml-1 shrink-0">{t('profile', 'addInfoPrompt')}</button>
                     </div>
                 )}
                 <form onSubmit={handleSaveEducationalData} className="bg-white shadow-sm rounded-lg p-4 sm:p-6 border border-neutral-200">
@@ -479,7 +481,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                     {(customEducationalData.previousEducation || []).map((entry, index) => (
                         <div key={entry.id} className="mt-4 p-4 border border-neutral-200 rounded-md relative">
                             {isEditingEducation && (customEducationalData.previousEducation || []).length > 1 && (
-                                <button type="button" onClick={() => removeEducationEntry(index)} className="absolute top-3 right-3 text-red-500 hover:text-red-700 p-1 z-10">
+                                <button type="button" onClick={() => removeEducationEntry(index)} className="text-white absolute top-3 right-3 text-red-500 hover:text-red-700 p-1 z-10">
                                     <Trash2 size={16} />
                                 </button>
                             )}
@@ -494,11 +496,11 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                                 {renderInputField(`gpaLabel`, `gpa`, entry.gpa, (e) => handleEducationEntryChange(index, e), 'text', isEditingEducation)}
                                 {renderInputField(`gradingScaleLabel`, `gradingScale`, entry.gradingScale, (e) => handleEducationEntryChange(index, e), 'text', isEditingEducation)}
                             </div>
-                             {isEditingEducation && <p className="text-xs text-neutral-500 mt-2">{t('profileFieldNotes', 'transcriptUploadNote')}</p>}
+                             {isEditingEducation && <p className="text-xs text-neutral-500 mt-2">{t('profileFieldLabels', 'transcriptUploadNote')}</p>}
                         </div>
                     ))}
                     {isEditingEducation && (
-                        <button type="button" onClick={addEducationEntry} className="mt-4 text-sm text-primary hover:underline flex items-center">
+                        <button type="button" onClick={addEducationEntry} className="text-white mt-4 text-sm text-primary hover:underline flex items-center">
                             <PlusCircle size={16} className="mr-1" /> {t('profile', 'addAnotherInstitution')}
                         </button>
                     )}
@@ -515,7 +517,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                                 ])}
                                 {renderInputField('englishOverallScoreLabel', 'overallScore', customEducationalData.languageProficiency?.overallScore, handleLanguageProficiencyChange, 'text', isEditingEducation, true)}
                                 {renderInputField('englishTestDateLabel', 'testDate', customEducationalData.languageProficiency?.testDate, handleLanguageProficiencyChange, 'date', isEditingEducation, true)}
-                                {isEditingEducation && <p className="text-xs text-neutral-500 mt-2 md:col-span-2">{t('profileFieldNotes', 'englishCertUploadNote')}</p>}
+                                {isEditingEducation && <p className="text-xs text-neutral-500 mt-2 md:col-span-2">{t('profileFieldLabels', 'englishCertUploadNote')}</p>}
                             </>
                         )}
                     </div>
@@ -524,7 +526,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                     {(customEducationalData.otherStandardizedTests || []).map((test, index) => (
                          <div key={test.id} className="mt-4 p-4 border border-neutral-200 rounded-md relative">
                             {isEditingEducation && (customEducationalData.otherStandardizedTests || []).length > 0 && ( // Only show remove if there are entries
-                                <button type="button" onClick={() => removeStandardizedTest(index)} className="absolute top-3 right-3 text-red-500 hover:text-red-700 p-1 z-10">
+                                <button type="button" onClick={() => removeStandardizedTest(index)} className=" text-white absolute top-3 right-3 text-red-500 hover:text-red-700 p-1 z-10">
                                     <Trash2 size={16} />
                                 </button>
                             )}
@@ -533,11 +535,11 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                                 {renderInputField(`testScoreLabel`, `score`, test.score, (e) => handleStandardizedTestChange(index, e), 'text', isEditingEducation, true)}
                                 {renderInputField(`testDateTakenLabel`, `dateTaken`, test.dateTaken, (e) => handleStandardizedTestChange(index, e), 'date', isEditingEducation, true)}
                             </div>
-                            {isEditingEducation && <p className="text-xs text-neutral-500 mt-2">{t('profileFieldNotes', 'testReportUploadNote')}</p>}
+                            {isEditingEducation && <p className="text-xs text-neutral-500 mt-2">{t('profileFieldLabels', 'testReportUploadNote')}</p>}
                         </div>
                     ))}
                     {isEditingEducation && (
-                        <button type="button" onClick={addStandardizedTest} className="mt-4 text-sm text-primary hover:underline flex items-center">
+                        <button type="button" onClick={addStandardizedTest} className="mt-4 text-sm text-white hover:underline flex items-center">
                             <PlusCircle size={16} className="mr-1" /> {t('profile', 'addAnotherTest')}
                         </button>
                     )}
@@ -545,7 +547,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
 
                     {isEditingEducation && (
                         <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
-                             <button type="button" onClick={() => { setIsEditingEducation(false); fetchActualCustomProfileData(); /* Re-fetch to discard changes */}} className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-md order-2 sm:order-1">
+                             <button type="button" onClick={() => { setIsEditingEducation(false); fetchActualCustomProfileData(); /* Re-fetch to discard changes */}} className=" px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 hover:bg-neutral-200 rounded-md order-2 sm:order-1">
                                 {t('common', 'cancel')}
                             </button>
                             <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-md flex items-center justify-center disabled:opacity-70 order-1 sm:order-2" disabled={isLoadingCustomData}>

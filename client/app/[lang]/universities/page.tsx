@@ -1,8 +1,9 @@
 'use client';
 
-import { UniversityTable, University } from '@/components/UniversityTable';
+import UniversityTable from '@/components/UniversityTable';
 import { italianUniversities } from '../../../lib/data';
 import { useUser } from '@clerk/nextjs';
+import { University } from '@/components/UniversityCard';
 
 // Keep existing validation functions...
 const validateUniversities = (data: any[]): University[] => {

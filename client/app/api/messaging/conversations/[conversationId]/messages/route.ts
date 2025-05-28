@@ -6,6 +6,7 @@ import Conversation from '@/lib/models/Conversation';
 import Message from '@/lib/models/Message';
 import UserProfileDetail from '@/lib/models/UserProfileDetail';
 import mongoose from 'mongoose';
+import { useParams } from 'next/navigation';
 
 export async function GET(req: NextRequest, { params }: { params: { conversationId: string } }) {
     try {
@@ -14,7 +15,11 @@ export async function GET(req: NextRequest, { params }: { params: { conversation
             return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
         }
         
-        const { conversationId } = params;
+        // const { conversationId } = params;
+        const routeParams = useParams();
+        const conversationId = routeParams && typeof routeParams.conversationId === 'string'
+            ? routeParams.conversationId
+            : 'en'; // Default to 'en' if not found or array
         if (!mongoose.Types.ObjectId.isValid(conversationId)) {
             return NextResponse.json({ success: false, message: 'Invalid conversationId' }, { status: 400 });
         }

@@ -1,9 +1,13 @@
-// components/profile/ProfileSidebar.tsx
+// File: client/components/profile/ProfileSidebar.tsx
+// Add 'tabsTrackedUniversities' to the tabs array
+// Ensure the corresponding translation key is added to client/app/i18n/translations.ts
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { User as UserData } from '@clerk/nextjs/server';
-import { User as UserIcon, Heart, ListChecks, Award, LogOut, Settings, MessageSquare, Mail as MailIcon } from 'lucide-react'; // Added MailIcon
+import {
+    User as UserIcon, Heart, ListChecks, Award, LogOut, Settings, MessageSquare, Mail as MailIcon, Briefcase, Bookmark // Added Bookmark for tracked unis
+} from 'lucide-react';
 import Link from 'next/link';
 import { useClerk } from '@clerk/nextjs';
 
@@ -19,12 +23,11 @@ interface ProfileSidebarProps {
     t: (namespace: string, key: string, options?: any) => string;
     language: string;
 }
-
 const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setActiveTab, t, language }) => {
     const { signOut } = useClerk();
     const [userProfileDetails, setUserProfileDetails] = useState<UserProfileDetails | null>(null);
     const [isLoadingDetails, setIsLoadingDetails] = useState(true);
-    
+
     useEffect(() => {
         const fetchDetails = async () => {
             setIsLoadingDetails(true);
@@ -48,12 +51,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
     }, [user?.id]);
 
     const tabs = [
-        { id: 'userProfileDetails', labelKey: 'tabsUserProfileDetails', icon: UserIcon },
-        { id: 'messages', labelKey: 'tabsMessages', icon: MailIcon }, // NEW MESSAGES TAB
+        //{ id: 'userProfileDetails', labelKey: 'tabsUserProfileDetails', icon: UserIcon },
+        { id: 'messages', labelKey: 'tabsMessages', icon: MailIcon },
         { id: 'favorites', labelKey: 'tabsFavorites', icon: Heart },
-        { id: 'applicationGuide', labelKey: 'tabsApplicationGuide', icon: ListChecks },
+        // Renaming for clarity and adding new one
+        { id: 'trackedCourses', labelKey: 'tabsTrackedCourses', icon: ListChecks },
+        { id: 'trackedUniversities', labelKey: 'tabsTrackedUniversities', icon: Bookmark }, // New Tab
         { id: 'scholarships', labelKey: 'tabsScholarships', icon: Award },
-        { id: 'personalizedDeadlineTracker', labelKey: 'tabsPersonalizedDeadlineTracker', icon: UserIcon }, // Re-using UserIcon, consider CalendarDays
+        //{ id: 'applicationGuide', labelKey: 'tabsApplicationGuide', icon: Briefcase }, // Changed icon
         { id: 'premiumApplicationHub', labelKey: 'premiumApplicationHub', icon: MessageSquare },
     ];
 
@@ -65,14 +70,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
             default: return 'ring-neutral-300';
         }
     };
-    
-    const roleDisplay = userProfileDetails?.role 
-        ? t('profileFieldLabels', `role_${userProfileDetails.role}`, {defaultValue: userProfileDetails.role.charAt(0).toUpperCase() + userProfileDetails.role.slice(1)})
-        : t('profileFieldLabels', 'role_student', {defaultValue: "Student"});
-    
-    const tierDisplay = userProfileDetails?.premiumTier 
-        ? t('profileFieldLabels', `tier_${userProfileDetails.premiumTier}`, {defaultValue: userProfileDetails.premiumTier})
-        : t('profileFieldLabels', 'tier_Amico', {defaultValue: "Amico"});
+
+    const roleDisplay = userProfileDetails?.role
+        ? t('profileFieldLabels', `role_${userProfileDetails.role}`, { defaultValue: userProfileDetails.role.charAt(0).toUpperCase() + userProfileDetails.role.slice(1) })
+        : t('profileFieldLabels', 'role_student', { defaultValue: "Student" });
+
+    const tierDisplay = userProfileDetails?.premiumTier
+        ? t('profileFieldLabels', `tier_${userProfileDetails.premiumTier}`, { defaultValue: userProfileDetails.premiumTier })
+        : t('profileFieldLabels', 'tier_Amico', { defaultValue: "Amico" });
 
     return (
         <aside className="lg:w-1/4 xl:w-1/5">
@@ -85,27 +90,27 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                             className={`w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 shadow-md 
                                         ${isLoadingDetails ? 'animate-pulse bg-neutral-300' : getTierColorClass(userProfileDetails?.premiumTier)}`}
                         />
-                         {!isLoadingDetails && userProfileDetails?.role && (
-                             <span title={roleDisplay} className={`absolute -bottom-1 -right-2 text-[0.6rem] font-semibold px-1.5 py-0.5 rounded-full shadow
-                                         ${userProfileDetails.role === 'mentor' ? 'bg-blue-500 text-white' : 
-                                           userProfileDetails.role === 'alumni' ? 'bg-green-500 text-white' : 
-                                           userProfileDetails.role === 'student' ? 'bg-teal-500 text-white' : 'bg-gray-400 text-white'}`}>
-                                 {roleDisplay.substring(0,3).toUpperCase()}
-                             </span>
-                         )}
+                        {!isLoadingDetails && userProfileDetails?.role && (
+                            <span title={roleDisplay} className={`absolute -bottom-1 -right-2 text-[0.6rem] font-semibold px-1.5 py-0.5 rounded-full shadow
+                                         ${userProfileDetails.role === 'mentor' ? 'bg-blue-500 text-white' :
+                                    userProfileDetails.role === 'alumni' ? 'bg-green-500 text-white' :
+                                        userProfileDetails.role === 'student' ? 'bg-teal-500 text-white' : 'bg-gray-400 text-white'}`}>
+                                {roleDisplay.substring(0, 3).toUpperCase()}
+                            </span>
+                        )}
                     </div>
                     <h2 className="text-lg md:text-xl font-semibold text-neutral-800 text-center truncate max-w-full px-1">
-                        {user.fullName || user.username || t('profile', 'userFullNameMissing', {defaultValue: "User Name"}) }
+                        {user.fullName || user.username || t('profile', 'userFullNameMissing', { defaultValue: "User Name" })}
                     </h2>
                     <p className="text-xs md:text-sm text-neutral-500 truncate max-w-full px-1">
                         {user.primaryEmailAddress?.emailAddress}
                     </p>
-                     {!isLoadingDetails && userProfileDetails?.premiumTier && (
+                    {!isLoadingDetails && userProfileDetails?.premiumTier && (
                         <span className={`mt-1.5 text-xs font-bold px-2 py-0.5 rounded-full
                                         ${userProfileDetails.premiumTier === 'Maestro' ? 'bg-yellow-100 text-yellow-700' :
-                                          userProfileDetails.premiumTier === 'Artista' ? 'bg-sky-100 text-sky-700' :
-                                          'bg-green-100 text-green-700'}`}>
-                           {tierDisplay} Tier
+                                userProfileDetails.premiumTier === 'Artista' ? 'bg-sky-100 text-sky-700' :
+                                    'bg-green-100 text-green-700'}`}>
+                            {tierDisplay} Tier
                         </span>
                     )}
                 </div>
@@ -114,7 +119,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out
+                            className={`text-white w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out
                                 ${activeTab === tab.id
                                     ? 'bg-primary text-white shadow-md scale-105'
                                     : 'text-neutral-600 hover:bg-primary/10 hover:text-primary hover:translate-x-1'
@@ -125,13 +130,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                             <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', tab.labelKey)}</span>
                         </button>
                     ))}
-                    <Link href={`/${language}/profile/account`} legacyBehavior>
-                        <a className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out mt-4 border-t pt-3
+                    <Link
+                        href={`/${language}/profile/account`}
+                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out mt-4 border-t pt-3
                             text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800 hover:translate-x-1
-                            ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
-                             <Settings size={18} className="flex-shrink-0" />
-                             <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', 'clerkAccountSettings', {defaultValue: "Account Settings"})}</span>
-                        </a>
+                            ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}
+                    >
+                        <Settings size={18} className="flex-shrink-0" />
+                        <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', 'clerkAccountSettings', { defaultValue: "Account Settings" })}</span>
                     </Link>
                     <button
                         onClick={() => signOut(() => { window.location.href = `/${language}`; })}
@@ -139,7 +145,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                             ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}
                     >
                         <LogOut size={18} className="flex-shrink-0" />
-                         <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', 'signOutButton', {defaultValue: "Sign Out"})}</span>
+                        <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', 'signOutButton', { defaultValue: "Sign Out" })}</span>
                     </button>
                 </nav>
             </div>

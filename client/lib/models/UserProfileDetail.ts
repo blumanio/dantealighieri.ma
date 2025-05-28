@@ -59,22 +59,22 @@ export interface IUserProfileDetail extends Document {
     userId: string; // Clerk User ID
     personalData?: ICustomPersonalData;
     educationalData?: ICustomEducationalData;
-    role?: 'student' | 'alumni' | 'mentor' | 'admin'; // ADDED
-    premiumTier?: 'Amico' | 'Artista' | 'Maestro'; // ADDED
-    profileVisibility?: 'public' | 'private' | 'network_only'; // ADDED
-    languageInterests?: string[]; // ADDED e.g., ['en', 'it']
-    targetUniversities?: { // ADDED
-        universityId?: mongoose.Types.ObjectId; // Link to a future University model if needed
+    role?: 'student' | 'alumni' | 'mentor' | 'admin'; // Role defines user type
+    premiumTier?: 'Michelangelo' | 'Dante' | 'da Vinci'; // NEW TIER NAMES
+    profileVisibility?: 'public' | 'private' | 'network_only';
+    languageInterests?: string[];
+    targetUniversities?: {
+        universityId?: mongoose.Types.ObjectId;
         universityName: string;
-        applicationStatus: string; // e.g., "Interested", "Applied", "Accepted"
+        applicationStatus: string;
         programOfInterest?: string;
     }[];
-    aboutMe?: string; // ADDED
+    aboutMe?: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
-// --- Mongoose Schemas (existing ones unchanged, new ones added below) ---
+// --- Mongoose Schemas ---
 const EducationEntrySchema = new Schema<IEducationEntry>({ /* ... existing ... */ }, { _id: true });
 const LanguageProficiencySchema = new Schema<ILanguageProficiency>({ /* ... existing ... */ }, { _id: false });
 const StandardizedTestSchema = new Schema<IStandardizedTest>({ /* ... existing ... */ }, { _id: true });
@@ -82,7 +82,7 @@ const CustomPersonalDataSchema = new Schema<ICustomPersonalData>({ /* ... existi
 const CustomEducationalDataSchema = new Schema<ICustomEducationalData>({ /* ... existing ... */ }, { _id: false });
 
 const TargetUniversitySchema = new Schema({
-    universityId: { type: Schema.Types.ObjectId, ref: 'University' }, // Optional ref
+    universityId: { type: Schema.Types.ObjectId, ref: 'University' },
     universityName: { type: String, required: true },
     applicationStatus: { type: String, required: true },
     programOfInterest: { type: String },
@@ -103,20 +103,24 @@ const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
         type: CustomEducationalDataSchema,
         default: {},
     },
-    role: { // ADDED
+    role: {
         type: String,
         enum: ['student', 'alumni', 'mentor', 'admin'],
         default: 'student'
     },
-    premiumTier: { type: String, enum: ['Amico', 'Artista', 'Maestro'] }, // ADDED
-    profileVisibility: { // ADDED
+    premiumTier: { // UPDATED
+        type: String,
+        enum: ['Michelangelo', 'Dante', 'da Vinci'],
+        default: 'Michelangelo' // Default new users to the free "Michelangelo" tier
+    },
+    profileVisibility: {
         type: String,
         enum: ['public', 'private', 'network_only'],
         default: 'private'
     },
-    languageInterests: [{ type: String }], // ADDED
-    targetUniversities: [TargetUniversitySchema], // ADDED
-    aboutMe: { type: String, trim: true }, // ADDED
+    languageInterests: [{ type: String }],
+    targetUniversities: [TargetUniversitySchema],
+    aboutMe: { type: String, trim: true },
 }, {
     timestamps: true,
 });

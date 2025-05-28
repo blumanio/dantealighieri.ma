@@ -1,13 +1,12 @@
-// components/university-hub/CommunityPostCard.tsx
+// client/components/university-hub/CommunityPostCard.tsx
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import Link from 'next/link'; // Import Link
 import { MessageCircle, ThumbsUp, User, CalendarDays, Tag, Home, BookOpen, Users as StudyGroupIcon, Loader2, Send } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import { useLanguage } from '@/context/LanguageContext';
 
-// Re-using types from UniversityHubPage or a shared types file
 interface Comment { _id: string; userId: string; userFullName: string; userAvatarUrl?: string; userRole?: string; content: string; createdAt: string; }
 export interface CommunityPost {
     _id: string; userId: string; userFullName: string; userAvatarUrl?: string; userRole?: string;
@@ -18,7 +17,7 @@ export interface CommunityPost {
 
 interface CommunityPostCardProps {
     post: CommunityPost;
-    onCommentSubmit: (postId: string, commentText: string) => Promise<void>; // To handle comment submission logic in parent
+    onCommentSubmit: (postId: string, commentText: string) => Promise<void>;
 }
 
 const PostTypeIcon: React.FC<{ type: CommunityPost['postType'] }> = ({ type }) => {
@@ -44,26 +43,36 @@ const CommunityPostCard: React.FC<CommunityPostCardProps> = ({ post, onCommentSu
         if (!newComment.trim()) return;
         setIsSubmittingComment(true);
         await onCommentSubmit(post._id, newComment);
-        setNewComment(''); // Clear input after submission (parent should update comments list)
+        setNewComment(''); 
         setIsSubmittingComment(false);
     };
 
     const roleDisplay = post.userRole
         ? t('profileFieldLabels', `role_${post.userRole}`, { defaultValue: post.userRole.charAt(0).toUpperCase() + post.userRole.slice(1) })
         : '';
+    
+    const userProfileLink = `/${language}/users/${post.userId}`;
+    const currentUserProfileLink = user ? `/${language}/users/${user.id}` : `/${language}/sign-in`;
+
 
     return (
         <article className="bg-white p-4 sm:p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-neutral-200">
             {/* Post Header */}
             <div className="flex items-start gap-3 mb-3">
-                <img
-                    src={post.userAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.userFullName)}&background=random&color=fff`}
-                    alt={post.userFullName}
-                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-neutral-100"
-                />
+                <Link href={userProfileLink} legacyBehavior>
+                    <a className="flex-shrink-0">
+                        <img
+                            src={post.userAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.userFullName)}&background=random&color=fff`}
+                            alt={post.userFullName}
+                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-neutral-100 hover:ring-2 hover:ring-primary transition-all"
+                        />
+                    </a>
+                </Link>
                 <div className="flex-grow">
                     <div className="flex items-center gap-2">
-                        <span className="font-semibold text-textPrimary text-sm sm:text-base">{post.userFullName}</span>
+                        <Link href={userProfileLink} legacyBehavior>
+                            <a className="font-semibold text-textPrimary text-sm sm:text-base hover:underline">{post.userFullName}</a>
+                        </Link>
                         {roleDisplay && (
                             <span className={`text-[0.65rem] font-semibold px-1.5 py-0.5 rounded-full
                                 ${post.userRole === 'mentor' ? 'bg-blue-100 text-blue-700' :
@@ -104,33 +113,51 @@ const CommunityPostCard: React.FC<CommunityPostCardProps> = ({ post, onCommentSu
                     <MessageCircle size={14} />
                     {showComments ? t('universityHubs', 'hideComments') : t('universityHubs', 'showComments', { count: post.comments?.length || 0 })}
                 </button>
-                {/* Add like button or other actions here if needed */}
             </div>
 
             {/* Comments Section */}
             {showComments && (
                 <div className="mt-3 space-y-3">
-                    {post.comments && post.comments.length > 0 ? post.comments.map(comment => (
-                        <div key={comment._id} className="flex items-start gap-2 p-2.5 bg-neutral-50 rounded-lg border border-neutral-100">
-                            <img src={comment.userAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(comment.userFullName)}&background=random&color=fff`} alt={comment.userFullName} className="w-8 h-8 rounded-full" />
-                            <div className="flex-grow">
-                                <p className="text-xs font-semibold text-textPrimary">
-                                    {comment.userFullName}
-                                    {comment.userRole && <span className={`ml-1 text-[0.6rem] font-medium px-1 py-0.5 rounded-full
-                                        ${comment.userRole === 'mentor' ? 'bg-blue-100 text-blue-600' :
-                                            comment.userRole === 'alumni' ? 'bg-green-100 text-green-600' :
-                                                'bg-teal-100 text-teal-600'}`}>
-                                        {t('profileFieldLabels', `role_${comment.userRole}`, { defaultValue: comment.userRole })}
-                                    </span>}
-                                </p>
-                                <p className="text-xs text-textSecondary whitespace-pre-wrap">{comment.content}</p>
-                                <p className="text-[0.65rem] text-neutral-400 mt-0.5">{new Date(comment.createdAt).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}</p>
+                    {post.comments && post.comments.length > 0 ? post.comments.map(comment => {
+                        const commentUserProfileLink = `/${language}/users/${comment.userId}`;
+                        const commenterRoleDisplay = comment.userRole ? t('profileFieldLabels', `role_${comment.userRole}`, { defaultValue: comment.userRole }) : '';
+                        return (
+                            <div key={comment._id} className="flex items-start gap-2 p-2.5 bg-neutral-50 rounded-lg border border-neutral-100">
+                                <Link href={commentUserProfileLink} legacyBehavior>
+                                    <a className="flex-shrink-0">
+                                        <img src={comment.userAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(comment.userFullName)}&background=random&color=fff`} 
+                                             alt={comment.userFullName} 
+                                             className="w-8 h-8 rounded-full hover:ring-1 hover:ring-primary transition-all" />
+                                    </a>
+                                </Link>
+                                <div className="flex-grow">
+                                    <p className="text-xs font-semibold text-textPrimary">
+                                        <Link href={commentUserProfileLink} legacyBehavior>
+                                            <a className="hover:underline">{comment.userFullName}</a>
+                                        </Link>
+                                        {commenterRoleDisplay && <span className={`ml-1 text-[0.6rem] font-medium px-1 py-0.5 rounded-full
+                                            ${comment.userRole === 'mentor' ? 'bg-blue-100 text-blue-600' :
+                                                comment.userRole === 'alumni' ? 'bg-green-100 text-green-600' :
+                                                    'bg-teal-100 text-teal-600'}`}>
+                                            {commenterRoleDisplay}
+                                        </span>}
+                                    </p>
+                                    <p className="text-xs text-textSecondary whitespace-pre-wrap">{comment.content}</p>
+                                    <p className="text-[0.65rem] text-neutral-400 mt-0.5">{new Date(comment.createdAt).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' })}</p>
+                                </div>
                             </div>
-                        </div>
-                    )) : <p className="text-xs text-textSecondary text-center py-2">{t('universityHubs', 'noCommentsYet', { defaultValue: "No comments yet." })}</p>}
+                        );
+                    }) : <p className="text-xs text-textSecondary text-center py-2">{t('universityHubs', 'noCommentsYet', { defaultValue: "No comments yet." })}</p>}
 
                     {isSignedIn && (
                         <div className="flex items-center gap-2 pt-2">
+                             <Link href={currentUserProfileLink} legacyBehavior>
+                                <a>
+                                    <img src={user?.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.fullName || user?.firstName || 'C')}&background=random&color=fff`} 
+                                        alt={user?.fullName || "Current user"} 
+                                        className="w-8 h-8 rounded-full flex-shrink-0" />
+                                </a>
+                            </Link>
                             <input
                                 type="text"
                                 value={newComment}

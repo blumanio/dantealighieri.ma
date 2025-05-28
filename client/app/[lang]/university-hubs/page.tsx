@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { School, Loader2, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { DanteAlighieriLogo } from '@/components/SocialIcons';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
 
 interface CourseForHubList {
   _id: string;
@@ -107,11 +105,9 @@ export default function UniversityHubsPage() {
   if (isLoading) { /* ... loading JSX ... */ 
     return (
       <div className="flex flex-col min-h-screen">
-        <Header />
         <main className="flex-grow flex items-center justify-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary" />
         </main>
-        <Footer />
       </div>
     );
   }
@@ -119,18 +115,15 @@ export default function UniversityHubsPage() {
   if (error) { /* ... error JSX ... */
     return (
       <div className="flex flex-col min-h-screen">
-        <Header />
         <main className="flex-grow flex items-center justify-center p-4 text-center text-red-600">
             <p>{t('common','errorLoadingData', {context: 'universities'})} Detail: {error}</p>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50">
-      <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <DanteAlighieriLogo className="h-24 w-auto mx-auto text-primary mb-4" />
@@ -176,7 +169,6 @@ export default function UniversityHubsPage() {
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

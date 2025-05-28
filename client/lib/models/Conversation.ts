@@ -1,14 +1,10 @@
 // client/lib/models/Conversation.ts
 import mongoose, { Schema, Document, models, Model, Types } from 'mongoose';
-// Assuming IMessage is defined and exported from Message.ts, or define it here if not
-// For clarity, if IMessage is in Message.ts, you could import it:
-// import { IMessage } from './Message'; 
 
-// To avoid circular dependencies if Message.ts imports IConversation, define IMessage here too or in a shared types file
-export interface IMessageSubDoc { // Using a slightly different name for subdocument if needed
+export interface IMessageSubDoc { 
   content: string;
   senderId: string;
-  timestamp: Date;
+  timestamp: Date; // Ensure this is Date for consistency with Message model
   messageId?: Types.ObjectId;
 }
 
@@ -21,8 +17,8 @@ export interface IParticipantDetail {
 
 export interface IConversation extends Document {
   participants: string[];
-  participantDetails?: IParticipantDetail[]; // Denormalized for easier display
-  lastMessage?: IMessageSubDoc;
+  participantDetails?: IParticipantDetail[]; 
+  lastMessage?: IMessageSubDoc; // Will use IMessageSubDoc
   createdAt: Date;
   updatedAt: Date; 
 }
@@ -37,7 +33,7 @@ const ParticipantDetailSchema = new Schema<IParticipantDetail>({
 const LastMessageSchema = new Schema<IMessageSubDoc>({
     content: { type: String, required: true },
     senderId: { type: String, required: true },
-    timestamp: { type: Date, required: true },
+    timestamp: { type: Date, required: true }, // Store as Date
     messageId: { type: Schema.Types.ObjectId, ref: 'Message' }
 }, { _id: false });
 
@@ -46,13 +42,8 @@ const ConversationSchema = new Schema<IConversation>({
   participantDetails: [ParticipantDetailSchema],
   lastMessage: LastMessageSchema,
 }, {
-  timestamps: true
+  timestamps: true // This adds createdAt and updatedAt as Date
 });
-
-// To ensure unique 2-party conversations, you can add a compound unique index
-// This requires participants to always be stored in a sorted order.
-// ConversationSchema.index({ participants: 1 }, { unique: true, partialFilterExpression: { $expr: { $eq: [ { $size: "$participants" }, 2 ] } } });
-
 
 const Conversation: Model<IConversation> = models.Conversation || mongoose.model<IConversation>('Conversation', ConversationSchema);
 

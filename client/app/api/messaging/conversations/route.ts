@@ -1,10 +1,77 @@
 // client/app/api/messaging/conversations/route.ts
+// (ensure imports are correct as per previous response)
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuth, clerkClient } from '@clerk/nextjs/server'; // Added clerkClient
+import { getAuth, clerkClient } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
 import Conversation, { IParticipantDetail } from '@/lib/models/Conversation';
-import UserProfileDetail from '@/lib/models/UserProfileDetail';
+import UserProfileDetail, { IUserProfileDetail } from '@/lib/models/UserProfileDetail';
+import mongoose from 'mongoose';
 
+async function ensureUserProfile(userId: string, clerkUserDataForCreate?: { fullName?: string | null, imageUrl?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null }): Promise<IParticipantDetail> {
+    await dbConnect(); // Ensure DB is connected here as well
+    let userProfile = await UserProfileDetail.findOne({ userId }).select('role personalData.firstName personalData.lastName').lean();
+
+    let profileRole = 'student';
+    let profileFullName = '';
+    let profileAvatarUrl = clerkUserDataForCreate?.imageUrl || undefined;
+    let profileFirstName = clerkUserDataForCreate?.firstName || '';
+    let profileLastName = clerkUserDataForCreate?.lastName || '';
+
+    if (clerkUserDataForCreate?.fullName) {
+        profileFullName = clerkUserDataForCreate.fullName;
+    } else {
+        profileFullName = `${profileFirstName} ${profileLastName}`.trim();
+    }
+    if (!profileFullName && clerkUserDataForCreate?.username) {
+        profileFullName = clerkUserDataForCreate.username;
+    }
+    if (!profileFullName) {
+        profileFullName = `User ${userId.substring(0, 5)}`;
+    }
+
+    if (userProfile) {
+        profileRole = userProfile.role || 'student';
+        const dbFullName = `${userProfile.personalData?.firstName || ''} ${userProfile.personalData?.lastName || ''}`.trim();
+        if (dbFullName) {
+            profileFullName = dbFullName; // Prefer DB name if more complete or explicitly set
+        }
+        // Avatar might also be in UserProfileDetail if you decide to store it there
+    } else {
+        console.log(`[API Messaging - ensureUserProfile] No UserProfileDetail for ${userId}. Creating basic profile.`);
+        const newUserProfileData: Partial<IUserProfileDetail> = {
+            userId,
+            personalData: {
+                firstName: profileFirstName,
+                lastName: profileLastName,
+                // Initialize other fields as empty or with defaults
+            },
+            educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
+            role: 'student',
+            premiumTier: 'Amico',
+            profileVisibility: 'private',
+            languageInterests: [],
+            targetUniversities: [],
+            aboutMe: ''
+        };
+        try {
+            const newDbProfile = await UserProfileDetail.create(newUserProfileData);
+            console.log(`[API Messaging - ensureUserProfile] Created UserProfileDetail for ${userId}, ID: ${newDbProfile._id}`);
+            profileRole = newDbProfile.role;
+        } catch (createError: any) {
+            console.error(`[API Messaging - ensureUserProfile] Error creating UserProfileDetail for ${userId}:`, createError.message);
+            // Proceed with defaults if creation fails
+        }
+    }
+
+    return {
+        userId,
+        fullName: profileFullName,
+        avatarUrl: profileAvatarUrl, // This will be Clerk's image URL
+        role: profileRole,
+    };
+}
+
+// GET handler (from previous response, ensure enrichConversationWithOtherParticipant calls the refined ensureUserProfile)
 export async function GET(req: NextRequest) {
     try {
         const { userId } = getAuth(req);
@@ -16,30 +83,26 @@ export async function GET(req: NextRequest) {
         const conversations = await Conversation.find({ participants: userId })
             .sort({ updatedAt: -1 })
             .lean();
-        
-        // Enrich with up-to-date participant details if needed, especially for the 'other' participant
+
         const enrichedConversations = await Promise.all(conversations.map(async (convo) => {
             const otherParticipantId = convo.participants.find(pId => pId !== userId);
-            let otherParticipantDetail: IParticipantDetail | undefined = convo.participantDetails?.find(p => p.userId === otherParticipantId);
-
-            if (otherParticipantId && !otherParticipantDetail) { // If details are stale or missing
+            let otherParticipantClerkData;
+            if (otherParticipantId) {
                 try {
                     const clerkUser = await clerkClient.users.getUser(otherParticipantId);
-                    const userProfile = await UserProfileDetail.findOne({ userId: otherParticipantId }).select('role').lean();
-                    otherParticipantDetail = {
-                        userId: otherParticipantId,
-                        fullName: clerkUser.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() : clerkUser.username || 'User',
-                        avatarUrl: clerkUser.imageUrl,
-                        role: userProfile?.role || 'student'
+                    otherParticipantClerkData = {
+                        fullName: clerkUser.fullName,
+                        imageUrl: clerkUser.imageUrl,
+                        username: clerkUser.username,
+                        firstName: clerkUser.firstName,
+                        lastName: clerkUser.lastName
                     };
-                } catch (clerkError) {
-                    console.warn(`Could not fetch details for participant ${otherParticipantId}:`, clerkError);
-                    otherParticipantDetail = { userId: otherParticipantId, fullName: 'Unknown User', role: 'student' };
-                }
+                } catch (e) { console.warn(`[API Messaging GET] Clerk user ${otherParticipantId} not found for enrichment.`) }
             }
+            const otherParticipantDetail = otherParticipantId ? await ensureUserProfile(otherParticipantId, otherParticipantClerkData) : { userId: 'unknown', fullName: 'Unknown User', role: 'system' };
+
             return { ...convo, otherParticipant: otherParticipantDetail };
         }));
-
 
         return NextResponse.json({ success: true, data: enrichedConversations });
     } catch (error: any) {
@@ -48,7 +111,9 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function POST(req: NextRequest) { // Start a new conversation
+
+// POST handler (from previous response, ensures ensureUserProfile is called for both participants)
+export async function POST(req: NextRequest) {
     try {
         const { userId: currentUserId, sessionClaims } = getAuth(req);
         if (!currentUserId) {
@@ -63,53 +128,49 @@ export async function POST(req: NextRequest) { // Start a new conversation
         }
 
         await dbConnect();
-
         const participants = [currentUserId, recipientId].sort();
 
-        let conversation = await Conversation.findOne({ 
-            participants: { $all: participants, $size: 2 } 
-        });
+        let conversation = await Conversation.findOne({
+            participants: { $all: participants, $size: 2 }
+        }).lean();
 
         if (conversation) {
-            // Enrich with potentially updated participant details for the response
-            const enrichedConvo = await enrichConversationWithOtherParticipant(conversation.toObject(), currentUserId);
+            const enrichedConvo = await enrichConversationWithOtherParticipantForExisting(conversation, currentUserId);
             return NextResponse.json({ success: true, message: 'Conversation already exists.', data: enrichedConvo, isNew: false });
         }
 
-        // Fetch details for both participants
-        const participantDetailsPromises = participants.map(async (pId) => {
-            let fullName = "User";
-            let avatarUrl = "";
-            let role = "student";
+        const currentUserClerkData = {
+            fullName: sessionClaims?.fullName,
+            imageUrl: sessionClaims?.imageUrl,
+            username: sessionClaims?.username,
+            firstName: sessionClaims?.firstName,
+            lastName: sessionClaims?.lastName
+        };
+        const initiatorDetails = await ensureUserProfile(currentUserId, currentUserClerkData);
 
-            try {
-                const clerkUser = await clerkClient.users.getUser(pId);
-                fullName = clerkUser.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() : clerkUser.username || `User ${pId.substring(0,5)}`;
-                avatarUrl = clerkUser.imageUrl;
-                
-                const userProfile = await UserProfileDetail.findOne({ userId: pId }).select('role').lean();
-                if (userProfile) role = userProfile.role || 'student';
+        let recipientClerkData;
+        try {
+            const recipientClerkUser = await clerkClient.users.getUser(recipientId);
+            recipientClerkData = {
+                fullName: recipientClerkUser.fullName,
+                imageUrl: recipientClerkUser.imageUrl,
+                username: recipientClerkUser.username,
+                firstName: recipientClerkUser.firstName,
+                lastName: recipientClerkUser.lastName
+            };
+        } catch (e) {
+            console.warn(`[API Messaging POST] Could not fetch full recipient Clerk details for ${recipientId}`);
+        }
+        const recipientDetails = await ensureUserProfile(recipientId, recipientClerkData);
 
-            } catch(userFetchError) {
-                console.warn(`Error fetching details for participant ${pId}:`, userFetchError);
-                // Use fallback if Clerk user not found or profile detail not found
-                const existingProfile = await UserProfileDetail.findOne({ userId: pId }).select('role personalData.firstName personalData.lastName').lean();
-                if(existingProfile) {
-                    fullName = `${existingProfile.personalData?.firstName || ''} ${existingProfile.personalData?.lastName || ''}`.trim() || `User ${pId.substring(0,5)}`;
-                    role = existingProfile.role || 'student';
-                }
-            }
-            return { userId: pId, fullName, avatarUrl, role };
-        });
+        const resolvedParticipantDetails = [initiatorDetails, recipientDetails].sort((a, b) => a.userId.localeCompare(b.userId)); // Ensure consistent order for participantDetails array
 
-        const resolvedParticipantDetails = await Promise.all(participantDetailsPromises);
-
-        conversation = await Conversation.create({ 
+        const newConversationDoc = await Conversation.create({
             participants,
             participantDetails: resolvedParticipantDetails
         });
-        
-        const finalEnrichedConvo = await enrichConversationWithOtherParticipant(conversation.toObject(), currentUserId);
+
+        const finalEnrichedConvo = await enrichConversationWithOtherParticipantForExisting(newConversationDoc.toObject(), currentUserId);
 
         return NextResponse.json({ success: true, message: 'Conversation started.', data: finalEnrichedConvo, isNew: true }, { status: 201 });
 
@@ -119,22 +180,23 @@ export async function POST(req: NextRequest) { // Start a new conversation
     }
 }
 
-// Helper to add 'otherParticipant' field for client convenience
-async function enrichConversationWithOtherParticipant(convo: any, currentUserId: string) {
+// Adjusted helper for existing conversations to use ensureUserProfile
+async function enrichConversationWithOtherParticipantForExisting(convo: any, currentUserId: string) {
     const otherPId = convo.participants.find((pId: string) => pId !== currentUserId);
-    let otherPDetail = convo.participantDetails?.find((p: IParticipantDetail) => p.userId === otherPId);
-    
-    if (otherPId && !otherPDetail) { // Attempt to fetch if missing
+    let otherParticipantClerkData;
+    if (otherPId) {
         try {
             const clerkUser = await clerkClient.users.getUser(otherPId);
-            const userProfile = await UserProfileDetail.findOne({ userId: otherPId }).select('role').lean();
-            otherPDetail = {
-                userId: otherPId,
-                fullName: clerkUser.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() : clerkUser.username || 'User',
-                avatarUrl: clerkUser.imageUrl,
-                role: userProfile?.role || 'student'
+            otherParticipantClerkData = {
+                fullName: clerkUser.fullName,
+                imageUrl: clerkUser.imageUrl,
+                username: clerkUser.username,
+                firstName: clerkUser.firstName,
+                lastName: clerkUser.lastName
             };
-        } catch (e) { console.warn(`Enrichment: Could not fetch details for ${otherPId}`); }
+        } catch (e) { console.warn(`Enrichment: Could not fetch Clerk details for ${otherPId} during existing convo enrichment.`); }
     }
-    return { ...convo, otherParticipant: otherPDetail || { userId: otherPId, fullName: 'Unknown User', role: 'student'} };
+    const otherPDetail = otherPId ? await ensureUserProfile(otherPId, otherParticipantClerkData) : { userId: 'unknown', fullName: 'System Conversation', role: 'system' };
+
+    return { ...convo, otherParticipant: otherPDetail };
 }

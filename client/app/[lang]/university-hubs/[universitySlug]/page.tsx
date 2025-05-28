@@ -11,8 +11,6 @@ import {
 import { useUser } from '@clerk/nextjs';
 import { useLanguage } from '@/context/LanguageContext';
 import PaginatedCourses from '@/components/PaginatedCourses';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
 import CommunityPostCard, { CommunityPost } from '@/components/university-hub/CommunityPostCard';
 
 
@@ -246,16 +244,15 @@ export default function UniversityHubPage() {
     };
 
     if (isLoading && !courses.length && !communityPosts.length) return (
-        <div className="flex flex-col min-h-screen"><Header /><main className="flex-grow flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></main><Footer /></div>
+        <div className="flex flex-col min-h-screen"><main className="flex-grow flex items-center justify-center"><Loader2 className="h-12 w-12 animate-spin text-primary" /></main></div>
     );
     if (error && !courses.length && !communityPosts.length) return (
-        <div className="flex flex-col min-h-screen"><Header /><main className="flex-grow flex items-center justify-center p-4 text-center text-red-600"><AlertTriangle className="inline mr-2" />{error}</main><Footer /></div>
+        <div className="flex flex-col min-h-screen"><main className="flex-grow flex items-center justify-center p-4 text-center text-red-600"><AlertTriangle className="inline mr-2" />{error}</main></div>
     );
     // The rest of the JSX structure is the same as the previous answer.
     // The key change is the API call: `coursesApiUrl = `${API_BASE_URL}/api/courses?uniSlug=${universitySlug}`;`
     return (
         <div className="flex flex-col min-h-screen bg-neutral-50">
-            <Header />
             <main className="flex-grow">
                 <div className="bg-gradient-to-br from-primary via-teal-600 to-secondary text-white py-12 sm:py-16 md:py-20">
                     <div className="container mx-auto px-4 text-center">
@@ -388,7 +385,6 @@ export default function UniversityHubPage() {
                     </div>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }
