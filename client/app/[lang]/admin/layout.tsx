@@ -25,10 +25,11 @@ async function checkAdminRole(userId: string | undefined): Promise<boolean> {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   // Use the useParams hook to get route parameters
   const routeParams = useParams();
-  const lang = typeof routeParams.lang === 'string' ? routeParams.lang : 'en'; // Default to 'en' if not found or array
+  const lang = typeof routeParams?.lang === 'string' ? routeParams.lang : 'en'; // Default to 'en' if not found or array
 
   const { isSignedIn, isLoaded, user } = useUser();
   const { signOut } = useAuth();
+  const _user : any = user
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isCheckingRole, setIsCheckingRole] = useState(true);
@@ -77,7 +78,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     <div className="flex h-screen bg-neutral-100" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <AdminSidebar lang={lang} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <AdminHeader user={user} lang={lang} />
+        <AdminHeader user={_user} lang={lang} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-6 bg-neutral-50">
           {children}
         </main>
