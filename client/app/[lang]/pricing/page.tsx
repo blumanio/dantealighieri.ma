@@ -5,15 +5,13 @@ import React from 'react';
 import { useLanguage } from '@/context/LanguageContext'; // Adjust path as needed
 import { CheckCircle, XCircle, Aperture, ScrollText, Brain, ShoppingCart, Info } from 'lucide-react';
 import Link from 'next/link';
-import Header from '@/components/header'; // Adjust path as needed
-import Footer from '@/components/footer'; // Adjust path as needed
 import { motion } from 'framer-motion';
 
 interface TierFeature {
   nameKey: string;
   michelangelo: boolean;
   dante: boolean;
-  daVinci: boolean;
+  davinci: boolean;
   descriptionKey?: string; // Optional detailed description for the table
 }
 
@@ -45,7 +43,7 @@ const TIERS_DATA = [
     id: 'dante',
     nameKey: 'tier_dante',
     inspirationKey: 'danteInspiration',
-    price: '$19',
+    price: '$3',
     priceDetailsKey: 'dantePriceDetails',
     icon: ScrollText,
     badgeShape: 'rounded-md',
@@ -55,7 +53,7 @@ const TIERS_DATA = [
       border: 'border-deep-blue',
       buttonBg: 'bg-deep-blue hover:bg-deep-blue-dark',
       buttonText: 'text-white',
-      accentText: 'text-deep-blue'
+      accentText: 'text-white'
     },
     hoverTooltipKey: 'danteHoverTooltip',
     descriptionKey: 'danteDescription',
@@ -68,7 +66,7 @@ const TIERS_DATA = [
     id: 'davinci',
     nameKey: 'tier_davinci',
     inspirationKey: 'davinciInspiration',
-    price: '$50',
+    price: '$10',
     priceDetailsKey: 'davinciPriceDetails',
     icon: Brain,
     badgeShape: 'rounded-lg',
@@ -90,18 +88,18 @@ const TIERS_DATA = [
 ];
 
 const FEATURES_ADDONS: TierFeature[] = [
-  { nameKey: 'feature_program_search', michelangelo: true, dante: true, daVinci: true, descriptionKey: 'feature_program_search_desc' },
-  { nameKey: 'feature_basic_guides', michelangelo: true, dante: true, daVinci: true, descriptionKey: 'feature_basic_guides_desc' },
-  { nameKey: 'feature_community_access', michelangelo: true, dante: true, daVinci: true, descriptionKey: 'feature_community_access_desc' },
-  { nameKey: 'feature_application_tools', michelangelo: false, dante: true, daVinci: true, descriptionKey: 'feature_application_tools_desc' },
-  { nameKey: 'feature_webinars_workshops', michelangelo: false, dante: true, daVinci: true, descriptionKey: 'feature_webinars_workshops_desc' },
-  { nameKey: 'feature_cultural_guides', michelangelo: false, dante: true, daVinci: true, descriptionKey: 'feature_cultural_guides_desc' },
-  { nameKey: 'feature_language_minicourse', michelangelo: false, dante: true, daVinci: true, descriptionKey: 'feature_language_minicourse_desc' },
-  { nameKey: 'feature_personalized_roadmap', michelangelo: false, dante: false, daVinci: true, descriptionKey: 'feature_personalized_roadmap_desc' },
-  { nameKey: 'feature_document_checklist', michelangelo: false, dante: false, daVinci: true, descriptionKey: 'feature_document_checklist_desc' },
-  { nameKey: 'feature_mentorship_access', michelangelo: false, dante: false, daVinci: true, descriptionKey: 'feature_mentorship_access_desc' },
-  { nameKey: 'feature_career_services', michelangelo: false, dante: false, daVinci: true, descriptionKey: 'feature_career_services_desc' },
-  { nameKey: 'feature_priority_support', michelangelo: false, dante: false, daVinci: true, descriptionKey: 'feature_priority_support_desc' },
+  { nameKey: 'feature_program_search', michelangelo: true, dante: true, davinci: true, descriptionKey: 'feature_program_search_desc' },
+  { nameKey: 'feature_basic_guides', michelangelo: true, dante: true, davinci: true, descriptionKey: 'feature_basic_guides_desc' },
+  { nameKey: 'feature_community_access', michelangelo: true, dante: true, davinci: true, descriptionKey: 'feature_community_access_desc' },
+  { nameKey: 'feature_application_tools', michelangelo: false, dante: true, davinci: true, descriptionKey: 'feature_application_tools_desc' },
+  { nameKey: 'feature_webinars_workshops', michelangelo: false, dante: true, davinci: true, descriptionKey: 'feature_webinars_workshops_desc' },
+  { nameKey: 'feature_cultural_guides', michelangelo: false, dante: true, davinci: true, descriptionKey: 'feature_cultural_guides_desc' },
+  { nameKey: 'feature_language_minicourse', michelangelo: false, dante: true, davinci: true, descriptionKey: 'feature_language_minicourse_desc' },
+  { nameKey: 'feature_personalized_roadmap', michelangelo: false, dante: false, davinci: true, descriptionKey: 'feature_personalized_roadmap_desc' },
+  { nameKey: 'feature_document_checklist', michelangelo: false, dante: false, davinci: true, descriptionKey: 'feature_document_checklist_desc' },
+  { nameKey: 'feature_mentorship_access', michelangelo: false, dante: false, davinci: true, descriptionKey: 'feature_mentorship_access_desc' },
+  { nameKey: 'feature_career_services', michelangelo: false, dante: false, davinci: true, descriptionKey: 'feature_career_services_desc' },
+  { nameKey: 'feature_priority_support', michelangelo: false, dante: false, davinci: true, descriptionKey: 'feature_priority_support_desc' },
 ];
 
 const cardVariants = {
@@ -123,7 +121,7 @@ const PricingPage: React.FC = () => {
 
   return (
     <>
-      <Header />
+
       <main className="bg-neutral-100" dir={isRTL ? 'rtl' : 'ltr'}>
         <section className="py-16 md:py-24">
           <div className="container mx-auto px-4">
@@ -306,7 +304,7 @@ const PricingPage: React.FC = () => {
           </div>
         </section>
       </main>
-      <Footer />
+
     </>
   );
 };
