@@ -26,7 +26,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         }
 
         await dbConnect();
-        const itemToDelete = await TrackedItem.findOne({ _id: trackedItemId, userId }).lean();
+        const itemToDelete = await TrackedItem.findOne({ _id: trackedItemId, userId }).lean() as { _id: any; userId: string; courseId?: string;[key: string]: any } | null;
 
         if (!itemToDelete) {
             return NextResponse.json({ success: false, message: 'Tracked item not found or user not authorized.' }, { status: 404 });
@@ -43,7 +43,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
             if (!updatedCourse) {
                 console.warn(`[API/TRACKED-ITEMS/:ID] DELETE: Course ID ${itemToDelete.courseId} (from deleted TrackedItem ${itemToDelete._id}) was not found during trackedCount decrement.`);
             } else {
-                console.log(`[API/TRACKED-ITEMS/:ID] DELETE: Decremented trackedCount for Course ID: ${itemToDelete.courseId}. New count: ${updatedCourse.trackedCount}`);
+                console.log(`[API/TRACKED-ITEMS/:ID] DELETE: Decremented trackedCount for Course ID: ${itemToDelete.courseId}. New count: ${(updatedCourse as { trackedCount?: number }).trackedCount}`);
             }
         } else {
             console.warn(`[API/TRACKED-ITEMS/:ID] DELETE: Tracked item ${itemToDelete._id} did not have a courseId. trackedCount not decremented.`);
@@ -93,17 +93,17 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
             { _id: trackedItemId, userId },
             { $set: updateData },
             { new: true, runValidators: true }
-        ).populate<{ courseId: PopulatedCourse }>({
+        ).populate({
             path: 'courseId',
             model: Course,
             select: 'nome uni tipo academicYear intake link comune area lingua _id trackedCount'
-        }).lean();
+        })
 
         if (!updatedTrackedItem) {
             return NextResponse.json({ success: false, message: 'Tracked item not found, user not authorized, or no changes made.' }, { status: 404 });
         }
 
-        const courseDetails = updatedTrackedItem.courseId as PopulatedCourse | null;
+        const courseDetails = (updatedTrackedItem.courseId ?? null) as PopulatedCourse | null;
         const enrichedUpdatedItem = {
             ...updatedTrackedItem,
             courseDetails: courseDetails || {},
