@@ -149,7 +149,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
                 {filter.placeholder && <option value="">{filter.placeholder}</option>}
                 {filter.options.map(option => (
                   <option key={option.value} value={option.value}>
-                    {option.label[language]}
+                    {option.label[language as keyof typeof option.label] ?? option.label['en']}
                   </option>
                 ))}
               </select>
