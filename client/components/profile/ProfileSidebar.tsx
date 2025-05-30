@@ -66,7 +66,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
         switch (tier) {
             case 'Maestro': return 'ring-yellow-400 shadow-yellow-300/50';
             case 'Artista': return 'ring-sky-400 shadow-sky-300/50';
-            case 'Amico': return 'ring-green-400 shadow-green-300/50';
+            case 'Michelangelo': return 'ring-green-400 shadow-green-300/50';
             default: return 'ring-neutral-300';
         }
     };

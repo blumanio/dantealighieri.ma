@@ -47,7 +47,7 @@ let profileDetails = await UserProfileDetail.findOne({ userId }).lean<IUserProfi
                 userId,
                 personalData: { firstName: clerkFirstName || '', lastName: clerkLastName || '' },
                 educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
-                role: 'student', premiumTier: 'Amico', profileVisibility: 'private',
+                role: 'student', premiumTier: 'Michelangelo', profileVisibility: 'private',
                 languageInterests: [], targetUniversities: [], aboutMe: '',
                 createdAt: new Date(), updatedAt: new Date(),
             } as unknown as IUserProfileDetail;
@@ -62,7 +62,7 @@ let profileDetails = await UserProfileDetail.findOne({ userId }).lean<IUserProfi
             personalData: { firstName: '', lastName: '' }, // Add all required keys from ICustomPersonalData
             educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
             role: 'student',
-            premiumTier: 'Amico',
+            premiumTier: 'Michelangelo',
             profileVisibility: 'private',
             languageInterests: [],
             targetUniversities: [],
@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
             personalData: {},
             educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
             role: 'student',
-            premiumTier: 'Amico',
+            premiumTier: 'Michelangelo', // Default to 'Michelangelo' for new users
             profileVisibility: 'private',
             languageInterests: [],
             targetUniversities: [],
