@@ -52,14 +52,14 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
 
     const tabs = [
         //{ id: 'userProfileDetails', labelKey: 'tabsUserProfileDetails', icon: UserIcon },
-        { id: 'messages', labelKey: 'tabsMessages', icon: MailIcon },
-        { id: 'favorites', labelKey: 'tabsFavorites', icon: Heart },
+        { disabled: false, id: 'favorites', labelKey: 'tabsFavorites', icon: Heart },
         // Renaming for clarity and adding new one
-        { id: 'trackedCourses', labelKey: 'tabsTrackedCourses', icon: ListChecks },
-        { id: 'trackedUniversities', labelKey: 'tabsTrackedUniversities', icon: Bookmark }, // New Tab
-        { id: 'scholarships', labelKey: 'tabsScholarships', icon: Award },
-        //{ id: 'applicationGuide', labelKey: 'tabsApplicationGuide', icon: Briefcase }, // Changed icon
-        { id: 'premiumApplicationHub', labelKey: 'premiumApplicationHub', icon: MessageSquare },
+        { disabled: false, id: 'trackedCourses', labelKey: 'tabsTrackedCourses', icon: ListChecks },
+        { disabled: false, id: 'trackedUniversities', labelKey: 'tabsTrackedUniversities', icon: Bookmark }, // New Tab
+        { disabled: true, id: 'messages', labelKey: 'tabsMessages', icon: MailIcon },
+        { disabled: true, id: 'scholarships', labelKey: 'tabsScholarships', icon: Award },
+        //{disabled: false, id: 'applicationGuide', labelKey: 'tabsApplicationGuide', icon: Briefcase }, // Changed icon
+        { disabled: true, id: 'premiumApplicationHub', labelKey: 'premiumApplicationHub', icon: MessageSquare },
     ];
 
     const getTierColorClass = (tier: string | undefined) => {
@@ -115,21 +115,6 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                     )}
                 </div>
                 <nav className="space-y-1">
-                    {tabs.map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className={`text-white w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out
-                                ${activeTab === tab.id
-                                    ? 'bg-primary text-white shadow-md scale-105'
-                                    : 'text-neutral-600 hover:bg-primary/10 hover:text-primary hover:translate-x-1'
-                                }
-                                ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}
-                        >
-                            <tab.icon size={18} className="flex-shrink-0" />
-                            <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', tab.labelKey)}</span>
-                        </button>
-                    ))}
                     <Link
                         href={`/${language}/profile/account`}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out mt-4 border-t pt-3
@@ -139,6 +124,26 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, activeTab, setAct
                         <Settings size={18} className="flex-shrink-0" />
                         <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', 'clerkAccountSettings', { defaultValue: "Account Settings" })}</span>
                     </Link>
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.id}
+                            disabled={tab.disabled}
+                            aria-disabled={tab.disabled}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`text-white w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out
+    ${activeTab === tab.id
+                                    ? 'bg-primary text-white shadow-md scale-105'
+                                    : 'text-neutral-600 hover:bg-primary/10 hover:text-primary hover:translate-x-1'
+                                }
+    ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}
+    ${tab.disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}
+`}
+                        >
+                            <tab.icon size={18} className="flex-shrink-0" />
+                            <span className={`flex-grow ${language === 'ar' ? 'mr-3' : ''}`}>{t('profile', tab.labelKey)}</span>
+                        </button>
+                    ))}
+
                     <button
                         onClick={() => signOut(() => { window.location.href = `/${language}`; })}
                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm md:text-base transition-all duration-200 ease-in-out text-red-600 hover:bg-red-50 hover:text-red-700 hover:translate-x-1
