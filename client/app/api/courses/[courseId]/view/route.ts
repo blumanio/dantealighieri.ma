@@ -33,7 +33,7 @@ export async function POST(
       courseId,
       { $inc: { viewCount: 1 } }, // Atomically increment viewCount by 1
       { new: true, runValidators: true } // Return the updated document and run schema validators
-    ).lean(); // .lean() to get a plain JS object
+    ).lean() as { _id: string; nome: string; viewCount: number } | null; // Type assertion for expected shape
 
     if (!updatedCourse) {
       console.warn(`[API/COURSES/VIEW] Course not found with ID: ${courseId}`);
@@ -48,9 +48,9 @@ export async function POST(
       {
         message: "View count updated successfully",
         course: {
-            _id: updatedCourse._id,
-            nome: updatedCourse.nome,
-            viewCount: updatedCourse.viewCount
+          _id: updatedCourse._id,
+          nome: updatedCourse.nome,
+          viewCount: updatedCourse.viewCount
         }
       },
       { status: 200 }
@@ -58,14 +58,14 @@ export async function POST(
 
   } catch (err: any) {
     console.error(`[API/COURSES/VIEW] Error updating view count for course ID ${courseId}:`, err);
-    
+
     if (err.name === 'CastError' && err.path === '_id') {
-        return NextResponse.json(
-            { message: "Invalid Course ID format", error: err.message },
-            { status: 400 } // Bad Request for invalid ID format
-        );
+      return NextResponse.json(
+        { message: "Invalid Course ID format", error: err.message },
+        { status: 400 } // Bad Request for invalid ID format
+      );
     }
-    
+
     return NextResponse.json(
       { message: "Failed to update view count", error: err.message },
       { status: 500 }

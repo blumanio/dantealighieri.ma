@@ -32,11 +32,14 @@ export async function GET(req: NextRequest) {
         .limit(10)
         .lean();
 
-        let results = profileDetails.map(u => ({
-            id: u.userId,
-            fullName: `${u.personalData?.firstName || ''} ${u.personalData?.lastName || ''}`.trim() || `User ${u.userId.substring(0,5)}`,
-            avatarUrl: undefined // Placeholder, see below
-        }));
+        let results = profileDetails.map(u => {
+            const personalData = u.personalData as { firstName?: string; lastName?: string };
+            return {
+                id: u.userId,
+                fullName: `${personalData?.firstName || ''} ${personalData?.lastName || ''}`.trim() || `User ${u.userId.substring(0,5)}`,
+                avatarUrl: undefined // Placeholder, see below
+            };
+        });
 
         // If UserProfileDetail doesn't have avatars or full names consistently,
         // or to ensure up-to-date Clerk data, you can fetch from Clerk.
@@ -45,8 +48,10 @@ export async function GET(req: NextRequest) {
         // If results are too few, you could augment with a Clerk search:
         if (results.length < 5) {
             try {
-                const clerkUsers = await clerkClient.users.getUserList({ query: query, limit: 5 });
-                clerkUsers.forEach(clerkUser => {
+                const clerk = await clerkClient();
+                const clerkUsersResponse = await clerk.users.getUserList({ query: query, limit: 5 });
+                const clerkUsers = clerkUsersResponse.data || [];
+                clerkUsers.forEach((clerkUser: any) => {
                     if (clerkUser.id !== currentUserId && !results.find(r => r.id === clerkUser.id)) {
                         results.push({
                             id: clerkUser.id,
