@@ -10,7 +10,8 @@ import mongoose from 'mongoose';
 async function ensureUserProfile(userId: string, clerkUserDataForCreate?: { fullName?: string | null, imageUrl?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null }): Promise<IParticipantDetail> {
     await dbConnect(); // Ensure DB is connected here as well
     let userProfile = await UserProfileDetail.findOne({ userId }).select('role personalData.firstName personalData.lastName').lean();
-
+    const clerk = await clerkClient();
+    const clerkUser = await clerk.users.getUser(userId);
     let profileRole = 'student';
     let profileFullName = '';
     let profileAvatarUrl = clerkUserDataForCreate?.imageUrl || undefined;
@@ -41,13 +42,14 @@ async function ensureUserProfile(userId: string, clerkUserDataForCreate?: { full
         const newUserProfileData: Partial<IUserProfileDetail> = {
             userId,
             personalData: {
-                firstName: profileFirstName,
-                lastName: profileLastName,
-                // Initialize other fields as empty or with defaults
+                // Add only properties that exist in ICustomPersonalData
+                // For example, if ICustomPersonalData has 'givenName' and 'surname':
+                // givenName: profileFirstName,
+                // surname: profileLastName,
             },
             educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
             role: 'student',
-            premiumTier: 'Amico',
+            premiumTier: 'Michelangelo', // Default tier, adjust as needed
             profileVisibility: 'private',
             languageInterests: [],
             targetUniversities: [],
@@ -56,7 +58,7 @@ async function ensureUserProfile(userId: string, clerkUserDataForCreate?: { full
         try {
             const newDbProfile = await UserProfileDetail.create(newUserProfileData);
             console.log(`[API Messaging - ensureUserProfile] Created UserProfileDetail for ${userId}, ID: ${newDbProfile._id}`);
-            profileRole = newDbProfile.role;
+            profileRole = newDbProfile.role ?? 'student';
         } catch (createError: any) {
             console.error(`[API Messaging - ensureUserProfile] Error creating UserProfileDetail for ${userId}:`, createError.message);
             // Proceed with defaults if creation fails
@@ -89,13 +91,14 @@ export async function GET(req: NextRequest) {
             let otherParticipantClerkData;
             if (otherParticipantId) {
                 try {
-                    const clerkUser = await clerkClient.users.getUser(otherParticipantId);
+                    const clerk = await clerkClient();
+                    const user = await clerk.users.getUser(otherParticipantId);
                     otherParticipantClerkData = {
-                        fullName: clerkUser.fullName,
-                        imageUrl: clerkUser.imageUrl,
-                        username: clerkUser.username,
-                        firstName: clerkUser.firstName,
-                        lastName: clerkUser.lastName
+                        fullName: user.fullName,
+                        imageUrl: user.imageUrl,
+                        username: user.username,
+                        firstName: user.firstName,
+                        lastName: user.lastName
                     };
                 } catch (e) { console.warn(`[API Messaging GET] Clerk user ${otherParticipantId} not found for enrichment.`) }
             }
@@ -140,17 +143,18 @@ export async function POST(req: NextRequest) {
         }
 
         const currentUserClerkData = {
-            fullName: sessionClaims?.fullName,
-            imageUrl: sessionClaims?.imageUrl,
-            username: sessionClaims?.username,
-            firstName: sessionClaims?.firstName,
-            lastName: sessionClaims?.lastName
+            fullName: sessionClaims?.fullName as string | null | undefined,
+            imageUrl: sessionClaims?.imageUrl as string | null | undefined,
+            username: sessionClaims?.username as string | null | undefined,
+            firstName: sessionClaims?.firstName as string | null | undefined,
+            lastName: sessionClaims?.lastName as string | null | undefined
         };
         const initiatorDetails = await ensureUserProfile(currentUserId, currentUserClerkData);
 
         let recipientClerkData;
         try {
-            const recipientClerkUser = await clerkClient.users.getUser(recipientId);
+            const clerk = await clerkClient();
+            const recipientClerkUser = await clerk.users.getUser(recipientId);
             recipientClerkData = {
                 fullName: recipientClerkUser.fullName,
                 imageUrl: recipientClerkUser.imageUrl,
@@ -186,7 +190,8 @@ async function enrichConversationWithOtherParticipantForExisting(convo: any, cur
     let otherParticipantClerkData;
     if (otherPId) {
         try {
-            const clerkUser = await clerkClient.users.getUser(otherPId);
+            const clerk = await clerkClient();
+            const clerkUser = await clerk.users.getUser(otherPId);
             otherParticipantClerkData = {
                 fullName: clerkUser.fullName,
                 imageUrl: clerkUser.imageUrl,

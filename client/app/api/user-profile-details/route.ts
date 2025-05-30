@@ -7,14 +7,14 @@ import UserProfileDetail, { IUserProfileDetail } from '@/lib/models/UserProfileD
 // Re-use or import a shared version of findOrCreateUserProfile
 async function findOrCreateUserProfile(userId: string): Promise<IUserProfileDetail> {
     await dbConnect();
-    let profileDetails = await UserProfileDetail.findOne({ userId }).lean();
-
+let profileDetails = await UserProfileDetail.findOne({ userId }).lean<IUserProfileDetail>();
     if (!profileDetails) {
         console.log(`[API UserProfileDetail GET] No profile found for ${userId}. Attempting to create one.`);
         let clerkFirstName = null;
         let clerkLastName = null;
         try {
-            const clerkUser = await clerkClient.users.getUser(userId);
+            const clerk = await clerkClient();
+            const clerkUser = await clerk.users.getUser(userId);
             clerkFirstName = clerkUser.firstName;
             clerkLastName = clerkUser.lastName;
         } catch (clerkError: any) {
@@ -30,7 +30,7 @@ async function findOrCreateUserProfile(userId: string): Promise<IUserProfileDeta
             },
             educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
             role: 'student',
-            premiumTier: 'Amico',
+            premiumTier: 'Michelangelo', // Default to 'Michelangelo' for new users
             profileVisibility: 'private',
             languageInterests: [],
             targetUniversities: [],
@@ -54,6 +54,24 @@ async function findOrCreateUserProfile(userId: string): Promise<IUserProfileDeta
         }
     }
 
+    if (!profileDetails) {
+        // Return a default structure if profileDetails is null (should not happen, but for type safety)
+        return {
+            _id: '', // Provide a default or empty string for _id
+            userId,
+            personalData: { firstName: '', lastName: '' }, // Add all required keys from ICustomPersonalData
+            educationalData: { previousEducation: [], otherStandardizedTests: [], languageProficiency: {} },
+            role: 'student',
+            premiumTier: 'Amico',
+            profileVisibility: 'private',
+            languageInterests: [],
+            targetUniversities: [],
+            aboutMe: '',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            // Add any other required fields from IUserProfileDetail with default values
+        } as unknown as IUserProfileDetail;
+    }
     return {
         ...profileDetails,
         personalData: profileDetails.personalData || { /* Provide default keys from ICustomPersonalData here */ }, // Ensure personalData exists
@@ -128,7 +146,7 @@ export async function POST(req: NextRequest) {
             { userId },
             updatePayload,
             { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
-        ).lean();
+        )
 
         return NextResponse.json({ success: true, message: 'Profile details updated successfully.', data: updatedProfile }, { status: 200 });
 

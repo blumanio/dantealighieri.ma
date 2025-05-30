@@ -3,6 +3,8 @@ import mongoose, { Schema, Document, models, Model } from 'mongoose';
 
 // --- Interface matching frontend (for type consistency, can be in shared types file) ---
 interface ICustomPersonalData {
+    firstName?: string;
+    lastName?: string;
     dateOfBirth?: string;
     gender?: string;
     nationality?: string;

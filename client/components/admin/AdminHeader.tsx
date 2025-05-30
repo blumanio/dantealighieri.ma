@@ -10,7 +10,7 @@ import { Bell, ChevronDown, LogOut, UserCircle, Settings, Menu as MenuIcon } fro
 import { useLanguage } from '@/context/LanguageContext';
 
 interface AdminHeaderProps {
-  user: User | null;
+user: User | null;
   lang: string;
   onToggleMobileSidebar?: () => void; // For mobile
 }
