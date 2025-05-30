@@ -297,7 +297,17 @@ export interface ProfileTranslations {
   trackedUniversitiesUntrackTooltip: string;
   trackedUniversitiesNoUpcomingDeadlines: string;
 }
-
+export interface ActionsTranslation {
+  unfavorite: string;
+  favorite: string;
+  untrack: string;
+  track: string;
+}
+export interface ProgramRowTranslation {
+  viewCountTooltip: string;
+  favoriteCountTooltip: string;
+  trackedCountTooltip: string;
+}
 export interface IProfileFieldLabels {
   // From JSON direct structure
   transcriptUploadNote: string;
@@ -749,11 +759,13 @@ export interface Translation {
   adminUsersPage: AdminUsersPageTranslation;
   universityHubs: UniversityHubsTranslation;
   premiumHub: PremiumHubTranslation;
+  actions: ActionsTranslation;
+  programRow: ProgramRowTranslation;
 }
 
 // Type guard for checking valid locale
 export function isLocale(value: string): value is Locale {
-  return ['en', 'ar','fr', 'it'].includes(value);
+  return ['en', 'ar', 'fr', 'it'].includes(value);
 }
 
 // Helper type for accessing nested translation keys
@@ -777,30 +789,30 @@ export interface CityCostMetric {
 // }; <-- This was removed
 
 export interface CityData {
-    id: string;
-    cityName: string;
-    region: string;
-    country: string;
-    latitude: number;
-    longitude: number;
-    monthlyEstimateEUR: number;
-    currencySymbol?: string;
-    overallScore: number;
-    safetyScore: number;
-    studentFriendliness: number;
-    universityNames: string[];
-    heroImage?: string;
-    metrics: {
-        label: string;
-        value: number;
-        unit: string;
-        icon: React.ElementType;
-        barColor?: string;
-    }[];
-    internetSpeedMbps?: number;
-    nomadListStyleTags?: { label: string; color: string }[];
-    dataSourceNotes?: string;
-    currentWeather?: any;
-    annualMinTempC: number;
-    annualMaxTempC: number;
+  id: string;
+  cityName: string;
+  region: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  monthlyEstimateEUR: number;
+  currencySymbol?: string;
+  overallScore: number;
+  safetyScore: number;
+  studentFriendliness: number;
+  universityNames: string[];
+  heroImage?: string;
+  metrics: {
+    label: string;
+    value: number;
+    unit: string;
+    icon: React.ElementType;
+    barColor?: string;
+  }[];
+  internetSpeedMbps?: number;
+  nomadListStyleTags?: { label: string; color: string }[];
+  dataSourceNotes?: string;
+  currentWeather?: any;
+  annualMinTempC: number;
+  annualMaxTempC: number;
 }

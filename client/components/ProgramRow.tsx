@@ -85,12 +85,12 @@ const ProgramRow: React.FC<ProgramRowProps> = ({
 
 
   const handleLinkClick = async () => {
-    setDisplayedViewCount(prev => prev + 1); 
+    setDisplayedViewCount(prev => prev + 1);
     try {
       await fetch(`/api/courses/${course._id}/view`, { method: 'POST' });
     } catch (error) {
       console.error("Failed to increment view count on backend:", error);
-      setDisplayedViewCount(prev => Math.max(0, prev - 1)); 
+      setDisplayedViewCount(prev => Math.max(0, prev - 1));
     }
   };
 
@@ -131,7 +131,7 @@ const ProgramRow: React.FC<ProgramRowProps> = ({
         }
       } else {
         const courseDataForApi = {
-          courseId: course._id, 
+          courseId: course._id,
           uni: course.uni, // These details might be used by the /api/favorites POST endpoint
           nome: course.nome,
           link: course.link,
@@ -206,7 +206,7 @@ const ProgramRow: React.FC<ProgramRowProps> = ({
         if (response.ok && result.success && result.data) {
           setIsTracked(true);
           // The tracked item's ID is result.data._id from the backend
-          setTrackedItemId(result.data._id); 
+          setTrackedItemId(result.data._id);
           setDisplayedTrackedCount(prev => prev + 1); // Optimistic update
           setFeedbackMessage(result.message || t('profile', 'trackingStarted', { defaultValue: 'Deadlines now tracked!' }));
           if (onTrackToggle) onTrackToggle(course._id, true, result.data._id);
@@ -294,7 +294,7 @@ const ProgramRow: React.FC<ProgramRowProps> = ({
           <button
             onClick={handleToggleTrackDeadline}
             disabled={isTrackingLoading}
-            title={isTrackingLoading ? (t('profile', 'trackingUpdating') || "Updating tracker...") : (isTracked ? (t('profile', 'trackingStopTooltip') || "Stop tracking") : (t('trackingStartTooltip', 'trackingStartTooltip') || "Track deadlines"))}
+            title={isTrackingLoading ? (t('profile', 'trackingUpdating') || "Updating tracker...") : (isTracked ? (t('profile', 'trackingStopTooltip') || "Stop tracking") : "Track deadlines")}
             className={`p-2 rounded-full transition-all duration-200 ease-in-out 
                          ${isTrackingLoading ? 'cursor-not-allowed bg-neutral-200' : 'hover:bg-sky-50 active:bg-sky-100'}
                          ${isTracked ? 'text-sky-600 bg-sky-50' : 'text-neutral-400 hover:text-sky-500'}`}

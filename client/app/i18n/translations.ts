@@ -31,6 +31,17 @@ export const translations: Record<Locale, Translation> = {
       subtitle: "Get expert guidance, step-by-step resources, and premium services to make your study journey to Italy simple, clear, and successful.",
       ctaButton: "Start Here"
     },
+    actions: {
+      unfavorite: "Unfavorite",
+      favorite: "Favorite",
+      untrack: "Untrack",
+      track: "Track",
+    },
+    programRow: {
+      viewCountTooltip: "Number of views",
+      favoriteCountTooltip: "Number of favorites",
+      trackedCountTooltip: "Number of tracked courses",
+    },
     programs: {
       searchTitle: "Search Programs",
       degreeType: "Degree Type",
@@ -740,6 +751,17 @@ export const translations: Record<Locale, Translation> = {
       "subtitle": "Ottieni guida esperta, risorse dettagliate e servizi premium per rendere il tuo percorso di studio in Italia semplice, chiaro e di successo.",
       "ctaButton": "Inizia Qui"
     },
+    actions: {
+      unfavorite: "Rimuovi dai Preferiti",
+      favorite: "Aggiungi ai Preferiti",
+      untrack: "Rimuovi dal Tracciamento",
+      track: "Aggiungi al Tracciamento",
+    },
+    programRow: {
+      viewCountTooltip: "Numero di visualizzazioni",
+      favoriteCountTooltip: "Numero di preferiti",
+      trackedCountTooltip: "Numero di corsi tracciati",
+    },
     "programs": {
       "searchTitle": "Cerca Programmi",
       "degreeType": "Tipo di Laurea",
@@ -1401,6 +1423,17 @@ export const translations: Record<Locale, Translation> = {
       "title": "ابدأ تعليم أحلامك في إيطاليا",
       "subtitle": "احصل على إرشادات الخبراء، ومصادر خطوة بخطوة، وخدمات متميزة لجعل رحلتك الدراسية إلى إيطاليا بسيطة وواضحة وناجحة.",
       "ctaButton": "ابدأ هنا"
+    },
+    actions: {
+      unfavorite: "إزالة من المفضلات",
+      favorite: "إضافة إلى المفضلات",
+      untrack: "إزالة من التتبع",
+      track: "تتبع",
+    },
+    programRow: {
+      viewCountTooltip: "عدد المشاهدات",
+      favoriteCountTooltip: "عدد المفضلات",
+      trackedCountTooltip: "عدد الدورات المتعقبة",
     },
     "programs": {
       "searchTitle": "ابحث عن البرامج",
@@ -2127,6 +2160,17 @@ export const translations: Record<Locale, Translation> = {
       "noHousingPostsYet": "Aucun post de logement pour le moment. Soyez le premier à en créer un !",
       "housingDescription": "Publiez vos besoins ou offres de logement pour entrer en contact avec d'autres étudiants.",
       "postType_discussion_desc": "Commencez une discussion sur la vie universitaire, les cours ou tout ce qui concerne votre expérience universitaire."
+    },
+    "actions": {
+      "unfavorite": "Rimuovi dai Preferiti",
+      "favorite": "Aggiungi ai Preferiti",
+      "untrack": "Rimuovi dal Tracciamento",
+      "track": "Aggiungi al Tracciamento"
+    },
+    programRow: {
+      viewCountTooltip: "Numero di visualizzazioni",
+      favoriteCountTooltip: "Numero di preferiti",
+      trackedCountTooltip: "Numero di corsi tracciati",
     },
     "hero": {
       "title": "Commencez l'éducation de vos rêves en Italie",
