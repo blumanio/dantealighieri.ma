@@ -133,14 +133,14 @@ const ProfilePage = ({ params }: Props) => {
                     />
                     <main className="lg:w-3/4 xl:w-4/5 bg-white rounded-xl shadow-lg min-h-[60vh] overflow-hidden">
                         {/* Conditional rendering based on activeTab */}
-                        {activeTab === 'userProfileDetails' && <div className="p-5 md:p-8"><UserProfileDetails t={_t} lang={lang} /></div>}
+                        {activeTab === 'userProfileDetails' && <div ><UserProfileDetails t={_t} lang={lang} /></div>}
                         {activeTab === 'messages' && <MessagingSection />}
-                        {activeTab === 'favorites' && <div className="p-5 md:p-8"><FavoritesSection universities={favoriteUniversities} t={_t} /></div>}
-                        {activeTab === 'trackedCourses' && <div className="p-5 md:p-8"><PersonalizedDeadlineTracker t={_t} lang={lang} /></div>}
-                        {activeTab === 'trackedUniversities' && <div className="p-5 md:p-8"><TrackedUniversitiesSection /></div>}
-                        {activeTab === 'applicationGuide' && <div className="p-5 md:p-8"><ApplicationGuideSection checklistData={applicationChecklist} onToggleItem={handleChecklistItemToggle} onPhaseToggle={handlePhaseToggle} t={_t} language={language} /></div>}
-                        {activeTab === 'scholarships' && <div className="p-5 md:p-8"><ScholarshipsSection scholarships={scholarships} t={_t} /></div>}
-                        {activeTab === 'premiumApplicationHub' && <div className="p-5 md:p-8"><PremiumApplicationHub t={_t} lang={lang} /></div>}
+                        {activeTab === 'favorites' && <div ><FavoritesSection universities={favoriteUniversities} t={_t} /></div>}
+                        {activeTab === 'trackedCourses' && <div ><PersonalizedDeadlineTracker t={_t} lang={lang} /></div>}
+                        {activeTab === 'trackedUniversities' && <div ><TrackedUniversitiesSection /></div>}
+                        {activeTab === 'applicationGuide' && <div ><ApplicationGuideSection checklistData={applicationChecklist} onToggleItem={handleChecklistItemToggle} onPhaseToggle={handlePhaseToggle} t={_t} language={language} /></div>}
+                        {activeTab === 'scholarships' && <div ><ScholarshipsSection scholarships={scholarships} t={_t} /></div>}
+                        {activeTab === 'premiumApplicationHub' && <div ><PremiumApplicationHub t={_t} lang={lang} /></div>}
                     </main>
                 </div>
             </div>
