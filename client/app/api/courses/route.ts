@@ -16,6 +16,8 @@ export async function GET(request: NextRequest) {
         const lingua = searchParams.get('lingua');
         const area = searchParams.get('area');
         const uniSlugParam = searchParams.get('uniSlug'); // EXPECTING uniSlug
+        const uni = searchParams.get('uni'); // EXPECTING uniSlug
+
 
         let query: any = {};
 
@@ -23,6 +25,8 @@ export async function GET(request: NextRequest) {
         if (lingua) query.lingua = lingua;
         if (area) query.area = area;
         if (accesso) query.accesso = accesso;
+        if (uni) query.uni = uni;
+
         
         if (uniSlugParam) {
             // Query directly against the uniSlug field.

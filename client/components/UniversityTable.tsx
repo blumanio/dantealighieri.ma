@@ -14,7 +14,7 @@ type UniversityTableProps = {
 };
 
 const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => {
-    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+    const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState<{ status: string[], hasFee: boolean | null }>({
         status: [],
@@ -24,13 +24,13 @@ const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => 
     const { language, t } = useLanguage();
     const isRTL = language === 'ar';
 
-    const toggleRow = (id: number) => {
+    const toggleRow = (universityId: string) => {
         setExpandedRows(prev => {
             const newExpanded = new Set(prev);
-            if (newExpanded.has(id)) {
-                newExpanded.delete(id);
+            if (newExpanded.has(universityId)) {
+                newExpanded.delete(universityId);
             } else {
-                newExpanded.add(id);
+                newExpanded.add(universityId);
             }
             return newExpanded;
         });
@@ -40,30 +40,25 @@ const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => 
         return universities.filter(uni => {
             const matchesSearch = searchTerm === '' ||
                 uni.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                uni.location.toLowerCase().includes(searchTerm.toLowerCase());
+                (uni.location?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
 
-            // Status is now dynamic, so we filter based on calculated currentStatus if needed,
-            // or use the static `uni.status` for filtering if preferred.
-            // For dynamic status filtering, one would need to calculate status for all unis first.
-            // Here, we'll assume uni.status from data is the primary filter.
             const matchesStatusFilter = filters.status.length === 0 || filters.status.includes(uni.status || 'TBA');
 
-
             const matchesFee = filters.hasFee === null ||
-                (filters.hasFee ? uni.admission_fee > 0 : uni.admission_fee === 0);
+                (filters.hasFee ? (uni.admission_fee ?? 0) > 0 : (uni.admission_fee ?? 0) === 0);
 
             return matchesSearch && matchesStatusFilter && matchesFee;
         });
     }, [universities, searchTerm, filters]);
 
     // Placeholder callbacks for favorite/track toggles
-    const handleFavoriteToggle = (universityId: number, isFavorite: boolean, newFavoriteId: string | null) => {
-        console.log(`University ${universityId} favorite status: ${isFavorite}, ID: ${newFavoriteId}`);
+    const handleFavoriteToggle = (universityId: string, isFavorite: boolean, newCount?: number) => {
+        console.log(`University ${universityId} favorite status: ${isFavorite}, Count: ${newCount}`);
         // Here you might update a global state or refetch data if counts are shown in the table summary
     };
 
-    const handleTrackToggle = (universityId: number, isTracked: boolean, newTrackedId: string | null) => {
-        console.log(`University ${universityId} track status: ${isTracked}, ID: ${newTrackedId}`);
+    const handleTrackToggle = (universityId: string, isTracked: boolean, newCount?: number) => {
+        console.log(`University ${universityId} track status: ${isTracked}, Count: ${newCount}`);
     };
 
 
@@ -124,7 +119,7 @@ const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => 
 
                     {showFilters && (
                         <div className="p-4 bg-white rounded-lg border border-gray-200 space-y-4">
-                             <div>
+                            <div>
                                 <h3 className="text-sm font-medium text-gray-900 mb-2">
                                     {t('universities', 'filterByStatus')}
                                 </h3>
@@ -139,18 +134,18 @@ const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => 
                                                     : [...prev.status, statusKey]
                                             }))}
                                             className={`px-3 py-1 rounded-full text-sm 
-                                                ${filters.status.includes(statusKey)
+                                                    ${filters.status.includes(statusKey)
                                                     ? 'bg-primary/20 text-primary ring-1 ring-primary/30'
                                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                                 } transition-colors`}
                                         >
-                                           {t('universities', statusKey.toLowerCase().replace(/\s+/g, '') as keyof Translation['universities'], {defaultValue: statusKey})}
+                                            {t('universities', statusKey.toLowerCase().replace(/\s+/g, '') as keyof Translation['universities'], { defaultValue: statusKey })}
                                         </button>
                                     ))}
                                 </div>
                             </div>
                             {/* Fee filter remains the same */}
-                             <div>
+                            <div>
                                 <h3 className="text-sm font-medium text-gray-900 mb-2">
                                     {t('universities', 'feeFilter')}
                                 </h3>
@@ -185,14 +180,14 @@ const UniversityTable = ({ universities, isSignedIn }: UniversityTableProps) => 
                     {filteredUniversities.length > 0 ? (
                         filteredUniversities.map((uni: University) => (
                             <UniversityCard
-                                key={uni.id}
+                                key={uni._id} // FIX: Use uni._id for React key
                                 university={uni}
                                 isSignedIn={isSignedIn}
-                                isExpanded={expandedRows.has(uni.id)}
+                                isExpanded={expandedRows.has(uni._id)} // FIX: Use uni._id for checking expansion
                                 onToggle={toggleRow}
                                 t={t}
-                                onFavoriteToggle={handleFavoriteToggle} // Pass down handlers
-                                onTrackToggle={handleTrackToggle}
+                                onFavoriteToggled={handleFavoriteToggle} // Pass down handlers
+                                onTrackToggled={handleTrackToggle}
                             />
                         ))
                     ) : (

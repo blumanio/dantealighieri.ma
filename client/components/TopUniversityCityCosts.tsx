@@ -30,9 +30,34 @@ import {
 } from 'lucide-react';
 import L from 'leaflet'; // Import Leaflet
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
-import { mockItalianStudentCityData } from '@/lib/data'; // Adjust path as necessary
+import { mockItalianStudentCityData as rawMockItalianStudentCityData } from '@/lib/data'; // Adjust path as necessary
 // Update the path below if your types file is in a different location, e.g., '../lib/types'
 import type { CityData } from '@/app/i18n/types'; // Adjust path as necessary
+
+// Map string icon names to Lucide icon components
+const iconMap: Record<string, React.ElementType> = {
+    Home,
+    Utensils,
+    Train,
+    Bolt,
+    Wifi,
+    DollarSign,
+    GraduationCap,
+    Shield,
+    TrendingUp,
+    Thermometer,
+    Navigation,
+    // Add more mappings as needed
+};
+
+// Convert all metric.icon strings to Lucide icon components
+const mockItalianStudentCityData = rawMockItalianStudentCityData.map(city => ({
+    ...city,
+    metrics: city.metrics.map(metric => ({
+        ...metric,
+        icon: typeof metric.icon === 'string' && iconMap[metric.icon] ? iconMap[metric.icon] : metric.icon,
+    })),
+}));
 // Fix for default Leaflet marker icon issue with Webpack
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({

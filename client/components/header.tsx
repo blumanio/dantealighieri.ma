@@ -63,15 +63,37 @@ const menuItems = {
     signUp: 'Registrati',
     signOut: 'Esci', // Make sure this exists
   },
+  fr: {
+    imat: 'IMAT',
+    tolc: 'TOLC',
+    blog: 'Blog',
+    about: 'Qui sommes-nous',
+    universities: 'Dates limites des universités',
+    apply: 'Postuler',
+    soon: 'Bientôt',
+    programs: 'Programmes',
+    requirements: 'Exigences',
+    services: 'Services',
+    home: 'Accueil',
+    profile: 'Profil',
+    signIn: 'Se connecter',
+    signUp: "S'inscrire",
+    signOut: 'Se déconnecter',
+  }
 } as const;
 
+
+type SupportedLang = keyof typeof menuItems;
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { language } = useLanguage();
   const pathname = usePathname();
 
-  const currentMenu = menuItems[language] || menuItems[defaultLang];
+  const currentMenu =
+    (Object.keys(menuItems).includes(language)
+      ? menuItems[language as SupportedLang]
+      : menuItems[defaultLang]);
   const isRTL = language === 'ar';
 
   useEffect(() => {
@@ -218,7 +240,7 @@ const Header: React.FC = () => {
             </div>
 
             <div className="md:hidden z-50">
-              <MobileNav menuItems={menuItems[language] || menuItems[defaultLang]} currentLanguage={language} />
+              <MobileNav menuItems={menuItems} currentLanguage={language} />
             </div>
           </div>
         </nav>

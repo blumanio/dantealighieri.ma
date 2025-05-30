@@ -4,7 +4,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { User as UserData } from '@clerk/nextjs/server';
+import { User } from '@clerk/nextjs/server';
 import {
     User as UserIcon, Heart, ListChecks, Award, LogOut, Settings, MessageSquare, Mail as MailIcon, Briefcase, Bookmark // Added Bookmark for tracked unis
 } from 'lucide-react';
@@ -17,7 +17,7 @@ interface UserProfileDetails {
 }
 
 interface ProfileSidebarProps {
-    user: UserData;
+    user: User;
     activeTab: string;
     setActiveTab: (tabId: string) => void;
     t: (namespace: string, key: string, options?: any) => string;

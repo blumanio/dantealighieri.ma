@@ -3,31 +3,42 @@ import { Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext'
 import { usePathname, useRouter } from 'next/navigation';
 
+type Locale = 'en' | 'ar' | 'it' | 'fr';
+
 const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
-  const languageNames = {
+  const languageNames: Record<Locale, Record<Locale, string>> = {
     en: {
       ar: 'Arabic',
       en: 'English',
       it: 'Italian',
+      fr: 'French',
     },
     ar: {
       ar: 'عربي',
       en: 'الانجليزية',
       it: 'الايطالية',
+      fr: 'الفرنسية',
     },
     it: {
       ar: 'Arabo',
       en: 'Inglese',
       it: 'Italiano',
+      fr: 'Francese',
     },
+    fr: {
+      ar: 'Arabe',
+      en: 'Anglais',
+      it: 'Italien',
+      fr: 'Français',
+    }
   };
 
-  const handleLanguageChange = (selectedLanguage: 'en' | 'ar' | 'it') => {
+  const handleLanguageChange = (selectedLanguage: 'en' | 'ar' | 'fr' | 'it') => {
     if (selectedLanguage === language) {
       setIsOpen(false);
       return;
@@ -41,7 +52,7 @@ const LanguageSwitcher: React.FC = () => {
 
     // Construct new path
     const newPath = `/${selectedLanguage}${window.location.pathname.replace(/^\/[a-z]{2}/, '')}`;
-    
+
     // Close dropdown
     setIsOpen(false);
 
@@ -53,7 +64,7 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   return (
-    <div 
+    <div
       className="relative"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
@@ -68,25 +79,20 @@ const LanguageSwitcher: React.FC = () => {
         <span>{languageNames[language][language]}</span>
       </button>
 
-      <div 
-        className={`absolute top-full mt-1 w-40 bg-white rounded-lg shadow-sm ring-1 ring-gray-200 transition-all duration-200 ${
-          isOpen 
-            ? 'opacity-100 visible translate-y-0' 
-            : 'opacity-0 invisible -translate-y-2'
-        } z-50`}
-      >
-        {Object.entries(languageNames[language]).map(([code, name]) => (
-          <button
-            key={code}
-            onClick={() => handleLanguageChange(code as 'en' | 'ar' | 'it')}
-            className={`w-full px-3 py-2 text-sm bg-white ${
-              language === code ? 'text-teal-700 font-medium' : 'text-teal-700'
-            } hover:bg-gray-50 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg`}
-          >
-            {name}
-          </button>
-        ))}
-      </div>
+      {isOpen && (
+        <div className="absolute left-0 mt-2 w-full rounded-lg shadow-lg z-10">
+          {Object.entries(languageNames[language]).map(([code, name]) => (
+            <button
+              key={code}
+              onClick={() => handleLanguageChange(code as Locale)}
+              className={`w-full px-3 py-2 text-sm bg-white ${language === code ? 'text-teal-700 font-medium' : 'text-teal-700'
+                } hover:bg-gray-50 transition-colors duration-150 first:rounded-t-lg last:rounded-b-lg`}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -144,7 +144,7 @@ export default function UniversityHubsPage() {
             {universities.map((uni) => (
               <Link
                 key={uni.slug} // Slug should be unique now
-                href={`/${language}/university-hubs/${uni.slug}`} // Use the slug for the link
+                href={`/${language}/university-hubs/${uni.name}`} // Use the slug for the link
                 className="block bg-white p-6 rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 group hover:border-primary border-transparent border"
               >
                 <div className="flex items-center mb-3">

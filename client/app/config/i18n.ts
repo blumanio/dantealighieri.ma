@@ -1,5 +1,5 @@
 // app/config/i18n.ts
-export const LANGUAGES = ['en', 'it', 'ar'] as const;
+export const LANGUAGES = ['en', 'it','fr', 'ar'] as const;
 export type SupportedLanguage = typeof LANGUAGES[number];
 
 export const DEFAULT_LANGUAGE: SupportedLanguage = 'en';

@@ -34,7 +34,8 @@ const ProfilePage = ({ params }: Props) => {
     const lang = routeParams && typeof routeParams.lang === 'string' ? routeParams.lang : 'en'; // Default to 'en' if not found or array
     const { user, isSignedIn, isLoaded } = useUser();
     const { language, t } = useLanguage(); // Language context for translations
-
+    const _user : any = user; // Type assertion to match expected user type
+    const _t:any = t; // Type assertion for translation function
     // Default to 'userProfileDetails', but 'trackedCourses' will be the old 'personalizedDeadlineTracker'
     const [activeTab, setActiveTab] = useState('userProfileDetails');
 
@@ -124,22 +125,22 @@ const ProfilePage = ({ params }: Props) => {
 
                 <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
                     <ProfileSidebar
-                        user={user}
+                        user={_user}
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
-                        t={t}
+                        t={_t}
                         language={language} // language context might provide 'en', 'ar', 'it'
                     />
                     <main className="lg:w-3/4 xl:w-4/5 bg-white rounded-xl shadow-lg min-h-[60vh] overflow-hidden">
                         {/* Conditional rendering based on activeTab */}
-                        {activeTab === 'userProfileDetails' && <div className="p-5 md:p-8"><UserProfileDetails t={t} lang={lang} /></div>}
+                        {activeTab === 'userProfileDetails' && <div className="p-5 md:p-8"><UserProfileDetails t={_t} lang={lang} /></div>}
                         {activeTab === 'messages' && <MessagingSection />}
-                        {activeTab === 'favorites' && <div className="p-5 md:p-8"><FavoritesSection universities={favoriteUniversities} t={t} /></div>}
-                        {activeTab === 'trackedCourses' && <div className="p-5 md:p-8"><PersonalizedDeadlineTracker t={t} lang={lang} /></div>}
+                        {activeTab === 'favorites' && <div className="p-5 md:p-8"><FavoritesSection universities={favoriteUniversities} t={_t} /></div>}
+                        {activeTab === 'trackedCourses' && <div className="p-5 md:p-8"><PersonalizedDeadlineTracker t={_t} lang={lang} /></div>}
                         {activeTab === 'trackedUniversities' && <div className="p-5 md:p-8"><TrackedUniversitiesSection /></div>}
-                        {activeTab === 'applicationGuide' && <div className="p-5 md:p-8"><ApplicationGuideSection checklistData={applicationChecklist} onToggleItem={handleChecklistItemToggle} onPhaseToggle={handlePhaseToggle} t={t} language={language} /></div>}
-                        {activeTab === 'scholarships' && <div className="p-5 md:p-8"><ScholarshipsSection scholarships={scholarships} t={t} /></div>}
-                        {activeTab === 'premiumApplicationHub' && <div className="p-5 md:p-8"><PremiumApplicationHub t={t} lang={lang} /></div>}
+                        {activeTab === 'applicationGuide' && <div className="p-5 md:p-8"><ApplicationGuideSection checklistData={applicationChecklist} onToggleItem={handleChecklistItemToggle} onPhaseToggle={handlePhaseToggle} t={_t} language={language} /></div>}
+                        {activeTab === 'scholarships' && <div className="p-5 md:p-8"><ScholarshipsSection scholarships={scholarships} t={_t} /></div>}
+                        {activeTab === 'premiumApplicationHub' && <div className="p-5 md:p-8"><PremiumApplicationHub t={_t} lang={lang} /></div>}
                     </main>
                 </div>
             </div>

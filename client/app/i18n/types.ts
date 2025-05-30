@@ -1,8 +1,11 @@
 // lib/i18n/types.ts
 
-export type Locale = 'en' | 'it' | 'ar';
+export type Locale = 'en' | 'it' | 'fr' | 'ar';
 
 export interface CommonTranslation {
+  showDeadlines: string;
+  hideDeadlines: string;
+  comingSoonContent: string;
   search: string;
   about: string;
   services: string;
@@ -12,13 +15,15 @@ export interface CommonTranslation {
   soon: string;
   contactUs: string;
   editMode: string;
-  notProvided: string;
   viewMode: string;
   selectOption: string;
+  notProvided: string;
   saveChanges: string;
   cancel: string;
-  daysRemaining: string,
-      moreInfo: string;
+  daysRemaining: string;
+  moreInfo: string;
+  showAllDeadlines: string;
+  hideAllDeadlines: string;
 }
 
 export interface HeroTranslation {
@@ -36,12 +41,28 @@ export interface ProgramsTranslation {
   searchPlaceholder: string;
   noResults: string;
   loadingMessage: string;
-
   clickLink: string;
-  signInToAccess: string
+  signInToAccess: string;
+}
+
+export interface ProgramSearchTranslation {
+  searchTitle: string;
+  degreeType: string;
+  accessType: string;
+  courseLanguage: string;
+  academicArea: string;
+  searchPlaceholder: string;
+  noResults: string;
+  loadingMessage: string;
+  trackedCountTooltip: string;
+  favoriteCountTooltip: string;
+  viewCountTooltip: string;
+  trackingStartTooltip: string;
+  favoritesAddTooltip: string;
 }
 
 export interface UniversitiesTranslation {
+  comingsoon: string; // From JSON universities.comingsoon
   status: string;
   requirements: string;
   deadline: string;
@@ -50,7 +71,6 @@ export interface UniversitiesTranslation {
   pageTitle: string;
   found: string;
   university: string;
-
   lastUpdate: string;
   login: string;
   loginPrompt: string;
@@ -61,7 +81,7 @@ export interface UniversitiesTranslation {
   free: string;
   open: string;
   closed: string;
-  comingSoon: string;
+  comingSoon: string; // From JSON universities.comingSoon
   availableIntakes: string;
   start: string;
   end: string;
@@ -80,7 +100,7 @@ export interface UniversitiesTranslation {
   filterByFee: string;
   paid: string;
   protectedContent: string;
-  apply: string
+  apply: string;
 }
 
 export interface ServicesTranslation {
@@ -143,31 +163,42 @@ export interface FooterTranslation {
   linkCourses: string;
 }
 
-export interface ProgramSearchTranslation {
-  searchTitle: string;
-  degreeType: string;
-  accessType: string;
-  courseLanguage: string;
-  academicArea: string;
-  searchPlaceholder: string;
-  noResults: string;
-  loadingMessage: string;
+export interface MessagingTranslation {
+  conversationsTitle: string;
+  newConversationTooltip: string;
+  noConversations: string;
+  draftMessage: string;
+  typeMessagePlaceholder: string;
+  sendMessageTooltip: string;
+  selectConversationPrompt: string;
+  startNewConversationTitle: string;
+  searchUserPlaceholder: string;
+  typeToSearchUsers: string;
+  errorFetchConversations: string;
+  errorFetchMessages: string;
+  errorSendMessage: string;
+  errorStartConversation: string;
+  noMessagesYet: string;
 }
 
-
-interface ProfileTranslations {
+export interface ProfileTranslations {
   // General Page
   pageTitle: string;
   signInPrompt: string;
   loading: string;
+  addAnotherTest: string;
 
   // Tabs
   tabsPersonalData: string;
   tabsFavorites: string;
   tabsApplicationGuide: string;
   tabsScholarships: string;
+  tabsMessages: string;
+  tabsPersonalizedDeadlineTracker: string;
+  tabsTrackedCourses: string;
+  tabsTrackedUniversities: string;
 
-  // Personal Data Section (from your last i18n structure)
+  // Personal Data Section
   personalDataTitle: string;
   firstName: string;
   lastName: string;
@@ -177,12 +208,12 @@ interface ProfileTranslations {
   nationality: string;
   countryOfResidence: string;
   address: string;
-  editButton: string; // Assuming these are for a manual form if not using Clerk's UI fully
+  editButton: string;
   saveButton: string;
   cancelButton: string;
-  personalDataClerkNote: string; // New specific key for the note
+  personalDataClerkNote: string;
 
-  // Account Settings (from your last i18n structure, if used directly)
+  // Account Settings
   accountSettingsTitle: string;
   changePassword: string;
   currentPassword: string;
@@ -193,8 +224,12 @@ interface ProfileTranslations {
   emailNotifications: string;
   deleteAccount: string;
   deleteAccountWarning: string;
+  userFullNameMissing: string;
+  clerkAccountSettings: string;
+  signOutButton: string;
+  signInToViewMessages: string;
 
-  // My Applications (from your last i18n structure, if used directly)
+  // My Applications
   myApplicationsTitle: string;
   noApplications: string;
   applicationDate: string;
@@ -203,35 +238,33 @@ interface ProfileTranslations {
   status: string;
   viewDetails: string;
 
-  // Saved Programs (from your last i18n structure, if used directly)
+  // Tracked Items / Saved Programs
+  trackedCoursesAndDeadlines: string;
   savedProgramsTitle: string;
   noSavedPrograms: string;
-  removeButton: string; // This was for saved programs
+  removeButton: string; // For saved programs
+  noTrackedItemsTitle: string;
+  noTrackedItemsPrompt: string;
 
-  // Favorites Section specific keys
+  // Favorites Section
   favoritesTitle: string;
   favoritesUniversities: string;
   favoritesCourses: string;
-  favoritesRemove: string; // Specific remove for favorites
+  favoritesRemove: string;
   favoritesNoUniversities: string;
   favoritesNoCourses: string;
   favoritesExploreNow: string;
+  addAnotherInstitution: string;
 
-  // Application Guide Section specific keys
+  // Application Guide Section
   applicationGuideTitle: string;
   applicationGuideSubtitle: string;
-  applicationGuidePhase: string; // For the "Phase X:" part
+  applicationGuidePhase: string;
   applicationGuideMarkAsComplete: string;
   applicationGuideMarkAsIncomplete: string;
   applicationGuideLearnMore: string;
-  // Dynamic keys like 'profile.checklistPhase1Title' or 'profile.checklistSomeItemLabel'
-  // used in `phase.titleKey` or `item.labelKey` would also be defined here if they are statifie  c.
-  // Example:
-  // checklistPhase1Title?: string;
-  // checklistPassportCopyLabel?: string;
-  // checklistPassportCopyDescription?: string;
 
-  // Scholarships Section specific keys
+  // Scholarships Section
   scholarshipsTitle: string;
   scholarshipsProvider: string;
   scholarshipsDeadline: string;
@@ -239,26 +272,54 @@ interface ProfileTranslations {
   scholarshipsNoScholarships: string;
   scholarshipsCheckResources: string;
 
-  // new profile details 
-  customPersonalDataTitle: string
-  clerkProfileOverviewTitle: string
-  editCoreProfileLink: string
-  customPersonalDataMissingPrompt: string
-  addInfoPrompt: string
-  educationalInformationTitle: string
-  customEducationalDataMissingPrompt: string
-  favoritesConfirmRemoveCourse: string
-  loadingYourDetails: string
-  personalizedDeadlineTrackerTitle: string
-  deadlineTrackerDescription : string
-  findAndTrackCourses: string
-  upcomingDeadlines: string
+  // New profile details
+  customPersonalDataTitle: string;
+  clerkProfileOverviewTitle: string;
+  editCoreProfileLink: string;
+  customPersonalDataMissingPrompt: string;
+  addInfoPrompt: string;
+  educationalInformationTitle: string;
+  customEducationalDataMissingPrompt: string;
+  favoritesConfirmRemoveCourse: string;
+  loadingYourDetails: string;
+  personalizedDeadlineTrackerTitle: string;
+  deadlineTrackerDescription: string;
+  findAndTrackCourses: string;
+  upcomingDeadlines: string;
+  premiumApplicationHub: string;
+  personalizedDeadlineTracker: string; // Note: value in JSON is "profile details "
+
+  // Tracked Universities
+  trackedUniversitiesTitle: string;
+  trackedUniversitiesAddMore: string;
+  trackedUniversitiesNone: string;
+  trackedUniversitiesErrorFetch: string;
+  trackedUniversitiesUntrackTooltip: string;
+  trackedUniversitiesNoUpcomingDeadlines: string;
 }
 
+export interface IProfileFieldLabels {
+  // From JSON direct structure
+  transcriptUploadNote: string;
+  englishCertUploadNote: string;
+  testReportUploadNote: string;
+  yes: string;
+  no: string;
 
-// This is the main interface for the entire object structure
-// you requested in the previous step (e.g., content of en.js, ar.js)
-interface IProfileFieldLabels {
+  role_viaggiatore: string;
+  role_studente: string; // Note: distinct from 'role_student' if both exist in JSON
+  role_accademico: string;
+  role_mentore: string;   // Note: distinct from 'role_mentor' if both exist in JSON
+  role_coordinatore: string;
+
+  tier_freetier: string;
+  tier_michelangelo: string;
+  tier_dante: string;
+  tier_davinci: string; // "da Vinci" in JSON value
+  tier_michelangelo_tooltip: string;
+  tier_dante_tooltip: string;
+  tier_davinci_tooltip: string;
+
   clerkProfileOverviewTitle: string;
   customPersonalDataTitle: string;
   educationalInformationTitle: string;
@@ -352,30 +413,183 @@ interface IProfileFieldLabels {
   notProvided: string;
   startDateLabel: string;
   deadlineTypeLabel: string;
-  applicationStatusLabel:string
-  NotStarted:string
-  Researching:string
-  PreparingDocuments:string
-  AwaitingPreEnrollment:string
-  Applied:string
-  AwaitingResults:string
-  Accepted:string
-  Rejected:string
-  Enrolled:string
+  applicationStatusLabel: string;
+  NotStarted: string;
+  Researching: string;
+  PreparingDocuments: string;
+  AwaitingPreEnrollment: string;
+  Applied: string;
+  AwaitingResults: string;
+  Accepted: string;
+  Rejected: string;
+  Enrolled: string;
   notesLabel: string;
-   role_student: string;
+  nextDeadline: string;
+
+  // From the second distinct block in JSON (and original TS)
+  role_student: string;  // Distinct key from "role_studente"
   role_alumni: string;
-  role_mentor: string;
+  role_mentor: string;   // Distinct key from "role_mentore"
   role_admin: string;
+
   tier_Amico: string;
   tier_Artista: string;
   tier_Maestro: string;
-
 }
+
+export interface PricingTranslation {
+  mainTitle: string;
+  mainSubtitle: string;
+  title: string;
+  subtitle: string;
+  featuresComparisonTitle: string;
+  featureHeader: string;
+  faqTitle: string;
+  faq1_q: string;
+  faq1_a: string;
+  faq2_q: string;
+  faq2_a: string;
+  faq3_q: string;
+  faq3_a_1: string;
+  faq3_a_link: string;
+  faq3_a_2: string;
+  finalCtaTitle: string;
+  finalCtaSubtitle: string;
+  finalCtaButton: string;
+  andMoreFeatures: string;
+}
+
+export interface TiersTranslation {
+  tier_michelangelo: string;
+  michelangeloInspiration: string;
+  tierPriceFree: string;
+  michelangeloPriceDetails: string;
+  michelangeloHoverTooltip: string;
+  michelangeloDescription: string;
+  michelangeloCTAText: string;
+  michelangeloCTALink: string;
+  michelangeloHighlight: string;
+
+  tier_dante: string;
+  danteInspiration: string;
+  dantePriceDetails: string;
+  danteHoverTooltip: string;
+  danteDescription: string;
+  danteCTAText: string;
+  danteCTALink: string;
+  danteHighlight: string;
+
+  tier_davinci: string;
+  davinciInspiration: string;
+  davinciPriceDetails: string;
+  davinciHoverTooltip: string;
+  davinciDescription: string;
+  davinciCTAText: string;
+  davinciCTALink: string;
+  davinciHighlight: string;
+
+  feature_view_basic_programs: string;
+  feature_view_basic_programs_desc: string;
+  feature_email_tips: string;
+  feature_email_tips_desc: string;
+  feature_limited_content: string;
+  feature_limited_content_desc: string;
+  feature_application_tools: string;
+  feature_application_tools_desc: string;
+  feature_webinars_workshops: string;
+  feature_webinars_workshops_desc: string;
+  feature_cultural_guides: string;
+  feature_cultural_guides_desc: string;
+  feature_language_minicourse: string;
+  feature_language_minicourse_desc: string;
+  feature_personalized_roadmap: string;
+  feature_personalized_roadmap_desc: string;
+  feature_document_checklist: string;
+  feature_document_checklist_desc: string;
+  feature_mentorship_access: string;
+  feature_mentorship_access_desc: string;
+  feature_career_services: string;
+  feature_career_services_desc: string;
+  feature_premium_content: string;
+  feature_premium_content_desc: string;
+  feature_priority_support: string;
+  feature_priority_support_desc: string;
+  feature_community_access: string;
+  feature_basic_guides: string;
+  feature_program_search: string;
+  feature_program_search_desc: string;
+  feature_basic_guides_desc: string;
+  feature_community_access_desc: string;
+}
+
+export interface AdminLayoutTranslation {
+  loadingAdminPanel: string;
+  unauthorizedAccess: string;
+}
+
+export interface AdminNavTranslation {
+  dashboard: string;
+  users: string;
+  courses: string;
+  universities: string;
+  content: string;
+  blogPosts: string;
+  communityPosts: string;
+  staticPages: string;
+  applications: string;
+  userActivity: string;
+  favorites: string;
+  trackedItems: string;
+  tiersAndFeatures: string;
+  manageTiers: string;
+  manageFeatures: string;
+  analytics: string;
+  settings: string;
+  signOut: string;
+}
+
+export interface AdminHeaderTranslation {
+  viewProfile: string;
+  adminSettings: string;
+  signOut: string;
+}
+
+export interface AdminDashboardTranslation {
+  title: string;
+  totalUsers: string;
+  totalCourses: string;
+  blogPosts: string;
+  pendingApplications: string;
+  recentActivity: string;
+  quickActions: string;
+  createNewCourse: string;
+  viewPendingApps: string;
+  moderateContent: string;
+  siteAnalyticsPlaceholder: string;
+  analyticsChartComingSoon: string;
+}
+
+export interface AdminUsersPageTranslation {
+  title: string;
+  searchPlaceholder: string;
+  allRoles: string;
+  allTiers: string;
+  columnUser: string;
+  columnRole: string;
+  columnTier: string;
+  columnJoined: string;
+  columnActions: string;
+  noUsersFound: string;
+}
+
 export interface UniversityHubsTranslation {
-   pageTitle: string;
+  pageTitle: string;
   pageSubtitle: string;
-  errorFetchingCourses: string;
+  coursesAvailable: string;
+  viewHub: string;
+  noUniversitiesFound: string;
+  errorFetchingUniversities: string;
+  errorFetchingCourses: string; // Kept from original TS; verify if still used or if errorFetchingUniversities replaces it
   coursesOfferedTitle: string;
   noCoursesListed: string;
   studentNetworkTitle: string;
@@ -388,9 +602,9 @@ export interface UniversityHubsTranslation {
   postTitlePlaceholder: string;
   postContentPlaceholder: string;
   submitPost: string;
-  noPostsYet: string; // e.g., "No {{type}} yet. Be the first to create one!"
+  noPostsYet: string;
   noDiscussionsYet: string;
-  showComments: string; // e.g., "Show Comments ({{count}})"
+  showComments: string;
   hideComments: string;
   addCommentPlaceholder: string;
   errorCreatingPost: string;
@@ -400,11 +614,11 @@ export interface UniversityHubsTranslation {
   visitOfficialWebsite: string;
   coursesTab: string;
   networkTab: string;
-  discussionsTab: string; // For sub-navigation or specific titles
+  discussionsTab: string;
   housingTab: string;
   studyGroupsTab: string;
   careerTab: string;
-  aboutTab: string; 
+  aboutTab: string;
   seekingHousing: string;
   offeringHousing: string;
   seekingHousingButton: string;
@@ -425,7 +639,94 @@ export interface UniversityHubsTranslation {
   postType_housing_offering: string;
   postType_study_group_looking: string;
   postType_study_group_forming: string;
+  newPostTitle_discussion: string;
+  newPostTitle_housing_seeking: string;
+  newPostTitle_housing_offering: string;
+  newPostTitle_study_group_looking: string;
+  newPostTitle_study_group_forming: string;
+  comingSoonContent: string;
+  startDiscussion: string;
+  housingTitle: string;
+  noHousingPostsYet: string;
+  housingDescription: string;
+  postType_discussion_desc: string;
 }
+
+export interface PremiumHubTranslation {
+  title: string;
+  subtitle: string;
+  overallProgress: string;
+  loadingMessage: string;
+
+  roadmapSectionTitle: string;
+  roadmapPhase1Title: string;
+  stepResearchProgramsTitle: string;
+  stepResearchProgramsDesc: string;
+  subtaskUseSearch: string;
+  stepCheckRequirementsTitle: string;
+  stepCheckRequirementsDesc: string;
+  roadmapPhase2Title: string;
+  roadmapPhase3Title_UniversitalyVisa: string;
+  stepUniversitalyTitle: string;
+  stepUniversitalyDesc: string;
+  stepVisaDTitle: string;
+  stepVisaDDesc: string;
+  stepDoVCIMEATitle: string;
+  'stepDoVCIMEAChứngDesc': string; // Key with special character
+
+  docChecklistSectionTitle: string;
+  docChecklistLoadingOrNotApplicable: string;
+  docPassport: string;
+  docPassportDetails: string;
+  docAcademicTranscripts: string;
+  docAcademicTranscriptsDetails: string;
+  docBachelorsDegree: string;
+  docBachelorsDegreeDetails: string;
+  docVisaApplicationForm: string;
+  docVisaApplicationFormDetails: string;
+  docFinancialProof: string;
+  docFinancialProofDetails: string;
+  docEnglishProficiency: string;
+  docEnglishProficiencyDetails: string;
+  docChecklistNote: string;
+
+  timelineSectionTitle: string;
+  timelineGeneralDatesNote: string;
+  timelinePreEnrollOpen: string;
+  timelinePreEnrollOpenDate: string;
+  timelineVisaApplicationStart: string;
+  timelineVisaApplicationStartDate: string;
+  timelineDSUScholarship: string;
+  timelineDSUScholarshipDate: string;
+  timelineCheckOfficialNote: string;
+
+  visaGuidanceSectionTitle: string;
+  universitalyTitle: string;
+  universitalyDesc: string;
+  'dovCIMEAChứngTitle': string; // Key with special character
+  'dovCIMEAChứngDesc': string; // Key with special character
+  visaDTitle: string;
+  visaDDesc_NonEU: string;
+
+  scholarshipTuitionSectionTitle: string;
+  scholarshipTuitionIntro: string;
+  scholarshipInsightDSU: string;
+  scholarshipInsightGov: string;
+  tuitionFeeInsight: string;
+
+  faqSectionTitle: string;
+  faqVisaWhenToApplyQ: string;
+  faqVisaWhenToApplyA: string;
+  linkOfficialVisaInfo: string;
+  faqAccommodationBestWayQ: string;
+  faqAccommodationBestWayA: string;
+
+  needMoreHelpTitle: string;
+  needMoreHelpDesc: string;
+  exploreServicesButton: string;
+}
+
+// Main Translation interface
 export interface Translation {
   common: CommonTranslation;
   hero: HeroTranslation;
@@ -436,15 +737,23 @@ export interface Translation {
   about: AboutTranslation;
   footer: FooterTranslation;
   programSearch: ProgramSearchTranslation;
+  messaging: MessagingTranslation;
   profile: ProfileTranslations;
   profileFieldLabels: IProfileFieldLabels;
+  pricing: PricingTranslation;
+  tiers: TiersTranslation;
+  adminLayout: AdminLayoutTranslation;
+  adminNav: AdminNavTranslation;
+  adminHeader: AdminHeaderTranslation;
+  adminDashboard: AdminDashboardTranslation;
+  adminUsersPage: AdminUsersPageTranslation;
   universityHubs: UniversityHubsTranslation;
-
+  premiumHub: PremiumHubTranslation;
 }
 
 // Type guard for checking valid locale
 export function isLocale(value: string): value is Locale {
-  return ['en', 'ar', 'it'].includes(value);
+  return ['en', 'ar','fr', 'it'].includes(value);
 }
 
 // Helper type for accessing nested translation keys
@@ -453,33 +762,45 @@ export type TranslationKey<
   K extends keyof Translation[T]
 > = `${T}.${K & string}`;
 
+// Note: The CityCostMetric and CityData interfaces seem unrelated to the i18n translations
+// and were at the end of your provided types.ts file. I'm keeping them here as they were.
+export interface CityCostMetric {
+  label: string;
+  value: string | number;
+  unit?: string;
+  icon: React.ElementType; // Consider a more generic type if not React-specific, e.g., string for image path or SVG component type
+  barPercentage?: number;
+  barColor?: string;
+}
 
- export interface CityCostMetric {
-    label: string;
-    value: string | number;
-    unit?: string;
-    icon: React.ElementType;
-    barPercentage?: number;
-    barColor?: string;
-  }
-}; 
+// Removed the extra semicolon after CityCostMetric's closing brace.
+// }; <-- This was removed
 
 export interface CityData {
-  id: string;
-  cityName: string;
-  country: string;
-  region: string;
-  universityNames: string[];
-  heroImage: string;
-  overallScore: number;
-  monthlyEstimateEUR: number;
-  safetyScore: number;
-  studentFriendliness: number;
-  internetSpeedMbps?: number;
-  metrics: CityCostMetric[];
-  nomadListStyleTags?: { label: string; color: string }[];
-  dataSourceNotes?: string;
-  currencySymbol?: string;
-  latitude: number;
-  longitude: number;
+    id: string;
+    cityName: string;
+    region: string;
+    country: string;
+    latitude: number;
+    longitude: number;
+    monthlyEstimateEUR: number;
+    currencySymbol?: string;
+    overallScore: number;
+    safetyScore: number;
+    studentFriendliness: number;
+    universityNames: string[];
+    heroImage?: string;
+    metrics: {
+        label: string;
+        value: number;
+        unit: string;
+        icon: React.ElementType;
+        barColor?: string;
+    }[];
+    internetSpeedMbps?: number;
+    nomadListStyleTags?: { label: string; color: string }[];
+    dataSourceNotes?: string;
+    currentWeather?: any;
+    annualMinTempC: number;
+    annualMaxTempC: number;
 }

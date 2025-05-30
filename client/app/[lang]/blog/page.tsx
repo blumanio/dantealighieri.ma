@@ -86,7 +86,7 @@ async function getPosts(lang: string): Promise<Post[]> {
 
 // Ensure generateStaticParams is present if you want to pre-render blog index pages for each language
 export async function generateStaticParams() {
-  const languages = ['en', 'it', 'ar']; // Or from a central const
+  const languages = ['en', 'it','fr', 'ar']; // Or from a central const
   return languages.map(lang => ({ lang }));
 }
 

@@ -2,45 +2,50 @@
 import React, { useState, useEffect } from 'react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { useLanguage } from "@/context/LanguageContext";
-import { Translation }
-  from "@/app/i18n/types"; // Assuming this is your main translation type
+import { Translation } from "@/app/i18n/types";
+// Assuming Next.js Link is intended for navigation. If not, this import might need adjustment.
+import Link from 'next/link';
 import {
   Calendar, ChevronDown, ChevronUp, Euro, ExternalLink,
-  Globe, GraduationCap, MapPin, Lock, School, Eye, Heart, CalendarPlus, CalendarCheck, Loader2
+  Globe, GraduationCap, MapPin, Lock, School, Eye, Heart, CalendarPlus, CalendarCheck, Loader2,
+  Link as LinkIcon // Renamed to avoid conflict if a navigation Link component is also used
 } from "lucide-react";
-import { parseDeadlineDateString } from '@/lib/data'; // Ensure this function is robust
+import { parseDeadlineDateString } from '@/lib/data';
 
-// Extended University interface
+// Updated University interface
 export interface University {
-  id: number; // Changed from string to number to match lib/data.ts
+  status: string;
+  isFavoriteInitial: boolean;
+  isTrackedInitial: boolean;
+  _id: string;
   name: string;
-  location: string;
-  status?: 'Open' | 'Closed' | 'Coming Soon'; // This will be dynamically calculated
-  deadline?: string; // Keep for display of the "main" deadline if any
-  admission_fee: number;
-  cgpa_requirement: string;
+  slug: string;
+  location?: string;
+  city?: string;
+  description?: string;
+  logoUrl?: string;
+  websiteUrl?: string;
+  contacts?: { email?: string; phone?: string };
+  deadline?: string;
+  admission_fee?: number;
+  cgpa_requirement?: string;
   english_requirement?: string;
   intakes?: { name: string; start_date?: string; end_date?: string; notes?: string }[];
   application_link?: string;
-  // New fields for interactions
-  viewCount?: number;
-  favoriteCount?: number;
-  trackedCount?: number;
-  isFavoriteInitial?: boolean;
-  isTrackedInitial?: boolean;
-  apiFavoriteId?: string | null;
-  apiTrackedId?: string | null;
+  viewCount: number;
+  favoriteCount: number;
+  trackedCount: number;
+  id?: number;
 }
 
 interface UniversityCardProps {
   university: University;
   isSignedIn: boolean;
   isExpanded: boolean;
-  onToggle: (universityId: number) => void; // Pass universityId for view tracking
+  onToggle: (universityId: string) => void;
   t: (namespaceKey: keyof Translation, MKey: string, options?: any) => string;
-  // Callbacks for parent component to update its state if necessary
-  onFavoriteToggle?: (universityId: number, isFavorite: boolean, newFavoriteId: string | null) => void;
-  onTrackToggle?: (universityId: number, isTracked: boolean, newTrackedId: string | null) => void;
+  onFavoriteToggled?: (universityId: string, isFavorite: boolean, newCount?: number) => void;
+  onTrackToggled?: (universityId: string, isTracked: boolean, newCount?: number) => void;
 }
 
 const UniversityCard = ({
@@ -49,119 +54,133 @@ const UniversityCard = ({
   isExpanded,
   onToggle,
   t,
-  onFavoriteToggle,
-  onTrackToggle
+  onFavoriteToggled,
+  onTrackToggled
 }: UniversityCardProps) => {
   const { language } = useLanguage();
   const isRTL = language === 'ar';
 
-  const [currentStatus, setCurrentStatus] = useState<'Open' | 'Closed' | 'Coming Soon' | 'TBA'>(university.status || 'TBA');
+  const allowedStatuses = ['Open', 'Closed', 'Coming Soon', 'TBA'] as const;
+  const initialStatus: 'Open' | 'Closed' | 'Coming Soon' | 'TBA' =
+    allowedStatuses.includes(university.status as any) ? university.status as any : 'TBA';
+  const [currentStatus, setCurrentStatus] = useState<'Open' | 'Closed' | 'Coming Soon' | 'TBA'>(initialStatus);
+
   const [viewCount, setViewCount] = useState(university.viewCount || 0);
-  const [isFavorite, setIsFavorite] = useState(university.isFavoriteInitial || false);
-  const [apiFavoriteId, setApiFavoriteId] = useState(university.apiFavoriteId || null);
   const [favoriteCount, setFavoriteCount] = useState(university.favoriteCount || 0);
-  const [isTracked, setIsTracked] = useState(university.isTrackedInitial || false);
-  const [apiTrackedId, setApiTrackedId] = useState(university.apiTrackedId || null);
   const [trackedCount, setTrackedCount] = useState(university.trackedCount || 0);
+
+  const [isFavorite, setIsFavorite] = useState(university.isFavoriteInitial || false);
+  const [isTracked, setIsTracked] = useState(university.isTrackedInitial || false);
 
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
   const [isTrackingLoading, setIsTrackingLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
 
+  useEffect(() => {
+    setIsFavorite(university.isFavoriteInitial || false);
+  }, [university.isFavoriteInitial]);
+
+  useEffect(() => {
+    setIsTracked(university.isTrackedInitial || false);
+  }, [university.isTrackedInitial]);
+
+  useEffect(() => {
+    setViewCount(university.viewCount || 0);
+    setFavoriteCount(university.favoriteCount || 0);
+    setTrackedCount(university.trackedCount || 0);
+  }, [university.viewCount, university.favoriteCount, university.trackedCount]);
+
 
   useEffect(() => {
     const calculateStatus = () => {
       if (!university.intakes || university.intakes.length === 0) {
-        setCurrentStatus('TBA'); // Or 'Closed' if no intakes means it's not open
+        setCurrentStatus('TBA');
         return;
       }
-
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalize to start of day for fair comparison
-
+      today.setHours(0, 0, 0, 0);
       let isOpen = false;
       let hasFutureIntakes = false;
-      let earliestFutureStartDate: Date | null = null;
-
       for (const intake of university.intakes) {
         const startDate = intake.start_date ? parseDeadlineDateString(intake.start_date, today.getFullYear()) : null;
         const endDate = intake.end_date ? parseDeadlineDateString(intake.end_date, today.getFullYear()) : null;
-
         if (startDate && endDate) {
-          if (today >= startDate && today <= endDate) {
-            isOpen = true;
-            break; // Found an open intake
-          }
-          if (startDate > today) {
-            hasFutureIntakes = true;
-            if (!earliestFutureStartDate || startDate < earliestFutureStartDate) {
-              earliestFutureStartDate = startDate;
-            }
-          }
-        } else if (startDate && !endDate) { // If only start date, assume open from start onwards until explicitly closed
-          if (today >= startDate) {
-            // This could be considered open if no end date implies rolling or long duration
-            // For simplicity, let's assume an end date is needed for "Open"
-            // Or, treat as "Coming Soon" if start is future, "TBA" otherwise without end.
-            if (startDate > today) {
-              hasFutureIntakes = true;
-              if (!earliestFutureStartDate || startDate < earliestFutureStartDate) {
-                earliestFutureStartDate = startDate;
-              }
-            }
-          }
+          if (today >= startDate && today <= endDate) { isOpen = true; break; }
+          if (startDate > today) hasFutureIntakes = true;
+        } else if (startDate && today >= startDate) {
+          // Assuming open if only start date and it has passed. Logic might need refinement.
         }
+        if (startDate && startDate > today) hasFutureIntakes = true;
       }
-
-      if (isOpen) {
-        setCurrentStatus('Open');
-      } else if (hasFutureIntakes) {
-        setCurrentStatus('Coming Soon');
-      } else {
-        setCurrentStatus('Closed');
-      }
+      if (isOpen) setCurrentStatus('Open');
+      else if (hasFutureIntakes) setCurrentStatus('Coming Soon');
+      else setCurrentStatus('Closed');
     };
-
     calculateStatus();
   }, [university.intakes]);
 
-  const handleToggleExpand = () => {
-    if (!isExpanded) { // View counted when expanding
+  const handleToggleExpand = async () => {
+    if (!isExpanded && university._id) {
       setViewCount(prev => prev + 1);
-      // Placeholder for API call to update view count
-      // console.log(`University ${university.id} view incremented. New count: ${viewCount + 1}`);
-      // try { await fetch(`/api/universities/${university.id}/view`, { method: 'POST' }); } catch (e) { console.error(e); }
+      try {
+        const response = await fetch(`/api/universities/${university._id}/view`, { method: 'POST' });
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success && typeof result.data.viewCount === 'number') {
+            setViewCount(result.data.viewCount);
+          }
+        } else {
+          // setViewCount(prev => prev -1); // Optional: Revert
+        }
+      } catch (e) {
+        console.error("Failed to record view:", e);
+        // setViewCount(prev => prev - 1); // Optional: Revert
+      }
     }
-    onToggle(university.id);
+    onToggle(university._id);
   };
 
   const handleToggleFavorite = async () => {
     if (!isSignedIn) {
-      // Consider showing a login prompt
       setFeedbackMessage(t('universities', 'loginPromptShort', { defaultValue: "Login to favorite" }));
       setTimeout(() => setFeedbackMessage(null), 3000);
       return;
     }
+    if (!university._id) return;
+
     setIsFavoriteLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    if (isFavorite) {
-      setIsFavorite(false);
-      setFavoriteCount(prev => Math.max(0, prev - 1));
-      // console.log(`Removed university ${university.id} from favorites. Favorite ID: ${apiFavoriteId}`);
-      // try { await fetch(`/api/favorites/university?id=${apiFavoriteId}`, { method: 'DELETE' }); } catch (e) { console.error(e); }
-      if (onFavoriteToggle) onFavoriteToggle(university.id, false, null);
-      setApiFavoriteId(null);
-    } else {
-      setIsFavorite(true);
-      setFavoriteCount(prev => prev + 1);
-      const newMockId = `fav-${university.id}-${Date.now()}`;
-      setApiFavoriteId(newMockId);
-      // console.log(`Added university ${university.id} to favorites. New Favorite ID: ${newMockId}`);
-      // try { const res = await fetch(`/api/favorites/university`, { method: 'POST', body: JSON.stringify({ universityId: university.id }) }); /* handle response */ } catch (e) { console.error(e); }
-      if (onFavoriteToggle) onFavoriteToggle(university.id, true, newMockId);
+    const originalIsFavorite = isFavorite;
+    const originalFavoriteCount = favoriteCount;
+
+    setIsFavorite(!originalIsFavorite);
+    setFavoriteCount(prev => originalIsFavorite ? Math.max(0, prev - 1) : prev + 1);
+
+    try {
+      const response = await fetch(`/api/universities/${university._id}/favorite`, {
+        method: originalIsFavorite ? 'DELETE' : 'POST',
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        if (typeof result.favoriteCount === 'number') {
+          setFavoriteCount(result.favoriteCount);
+        }
+        if (onFavoriteToggled) onFavoriteToggled(university._id, !originalIsFavorite, result.favoriteCount);
+      } else {
+        setIsFavorite(originalIsFavorite);
+        setFavoriteCount(originalFavoriteCount);
+        setFeedbackMessage(result.message || t('universities', 'actionFailed'));
+        setTimeout(() => setFeedbackMessage(null), 3000);
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      setIsFavorite(originalIsFavorite);
+      setFavoriteCount(originalFavoriteCount);
+      setFeedbackMessage(t('universities', 'actionFailed'));
+      setTimeout(() => setFeedbackMessage(null), 3000);
+    } finally {
+      setIsFavoriteLoading(false);
     }
-    setIsFavoriteLoading(false);
   };
 
   const handleToggleTrack = async () => {
@@ -170,26 +189,41 @@ const UniversityCard = ({
       setTimeout(() => setFeedbackMessage(null), 3000);
       return;
     }
+    if (!university._id) return;
+
     setIsTrackingLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    if (isTracked) {
-      setIsTracked(false);
-      setTrackedCount(prev => Math.max(0, prev - 1));
-      // console.log(`Stopped tracking university ${university.id}. Tracked ID: ${apiTrackedId}`);
-      // try { await fetch(`/api/tracked-items/university?id=${apiTrackedId}`, { method: 'DELETE' }); } catch (e) { console.error(e); }
-      if (onTrackToggle) onTrackToggle(university.id, false, null);
-      setApiTrackedId(null);
-    } else {
-      setIsTracked(true);
-      setTrackedCount(prev => prev + 1);
-      const newMockId = `track-${university.id}-${Date.now()}`;
-      setApiTrackedId(newMockId);
-      // console.log(`Started tracking university ${university.id}. New Tracked ID: ${newMockId}`);
-      // try { const res = await fetch(`/api/tracked-items/university`, { method: 'POST', body: JSON.stringify({ universityId: university.id }) }); /* handle response */ } catch (e) { console.error(e); }
-      if (onTrackToggle) onTrackToggle(university.id, true, newMockId);
+    const originalIsTracked = isTracked;
+    const originalTrackedCount = trackedCount;
+
+    setIsTracked(!originalIsTracked);
+    setTrackedCount(prev => originalIsTracked ? Math.max(0, prev - 1) : prev + 1);
+
+    try {
+      const response = await fetch(`/api/universities/${university._id}/track`, {
+        method: originalIsTracked ? 'DELETE' : 'POST',
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        if (typeof result.trackedCount === 'number') {
+          setTrackedCount(result.trackedCount);
+        }
+        if (onTrackToggled) onTrackToggled(university._id, !originalIsTracked, result.trackedCount);
+      } else {
+        setIsTracked(originalIsTracked);
+        setTrackedCount(originalTrackedCount);
+        setFeedbackMessage(result.message || t('universities', 'actionFailed'));
+        setTimeout(() => setFeedbackMessage(null), 3000);
+      }
+    } catch (error) {
+      console.error('Error toggling track:', error);
+      setIsTracked(originalIsTracked);
+      setTrackedCount(originalTrackedCount);
+      setFeedbackMessage(t('universities', 'actionFailed'));
+      setTimeout(() => setFeedbackMessage(null), 3000);
+    } finally {
+      setIsTrackingLoading(false);
     }
-    setIsTrackingLoading(false);
   };
 
   const statusText = t('universities', currentStatus.toLowerCase().replace(/\s+/g, '') as keyof Translation['universities'], {
@@ -199,20 +233,21 @@ const UniversityCard = ({
   if (currentStatus === 'Open') statusColorClass = 'bg-primary/10 text-primary';
   else if (currentStatus === 'Coming Soon') statusColorClass = 'bg-yellow-400/10 text-yellow-500';
 
-
-  if (!isSignedIn && !isExpanded) { // Compact view for non-signed-in users when card is not expanded
+  if (!isSignedIn && !isExpanded) {
     return (
       <div className="bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300">
         <div className="p-6">
           <div className={`flex justify-between items-start gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-              <h3 className="text-xl font-semibold text-primary mb-1">
-                {university.name}
-              </h3>
-              <div className={`flex items-center gap-2 text-sm text-textSecondary ${isRTL ? 'flex-row-reverse' : ''}`}>
-                <MapPin className="h-4 w-4 text-primary/70" />
-                <span>{university.location}</span>
-              </div>
+              <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} passHref className="block hover:underline">
+                  <h3 className="text-xl font-semibold text-primary mb-1">
+                    {university.name}
+                  </h3>
+                  <div className={`flex items-center gap-2 text-sm text-textSecondary ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <MapPin className="h-4 w-4 text-primary/70" />
+                    <span>{university.location}</span>
+                  </div>
+                </Link>
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${statusColorClass}`}>
               {statusText}
@@ -240,15 +275,17 @@ const UniversityCard = ({
     );
   }
 
-
   return (
     <div className="bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 group">
       <div className="p-6">
         <div className={`flex justify-between items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-            <h3 className="text-xl font-semibold text-primary group-hover:text-primary-dark transition-colors duration-300 mb-2">
-              {university.name}
-            </h3>
+            <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} passHref className="hover:shadow-medium group hover:border-primary ">
+              
+                <h3 className="text-xl font-semibold text-primary group-hover:text-primary-dark transition-colors duration-300 mb-2">
+                  {university.name}
+                </h3>
+            </Link>
             <div className={`flex items-center gap-2 text-textSecondary ${isRTL ? 'flex-row-reverse' : ''}`}>
               <MapPin className="h-4 w-4 text-primary/70" />
               <span>{university.location}</span>
@@ -279,7 +316,7 @@ const UniversityCard = ({
             </p>
           </div>
         </div>
-        {/* Interaction Buttons - Only show if signed in */}
+
         {isSignedIn && (
           <div className="flex items-center justify-end gap-2 mb-4 border-t pt-3 border-neutral-100">
             <div className="flex items-center gap-2 text-xs text-neutral-500 mr-auto">
@@ -290,7 +327,7 @@ const UniversityCard = ({
             <button
               onClick={handleToggleFavorite}
               disabled={isFavoriteLoading}
-              title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              title={isFavorite ? t('universities', 'removeFromFavorites', { defaultValue: "Remove from favorites" }) : t('universities', 'addToFavorites', { defaultValue: "Add to favorites" })}
               className={`p-2 rounded-full transition-colors ${isFavoriteLoading ? 'cursor-not-allowed' : ''} ${isFavorite ? 'bg-red-100 text-red-500 hover:bg-red-200' : 'bg-neutral-100 text-neutral-500 hover:bg-red-100 hover:text-red-500'}`}
             >
               {isFavoriteLoading ? <Loader2 size={16} className="animate-spin" /> : <Heart size={16} fill={isFavorite ? "currentColor" : "none"} />}
@@ -298,7 +335,7 @@ const UniversityCard = ({
             <button
               onClick={handleToggleTrack}
               disabled={isTrackingLoading}
-              title={isTracked ? "Stop tracking" : "Track deadlines"}
+              title={isTracked ? t('universities', 'stopTracking', { defaultValue: "Stop tracking" }) : t('universities', 'trackDeadlines', { defaultValue: "Track deadlines" })}
               className={`p-2 rounded-full transition-colors ${isTrackingLoading ? 'cursor-not-allowed' : ''} ${isTracked ? 'bg-sky-100 text-sky-600 hover:bg-sky-200' : 'bg-neutral-100 text-neutral-500 hover:bg-sky-100 hover:text-sky-600'}`}
             >
               {isTrackingLoading ? <Loader2 size={16} className="animate-spin" /> : (isTracked ? <CalendarCheck size={16} /> : <CalendarPlus size={16} />)}
@@ -306,7 +343,7 @@ const UniversityCard = ({
           </div>
         )}
         {feedbackMessage && (
-          <p className={`text-xs text-center my-2 ${feedbackMessage.includes('Login') ? 'text-red-500' : 'text-green-600'}`}>
+          <p className={`text-xs text-center my-2 ${feedbackMessage.includes(t('universities', 'login', { defaultValue: "Login" })) ? 'text-red-500' : 'text-green-600'}`}>
             {feedbackMessage}
           </p>
         )}
@@ -350,7 +387,7 @@ const UniversityCard = ({
                 <div className="space-y-2 text-sm">
                   <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <span className="text-textSecondary">CGPA:</span>
-                    <span className="font-medium text-primary">{university.cgpa_requirement}</span>
+                    <span className="font-medium text-primary">{university.cgpa_requirement || t('universities', 'tba')}</span>
                   </div>
                   {university.english_requirement && (
                     <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>

@@ -16,7 +16,7 @@ interface MobileNavProps {
     [langKey: string]: { [itemKey: string]: string };
   };
   // currentLanguage prop as passed from the updated Header.tsx
-  currentLanguage: 'en' | 'ar' | 'it';
+  currentLanguage: 'en' | 'ar' | 'it' | 'fr';
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => {
@@ -39,10 +39,13 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => 
     { nameKey: 'about', href: '/about', icon: Info },
   ];
 
-  const languageNames = {
-    en: { ar: 'Arabic', en: 'English', it: 'Italian' },
-    ar: { ar: 'عربي', en: 'الانجليزية', it: 'الايطالية' },
-    it: { ar: 'Arabo', en: 'Inglese', it: 'Italiano' },
+  type Locale = 'en' | 'ar' | 'it' | 'fr';
+  
+  const languageNames: Record<Locale, Record<Locale, string>> = {
+    en: { ar: 'Arabic', en: 'English', it: 'Italian', fr: 'French' },
+    ar: { ar: 'عربي', en: 'الانجليزية', it: 'الايطالية', fr: 'الفرنسية' },
+    it: { ar: 'Arabo', en: 'Inglese', it: 'Italiano', fr: 'Francese' },
+    fr: { ar: 'Arabe', en: 'Anglais', it: 'Italien', fr: 'Français' }
   };
 
   useEffect(() => {
@@ -170,7 +173,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => 
         <div className="border-t p-4">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-teal-700">
-              <Globe className="h-5 w-5" />
+                {languageNames[language as Locale][language as Locale]} {/* Current selected language name */}
               <span className="text-sm font-medium">
                 {languageNames[language][language]} {/* Current selected language name */}
               </span>

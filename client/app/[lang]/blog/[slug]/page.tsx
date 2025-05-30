@@ -131,11 +131,13 @@ export async function generateStaticParams() {
         { lang: 'en', slug: 'example-post' }, // Replace with actual slugs
         { lang: 'it', slug: 'esempio-post' },
         { lang: 'ar', slug: 'مثال-مشاركة' },
+        { lang: 'fr', slug: 'exemple-partage' },
+
     ];
     // Filter out or provide default params if your API for all slugs isn't ready
     // For a real build, you would fetch all lang/slug combinations from your API or a source
     try {
-        const defaultLangs = ['en', 'it', 'ar'];
+        const defaultLangs = ['en', 'it', 'fr', 'ar'];
         const tempParams: { lang: string; slug: string }[] = [];
         // In a real scenario, you'd fetch these from your CMS/backend
         // For example:
@@ -220,7 +222,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
         const dateObj = new Date(frontmatter.date);
         if (!isNaN(dateObj.getTime())) {
             formattedDate = dateObj.toLocaleDateString(
-                lang === 'it' ? 'it-IT' : (lang === 'ar' ? 'ar-EG' : 'en-US'),
+                lang === 'it' ? 'it-IT' : (lang === 'fr' ? 'fr-FR' : (lang === 'ar' ? 'ar-EG' : 'en-US')),
                 { year: 'numeric', month: 'long', day: 'numeric' }
             );
         } else {
