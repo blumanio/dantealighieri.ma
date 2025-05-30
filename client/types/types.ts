@@ -164,3 +164,84 @@ export interface IMessage {
     readBy?: string[];
     createdAt: string | Date;
 }
+
+// --- Interface for Custom Personal Data ---
+// This interface should match the structure expected and handled by the frontend and API.
+export interface ICustomPersonalData {
+    firstName?: string;
+    lastName?: string;
+    dateOfBirth?: string; // Consider storing as Date if performing date-based queries, otherwise string is fine for forms
+    gender?: string;
+    nationality?: string;
+    countryOfResidence?: string;
+    streetAddress?: string;
+    city?: string;
+    stateProvince?: string;
+    postalCode?: string;
+    addressCountry?: string;
+    passportNumber?: string;
+    passportExpiryDate?: string; // Consider storing as Date
+    emergencyContactName?: string;
+    emergencyContactRelationship?: string;
+    emergencyContactPhone?: string;
+    emergencyContactEmail?: string;
+}
+
+// --- Interface for Education Entry ---
+export interface IEducationEntry {
+    id: string; // Frontend key, Mongoose will add _id by default if schema has _id: true
+    institutionName?: string;
+    institutionCountry?: string;
+    institutionCity?: string;
+    degreeName?: string;
+    fieldOfStudy?: string;
+    graduationYear?: string;
+    graduationMonth?: string;
+    gpa?: string;
+    gradingScale?: string;
+}
+
+// --- Interface for Language Proficiency ---
+export interface ILanguageProficiency {
+    isNativeEnglishSpeaker?: 'yes' | 'no' | '';
+    testTaken?: 'TOEFL' | 'IELTS' | 'Duolingo' | 'Cambridge' | 'Other' | '';
+    overallScore?: string;
+    testDate?: string; // Consider storing as Date
+}
+
+// --- Interface for Standardized Test ---
+export interface IStandardizedTest {
+    id: string; // Frontend key
+    testName?: string;
+    score?: string;
+    dateTaken?: string; // Consider storing as Date
+}
+
+// --- Interface for Custom Educational Data ---
+export interface ICustomEducationalData {
+    highestLevelOfEducation?: 'High School' | "Associate's Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate (PhD)" | 'Other' | '';
+    previousEducation?: IEducationEntry[];
+    languageProficiency?: ILanguageProficiency;
+    otherStandardizedTests?: IStandardizedTest[];
+}
+
+// --- Mongoose Document Interface for UserProfileDetail ---
+export interface IUserProfileDetail extends Document {
+    userId: string; // Clerk User ID, unique and indexed
+    personalData?: ICustomPersonalData;
+    educationalData?: ICustomEducationalData;
+    role?: 'student' | 'alumni' | 'mentor' | 'admin';
+    premiumTier?: 'Michelangelo' | 'Dante' | 'da Vinci';
+    profileVisibility?: 'public' | 'private' | 'network_only';
+    languageInterests?: string[];
+    targetUniversities?: {
+        universityId?: string; // Optional reference to a University collection
+        universityName: string;
+        applicationStatus: string; // Consider enum if statuses are fixed
+        programOfInterest?: string;
+    }[];
+    aboutMe?: string;
+    // Timestamps (createdAt, updatedAt) are added by Mongoose option
+    createdAt: Date;
+    updatedAt: Date;
+}

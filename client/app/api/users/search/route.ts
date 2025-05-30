@@ -28,15 +28,15 @@ export async function GET(req: NextRequest) {
                 { "personalData.lastName": new RegExp(query, 'i') },
             ]
         })
-        .select('userId personalData.firstName personalData.lastName') // Add avatar if stored
-        .limit(10)
-        .lean();
+            .select('userId personalData.firstName personalData.lastName') // Add avatar if stored
+            .limit(10)
+            .lean();
 
-        let results = profileDetails.map(u => {
-            const personalData = u.personalData as { firstName?: string; lastName?: string };
+        let results = profileDetails.map((u: { userId: string; personalData?: { firstName?: string; lastName?: string } }) => {
+            const personalData = u.personalData || {};
             return {
                 id: u.userId,
-                fullName: `${personalData?.firstName || ''} ${personalData?.lastName || ''}`.trim() || `User ${u.userId.substring(0,5)}`,
+                fullName: `${personalData.firstName || ''} ${personalData.lastName || ''}`.trim() || `User ${u.userId.substring(0, 5)}`,
                 avatarUrl: undefined // Placeholder, see below
             };
         });
@@ -52,17 +52,23 @@ export async function GET(req: NextRequest) {
                 const clerkUsersResponse = await clerk.users.getUserList({ query: query, limit: 5 });
                 const clerkUsers = clerkUsersResponse.data || [];
                 clerkUsers.forEach((clerkUser: any) => {
-                    if (clerkUser.id !== currentUserId && !results.find(r => r.id === clerkUser.id)) {
+                    if (clerkUser.id !== currentUserId && !results.find((r: { id: string }) => r.id === clerkUser.id)) {
                         results.push({
                             id: clerkUser.id,
-                            fullName: clerkUser.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() : clerkUser.username || `User ${clerkUser.id.substring(0,5)}`,
+                            fullName: clerkUser.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ''}`.trim() : clerkUser.username || `User ${clerkUser.id.substring(0, 5)}`,
                             avatarUrl: clerkUser.imageUrl
                         });
                     }
                 });
                 // Deduplicate and limit again if necessary
-                const uniqueResultsMap = new Map(results.map(u => [u.id, u]));
-                results = Array.from(uniqueResultsMap.values()).slice(0,10);
+                const uniqueResultsMap = new Map(results.map((u: { id: string }) => [u.id, u]));
+                results = Array.from(uniqueResultsMap.values())
+                    .map((u: any) => ({
+                        id: u.id,
+                        fullName: u.fullName || '',
+                        avatarUrl: u.avatarUrl !== undefined ? u.avatarUrl : undefined
+                    }))
+                    .slice(0, 10);
 
             } catch (clerkSearchError) {
                 console.warn("Clerk user search also failed or returned limited results:", clerkSearchError);

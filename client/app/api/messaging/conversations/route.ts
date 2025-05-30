@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuth, clerkClient } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
 import Conversation, { IParticipantDetail } from '@/lib/models/Conversation';
-import UserProfileDetail, { IUserProfileDetail } from '@/lib/models/UserProfileDetail';
+import UserProfileDetail from '@/lib/models/UserProfileDetail';
+import { IUserProfileDetail } from '@/types/types'; // Adjust the import path as necessary
 import mongoose from 'mongoose';
 
 async function ensureUserProfile(userId: string, clerkUserDataForCreate?: { fullName?: string | null, imageUrl?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null }): Promise<IParticipantDetail> {

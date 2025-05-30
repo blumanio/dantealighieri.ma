@@ -3,7 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
-import UserProfileDetail, { IUserProfileDetail } from '@/lib/models/UserProfileDetail';
+import UserProfileDetail from '@/lib/models/UserProfileDetail';
+import { IUserProfileDetail } from '@/types/types'; // Adjust the import path as necessary
 import mongoose from 'mongoose';
 
 interface PublicProfileData {
@@ -41,11 +42,11 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
             // For now, let's assume 'public' allows viewing, otherwise restrict.
             // You might have more granular settings like 'network_only'.
             if (profileDetail.profileVisibility === 'private') {
-                 // Even if private, we might still want to show basic Clerk info if the user is part of a public interaction
-                 // For now, let's restrict if explicitly private.
-                 // return NextResponse.json({ success: false, message: 'This profile is private.' }, { status: 403 });
+                // Even if private, we might still want to show basic Clerk info if the user is part of a public interaction
+                // For now, let's restrict if explicitly private.
+                // return NextResponse.json({ success: false, message: 'This profile is private.' }, { status: 403 });
             }
-            
+
             publicData.firstName = (profileDetail.personalData as any)?.firstName;
             publicData.lastName = (profileDetail.personalData as any)?.lastName;
             publicData.fullName = `${(profileDetail.personalData as any)?.firstName || ''} ${(profileDetail.personalData as any)?.lastName || ''}`.trim();
@@ -69,8 +70,8 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
             if (!publicData.lastName && clerkUser.lastName) {
                 publicData.lastName = clerkUser.lastName;
             }
-             if (!publicData.fullName) { // Fallback if still no full name
-                publicData.fullName = `${publicData.firstName || ''} ${publicData.lastName || ''}`.trim() || clerkUser.username || `User ${targetUserId.substring(0,8)}`;
+            if (!publicData.fullName) { // Fallback if still no full name
+                publicData.fullName = `${publicData.firstName || ''} ${publicData.lastName || ''}`.trim() || clerkUser.username || `User ${targetUserId.substring(0, 8)}`;
             }
         } catch (clerkError: any) {
             console.warn(`[API Public Profile] Clerk user not found for ${targetUserId}: ${clerkError.message}. Profile data might be incomplete.`);
@@ -79,9 +80,9 @@ export async function GET(req: NextRequest, { params }: { params: { userId: stri
                 return NextResponse.json({ success: false, message: 'User not found.' }, { status: 404 });
             }
         }
-        
+
         if (!publicData.fullName) { // Final fallback for name
-             publicData.fullName = `User ${targetUserId.substring(0,8)}`;
+            publicData.fullName = `User ${targetUserId.substring(0, 8)}`;
         }
 
 

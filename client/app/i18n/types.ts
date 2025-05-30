@@ -310,6 +310,8 @@ export interface ProgramRowTranslation {
 }
 export interface IProfileFieldLabels {
   // From JSON direct structure
+   firstName: string;
+      lastName: string;
   transcriptUploadNote: string;
   englishCertUploadNote: string;
   testReportUploadNote: string;

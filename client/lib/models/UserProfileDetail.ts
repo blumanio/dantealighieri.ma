@@ -1,132 +1,127 @@
-// lib/models/UserProfileDetail.ts
+import { ICustomEducationalData, ICustomPersonalData, IEducationEntry, ILanguageProficiency, IStandardizedTest, IUserProfileDetail } from '@/types/types';
 import mongoose, { Schema, Document, models, Model } from 'mongoose';
 
-// --- Interface matching frontend (for type consistency, can be in shared types file) ---
-interface ICustomPersonalData {
-    firstName?: string;
-    lastName?: string;
-    dateOfBirth?: string;
-    gender?: string;
-    nationality?: string;
-    countryOfResidence?: string;
-    streetAddress?: string;
-    city?: string;
-    stateProvince?: string;
-    postalCode?: string;
-    addressCountry?: string;
-    passportNumber?: string;
-    passportExpiryDate?: string;
-    emergencyContactName?: string;
-    emergencyContactRelationship?: string;
-    emergencyContactPhone?: string;
-    emergencyContactEmail?: string;
-}
 
-interface IEducationEntry {
-    id: string;
-    institutionName?: string;
-    institutionCountry?: string;
-    institutionCity?: string;
-    degreeName?: string;
-    fieldOfStudy?: string;
-    graduationYear?: string;
-    graduationMonth?: string;
-    gpa?: string;
-    gradingScale?: string;
-}
-
-interface ILanguageProficiency {
-    isNativeEnglishSpeaker?: 'yes' | 'no' | '';
-    testTaken?: 'TOEFL' | 'IELTS' | 'Duolingo' | 'Cambridge' | 'Other' | '';
-    overallScore?: string;
-    testDate?: string;
-}
-
-interface IStandardizedTest {
-    id: string;
-    testName?: string;
-    score?: string;
-    dateTaken?: string;
-}
-
-interface ICustomEducationalData {
-    highestLevelOfEducation?: 'High School' | "Associate's Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate (PhD)" | 'Other' | '';
-    previousEducation?: IEducationEntry[];
-    languageProficiency?: ILanguageProficiency;
-    otherStandardizedTests?: IStandardizedTest[];
-}
-
-// --- Mongoose Document Interface ---
-export interface IUserProfileDetail extends Document {
-    userId: string; // Clerk User ID
-    personalData?: ICustomPersonalData;
-    educationalData?: ICustomEducationalData;
-    role?: 'student' | 'alumni' | 'mentor' | 'admin'; // Role defines user type
-    premiumTier?: 'Michelangelo' | 'Dante' | 'da Vinci'; // NEW TIER NAMES
-    profileVisibility?: 'public' | 'private' | 'network_only';
-    languageInterests?: string[];
-    targetUniversities?: {
-        universityId?: mongoose.Types.ObjectId;
-        universityName: string;
-        applicationStatus: string;
-        programOfInterest?: string;
-    }[];
-    aboutMe?: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 // --- Mongoose Schemas ---
-const EducationEntrySchema = new Schema<IEducationEntry>({ /* ... existing ... */ }, { _id: true });
-const LanguageProficiencySchema = new Schema<ILanguageProficiency>({ /* ... existing ... */ }, { _id: false });
-const StandardizedTestSchema = new Schema<IStandardizedTest>({ /* ... existing ... */ }, { _id: true });
-const CustomPersonalDataSchema = new Schema<ICustomPersonalData>({ /* ... existing ... */ }, { _id: false });
-const CustomEducationalDataSchema = new Schema<ICustomEducationalData>({ /* ... existing ... */ }, { _id: false });
 
-const TargetUniversitySchema = new Schema({
-    universityId: { type: Schema.Types.ObjectId, ref: 'University' },
-    universityName: { type: String, required: true },
-    applicationStatus: { type: String, required: true },
-    programOfInterest: { type: String },
+// Schema for Personal Data (Nested)
+const CustomPersonalDataSchema = new Schema<ICustomPersonalData>({
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    dateOfBirth: { type: String }, // Or Date
+    gender: { type: String, enum: ['male', 'female', 'non-binary', 'other', 'prefer_not_to_say', ''] },
+    nationality: { type: String, trim: true },
+    countryOfResidence: { type: String, trim: true },
+    streetAddress: { type: String, trim: true },
+    city: { type: String, trim: true },
+    stateProvince: { type: String, trim: true },
+    postalCode: { type: String, trim: true },
+    addressCountry: { type: String, trim: true },
+    passportNumber: { type: String, trim: true },
+    passportExpiryDate: { type: String }, // Or Date
+    emergencyContactName: { type: String, trim: true },
+    emergencyContactRelationship: { type: String, trim: true },
+    emergencyContactPhone: { type: String, trim: true },
+    emergencyContactEmail: { type: String, trim: true, lowercase: true },
+}, { _id: false }); // No separate _id for this subdocument
+
+// Schema for Education Entry (Array of Subdocuments)
+const EducationEntrySchema = new Schema<IEducationEntry>({
+    // id: { type: String, required: true }, // Not needed if Mongoose _id is sufficient, frontend can use _id
+    institutionName: { type: String, trim: true },
+    institutionCountry: { type: String, trim: true },
+    institutionCity: { type: String, trim: true },
+    degreeName: { type: String, trim: true },
+    fieldOfStudy: { type: String, trim: true },
+    graduationYear: { type: String }, // Could be Number
+    graduationMonth: { type: String }, // Could be Number (1-12)
+    gpa: { type: String },
+    gradingScale: { type: String },
+}, { _id: true }); // Each education entry gets its own _id, useful for array manipulations
+
+// Schema for Language Proficiency (Nested)
+const LanguageProficiencySchema = new Schema<ILanguageProficiency>({
+    isNativeEnglishSpeaker: { type: String, enum: ['yes', 'no', ''] },
+    testTaken: { type: String, enum: ['TOEFL', 'IELTS', 'Duolingo', 'Cambridge', 'Other', ''] },
+    overallScore: { type: String },
+    testDate: { type: String }, // Or Date
 }, { _id: false });
 
+// Schema for Standardized Test (Array of Subdocuments)
+const StandardizedTestSchema = new Schema<IStandardizedTest>({
+    // id: { type: String, required: true }, // Not needed if Mongoose _id is sufficient
+    testName: { type: String, trim: true },
+    score: { type: String },
+    dateTaken: { type: String }, // Or Date
+}, { _id: true }); // Each test entry gets its own _id
+
+// Schema for Educational Data (Nested)
+const CustomEducationalDataSchema = new Schema<ICustomEducationalData>({
+    highestLevelOfEducation: {
+        type: String,
+        enum: ['High School', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctorate (PhD)", 'Other', ''],
+    },
+    previousEducation: [EducationEntrySchema],
+    languageProficiency: LanguageProficiencySchema,
+    otherStandardizedTests: [StandardizedTestSchema],
+}, { _id: false });
+
+// Schema for Target University (Array of Subdocuments)
+const TargetUniversitySchema = new Schema({
+    universityId: { type: Schema.Types.ObjectId, ref: 'University' }, // Example ref
+    universityName: { type: String, required: true, trim: true },
+    applicationStatus: { type: String, required: true, trim: true }, // Consider an enum
+    programOfInterest: { type: String, trim: true },
+}, { _id: false }); // Typically _id: false for simple embedded objects unless individual manipulation is frequent
+
+// --- Main UserProfileDetail Schema ---
 const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
     userId: {
         type: String,
         required: true,
         unique: true,
-        index: true,
+        index: true, // Important for query performance
     },
     personalData: {
         type: CustomPersonalDataSchema,
-        default: {},
+        default: () => ({ // Default to an empty object or specific initial values
+            firstName: '', lastName: '', // Align with API defaults
+            // other fields can be undefined to let Mongoose schema types handle it
+        }),
     },
     educationalData: {
         type: CustomEducationalDataSchema,
-        default: {},
+        default: () => ({ // Default for educational data
+            previousEducation: [],
+            languageProficiency: { isNativeEnglishSpeaker: '' }, // Align with API defaults
+            otherStandardizedTests: [],
+        }),
     },
     role: {
         type: String,
         enum: ['student', 'alumni', 'mentor', 'admin'],
-        default: 'student'
+        default: 'student',
     },
-    premiumTier: { // UPDATED
+    premiumTier: {
         type: String,
         enum: ['Michelangelo', 'Dante', 'da Vinci'],
-        default: 'Michelangelo' // Default new users to the free "Michelangelo" tier
+        default: 'Michelangelo',
     },
     profileVisibility: {
         type: String,
         enum: ['public', 'private', 'network_only'],
-        default: 'private'
+        default: 'private',
     },
-    languageInterests: [{ type: String }],
+    languageInterests: [{ type: String }], // Array of strings
     targetUniversities: [TargetUniversitySchema],
-    aboutMe: { type: String, trim: true },
+    aboutMe: { type: String, trim: true, maxlength: 2000 },
 }, {
-    timestamps: true,
+    timestamps: true, // Automatically adds createdAt and updatedAt
 });
 
+// --- Model Creation and Export ---
+// This pattern prevents redefining the model in Next.js hot-reload environments
 const UserProfileDetail: Model<IUserProfileDetail> =
     models.UserProfileDetail || mongoose.model<IUserProfileDetail>('UserProfileDetail', UserProfileDetailSchema);
 

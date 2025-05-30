@@ -302,6 +302,8 @@ export const translations: Record<Locale, Translation> = {
       trackedUniversitiesNoUpcomingDeadlines: "No upcoming deadlines found for this university.",
     },
     profileFieldLabels: {
+       "firstName": "First Name",
+      "lastName": "Last Name",
       tier_Michelangelo: "Michelangelo free",
       transcriptUploadNote: "Upload your academic transcript or diploma.",
       englishCertUploadNote: "Upload your English language proficiency certificate.",
@@ -1008,6 +1010,8 @@ export const translations: Record<Locale, Translation> = {
       "trackedUniversitiesNoUpcomingDeadlines": "Nessuna scadenza imminente trovata per questa università."
     },
     "profileFieldLabels": {
+      "firstName": "Nome",
+      "lastName": "Cognome",
       tier_Michelangelo: "Michelangelo gratis",
       "transcriptUploadNote": "Carica la tua trascrizione accademica o diploma.",
       "englishCertUploadNote": "Carica il tuo certificato di competenza della lingua inglese.",
@@ -1682,6 +1686,8 @@ export const translations: Record<Locale, Translation> = {
       "trackedUniversitiesNoUpcomingDeadlines": "لم يتم العثور على مواعيد نهائية قادمة لهذه الجامعة."
     },
     "profileFieldLabels": {
+       "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
       tier_Michelangelo: "مايكل أنجلو مجاني",
       "transcriptUploadNote": "قم بتحميل نسخة من كشف الدرجات أو الدبلوم الأكاديمي.",
       "englishCertUploadNote": "قم بتحميل شهادة إتقان اللغة الإنجليزية الخاصة بك.",
@@ -2425,6 +2431,8 @@ export const translations: Record<Locale, Translation> = {
       "trackedUniversitiesNoUpcomingDeadlines": "Aucune échéance à venir trouvée pour cette université."
     },
     "profileFieldLabels": {
+       "firstName": "Prénom",
+      "lastName": "Nom de famille",
       tier_Michelangelo: "Michelangelo gratuit",
       "transcriptUploadNote": "Téléchargez votre relevé de notes ou diplôme académique.",
       "englishCertUploadNote": "Téléchargez votre certificat de compétence en langue anglaise.",
