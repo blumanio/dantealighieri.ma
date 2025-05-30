@@ -473,8 +473,8 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
                 )}
                 <form onSubmit={handleSavePersonalData}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-                        {renderInputField('firstNameLabel', 'firstName', customPersonalData.firstName, handlePersonalDataChange, 'text', isEditingPersonal, true, 'firstNamePlaceholder', undefined, undefined, !user?.firstName)}
-                        {renderInputField('lastNameLabel', 'lastName', customPersonalData.lastName, handlePersonalDataChange, 'text', isEditingPersonal, true, 'lastNamePlaceholder', undefined, undefined, !user?.lastName)}
+                        {renderInputField('firstName', 'firstName', customPersonalData.firstName, handlePersonalDataChange, 'text', isEditingPersonal, true, 'firstNamePlaceholder', undefined, undefined, !user?.firstName)}
+                        {renderInputField('lastName', 'lastName', customPersonalData.lastName, handlePersonalDataChange, 'text', isEditingPersonal, true, 'lastNamePlaceholder', undefined, undefined, !user?.lastName)}
                         {renderInputField('dateOfBirthLabel', 'dateOfBirth', customPersonalData.dateOfBirth, handlePersonalDataChange, 'date', isEditingPersonal, true, undefined, undefined, CalendarIcon)}
                         {renderInputField('genderLabel', 'gender', customPersonalData.gender, handlePersonalDataChange, 'select', isEditingPersonal, false, undefined, [
                             { value: 'male', labelKey: 'genderMale' }, { value: 'female', labelKey: 'genderFemale' }, { value: 'non-binary', labelKey: 'genderNonBinary' }, { value: 'other', labelKey: 'genderOther' }, { value: 'prefer_not_to_say', labelKey: 'genderPreferNotToSay' }

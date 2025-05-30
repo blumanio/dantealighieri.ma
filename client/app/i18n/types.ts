@@ -308,10 +308,32 @@ export interface ProgramRowTranslation {
   favoriteCountTooltip: string;
   trackedCountTooltip: string;
 }
+export interface profileFieldPlaceholders {
+  "firstNamePlaceholder": string
+  "lastNamePlaceholder": string
+  "nationalityPlaceholder": string
+  "countryOfResidencePlaceholder": string
+  "streetAddressPlaceholder": string
+
+  "stateProvincePlaceholder": string
+  "postalCodePlaceholder": string
+  "passportNumberPlaceholder": string
+  "emergencyContactNamePlaceholder": string
+  "emergencyContactRelationshipPlaceholder": string
+  "emergencyContactPhonePlaceholder": string
+  "emergencyContactEmailPlaceholder": string
+  "institutionNamePlaceholder": string
+  "cityPlaceholder": string
+  "degreeNamePlaceholder": string
+  "fieldOfStudyPlaceholder": string
+  "graduationYearPlaceholder": string
+  "gpaPlaceholder": string
+  "gradingScalePlaceholder": string
+},
 export interface IProfileFieldLabels {
   // From JSON direct structure
-   firstName: string;
-      lastName: string;
+  firstName: string;
+  lastName: string;
   transcriptUploadNote: string;
   englishCertUploadNote: string;
   testReportUploadNote: string;
