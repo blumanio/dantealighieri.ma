@@ -35,18 +35,20 @@ export async function GET(req: NextRequest) {
     // Clerk's search is good for names/emails/usernames
     const clerkUserListParams: any = { limit: 1000 }; // Fetch more to filter locally for now
     if (searchTerm) {
-        clerkUserListParams.query = searchTerm;
+      clerkUserListParams.query = searchTerm;
     }
-    const clerkUsers = await clerkClient.users.getUserList(clerkUserListParams);
+    const clerk = await clerkClient();
+    const clerkUsersResponse = await clerk.users.getUserList(clerkUserListParams);
+    const clerkUsers = clerkUsersResponse.data;
 
     // 2. Fetch corresponding UserProfileDetails from your DB
     const userIdsFromClerk = clerkUsers.map(u => u.id);
     const profileQuery: any = { userId: { $in: userIdsFromClerk } };
     if (roleFilter) profileQuery.role = roleFilter;
     if (tierFilter) profileQuery.premiumTier = tierFilter;
-    
+
     const userProfiles = await UserProfileDetail.find(profileQuery).lean();
-    
+
     // 3. Combine Clerk data with your UserProfileDetail data
     const combinedUsers = clerkUsers.map(clerkUser => {
       const profile = userProfiles.find(p => p.userId === clerkUser.id);
@@ -58,14 +60,14 @@ export async function GET(req: NextRequest) {
         avatarUrl: clerkUser.imageUrl,
         role: profile?.role || 'Viaggiatore', // Default from your model
         premiumTier: profile?.premiumTier || 'Michelangelo', // Default from your model
-        createdAt: clerkUser.createdAt.toISOString(),
+        createdAt: new Date(clerkUser.createdAt).toISOString(),
         // Add any other relevant fields from profile or clerkUser
       };
     }).filter(user => { // Re-apply search term if it was broad or if profiles didn't have the search field
-        if (!searchTerm) return true;
-        return (user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                user.clerkId.toLowerCase().includes(searchTerm.toLowerCase()));
+      if (!searchTerm) return true;
+      return (user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.clerkId.toLowerCase().includes(searchTerm.toLowerCase()));
     });
 
 

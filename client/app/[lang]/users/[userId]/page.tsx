@@ -102,7 +102,7 @@ export default function UserPublicProfilePage() {
 
     return (
         <div className="flex flex-col min-h-screen bg-neutral-100">
-            
+
             <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
                 <button onClick={() => router.back()} className="mb-6 inline-flex items-center text-primary hover:text-primary-dark transition-colors">
                     <ArrowLeft size={18} className="mr-2" /> {t('common', 'backButton', { defaultValue: "Back" })}
@@ -171,7 +171,7 @@ export default function UserPublicProfilePage() {
 
                             {currentUser?.id === targetUserId && (
                                 <div className="pt-6 border-t border-neutral-200">
-                                    <Link 
+                                    <Link
                                         href={`/${language}/profile?tab=userProfileDetails`}
                                         className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-sky-600 text-white rounded-lg font-medium hover:bg-sky-700 transition-colors shadow-md hover:shadow-lg"
                                     >
@@ -191,7 +191,7 @@ export default function UserPublicProfilePage() {
                     </div>
                 )}
             </main>
-            
+
         </div>
     );
 }
