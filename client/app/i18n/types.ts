@@ -308,13 +308,13 @@ export interface ProgramRowTranslation {
   favoriteCountTooltip: string;
   trackedCountTooltip: string;
 }
-export interface profileFieldPlaceholders {
+export interface IProfileFieldPlaceholders {
   "firstNamePlaceholder": string
   "lastNamePlaceholder": string
   "nationalityPlaceholder": string
   "countryOfResidencePlaceholder": string
   "streetAddressPlaceholder": string
-
+  "countryPlaceholder": string
   "stateProvincePlaceholder": string
   "postalCodePlaceholder": string
   "passportNumberPlaceholder": string
@@ -329,6 +329,7 @@ export interface profileFieldPlaceholders {
   "graduationYearPlaceholder": string
   "gpaPlaceholder": string
   "gradingScalePlaceholder": string
+  
 }
 export interface IProfileFieldLabels {
   // From JSON direct structure
@@ -785,6 +786,7 @@ export interface Translation {
   premiumHub: PremiumHubTranslation;
   actions: ActionsTranslation;
   programRow: ProgramRowTranslation;
+  profileFieldPlaceholders: IProfileFieldPlaceholders;
 }
 
 // Type guard for checking valid locale
