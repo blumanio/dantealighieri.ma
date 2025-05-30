@@ -18,6 +18,7 @@ interface PublicProfileData {
     role?: string;
     aboutMe?: string;
     profileVisibility?: string;
+    premiumTier?: string; // Added to fix the error
     // Add other fields you made public from UserProfileDetail
     // highestEducation?: string;
 }
