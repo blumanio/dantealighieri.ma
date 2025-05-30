@@ -1237,6 +1237,7 @@ export const translations: Record<Locale, Translation> = {
       "noUsersFound": "Nessun utente trovato che corrisponda ai tuoi criteri."
     },
     "universityHubs": {
+      errorFetchingCourses: "Recupero corsi fallito.",
       "studyGroupsTab": "Gruppi di Studio",
       "discussionsTab": "Discussioni",
       "pageTitle": "Hub Universitari",
