@@ -315,7 +315,7 @@ export interface IProfileFieldLabels {
   testReportUploadNote: string;
   yes: string;
   no: string;
-
+  tier_Michelangelo: string;
   role_viaggiatore: string;
   role_studente: string; // Note: distinct from 'role_student' if both exist in JSON
   role_accademico: string;
