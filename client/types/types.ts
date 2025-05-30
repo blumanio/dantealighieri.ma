@@ -24,6 +24,7 @@ export interface Course {
   accesso: string;
   language: string;
   comune: string;
+  trackedCount: number;
 }
 
 // For academic areas
@@ -114,8 +115,8 @@ export interface ResolvedPageProps {
 // define those types separately and use them only where appropriate.
 // Avoid making these Promise-based types the default for all page props.
 export interface AsyncPageProps {
-    params: Promise<PageParams>;
-    searchParams?: Promise<PageSearchParams>;
+  params: Promise<PageParams>;
+  searchParams?: Promise<PageSearchParams>;
 }
 
 // Original Promise-based types (consider if these are truly needed or can be replaced by ResolvedPageProps)
@@ -145,7 +146,7 @@ export interface BlogPageProps {
 
 export interface BlogIndexProps {
   params: Promise<{
-      lang: string;
+    lang: string;
   }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;
 }

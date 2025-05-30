@@ -6,6 +6,7 @@ import TrackedItem from '@/lib/models/TrackedItem'; // Adjust path as necessary
 import Course from '@/lib/models/Course'; // Adjust path as necessary
 import mongoose from 'mongoose';
 import { PopulatedCourse, getUniversityDeadlinesForCourse } from '@/app/utils/deadlineUtils'; // Import from shared utils
+import { Course as CourseType } from '@/types/types';
 
 // --- GET Handler ---
 export async function GET(req: NextRequest) {
@@ -16,25 +17,31 @@ export async function GET(req: NextRequest) {
         }
         await dbConnect();
 
+        interface TrackedItemLean {
+            _id: any;
+            userId: string;
+            courseId: PopulatedCourse | null;
+            isArchived: boolean;
+            [key: string]: any;
+        }
+
         const trackedItemsFromDB = await TrackedItem.find({ userId, isArchived: false })
-            .populate<{ courseId: PopulatedCourse }>({ // Ensure PopulatedCourse matches selected fields
+            .populate<{ courseId: PopulatedCourse }>({
                 path: 'courseId',
                 model: Course,
-                select: 'nome uni tipo academicYear intake link comune area lingua _id trackedCount' // trackedCount included
+                select: 'nome uni tipo academicYear intake link comune area lingua _id trackedCount'
             })
-            .lean(); // Use .lean() for better performance with plain JS objects
-            // Removed explicit cast as populate generic should handle it better with a well-defined PopulatedCourse type.
-        
+            .lean<TrackedItemLean[]>(); // Explicitly type as array of TrackedItemLean
+
         const enrichedTrackedItems = trackedItemsFromDB.map(item => {
             // item.courseId will be null if the course was deleted after being tracked.
-            // The PopulatedCourse type allows for undefined fields if not all are required by Course schema.
-            const courseDetails = item.courseId as PopulatedCourse | null; // Cast needed if courseId can be null
+            const courseDetails = item.courseId; // Now TypeScript knows courseId exists
             const deadlines = getUniversityDeadlinesForCourse(courseDetails);
-            
+
             return {
                 ...item,
-                courseDetails: courseDetails || {}, // Ensure courseDetails is an object
-                universityDeadlines: deadlines 
+                courseDetails: courseDetails || {},
+                universityDeadlines: deadlines
             };
         });
         return NextResponse.json({ success: true, data: enrichedTrackedItems }, { status: 200 });
@@ -53,7 +60,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
         }
         const body = await req.json();
-        const { courseId, courseLink } = body; 
+        const { courseId, courseLink } = body;
 
         if (!courseId) {
             return NextResponse.json({ success: false, message: 'Course ID is required.' }, { status: 400 });
@@ -68,14 +75,14 @@ export async function POST(req: NextRequest) {
         }
 
         await dbConnect();
-        
+
         const existingItem = await TrackedItem.findOne({ userId, courseId })
             .populate<{ courseId: PopulatedCourse }>({
-                path: 'courseId', 
-                model: Course, 
+                path: 'courseId',
+                model: Course,
                 select: 'nome uni comune academicYear _id trackedCount' // trackedCount included
             })
-            .lean();
+
 
         if (existingItem) {
             const courseDetails = existingItem.courseId as PopulatedCourse | null;
@@ -91,24 +98,23 @@ export async function POST(req: NextRequest) {
         await newTrackedItem.save();
 
         const updatedCourse = await Course.findByIdAndUpdate(
-            courseId, 
+            courseId,
             { $inc: { trackedCount: 1 } },
             { new: true, runValidators: true, lean: true } // Added lean for consistency if only data is needed
         );
-        
+
         if (!updatedCourse) {
             console.error(`[API/TRACKED-ITEMS] POST: Course with ID ${courseId} not found. Failed to increment trackedCount. Rolling back TrackedItem creation (ID: ${newTrackedItem._id}).`);
             await TrackedItem.findByIdAndDelete(newTrackedItem._id);
             return NextResponse.json({ success: false, message: `Course with ID ${courseId} not found. Tracked item not saved.` }, { status: 404 });
         }
-        console.log(`[API/TRACKED-ITEMS] POST: Incremented trackedCount for Course ID: ${courseId}. New count: ${updatedCourse.trackedCount}`);
-        
+        console.log(`[API/TRACKED-ITEMS] POST: Incremented trackedCount for Course ID: ${courseId}. New count: ${(updatedCourse as { trackedCount?: number }).trackedCount}`);
+
         const populatedNewItem = await TrackedItem.findById(newTrackedItem._id)
-            .populate<{ courseId: PopulatedCourse }>({ 
-                path: 'courseId', model: Course, 
+            .populate<{ courseId: PopulatedCourse }>({
+                path: 'courseId', model: Course,
                 select: 'nome uni tipo academicYear intake link comune area lingua _id trackedCount' // trackedCount included
-            })
-            .lean();
+            });
 
         if (!populatedNewItem) {
             console.error(`[API/TRACKED-ITEMS] POST: Failed to retrieve populated tracked item (ID: ${newTrackedItem._id}) after creation. Course trackedCount was incremented for Course ID: ${courseId}. This might indicate a data inconsistency.`);
@@ -116,7 +122,7 @@ export async function POST(req: NextRequest) {
             // For now, returning error as per original logic.
             return NextResponse.json({ success: false, message: 'Failed to retrieve full tracked item details after creation.' }, { status: 500 });
         }
-        
+
         const courseDetailsForNew = populatedNewItem.courseId as PopulatedCourse | null;
         const itemToSend = {
             ...populatedNewItem,
@@ -159,7 +165,7 @@ export async function DELETE(req: NextRequest) {
 
         await dbConnect();
         // Find the item first to get courseId for decrementing trackedCount
-        const itemToDelete = await TrackedItem.findOne({ _id: trackedItemId, userId }).lean();
+        const itemToDelete = await TrackedItem.findOne({ _id: trackedItemId, userId }).lean() as { _id: any; courseId?: any };
 
         if (!itemToDelete) {
             return NextResponse.json({ success: false, message: 'Tracked item not found or user not authorized.' }, { status: 404 });
@@ -171,7 +177,7 @@ export async function DELETE(req: NextRequest) {
         // Decrement trackedCount on the Course model
         if (itemToDelete.courseId) {
             const updatedCourse = await Course.findByIdAndUpdate(
-                itemToDelete.courseId, 
+                itemToDelete.courseId,
                 { $inc: { trackedCount: -1 } },
                 { new: true, runValidators: true, lean: true }
             );
@@ -179,7 +185,7 @@ export async function DELETE(req: NextRequest) {
             if (!updatedCourse) {
                 console.warn(`[API/TRACKED-ITEMS] DELETE: Course ID ${itemToDelete.courseId} (from deleted TrackedItem ${itemToDelete._id}) was not found in Courses collection during trackedCount decrement. Count on this course might be inaccurate.`);
             } else {
-                console.log(`[API/TRACKED-ITEMS] DELETE: Decremented trackedCount for Course ID: ${itemToDelete.courseId}. New count: ${updatedCourse.trackedCount}`);
+                console.log(`[API/TRACKED-ITEMS] DELETE: Decremented trackedCount for Course ID: ${itemToDelete.courseId}. New count: ${(updatedCourse as { trackedCount?: number }).trackedCount}`);
             }
         } else {
             console.warn(`[API/TRACKED-ITEMS] DELETE: Tracked item ${itemToDelete._id} did not have a courseId. trackedCount not decremented.`);
