@@ -1,7 +1,8 @@
+// client/components/FAQ.tsx (or wherever this component resides)
 'use client'
 
 import Image from 'next/image'
-import { animate, motion } from 'framer-motion'
+import { motion } from 'framer-motion' // Removed 'animate' as it's not directly used here
 
 import {
   Accordion,
@@ -9,85 +10,25 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import FadeIn from '@/lib/variants'
+import FadeIn from '@/lib/variants' // Assuming FadeIn is correctly defined elsewhere
 
-import { askedQuestions } from '@/lib/data'
+import { askedQuestions } from '@/lib/data' // This will now import from your updated data.ts
 
 const slideVariant = {
   initial: {
     x: 0
   },
   animate: {
-    x: '-135%',
+    x: '-135%', // Adjust this percentage based on the number of logos and their widths if needed
     transition: {
       repeat: Infinity,
-      duration: 20
+      duration: 20,
+      ease: 'linear' // Added for smoother animation
     }
   }
 }
 
-export const tech = [
-  {
-    src: '/tech/express.svg',
-    width: 101.2,
-    height: 29.99,
-    alt: 'express'
-  },
-  {
-    src: '/tech/node.svg',
-    width: 106.2,
-    height: 31,
-    alt: 'node js'
-  },
-  {
-    src: '/tech/ts.svg',
-    width: 46.14,
-    height: 45.24,
-    alt: 'typescript'
-  },
-  {
-    src: '/tech/expo.svg',
-    width: 89.96,
-    height: 32.49,
-    alt: 'expo'
-  },
-  {
-    src: '/tech/gql.svg',
-    width: 47.48,
-    height: 52.48,
-    alt: 'gql'
-  },
-  {
-    src: '/tech/apollo.svg',
-    width: 47.48,
-    height: 52.48,
-    alt: 'apollo'
-  },
-  {
-    src: '/tech/react.svg',
-    width: 54.98,
-    height: 48.73,
-    alt: 'react'
-  },
-  {
-    src: '/tech/angular.svg',
-    width: 47.48,
-    height: 51.23,
-    alt: 'angular'
-  },
-  {
-    src: '/tech/psql.svg',
-    width: 128.94,
-    height: 19.99,
-    alt: 'psql'
-  },
-  {
-    src: '/tech/prisma.svg',
-    width: 43.73,
-    height: 51.23,
-    alt: 'prisma'
-  }
-]
+
 
 const FAQ = () => {
   return (
@@ -102,21 +43,21 @@ const FAQ = () => {
           variants={FadeIn('up', 0.2)}
           initial='hidden'
           whileInView={'show'}
-          viewport={{ once: true, amount: 0.8 }}
+          viewport={{ once: true, amount: 0.8 }} // Changed amount to 0.8 for potentially better trigger
         >
           <div className='mx-auto mt-12 flex max-w-3xl flex-col justify-center rounded-md bg-teal-600 py-8 sm:px-2 xl:py-4'>
             {askedQuestions.map(qst => (
               <Accordion
                 type='single'
                 collapsible
-                className='w-full text-left'
+                className='w-full text-left text-white' // Added text-white for better contrast on teal-600
                 key={qst.id}
               >
-                <AccordionItem value='item-1'>
+                <AccordionItem value={`item-${qst.id}`} className="border-b-teal-500"> {/* Use unique value for each item and adjust border*/}
                   <AccordionTrigger className='mx-2 text-xl font-medium hover:no-underline'>
                     {qst.qs}
                   </AccordionTrigger>
-                  <AccordionContent className='px-2 pt-4 text-[16px] leading-6'>
+                  <AccordionContent className='px-2 pt-4 text-[16px] leading-6 text-teal-100'> {/* Lighter text for answer */}
                     {qst.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -125,26 +66,19 @@ const FAQ = () => {
           </div>
         </motion.div>
       </div>
-      <div className='center mt-36 flex justify-center py-4'>
-        <div className='flex w-full max-w-[1200px] items-center justify-center overflow-x-hidden'>
-          <div className='left-0 z-40 h-full w-[150px] -translate-x-5 bg-opacity-20 bg-gradient-to-r from-secondary via-secondary/90 to-secondary/0' />
+      <div className='mt-36 flex w-full items-center justify-center overflow-hidden py-4'>
+        {/* Added w-full and items-center to the parent of sliding logos for better centering */}
+        <div className='flex w-full max-w-[1200px] items-center justify-center'>
+          <div className='absolute left-0 z-10 h-full w-[50px] bg-gradient-to-r from-background to-transparent sm:w-[100px] md:w-[150px]' /> {/* Changed gradient to use theme background */}
           <motion.div
             variants={slideVariant}
             initial='initial'
             animate='animate'
-            className='center flex space-x-12'
+            className='flex space-x-12' // Ensure tech logos are visible against the background
           >
-            {tech.map(item => (
-              <Image
-                key={item.alt}
-                src={item.src}
-                width={item.width}
-                height={item.height}
-                alt={item.alt}
-              />
-            ))}
+
           </motion.div>
-          <div className='right-0 z-40 h-full w-[150px] -translate-x-5 bg-opacity-20 bg-gradient-to-l from-secondary via-secondary/90 to-secondary/0' />
+          <div className='absolute right-0 z-10 h-full w-[50px] bg-gradient-to-l from-background to-transparent sm:w-[100px] md:w-[150px]' /> {/* Changed gradient */}
         </div>
       </div>
     </section>

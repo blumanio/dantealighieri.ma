@@ -25,7 +25,34 @@ import {
 
 
 
-
+export const askedQuestions = [
+  {
+    id: '1',
+    qs: 'What services do you offer?',
+    answer: 'We offer a comprehensive suite of services to help students apply to Italian universities, including personalized guidance, document preparation, pre-enrollment assistance, and scholarship support.'
+  },
+  {
+    id: '2',
+    qs: 'How can I track my application deadlines?',
+    answer: 'Our platform features a personalized deadline tracker. Once you add courses you are interested in, we help you monitor important dates. For official university deadlines, you can also check their respective websites.'
+  },
+  {
+    id: '3',
+    qs: 'Do you provide assistance for visa applications?',
+    answer: 'Yes, we provide guidance on the visa application process, including document checklists and information on pre-enrollment procedures via Universitaly for non-EU students.'
+  },
+  {
+    id: '4',
+    qs: 'Are there resources for finding accommodation?',
+    answer: 'While we don\'t directly provide housing, our university hub pages will feature community sections where students can connect to discuss housing options and share resources.'
+  },
+  {
+    id: '5',
+    qs: 'How much does it cost to study in Italy?',
+    answer: 'Tuition fees vary widely depending on the university (public or private) and the program. Living costs also differ by city. Our "Italian University City Cost Explorer" can give you estimates for various locations.'
+  }
+  // Add more questions as needed
+];
 
 
 
