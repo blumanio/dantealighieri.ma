@@ -314,7 +314,6 @@ export async function getUniversityDeadlinesForCourse(course?: PopulatedCourse |
             upcomingIntakes.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
 
             deadlines = upcomingIntakes.map((intake, idx) => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { dateObj, ...rest } = intake;
                 return { ...rest, isNearest: idx === 0, totalUpcomingIntakesCount: upcomingIntakes.length };
             });
