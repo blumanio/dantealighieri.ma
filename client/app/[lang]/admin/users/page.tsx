@@ -48,7 +48,7 @@ async function fetchAdminUsers(page = 1, limit = 10, searchTerm = '', roleFilter
 
 export default function AdminUsersPage() { // params removed from props
   const routeParams = useParams(); // Use the hook instead
-  const lang = typeof routeParams.lang === 'string' ? routeParams.lang : 'en'; // Default to 'en'
+  const lang = typeof routeParams?.lang === 'string' ? routeParams.lang : 'en'; // Default to 'en'
 
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);

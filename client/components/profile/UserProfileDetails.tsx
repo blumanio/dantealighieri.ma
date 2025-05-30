@@ -175,7 +175,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
         }));
     };
 
-    const handleEducationEntryChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleEducationEntryChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         const updatedEntries = [...(customEducationalData.previousEducation || [])];
         updatedEntries[index] = { ...updatedEntries[index], id: updatedEntries[index].id || Date.now().toString() , [name]: value }; // Ensure ID exists
@@ -197,7 +197,7 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = ({ t, lang }) => {
     };
 
 
-    const handleStandardizedTestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleStandardizedTestChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         const updatedTests = [...(customEducationalData.otherStandardizedTests || [])];
         updatedTests[index] = { ...updatedTests[index], id: updatedTests[index].id || Date.now().toString(), [name]: value }; // Ensure ID exists

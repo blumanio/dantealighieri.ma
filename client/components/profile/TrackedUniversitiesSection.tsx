@@ -8,7 +8,7 @@ import { useUser } from '@clerk/nextjs';
 import { Loader2, Info, CalendarPlus } from 'lucide-react';
 import TrackedUniversityItem from './TrackedUniversityItem';
 import { University } from '@/components/UniversityCard'; // Re-use the extended University type
-import { italianUniversities } from '@/lib/data'; // Using static data as a mock source
+//import { italianUniversities } from '@/lib/data'; // Using static data as a mock source
 import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 
@@ -19,7 +19,28 @@ const TrackedUniversitiesSection: React.FC = () => {
     const [trackedUniversityItems, setTrackedUniversityItems] = useState<University[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    const [italianUniversities, setItalianUniversities] = useState<University[]>([]);
+    const _t :any = t
+    useEffect(() => {
+        const fetchUniversities = async () => {
+            try {
+                const uniResponse = await fetch('/api/universities');
+                if (!uniResponse.ok) {
+                    throw new Error(`Failed to fetch universities: ${uniResponse.statusText}`);
+                }
+                const fetchedUniData = await uniResponse.json();
+                setItalianUniversities(fetchedUniData.data || []);
+                // Ensure the data from API has _id and the count fields
+                if (!fetchedUniData.success) {
+                    throw new Error(fetchedUniData.message || 'Failed to fetch universities from API.');
+                }
+                // You can use fetchedUniData here if needed
+            } catch (error) {
+                // Handle error if needed
+            }
+        };
+        fetchUniversities();
+    }, [isLoaded, isSignedIn]);
     useEffect(() => {
         const fetchTrackedUniversities = async () => {
             if (!user) return;
@@ -35,7 +56,8 @@ const TrackedUniversitiesSection: React.FC = () => {
                 // Example: Assume user is tracking universities with ID 1, 3, 5
                 const trackedIds = [1, 3, 5]; // This would come from your backend
 
-                const foundTracked = italianUniversities.filter(uni => trackedIds.includes(uni.id))
+                const foundTracked = italianUniversities
+                    .filter(uni => typeof uni.id === 'number' && trackedIds.includes(uni.id))
                     .map(uni => ({
                         ...uni,
                         // Simulate that these come from a "tracked items" DB record for this user
@@ -112,7 +134,7 @@ const TrackedUniversitiesSection: React.FC = () => {
                             key={uni.id}
                             university={uni}
                             onUntrack={handleUntrackUniversity}
-                            t={t}
+                            t={_t}
                         />
                     ))}
                 </div>

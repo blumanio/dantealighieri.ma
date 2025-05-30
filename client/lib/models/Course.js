@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const DeadlineSchema = new Schema({ /* ... */ });
-
 const courseSchema = new Schema({
   nome: { type: String, trim: true },
   link: { type: String, trim: true },
@@ -32,7 +31,7 @@ const courseSchema = new Schema({
 });
 
 // Pre-save hook to auto-generate uniSlug
-courseSchema.pre('save', function(next) {
+courseSchema.pre('save', function (next) {
   if (this.isModified('uni') || !this.uniSlug) { // Also generate if uniSlug is missing
     if (this.uni) {
       this.uniSlug = this.uni.toLowerCase()
@@ -51,7 +50,7 @@ courseSchema.pre('save', function(next) {
         .replace(/-+/g, '-')
         .replace(/^-+|-+$/g, '');
     } else {
-        this.uniSlug = undefined; // Or handle as an error if uni is required
+      this.uniSlug = undefined; // Or handle as an error if uni is required
     }
   }
   next();

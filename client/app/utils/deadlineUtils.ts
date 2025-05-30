@@ -1,11 +1,11 @@
 // client/lib/utils/deadlineUtils.ts
 import mongoose from 'mongoose';
-import type { Course } from '@/lib/models/Course'; // Adjust path as necessary
 import type { IUniversity } from '@/lib/models/University'; // Assuming this is your API's university type
 import { parseDeadlineDateString } from '@/lib/data'; // Adjust path as necessary
 
 // Define PopulatedCourse type based on Course and selected fields
 // This type is used by both API routes when populating course details.
+import { Course } from '@/types/types';
 export type PopulatedCourse = Omit<Course, '_id' | 'createdAt' | 'updatedAt' | 'deadlines'> & {
     _id: mongoose.Types.ObjectId;
     uni?: string;          // University name as potentially stored in the course
@@ -22,9 +22,10 @@ export type PopulatedCourse = Omit<Course, '_id' | 'createdAt' | 'updatedAt' | '
 
 // This will be the type for university data fetched from your API
 // Ensure it aligns with your actual IUniversity model structure for the fields used.
-type ApiUniversity = Pick<IUniversity, '_id' | 'name' | 'city' | 'region' | 'intakes' | 'application_link'> & {
+type ApiUniversity = Pick<IUniversity, '_id' | 'name' | 'city' | 'intakes' | 'application_link'> & {
     // Add any other fields from IUniversity if they are used by the matching or deadline processing logic
     // For example, if 'status' or 'scholarship_available' were used for filtering/logic.
+    region?: string; // Add region as optional if you still want to use it in your logic
 };
 
 const MOCK_DEADLINE_ID_COUNTER = { count: 0 };
@@ -93,7 +94,7 @@ async function fetchUniversitiesFromApi(queryParams: string = ''): Promise<ApiUn
             })) as ApiUniversity[];
         }
         if (result.success && result.data && typeof result.data === 'object' && !Array.isArray(result.data)) {
-             return [{ ...result.data, _id: result.data._id.toString() }] as ApiUniversity[];
+            return [{ ...result.data, _id: result.data._id.toString() }] as ApiUniversity[];
         }
         console.warn('[API Fetch] Universities data not found or in unexpected format:', result);
         return [];
@@ -144,10 +145,10 @@ function findBestMatchFromList(
 
     // City matching using 'city' or 'region' fields from ApiUniversity
     const cityToSearchFor = comuneLower || (nameLower && knownCities.includes(nameLower) ? nameLower : undefined);
-    
+
     if (cityToSearchFor && knownCities.includes(cityToSearchFor)) {
         console.log(`[Util Matcher] Trying city-based match with city: "${cityToSearchFor}"`);
-        const cityMatches = universities.filter(uni => 
+        const cityMatches = universities.filter(uni =>
             (uni.city && uni.city.toLowerCase().includes(cityToSearchFor)) ||
             (uni.region && uni.region.toLowerCase().includes(cityToSearchFor))
         );
@@ -158,7 +159,7 @@ function findBestMatchFromList(
         } else if (cityMatches.length > 1) {
             console.log(`[Util Matcher] Found ${cityMatches.length} universities in city "${cityToSearchFor}". Trying to disambiguate with course.uni: "${nameLower}"`);
             if (nameLower) {
-                const specificMatchInCity = cityMatches.find(uni => 
+                const specificMatchInCity = cityMatches.find(uni =>
                     uni.name.toLowerCase().includes(nameLower)
                 );
                 if (specificMatchInCity) {
@@ -203,7 +204,7 @@ async function findUniversityViaApi(courseUniName?: string, courseComune?: strin
     } else {
         return undefined; // Should not happen due to initial check
     }
-    
+
     fetchedUniversities = await fetchUniversitiesFromApi(queryParams);
 
     if (fetchedUniversities.length === 0 && courseUniName && courseComune) {
@@ -212,7 +213,7 @@ async function findUniversityViaApi(courseUniName?: string, courseComune?: strin
         queryParams = `search=${encodeURIComponent(courseUniName)}&limit=10`;
         fetchedUniversities = await fetchUniversitiesFromApi(queryParams);
     }
-    
+
     if (fetchedUniversities.length === 0 && courseUniName && courseComune) {
         // Fallback: if name search also failed, try only by city
         console.log(`[Util FindAPI] Name search yielded no results. Fallback to search by city only: "${courseComune}"`);
@@ -229,7 +230,7 @@ async function findUniversityViaApi(courseUniName?: string, courseComune?: strin
         console.log(`[Util FindAPI] Found 1 direct match from API: ${fetchedUniversities[0].name}`);
         return fetchedUniversities[0];
     }
-    
+
     // If API returned multiple candidates, use the detailed matching logic
     console.log(`[Util FindAPI] API returned ${fetchedUniversities.length} candidates. Applying detailed matching...`);
     return findBestMatchFromList(fetchedUniversities, courseUniName, courseComune);
@@ -255,7 +256,7 @@ export async function getUniversityDeadlinesForCourse(course?: PopulatedCourse |
             referenceYearForMock = parseInt(yearMatch[1], 10);
         }
     }
-    
+
     if (!course || (!course.uni && !course.comune)) {
         console.log("[Util GetDeadlines] No course data or (uni and comune) for lookup, returning mock.");
         return createMockDeadlines(course?.nome, referenceYearForMock);
@@ -263,7 +264,7 @@ export async function getUniversityDeadlinesForCourse(course?: PopulatedCourse |
 
     // Fetch university data using the API
     const universityData = await findUniversityViaApi(course.uni, course.comune);
-    
+
     if (universityData && universityData.intakes && universityData.intakes.length > 0) {
         let relevantYearStartForParsing: number = currentYear;
         if (course.academicYear) {
@@ -284,21 +285,21 @@ export async function getUniversityDeadlinesForCourse(course?: PopulatedCourse |
                 const parsedStartDate = (typeof intake.start_date === 'string' && intake.start_date)
                     ? parseDeadlineDateString(intake.start_date, relevantYearStartForParsing)
                     : null;
-                
+
                 if (!parsedEndDate) {
-                    console.log(`[Util GetDeadlines] Could not parse end_date "${intake.end_date}" for intake "${intake.name || `Intake ${index+1}`}" of uni "${universityData.name}" with yearStart ${relevantYearStartForParsing}. Skipping.`);
+                    console.log(`[Util GetDeadlines] Could not parse end_date "${intake.end_date}" for intake "${intake.name || `Intake ${index + 1}`}" of uni "${universityData.name}" with yearStart ${relevantYearStartForParsing}. Skipping.`);
                     return null;
                 }
 
                 return {
                     deadlineType: intake.name || `Intake ${index + 1}`,
                     date: parsedEndDate.toISOString(),
-                    dateObj: parsedEndDate, 
+                    dateObj: parsedEndDate,
                     startDate: parsedStartDate ? parsedStartDate.toISOString() : null,
-                    description: String(intake.notes || ''), 
-                    isRollingAdmission: (!intake.start_date && !intake.end_date && !(intake.name||"").toLowerCase().includes("deadline")),
+                    description: String(intake.notes || ''),
+                    isRollingAdmission: (!intake.start_date && !intake.end_date && !(intake.name || "").toLowerCase().includes("deadline")),
                     relatedLink: universityData.application_link || undefined, // Use application_link consistently
-                    _id: `${universityData._id}-intake-${index}-${(intake.name || 'general').replace(/\s+/g, '_').slice(0,20)}`, // Use uni._id
+                    _id: `${universityData._id}-intake-${index}-${(intake.name || 'general').replace(/\s+/g, '_').slice(0, 20)}`, // Use uni._id
                     source: 'real' as const
                 };
             })
@@ -306,19 +307,19 @@ export async function getUniversityDeadlinesForCourse(course?: PopulatedCourse |
 
         const today = new Date();
         today.setUTCHours(0, 0, 0, 0);
-        
+
         let upcomingIntakes = processedIntakes.filter(d => d.dateObj >= today);
 
         if (upcomingIntakes.length > 0) {
             upcomingIntakes.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
-            
+
             deadlines = upcomingIntakes.map((intake, idx) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { dateObj, ...rest } = intake;
                 return { ...rest, isNearest: idx === 0, totalUpcomingIntakesCount: upcomingIntakes.length };
             });
         }
-        
+
         console.log(`[Util GetDeadlines] Processed ${deadlines.length} upcoming real deadlines for course "${course.nome}" (Uni: ${course.uni}, Matched Uni: ${universityData.name}).`);
     }
 

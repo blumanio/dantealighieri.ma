@@ -22,7 +22,7 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
     const [status, setStatus] = useState<'Open' | 'Closed' | 'Coming Soon' | 'TBA'>('TBA');
     const [deadlines, setDeadlines] = useState<any[]>([]);
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const _t: any = t;
     useEffect(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -35,7 +35,7 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
             university.intakes.forEach((intake, index) => {
                 const startDate = intake.start_date ? parseDeadlineDateString(intake.start_date, today.getFullYear()) : null;
                 const endDate = intake.end_date ? parseDeadlineDateString(intake.end_date, today.getFullYear()) : null;
-                
+
                 if (endDate && endDate >= today) { // Only consider upcoming or ongoing
                     processedDeadlines.push({
                         id: `${university.id}-intake-${index}`,
@@ -55,11 +55,11 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
                     hasFutureIntakes = true;
                 }
             });
-            
+
             processedDeadlines.sort((a, b) => a.date.getTime() - b.date.getTime());
             setDeadlines(processedDeadlines);
         }
-        
+
         if (isOpen) setStatus('Open');
         else if (hasFutureIntakes) setStatus('Coming Soon');
         else if (university.intakes && university.intakes.length > 0) setStatus('Closed');
@@ -73,10 +73,12 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 700));
         console.log(`Placeholder: Untracked university ${university.id}`);
-        onUntrack(university.id); // Callback to parent to update its state
+        if (university.id !== undefined) {
+            onUntrack(university.id); // Callback to parent to update its state
+        }
         setIsUntracking(false);
     };
-    
+
     const statusText = t('universities', status.toLowerCase().replace(/\s+/g, ''), { defaultValue: status });
     let statusColorClass = 'bg-gray-100 text-gray-700';
     if (status === 'Open') statusColorClass = 'bg-green-100 text-green-700';
@@ -93,7 +95,7 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
                             {university.name}
                         </Link>
                     </h4>
-                    <p className="text-sm text-neutral-600 flex items-center"><MapPin size={14} className="mr-1 text-neutral-400"/>{university.location}</p>
+                    <p className="text-sm text-neutral-600 flex items-center"><MapPin size={14} className="mr-1 text-neutral-400" />{university.location}</p>
                     <span className={`mt-1 inline-block px-2 py-0.5 text-xs font-medium rounded-full ${statusColorClass}`}>
                         {statusText}
                     </span>
@@ -109,12 +111,12 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
             </div>
 
             {deadlines.length > 0 && (
-                 <div className="mt-3 pt-3 border-t border-neutral-100">
-                    <button 
+                <div className="mt-3 pt-3 border-t border-neutral-100">
+                    <button
                         onClick={() => setIsExpanded(!isExpanded)}
                         className="text-sm text-primary hover:underline flex items-center w-full justify-between"
                     >
-                        <span>{isExpanded ? t('common','hideDeadlines') : t('common','showDeadlines', {count: deadlines.length})}</span>
+                        <span>{isExpanded ? t('common', 'hideDeadlines') : t('common', 'showDeadlines', { count: deadlines.length })}</span>
                         {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                     </button>
                     {isExpanded && (
@@ -133,7 +135,7 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
                                             </p>
                                         </div>
                                     </div>
-                                     {university.application_link && (
+                                    {university.application_link && (
                                         <a href={university.application_link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline inline-flex items-center mt-1">
                                             {t('common', 'moreInfo')} <LinkIcon size={12} className="ml-1" />
                                         </a>
@@ -145,7 +147,7 @@ const TrackedUniversityItem: React.FC<TrackedUniversityItemProps> = ({ universit
                 </div>
             )}
             {deadlines.length === 0 && (
-                 <p className="text-xs text-neutral-500 mt-2 pt-2 border-t border-neutral-100">{t('profile','trackedUniversitiesNoUpcomingDeadlines')}</p>
+                <p className="text-xs text-neutral-500 mt-2 pt-2 border-t border-neutral-100">{t('profile', 'trackedUniversitiesNoUpcomingDeadlines')}</p>
             )}
         </div>
     );
