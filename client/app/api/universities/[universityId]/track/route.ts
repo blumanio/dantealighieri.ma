@@ -102,11 +102,15 @@ export async function DELETE(
 
         if (!deletedTrackedItem) {
             const currentUniversity = await University.findById(universityId).select('trackedCount name').lean();
+            const trackedCount =
+                currentUniversity && !Array.isArray(currentUniversity)
+                    ? (currentUniversity as { trackedCount?: number }).trackedCount
+                    : undefined;
             return NextResponse.json(
                 {
                     success: false,
                     message: 'Tracked item not found or user not authorized to delete this specific track link.',
-                    trackedCount: currentUniversity?.trackedCount
+                    trackedCount
                 },
                 { status: 404 }
             );
