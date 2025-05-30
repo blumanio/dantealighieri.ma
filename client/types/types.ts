@@ -150,3 +150,17 @@ export interface BlogIndexProps {
   }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined; }>;
 }
+
+export interface IConversation {
+  _id: string;
+  participants: string[];
+  messages: IMessage[];
+}
+
+export interface IMessage {
+   _id: string;
+    sender: string;
+    content: string;
+    readBy?: string[];
+    createdAt: string | Date;
+}

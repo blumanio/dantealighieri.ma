@@ -5,7 +5,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useLanguage } from '@/context/LanguageContext';
 import { Loader2, Send, PlusCircle, UserPlus, Search, AlertTriangle, Info, UserCircle, MessageSquare } from 'lucide-react';
-import { IConversation, IMessage } from '@/lib/models/Message'; // Adjust path if your models are elsewhere
+import { IConversation, IMessage } from '@/types/types';
 
 interface ConversationWithDetails extends IConversation {
     _id: string; 
@@ -16,6 +16,15 @@ interface ConversationWithDetails extends IConversation {
         role?: string;
     };
     unreadCount?: number; 
+    updatedAt?: string | Date;
+    lastMessage?: {
+        content: string;
+        senderId: string;
+        timestamp?: string | Date;
+        sender?: {
+            id: string;
+        };
+    };
 }
 
 interface SearchedUser {
@@ -125,7 +134,15 @@ const MessagingSection: React.FC<{initialConversationId?: string | null}> = ({ i
                 setNewMessageContent('');
                 setConversations(prevConvos => prevConvos.map(c => 
                     c._id === selectedConversation._id 
-                    ? { ...c, lastMessage: { content: data.data.content, senderId: data.data.senderId, timestamp: new Date(data.data.createdAt) }, updatedAt: data.data.createdAt } // Add updatedAt to reflect new message time
+                    ? { 
+                        ...c, 
+                        lastMessage: { 
+                            content: data.data.content, 
+                            senderId: data.data.sender, 
+                            timestamp: new Date(data.data.createdAt) 
+                        }, 
+                        updatedAt: data.data.createdAt 
+                    }
                     : c
                 ).sort((a, b) => new Date(b.updatedAt || 0).getTime() - new Date(a.updatedAt || 0).getTime())); 
             } else {
@@ -204,7 +221,7 @@ const MessagingSection: React.FC<{initialConversationId?: string | null}> = ({ i
     }, [searchUserTerm, handleUserSearch]);
 
 
-    if (!isSignedIn && isLoaded) {
+    if (!isSignedIn && user !== undefined) {
         return <div className="p-6 text-center text-neutral-600">{t('profile', 'signInToViewMessages', {defaultValue: 'Please sign in to view your messages.'})}</div>;
     }
     if (isLoadingConversations && conversations.length === 0) { // Show loader only on initial full load
@@ -246,7 +263,7 @@ const MessagingSection: React.FC<{initialConversationId?: string | null}> = ({ i
                                     {convo.updatedAt && <p className="text-xs text-neutral-400 flex-shrink-0 ml-2">{new Date(convo.updatedAt).toLocaleTimeString(language, {hour:'2-digit', minute:'2-digit'})}</p>}
                                 </div>
                                 <p className={`text-xs truncate ${convo.unreadCount && convo.unreadCount > 0 ? 'text-primary font-semibold' : 'text-textSecondary'}`}>
-                                    {convo.lastMessage?.senderId === user?.id && "You: "}
+                                    {convo.lastMessage?.sender === user?.id && "You: "}
                                     {convo.lastMessage?.content || t('messaging','draftMessage', {defaultValue:'Draft...'})}
                                 </p>
                             </div>
@@ -282,17 +299,17 @@ const MessagingSection: React.FC<{initialConversationId?: string | null}> = ({ i
                                 </div>
                             ) : (
                                 messages.map(msg => (
-                                    <div key={msg._id} className={`flex ${msg.senderId === user?.id ? (language === 'ar' ? 'justify-start' : 'justify-end') : (language === 'ar' ? 'justify-end' : 'justify-start')}`}>
+                                    <div key={msg._id} className={`flex ${msg.sender === user?.id ? (language === 'ar' ? 'justify-start' : 'justify-end') : (language === 'ar' ? 'justify-end' : 'justify-start')}`}>
                                         <div className={`max-w-[70%] p-2.5 rounded-xl shadow-sm ${
-                                            msg.senderId === user?.id 
+                                            msg.sender === user?.id 
                                             ? 'bg-primary text-white ' + (language === 'ar' ? 'rounded-bl-none' : 'rounded-br-none')
                                             : 'bg-neutral-100 text-textPrimary ' + (language === 'ar' ? 'rounded-br-none' : 'rounded-bl-none')
                                         }`}>
                                             <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                                            <p className={`text-[0.65rem] mt-1 ${msg.senderId === user?.id ? 'text-primary-light/80 text-right' : 'text-neutral-400 text-left'}`}>
+                                            <p className={`text-[0.65rem] mt-1 ${msg.sender === user?.id ? 'text-primary-light/80 text-right' : 'text-neutral-400 text-left'}`}>
                                                 {new Date(msg.createdAt).toLocaleTimeString(language, {hour:'2-digit', minute:'2-digit'})}
                                                 {/* Basic read receipt indication (simplified) */}
-                                                {msg.senderId === user?.id && msg.readBy && msg.readBy.length > 1 && <span className="ml-1 opacity-75">✓✓</span>}
+                                                {msg.sender === user?.id && msg.readBy && msg.readBy.length > 1 && <span className="ml-1 opacity-75">✓✓</span>}
                                             </p>
                                         </div>
                                     </div>
