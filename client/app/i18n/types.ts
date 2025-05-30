@@ -329,7 +329,7 @@ export interface profileFieldPlaceholders {
   "graduationYearPlaceholder": string
   "gpaPlaceholder": string
   "gradingScalePlaceholder": string
-},
+}
 export interface IProfileFieldLabels {
   // From JSON direct structure
   firstName: string;
