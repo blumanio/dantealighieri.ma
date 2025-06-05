@@ -9,8 +9,8 @@ const Toast = () => {
 
  useEffect(() => {
    const timer = setTimeout(() => {
-     setIsVisible(true);
-   }, 1000);
+     setIsVisible(false);
+   }, 10000); // Auto-hide after 10 seconds
    return () => clearTimeout(timer);
  }, []);
 
@@ -23,18 +23,18 @@ const Toast = () => {
          exit={{ opacity: 0, y: 50 }}
          className="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-md z-50"
        >
-         <div className="bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-lg p-4">
+         <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg shadow-lg p-4">
            <div className="flex items-start justify-between">
              <div className="flex space-x-3">
                <div className="flex-shrink-0">
-                 <span className="text-2xl">🚀</span>
+                 <span className="text-2xl">🔧</span>
                </div>
                <div className="flex-1">
                  <p className="text-white font-medium">
-                   Coming Soon
+                   We're Working Now!
                  </p>
                  <p className="mt-1 text-sm text-white/90">
-                   IMAT and TOLC exam simulations arriving soon! Follow us for updates ✨
+                   Updating website - some features may not work as expected. We'll be back soon with lots of new exciting things! ✨
                  </p>
                </div>
              </div>
