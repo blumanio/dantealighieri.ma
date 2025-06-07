@@ -1,55 +1,37 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+// Using a rocket emoji for a more exciting "upgrade" feel.
+// You could also use ✨ (sparkles) or 🪄 (magic wand).
+import { Rocket } from 'lucide-react'; 
 
-const Toast = () => {
- const [isVisible, setIsVisible] = useState(true);
+const UpgradeBanner = () => {
+  return (
+    // The background gradient is slightly adjusted for a fresh look.
+    // A subtle shadow adds depth and separation from the content below.
+    <div className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="flex items-center">
+          
+          {/* Icon Column */}
+          <div className="flex-shrink-0 pr-4">
+            {/* Using lucide-react for a clean icon, with responsive size. */}
+            <Rocket className="h-8 w-8 text-white/90" aria-hidden="true" />
+          </div>
 
- useEffect(() => {
-   const timer = setTimeout(() => {
-     setIsVisible(false);
-   }, 10000); // Auto-hide after 10 seconds
-   return () => clearTimeout(timer);
- }, []);
+          {/* Text Column */}
+          <div className="flex-1 text-white">
+            <p className="font-bold text-base md:text-lg">
+              Exciting changes are on the way!
+            </p>
+            <p className="text-sm text-white/80 mt-1">
+              We're making things even better for you. Check back in a little while to discover our new features. It'll be worth the wait!
+            </p>
+          </div>
 
- return (
-   <AnimatePresence>
-     {isVisible && (
-       <motion.div
-         initial={{ opacity: 0, y: 50 }}
-         animate={{ opacity: 1, y: 0 }}
-         exit={{ opacity: 0, y: 50 }}
-         className="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-md z-50"
-       >
-         <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-lg shadow-lg p-4">
-           <div className="flex items-start justify-between">
-             <div className="flex space-x-3">
-               <div className="flex-shrink-0">
-                 <span className="text-2xl">🔧</span>
-               </div>
-               <div className="flex-1">
-                 <p className="text-white font-medium">
-                   We're Working Now!
-                 </p>
-                 <p className="mt-1 text-sm text-white/90">
-                   Updating website - some features may not work as expected. We'll be back soon with lots of new exciting things! ✨
-                 </p>
-               </div>
-             </div>
-             <button
-               onClick={() => setIsVisible(false)}
-               className="flex-shrink-0 ml-4 text-white/80 hover:text-white transition-colors"
-             >
-               <X size={18} />
-             </button>
-           </div>
-         </div>
-       </motion.div>
-     )}
-   </AnimatePresence>
- );
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Toast;
+export default UpgradeBanner;

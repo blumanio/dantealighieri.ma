@@ -10,7 +10,6 @@ import Services from './services';
 import AboutFounder from './AboutFounder';
 import { BlogNavigation } from './BlogNavigation';
 import { getValidLanguage } from '@/app/config/i18n';
-import Toast from './Toast';
 
 export default function ClientLayout({
   children,
@@ -23,7 +22,6 @@ export default function ClientLayout({
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50">
       {/* Use only one toast component */}
-      <Toast />
       
       <main className="flex-grow w-full pb-[56px]">
         <div className="transition-all duration-300 ease-in-out">

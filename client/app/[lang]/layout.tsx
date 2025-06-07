@@ -3,6 +3,7 @@ import { getValidLanguage } from '@/app/config/i18n';
 import { supportedLanguages, defaultLang } from '@/constants/constants'; // ✅ NEW
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import UpgradeBanner from '@/components/Toast';
 
 export default async function LangSpecificLayout({
   children,
@@ -19,6 +20,8 @@ export default async function LangSpecificLayout({
   return (
     <LanguageProvider initialLang={validatedLang}>
       <Header />
+            <UpgradeBanner />
+
       {children}
       <Footer />
     </LanguageProvider>
