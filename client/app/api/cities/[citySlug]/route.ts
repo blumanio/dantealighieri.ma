@@ -25,7 +25,7 @@ export async function GET(
         // If your documents use 'id' instead of 'slug' for unique identification,
         // you might need to query by 'id' here OR ensure 'slug' is always populated and unique.
         // Based on your schema, 'slug' is required and unique, so the data in your DB needs to match.
-        const city = await City.findOne({ cityName: citySlug }).lean();
+        const city = await City.findOne({ slug: citySlug }).lean() as (typeof City.schema extends { obj: infer T } ? T & { _id: any, createdAt?: Date, updatedAt?: Date } : any);
 
         if (!city) {
             console.log(`❌ City with slug ${citySlug} not found.`);
@@ -43,7 +43,7 @@ export async function GET(
             _id: city._id.toString(),
             createdAt: createdAtString,
             updatedAt: updatedAtString,
-            metrics: Array.isArray(city.metrics) ? city.metrics.map(metric => ({
+            metrics: Array.isArray(city.metrics) ? city.metrics.map((metric: any) => ({
                 ...metric,
                 // Assuming metric.icon from DB is a string like "Home"
                 icon: typeof metric.icon === 'function' && metric.icon.name ? metric.icon.name : metric.icon,
