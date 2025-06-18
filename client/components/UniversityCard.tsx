@@ -3,12 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useUser, SignInButton } from '@clerk/nextjs';
 import { useLanguage } from "@/context/LanguageContext";
 import { Translation } from "@/app/i18n/types";
-// Assuming Next.js Link is intended for navigation. If not, this import might need adjustment.
 import Link from 'next/link';
 import {
   Calendar, ChevronDown, ChevronUp, Euro, ExternalLink,
   Globe, GraduationCap, MapPin, Lock, School, Eye, Heart, CalendarPlus, CalendarCheck, Loader2,
-  Link as LinkIcon // Renamed to avoid conflict if a navigation Link component is also used
+  Link as LinkIcon, Sparkles, Award, Users, TrendingUp, Clock, Target
 } from "lucide-react";
 import { parseDeadlineDateString } from '@/lib/data';
 
@@ -75,6 +74,7 @@ const UniversityCard = ({
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
   const [isTrackingLoading, setIsTrackingLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setIsFavorite(university.isFavoriteInitial || false);
@@ -89,7 +89,6 @@ const UniversityCard = ({
     setFavoriteCount(university.favoriteCount || 0);
     setTrackedCount(university.trackedCount || 0);
   }, [university.viewCount, university.favoriteCount, university.trackedCount]);
-
 
   useEffect(() => {
     const calculateStatus = () => {
@@ -108,7 +107,7 @@ const UniversityCard = ({
           if (today >= startDate && today <= endDate) { isOpen = true; break; }
           if (startDate > today) hasFutureIntakes = true;
         } else if (startDate && today >= startDate) {
-          // Assuming open if only start date and it has passed. Logic might need refinement.
+          // Assuming open if only start date and it has passed
         }
         if (startDate && startDate > today) hasFutureIntakes = true;
       }
@@ -129,12 +128,9 @@ const UniversityCard = ({
           if (result.success && typeof result.data.viewCount === 'number') {
             setViewCount(result.data.viewCount);
           }
-        } else {
-          // setViewCount(prev => prev -1); // Optional: Revert
         }
       } catch (e) {
         console.error("Failed to record view:", e);
-        // setViewCount(prev => prev - 1); // Optional: Revert
       }
     }
     onToggle(university._id);
@@ -229,196 +225,379 @@ const UniversityCard = ({
   const statusText = t('universities', currentStatus.toLowerCase().replace(/\s+/g, '') as keyof Translation['universities'], {
     defaultValue: currentStatus
   });
-  let statusColorClass = 'bg-secondary/10 text-secondary';
-  if (currentStatus === 'Open') statusColorClass = 'bg-primary/10 text-primary';
-  else if (currentStatus === 'Coming Soon') statusColorClass = 'bg-yellow-400/10 text-yellow-500';
+
+  const getStatusStyles = () => {
+    switch (currentStatus) {
+      case 'Open':
+        return 'bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 border border-emerald-200 shadow-emerald-100';
+      case 'Coming Soon':
+        return 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 border border-amber-200 shadow-amber-100';
+      case 'Closed':
+        return 'bg-gradient-to-r from-red-50 to-red-100 text-red-700 border border-red-200 shadow-red-100';
+      default:
+        return 'bg-gradient-to-r from-slate-50 to-slate-100 text-slate-700 border border-slate-200 shadow-slate-100';
+    }
+  };
+
+  const cardClasses = `
+    group relative bg-white rounded-2xl border border-slate-200/60 
+    transition-all duration-500 ease-out
+    hover:border-slate-300/80 hover:shadow-2xl hover:shadow-slate-200/40
+    hover:-translate-y-1 
+    ${isHovered ? 'scale-[1.02]' : 'scale-100'}
+    overflow-hidden
+    backdrop-blur-sm
+  `;
 
   if (!isSignedIn && !isExpanded) {
     return (
-      <div className="bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300">
-        <div className="p-6">
-          <div className={`flex justify-between items-start gap-4 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <div 
+        className={cardClasses}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Premium gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* Premium accent line */}
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        <div className="relative p-6">
+          <div className={`flex justify-between items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-              <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} passHref className="block hover:underline">
-                  <h3 className="text-xl font-semibold text-primary mb-1">
+              <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} className="block group/link">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 group-hover/link:border-blue-200 transition-colors">
+                    <School className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 group-hover/link:text-blue-600 transition-colors duration-300">
                     {university.name}
                   </h3>
-                  <div className={`flex items-center gap-2 text-sm text-textSecondary ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <MapPin className="h-4 w-4 text-primary/70" />
-                    <span>{university.location}</span>
-                  </div>
-                </Link>
+                </div>
+                <div className={`flex items-center gap-2 text-slate-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <MapPin className="h-4 w-4 text-slate-400" />
+                  <span className="font-medium">{university.location}</span>
+                </div>
+              </Link>
             </div>
-            <span className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${statusColorClass}`}>
+            <div className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap shadow-sm ${getStatusStyles()}`}>
               {statusText}
-            </span>
+            </div>
           </div>
-          <div className="mt-3 pt-3 border-t border-neutral-100 flex items-center flex-wrap gap-x-3 gap-y-1 text-xs text-neutral-500">
-            <span className="flex items-center" title={`${viewCount} views`}><Eye size={12} className="mr-0.5" /> {viewCount}</span>
-            <span className="flex items-center" title={`${favoriteCount} favorites`}><Heart size={12} className="mr-0.5" /> {favoriteCount}</span>
-            <span className="flex items-center" title={`${trackedCount} tracking`}><CalendarCheck size={12} className="mr-0.5" /> {trackedCount}</span>
+
+          {/* Enhanced metrics with premium styling */}
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="text-center p-3 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200">
+              <div className="flex items-center justify-center mb-1">
+                <Eye className="h-4 w-4 text-slate-500" />
+              </div>
+              <div className="text-lg font-bold text-slate-900">{viewCount}</div>
+              <div className="text-xs text-slate-500 font-medium">Views</div>
+            </div>
+            <div className="text-center p-3 rounded-xl bg-gradient-to-br from-rose-50 to-rose-100 border border-rose-200">
+              <div className="flex items-center justify-center mb-1">
+                <Heart className="h-4 w-4 text-rose-500" />
+              </div>
+              <div className="text-lg font-bold text-rose-700">{favoriteCount}</div>
+              <div className="text-xs text-rose-600 font-medium">Favorites</div>
+            </div>
+            <div className="text-center p-3 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+              <div className="flex items-center justify-center mb-1">
+                <CalendarCheck className="h-4 w-4 text-blue-500" />
+              </div>
+              <div className="text-lg font-bold text-blue-700">{trackedCount}</div>
+              <div className="text-xs text-blue-600 font-medium">Tracking</div>
+            </div>
           </div>
-          <div className="mt-5">
-            <button
-              onClick={handleToggleExpand}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-5
-                                     text-sm font-medium text-white bg-primary hover:bg-primary-dark
-                                     rounded-full transition-all duration-300 hover:shadow-soft
-                                     active:scale-95"
-            >
+
+          <button
+            onClick={handleToggleExpand}
+            className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
+            <div className="relative flex items-center justify-center gap-3">
+              <Sparkles className="h-5 w-5" />
               {t('universities', 'showMore')}
-              <ChevronDown className="h-4 w-4" />
-            </button>
-          </div>
+              <ChevronDown className="h-5 w-5 group-hover/btn:translate-y-0.5 transition-transform" />
+            </div>
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-soft hover:shadow-medium transition-all duration-300 group">
-      <div className="p-6">
+    <div 
+      className={cardClasses}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Premium gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-slate-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Premium accent line */}
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <div className="relative p-6">
+        {/* Header Section */}
         <div className={`flex justify-between items-start gap-4 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <div className={`flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
-            <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} passHref className="hover:shadow-medium group hover:border-primary ">
-              
-                <h3 className="text-xl font-semibold text-primary group-hover:text-primary-dark transition-colors duration-300 mb-2">
-                  {university.name}
-                </h3>
+            <Link href={`/${language}/university-hubs/${encodeURIComponent(university.name)}`} className="block group/link">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="relative p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 group-hover/link:border-blue-200 transition-all duration-300 group-hover/link:shadow-lg">
+                  <School className="h-6 w-6 text-blue-600" />
+                  <div className="absolute -top-1 -right-1">
+                    <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-blue-500 rounded-full animate-pulse" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-slate-900 group-hover/link:text-blue-600 transition-colors duration-300 mb-1">
+                    {university.name}
+                  </h3>
+                  <div className={`flex items-center gap-2 text-slate-600 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <MapPin className="h-4 w-4 text-slate-400" />
+                    <span className="font-semibold">{university.location}</span>
+                  </div>
+                </div>
+              </div>
             </Link>
-            <div className={`flex items-center gap-2 text-textSecondary ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <MapPin className="h-4 w-4 text-primary/70" />
-              <span>{university.location}</span>
-            </div>
           </div>
-          <span className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-300 whitespace-nowrap ${statusColorClass}`}>
+          <div className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap shadow-lg ${getStatusStyles()}`}>
             {statusText}
-          </span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div className="bg-neutral-50 rounded-lg p-3 hover:bg-primary/5 transition-colors duration-300">
-            <div className={`flex items-center gap-2 text-textSecondary text-xs mb-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <Calendar className="h-3.5 w-3.5 text-primary/70" />
-              <span>{t('universities', 'deadline')}</span>
+        {/* Premium Info Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 border border-slate-200 hover:border-slate-300 transition-all duration-300 group/card">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/10 to-transparent rounded-bl-3xl" />
+            <div className={`flex items-center gap-3 text-slate-600 text-sm mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Calendar className="h-4 w-4 text-blue-500" />
+              <span className="font-semibold">{t('universities', 'deadline')}</span>
             </div>
-            <p className={`font-medium text-primary text-sm ${isRTL ? 'text-right' : ''}`}>
+            <p className={`font-bold text-slate-900 text-lg ${isRTL ? 'text-right' : ''}`}>
               {university.deadline || t('universities', 'tba')}
             </p>
           </div>
-          <div className="bg-neutral-50 rounded-lg p-3 hover:bg-primary/5 transition-colors duration-300">
-            <div className={`flex items-center gap-2 text-textSecondary text-xs mb-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
-              <Euro className="h-3.5 w-3.5 text-primary/70" />
-              <span>{t('universities', 'fee')}</span>
+          
+          <div className="relative overflow-hidden bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-2xl p-4 border border-emerald-200 hover:border-emerald-300 transition-all duration-300 group/card">
+            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-400/10 to-transparent rounded-bl-3xl" />
+            <div className={`flex items-center gap-3 text-emerald-700 text-sm mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <Euro className="h-4 w-4 text-emerald-600" />
+              <span className="font-semibold">{t('universities', 'fee')}</span>
             </div>
-            <p className={`font-medium text-primary text-sm ${isRTL ? 'text-right' : ''}`}>
-              {university.admission_fee === 0 ? <span className="text-secondary">{t('universities', 'free')}</span> : `€${university.admission_fee}`}
+            <p className={`font-bold text-emerald-800 text-lg ${isRTL ? 'text-right' : ''}`}>
+              {university.admission_fee === 0 ? (
+                <span className="text-emerald-600 flex items-center gap-2">
+                  <Award className="h-4 w-4" />
+                  {t('universities', 'free')}
+                </span>
+              ) : (
+                `€${university.admission_fee}`
+              )}
             </p>
           </div>
         </div>
 
+        {/* Action Buttons for Signed-in Users */}
         {isSignedIn && (
-          <div className="flex items-center justify-end gap-2 mb-4 border-t pt-3 border-neutral-100">
-            <div className="flex items-center gap-2 text-xs text-neutral-500 mr-auto">
-              <span title={`${viewCount} views`}><Eye size={14} className="inline mr-0.5" />{viewCount}</span>
-              <span title={`${favoriteCount} favorites`}><Heart size={14} className="inline mr-0.5" />{favoriteCount}</span>
-              <span title={`${trackedCount} tracking`}><CalendarCheck size={14} className="inline mr-0.5" />{trackedCount}</span>
+          <div className="flex items-center justify-between gap-4 mb-6 p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl border border-slate-200">
+            <div className="flex items-center gap-6 text-sm text-slate-600">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-blue-100">
+                  <Eye className="h-3.5 w-3.5 text-blue-600" />
+                </div>
+                <span className="font-semibold">{viewCount}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-rose-100">
+                  <Heart className="h-3.5 w-3.5 text-rose-600" />
+                </div>
+                <span className="font-semibold">{favoriteCount}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-emerald-100">
+                  <CalendarCheck className="h-3.5 w-3.5 text-emerald-600" />
+                </div>
+                <span className="font-semibold">{trackedCount}</span>
+              </div>
             </div>
-            <button
-              onClick={handleToggleFavorite}
-              disabled={isFavoriteLoading}
-              title={isFavorite ? t('universities', 'removeFromFavorites', { defaultValue: "Remove from favorites" }) : t('universities', 'addToFavorites', { defaultValue: "Add to favorites" })}
-              className={`p-2 rounded-full transition-colors ${isFavoriteLoading ? 'cursor-not-allowed' : ''} ${isFavorite ? 'bg-red-100 text-red-500 hover:bg-red-200' : 'bg-neutral-100 text-neutral-500 hover:bg-red-100 hover:text-red-500'}`}
-            >
-              {isFavoriteLoading ? <Loader2 size={16} className="animate-spin" /> : <Heart size={16} fill={isFavorite ? "currentColor" : "none"} />}
-            </button>
-            <button
-              onClick={handleToggleTrack}
-              disabled={isTrackingLoading}
-              title={isTracked ? t('universities', 'stopTracking', { defaultValue: "Stop tracking" }) : t('universities', 'trackDeadlines', { defaultValue: "Track deadlines" })}
-              className={`p-2 rounded-full transition-colors ${isTrackingLoading ? 'cursor-not-allowed' : ''} ${isTracked ? 'bg-sky-100 text-sky-600 hover:bg-sky-200' : 'bg-neutral-100 text-neutral-500 hover:bg-sky-100 hover:text-sky-600'}`}
-            >
-              {isTrackingLoading ? <Loader2 size={16} className="animate-spin" /> : (isTracked ? <CalendarCheck size={16} /> : <CalendarPlus size={16} />)}
-            </button>
+            
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleToggleFavorite}
+                disabled={isFavoriteLoading}
+                className={`relative p-3 rounded-2xl font-medium transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+                  isFavorite 
+                    ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-lg shadow-rose-200' 
+                    : 'bg-white border-2 border-slate-200 text-slate-600 hover:border-rose-300 hover:bg-rose-50'
+                }`}
+              >
+                {isFavoriteLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Heart className="h-5 w-5" fill={isFavorite ? "currentColor" : "none"} />
+                )}
+              </button>
+              
+              <button
+                onClick={handleToggleTrack}
+                disabled={isTrackingLoading}
+                className={`relative p-3 rounded-2xl font-medium transition-all duration-300 transform hover:scale-110 active:scale-95 ${
+                  isTracked 
+                    ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-200' 
+                    : 'bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50'
+                }`}
+              >
+                {isTrackingLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : isTracked ? (
+                  <CalendarCheck className="h-5 w-5" />
+                ) : (
+                  <CalendarPlus className="h-5 w-5" />
+                )}
+              </button>
+            </div>
           </div>
         )}
+
+        {/* Feedback Message */}
         {feedbackMessage && (
-          <p className={`text-xs text-center my-2 ${feedbackMessage.includes(t('universities', 'login', { defaultValue: "Login" })) ? 'text-red-500' : 'text-green-600'}`}>
-            {feedbackMessage}
-          </p>
+          <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-center">
+            <p className="text-sm font-semibold text-amber-800">{feedbackMessage}</p>
+          </div>
         )}
 
+        {/* Expand/Collapse Button */}
         <button
           onClick={handleToggleExpand}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-6 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-all duration-300 hover:shadow-soft active:scale-95"
+          className="w-full group/btn relative overflow-hidden bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-900 hover:to-black text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-xl hover:shadow-2xl"
         >
-          {isExpanded ? t('universities', 'showLess') : t('universities', 'showMore')}
-          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000" />
+          <div className="relative flex items-center justify-center gap-3">
+            <Target className="h-5 w-5" />
+            {isExpanded ? t('universities', 'showLess') : t('universities', 'showMore')}
+            {isExpanded ? (
+              <ChevronUp className="h-5 w-5 group-hover/btn:-translate-y-0.5 transition-transform" />
+            ) : (
+              <ChevronDown className="h-5 w-5 group-hover/btn:translate-y-0.5 transition-transform" />
+            )}
+          </div>
         </button>
       </div>
 
+      {/* Expanded Content */}
       {isExpanded && (
-        <div className="border-t border-neutral-200 p-6 bg-neutral-50/70">
+        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 to-white">
           {!isSignedIn ? (
-            <div className="bg-white rounded-xl p-6 border border-neutral-200">
-              <div className="flex flex-col items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <Lock className="h-6 w-6 text-primary" />
+            <div className="p-8">
+              <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 border border-blue-200">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-transparent rounded-bl-full" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-400/20 to-transparent rounded-tr-full" />
+                
+                <div className="relative flex flex-col items-center gap-6 text-center">
+                  <div className="p-4 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl shadow-xl">
+                    <Lock className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="space-y-3">
+                    <h4 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                      {t('universities', 'protectedContent')}
+                    </h4>
+                    <p className="text-slate-600 max-w-md mx-auto leading-relaxed">
+                      {t('universities', 'loginPrompt')}
+                    </p>
+                  </div>
+                  <SignInButton mode="modal">
+                    <button className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-xl">
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                      <div className="relative flex items-center gap-3">
+                        <Sparkles className="h-5 w-5" />
+                        {t('universities', 'login')}
+                        <span className={`text-xl ${isRTL ? 'rotate-180' : ''}`}>→</span>
+                      </div>
+                    </button>
+                  </SignInButton>
                 </div>
-                <div className="space-y-2 text-center">
-                  <h4 className="font-medium text-primary">{t('universities', 'protectedContent')}</h4>
-                  <p className="text-sm text-textSecondary max-w-sm mx-auto">{t('universities', 'loginPrompt')}</p>
-                </div>
-                <SignInButton mode="modal">
-                  <button className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary hover:bg-primary-dark text-white font-medium rounded-full transition-all duration-300 text-sm hover:shadow-soft active:scale-95">
-                    {t('universities', 'login')}
-                    <span className={`${isRTL ? 'rotate-180' : ''}`}>→</span>
-                  </button>
-                </SignInButton>
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className={`flex items-center gap-2 text-primary mb-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <GraduationCap className="h-5 w-5" />
-                  <span className="font-medium">{t('universities', 'requirements')}</span>
+            <div className="p-8 space-y-8">
+              {/* Requirements Section */}
+              <div className="bg-white rounded-3xl p-6 shadow-lg border border-slate-200">
+                <div className={`flex items-center gap-3 text-blue-600 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className="p-2 rounded-xl bg-blue-100">
+                    <GraduationCap className="h-6 w-6" />
+                  </div>
+                  <span className="text-xl font-bold">{t('universities', 'requirements')}</span>
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <span className="text-textSecondary">CGPA:</span>
-                    <span className="font-medium text-primary">{university.cgpa_requirement || t('universities', 'tba')}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 border border-emerald-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Award className="h-4 w-4 text-emerald-600" />
+                      <span className="text-sm font-semibold text-emerald-700">CGPA</span>
+                    </div>
+                    <span className="text-lg font-bold text-emerald-800">
+                      {university.cgpa_requirement || t('universities', 'tba')}
+                    </span>
                   </div>
                   {university.english_requirement && (
-                    <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-textSecondary">English:</span>
-                      <span className="font-medium text-primary">{university.english_requirement}</span>
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Globe className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm font-semibold text-blue-700">English</span>
+                      </div>
+                      <span className="text-lg font-bold text-blue-800">{university.english_requirement}</span>
                     </div>
                   )}
                 </div>
               </div>
 
+              {/* Intakes Section */}
               {university.intakes && university.intakes.length > 0 && (
-                <div>
-                  <h4 className={`font-medium text-primary mb-3 ${isRTL ? 'text-right' : ''}`}>{t('universities', 'availableIntakes')}</h4>
-                  <div className="space-y-3">
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-slate-200">
+                  <div className={`flex items-center gap-3 text-indigo-600 mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-2 rounded-xl bg-indigo-100">
+                      <Calendar className="h-6 w-6" />
+                    </div>
+                    <span className="text-xl font-bold">{t('universities', 'availableIntakes')}</span>
+                  </div>
+                  <div className="grid gap-4">
                     {university.intakes.map((intake, index) => (
-                      <div key={index} className="bg-white rounded-lg p-4 shadow-sm">
-                        <h5 className={`font-medium text-primary mb-2 ${isRTL ? 'text-right' : ''}`}>{intake.name}</h5>
-                        <div className="space-y-1 text-sm">
-                          {intake.start_date && (
-                            <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                              <span className="text-textSecondary">{t('universities', 'start')}:</span>
-                              <span className="font-medium text-primary">{intake.start_date}</span>
+                      <div key={index} className="relative overflow-hidden bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl p-5 border border-slate-200 hover:border-slate-300 transition-all duration-300 group/intake">
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-400/10 to-transparent rounded-bl-2xl" />
+                        <div className="relative">
+                          <h5 className={`text-lg font-bold text-slate-900 mb-4 ${isRTL ? 'text-right' : ''}`}>
+                            {intake.name}
+                          </h5>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {intake.start_date && (
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-lg bg-emerald-100">
+                                  <Clock className="h-4 w-4 text-emerald-600" />
+                                </div>
+                                <div>
+                                  <div className="text-xs text-slate-500 font-semibold">{t('universities', 'start')}</div>
+                                  <div className="font-bold text-slate-900">{intake.start_date}</div>
+                                </div>
+                              </div>
+                            )}
+                            {intake.end_date && (
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-lg bg-red-100">
+                                  <Target className="h-4 w-4 text-red-600" />
+                                </div>
+                                <div>
+                                  <div className="text-xs text-slate-500 font-semibold">{t('universities', 'end')}</div>
+                                  <div className="font-bold text-slate-900">{intake.end_date}</div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          {intake.notes && (
+                            <div className="mt-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl">
+                              <p className="text-sm text-blue-800 font-medium">{intake.notes}</p>
                             </div>
                           )}
-                          {intake.end_date && (
-                            <div className={`flex justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                              <span className="text-textSecondary">{t('universities', 'end')}:</span>
-                              <span className="font-medium text-primary">{intake.end_date}</span>
-                            </div>
-                          )}
-                          {intake.notes && <p className="mt-2 text-xs bg-primary/5 text-primary rounded p-2">{intake.notes}</p>}
                         </div>
                       </div>
                     ))}
@@ -426,17 +605,66 @@ const UniversityCard = ({
                 </div>
               )}
 
+              {/* Application Link */}
               {university.application_link && (
-                <a
-                  href={university.application_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary-dark text-white font-medium rounded-full transition-all duration-300 hover:shadow-soft active:scale-95"
-                >
-                  {t('universities', 'apply')}
-                  <ExternalLink className="h-4 w-4" />
-                </a>
+                <div className="bg-white rounded-3xl p-6 shadow-lg border border-slate-200">
+                  <a
+                    href={university.application_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-6 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-xl hover:shadow-2xl flex items-center justify-center gap-4 w-full"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                    <div className="relative flex items-center gap-4">
+                      <div className="p-2 bg-white/20 rounded-xl">
+                        <ExternalLink className="h-6 w-6" />
+                      </div>
+                      <span className="text-xl">{t('universities', 'apply')}</span>
+                      <TrendingUp className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </a>
+                </div>
               )}
+
+              {/* Additional Info Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {university.websiteUrl && (
+                  <div className="bg-white rounded-2xl p-5 shadow-lg border border-slate-200 hover:border-slate-300 transition-all duration-300 group/website">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 rounded-xl bg-blue-100 group-hover/website:bg-blue-200 transition-colors">
+                        <Globe className="h-5 w-5 text-blue-600" />
+                      </div>
+                      <span className="font-bold text-slate-900">Official Website</span>
+                    </div>
+                    <a
+                      href={university.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 font-semibold text-sm flex items-center gap-2 group/link"
+                    >
+                      Visit Website
+                      <ExternalLink className="h-4 w-4 group-hover/link:translate-x-0.5 transition-transform" />
+                    </a>
+                  </div>
+                )}
+                
+                {university.contacts?.email && (
+                  <div className="bg-white rounded-2xl p-5 shadow-lg border border-slate-200 hover:border-slate-300 transition-all duration-300 group/contact">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 rounded-xl bg-emerald-100 group-hover/contact:bg-emerald-200 transition-colors">
+                        <LinkIcon className="h-5 w-5 text-emerald-600" />
+                      </div>
+                      <span className="font-bold text-slate-900">Contact</span>
+                    </div>
+                    <a
+                      href={`mailto:${university.contacts.email}`}
+                      className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm"
+                    >
+                      {university.contacts.email}
+                    </a>
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>

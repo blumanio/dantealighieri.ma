@@ -42,7 +42,7 @@
     // - If it's a directory, files within should be .ts or .tsx to be covered.
     ,
     ".next/types/**/*.ts"
-, "_middleware.ts.backup", "_middleware.ts.backup", "_middleware.ts.backup", "_middleware.ts.backup", "lib/models/ClerkUserRaw.cjs"  ],
+, "_middleware.ts.backup", "_middleware.ts.backup", "_middleware.ts.backup", "_middleware.ts.backup", "lib/models/ClerkUserRaw.cjs", "app/[lang]/course-extractor/page.js"  ],
   "exclude": [
     "node_modules",
     ".next" // Good practice to exclude the .next build output directory

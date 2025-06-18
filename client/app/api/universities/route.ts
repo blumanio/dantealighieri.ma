@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '20', 10);
     const searchQuery = searchParams.get('search') || '';
+    const name = searchParams.get('name') || '';
     const city = searchParams.get('city') || '';
     const region = searchParams.get('region') || '';
     const status = searchParams.get('status') || '';
@@ -27,54 +28,57 @@ export async function GET(request: NextRequest) {
       console.log(`[API/UNIVERSITIES] Filtering by specific ID: "${id}"`);
       query._id = id;
     } else {
-        if (searchQuery) {
-            query.$or = [
-                { name: { $regex: searchQuery, $options: 'i' } },
-                { city: { $regex: searchQuery, $options: 'i' } },
-                { region: { $regex: searchQuery, $options: 'i' } },
-                // Add other fields you want to include in the text search
-            ];
-            console.log(`[API/UNIVERSITIES] Applying search query: "${searchQuery}"`);
-        }
+      if (searchQuery) {
+        query.$or = [
+          { name: { $regex: searchQuery, $options: 'i' } },
+          { city: { $regex: searchQuery, $options: 'i' } },
+          { region: { $regex: searchQuery, $options: 'i' } },
+          // Add other fields you want to include in the text search
+        ];
+        console.log(`[API/UNIVERSITIES] Applying search query: "${searchQuery}"`);
+      }
+      if (name) {
+        query.name = { $regex: `^${name}$`, $options: 'i' };
+        console.log(`[API/UNIVERSITIES] Filtering by name: "${name}"`);
         if (city) {
-            query.city = { $regex: `^${city}$`, $options: 'i' };
-            console.log(`[API/UNIVERSITIES] Filtering by city: "${city}"`);
+          query.city = { $regex: `^${city}$`, $options: 'i' };
+          console.log(`[API/UNIVERSITIES] Filtering by city: "${city}"`);
         }
         if (region) {
-            query.region = { $regex: `^${region}$`, $options: 'i' };
-            console.log(`[API/UNIVERSITIES] Filtering by region: "${region}"`);
+          query.region = { $regex: `^${region}$`, $options: 'i' };
+          console.log(`[API/UNIVERSITIES] Filtering by region: "${region}"`);
         }
         if (status) {
-            query.status = { $regex: `^${status}$`, $options: 'i' };
-            console.log(`[API/UNIVERSITIES] Filtering by status: "${status}"`);
+          query.status = { $regex: `^${status}$`, $options: 'i' };
+          console.log(`[API/UNIVERSITIES] Filtering by status: "${status}"`);
         }
         if (scholarship === 'true') {
-            query.scholarship_available = true;
-            console.log(`[API/UNIVERSITIES] Filtering by scholarship_available: true`);
+          query.scholarship_available = true;
+          console.log(`[API/UNIVERSITIES] Filtering by scholarship_available: true`);
         } else if (scholarship === 'false') {
-            query.scholarship_available = false;
-            console.log(`[API/UNIVERSITIES] Filtering by scholarship_available: false`);
+          query.scholarship_available = false;
+          console.log(`[API/UNIVERSITIES] Filtering by scholarship_available: false`);
         }
-    }
+      }
 
 
-    console.log("[API/UNIVERSITIES] Executing University.find with query:", JSON.stringify(query));
+      console.log("[API/UNIVERSITIES] Executing University.find with query:", JSON.stringify(query));
 
-    if (id) { // Request for a single university
+      if (id) { // Request for a single university
         const university = await University.findById(id).lean();
         if (!university) {
-            console.log(`[API/UNIVERSITIES] University with ID "${id}" not found.`);
-            return NextResponse.json({ message: "University not found" }, { status: 404 });
+          console.log(`[API/UNIVERSITIES] University with ID "${id}" not found.`);
+          return NextResponse.json({ message: "University not found" }, { status: 404 });
         }
         console.log(`[API/UNIVERSITIES] Found 1 university for ID query.`);
         return NextResponse.json({ success: true, data: university }, { status: 200 });
-    } else { // Request for multiple universities with pagination
+      } else { // Request for multiple universities with pagination
         const skip = (page - 1) * limit;
         const universities = await University.find(query)
-            .sort({ name: 1 }) // Default sort by name
-            .skip(skip)
-            .limit(limit)
-            .lean();
+          .sort({ name: 1 }) // Default sort by name
+          .skip(skip)
+          .limit(limit)
+          .lean();
 
         const totalUniversities = await University.countDocuments(query);
         const totalPages = Math.ceil(totalUniversities / limit);
@@ -82,17 +86,17 @@ export async function GET(request: NextRequest) {
         console.log(`[API/UNIVERSITIES] Found ${universities.length} universities for query.`);
 
         return NextResponse.json({
-            success: true,
-            data: universities,
-            pagination: {
-                currentPage: page,
-                totalPages,
-                totalUniversities,
-                limit,
-            },
+          success: true,
+          data: universities,
+          pagination: {
+            currentPage: page,
+            totalPages,
+            totalUniversities,
+            limit,
+          },
         }, { status: 200 });
+      }
     }
-
   } catch (err: any) {
     console.error(`[API/UNIVERSITIES] Error fetching universities for URL ${requestUrl}:`, err);
     return NextResponse.json(
@@ -127,10 +131,10 @@ export async function POST(request: NextRequest) {
     console.error(`[API/UNIVERSITIES] Error creating university for URL ${requestUrl}:`, err);
     // Handle specific MongoDB errors like duplicate key
     if (err.code === 11000) {
-        return NextResponse.json(
-            { message: "Failed to create university: Duplicate key error.", error: err.keyValue },
-            { status: 409 } // Conflict
-        );
+      return NextResponse.json(
+        { message: "Failed to create university: Duplicate key error.", error: err.keyValue },
+        { status: 409 } // Conflict
+      );
     }
     return NextResponse.json(
       { message: "Failed to create university", error: err.message },
@@ -175,7 +179,7 @@ export async function PUT(request: NextRequest) {
   } catch (err: any) {
     console.error(`[API/UNIVERSITIES] Error updating university for URL ${requestUrl}:`, err);
     if (err.kind === 'ObjectId') {
-        return NextResponse.json({ message: "Invalid University ID format" }, { status: 400 });
+      return NextResponse.json({ message: "Invalid University ID format" }, { status: 400 });
     }
     return NextResponse.json(
       { message: "Failed to update university", error: err.message },
@@ -216,7 +220,7 @@ export async function DELETE(request: NextRequest) {
   } catch (err: any) {
     console.error(`[API/UNIVERSITIES] Error deleting university for URL ${requestUrl}:`, err);
     if (err.kind === 'ObjectId') {
-        return NextResponse.json({ message: "Invalid University ID format" }, { status: 400 });
+      return NextResponse.json({ message: "Invalid University ID format" }, { status: 400 });
     }
     return NextResponse.json(
       { message: "Failed to delete university", error: err.message },

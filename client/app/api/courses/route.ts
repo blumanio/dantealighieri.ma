@@ -14,23 +14,32 @@ export async function GET(request: NextRequest) {
         const tipo = searchParams.get('tipo');
         const accesso = searchParams.get('accesso');
         const lingua = searchParams.get('lingua');
-        const area = searchParams.get('area');
-        const uniSlugParam = searchParams.get('uniSlug'); // EXPECTING uniSlug
-        const uni = searchParams.get('uni'); // EXPECTING uniSlug
-
+        const areaParam = searchParams.get('area');
+        const uniSlugParam = searchParams.get('uniSlug');
+        const uni = searchParams.get('uni');
 
         let query: any = {};
 
         if (tipo) query.tipo = tipo;
         if (lingua) query.lingua = lingua;
-        if (area) query.area = area;
         if (accesso) query.accesso = accesso;
         if (uni) query.uni = uni;
 
+        // Handle single or multiple areas
+        if (areaParam) {
+            if (areaParam.includes(',')) {
+                // Multiple areas: split by comma and use $in operator
+                const areas = areaParam.split(',').map(area => area.trim());
+                query.area = { $in: areas };
+                console.log(`[API/COURSES] Filtering by multiple areas: [${areas.join(', ')}]`);
+            } else {
+                // Single area
+                query.area = areaParam.trim();
+                console.log(`[API/COURSES] Filtering by single area: "${areaParam}"`);
+            }
+        }
         
         if (uniSlugParam) {
-            // Query directly against the uniSlug field.
-            // Slugs should be stored consistently (e.g., lowercase).
             query.uniSlug = uniSlugParam.toLowerCase(); 
             console.log(`[API/COURSES] Filtering by university slug: "${uniSlugParam}"`);
         } else {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import { clerkClient } from '@clerk/clerk-sdk-node';
 import dbConnect from '@/lib/dbConnect'; // Ensure this path is correct
-import  { IUserProfileDetail, ICustomPersonalData, ICustomEducationalData } from '@/types/types'; // Ensure this path is correct
+import { IUserProfileDetail, ICustomPersonalData, ICustomEducationalData, IWorkExperience } from '@/types/types'; // Ensure this path is correct
 import UserProfileDetail from '@/lib/models/UserProfileDetail';
 
 // --- Default Structures for Initialization ---
@@ -38,6 +38,12 @@ const defaultEducationalData: ICustomEducationalData = {
     otherStandardizedTests: [],
 };
 
+const defaultWorkExperience: IWorkExperience = {
+    workExperienceInMonths: 0,
+    workExperienceType: 'none',
+    projectsWorkedOn: 0
+}
+
 
 async function findOrCreateUserProfile(userId: string): Promise<Record<string, any>> {
     await dbConnect();
@@ -63,12 +69,19 @@ async function findOrCreateUserProfile(userId: string): Promise<Record<string, a
                 lastName: clerkLastName || undefined,
             },
             educationalData: { ...defaultEducationalData },
+            workExperience: { ...defaultWorkExperience },
+            languages: [],
             role: 'student', // Default role
             premiumTier: 'Michelangelo', // Default tier
             profileVisibility: 'private', // Default visibility
             languageInterests: [],
             targetUniversities: [],
-            aboutMe: ''
+            aboutMe: '',
+            interest: '',
+            userType: 'student',
+            graduationYear: '',
+            fieldOfInterest: '',
+            studyAbroadStage: 'researching'
         };
 
         try {
@@ -99,6 +112,10 @@ async function findOrCreateUserProfile(userId: string): Promise<Record<string, a
             },
             otherStandardizedTests: profileDetails.educationalData?.otherStandardizedTests || defaultEducationalData.otherStandardizedTests,
         },
+        workExperience: {
+            ...defaultWorkExperience,
+            ...(profileDetails.workExperience || {}),
+        }
     };
 }
 
@@ -142,7 +159,8 @@ export async function POST(req: NextRequest) {
 
         // Whitelist fields for direct update from body (top-level fields)
         const allowedTopLevelFields: (keyof IUserProfileDetail)[] = [
-            'role', 'premiumTier', 'profileVisibility', 'languageInterests', 'targetUniversities', 'aboutMe'
+            'role', 'premiumTier', 'profileVisibility', 'languageInterests', 'targetUniversities', 'aboutMe',
+            'interest', 'userType', 'graduationYear', 'fieldOfInterest', 'studyAbroadStage', 'workExperience', 'languages'
         ];
 
         for (const key of allowedTopLevelFields) {
@@ -168,6 +186,11 @@ export async function POST(req: NextRequest) {
                 },
                 otherStandardizedTests: body.education.otherStandardizedTests || defaultEducationalData.otherStandardizedTests,
             };
+        }
+
+        // Handle nested workExperience
+        if (body.workExperience && typeof body.workExperience === 'object') {
+            dataToUpdate.$set.workExperience = { ...defaultWorkExperience, ...body.workExperience };
         }
 
 
@@ -206,13 +229,17 @@ export async function POST(req: NextRequest) {
             },
             educationalData: {
                 highestLevelOfEducation: updatedProfile.toObject().educationalData?.highestLevelOfEducation || defaultEducationalData.highestLevelOfEducation,
-                previousEducation: updatedProfile.toObject().educationalData?.previousEducation || defaultEducationalData.previousEducation,
+                previousEducation: updatedProfile.toObject().educationalData?.previousEducation || defaultEducationalData?.previousEducation,
                 languageProficiency: {
                     ...(defaultEducationalData.languageProficiency!),
                     ...(updatedProfile.toObject().educationalData?.languageProficiency || {}),
                 },
                 otherStandardizedTests: updatedProfile.toObject().educationalData?.otherStandardizedTests || defaultEducationalData.otherStandardizedTests,
             },
+            workExperience: {
+                ...defaultWorkExperience,
+                ...(updatedProfile.toObject().workExperience || {}),
+            }
         } as unknown as IUserProfileDetail;
 
 

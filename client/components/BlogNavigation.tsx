@@ -77,7 +77,7 @@ export function BlogNavigation({ prevPost, nextPost, lang }: BlogNavigationProps
         {prevPost && (
           <Link
             href={`/${lang}/blog/${prevPost.slug}`}
-            className="flex-1 flex items-center justify-center p-3 rounded-lg bg-white 
+            className="text-white flex-1 flex items-center justify-center p-3 rounded-lg bg-white 
                      hover:bg-primary/5 border border-neutral-200 hover:border-primary/20
                      transition-all duration-300"
           >

@@ -1,9 +1,14 @@
+// 3. Updated Backend API for POST CREATION: app/api/university-hubs/[universitySlug]/community-posts/route.ts
+// -----------------------------------------------------------------------------
+// (GET remains the same as in previous version)
+// POST updated to remove title and imageUrl
+
 // app/api/university-hubs/[universitySlug]/community-posts/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
-import UniversityCommunityPost from '@/lib/models/UniversityCommunityPost';
-import UserProfileDetail from '@/lib/models/UserProfileDetail'; // To fetch user role
+import UniversityCommunityPost, { IUniversityCommunityPost } from '@/lib/models/UniversityCommunityPost';
+import UserProfileDetail from '@/lib/models/UserProfileDetail';
 
 export async function GET(req: NextRequest, { params }: { params: { universitySlug: string } }) {
     try {
@@ -22,16 +27,11 @@ export async function GET(req: NextRequest, { params }: { params: { universitySl
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit)
+            .populate('claimedByUserId', 'fullName avatarUrl userRole')
+            .populate('postedByAdminId', 'fullName avatarUrl userRole')
             .lean();
-
         const totalPosts = await UniversityCommunityPost.countDocuments(query);
-
-        return NextResponse.json({
-            success: true,
-            data: posts,
-            totalPages: Math.ceil(totalPosts / limit),
-            currentPage: page
-        });
+        return NextResponse.json({ success: true, data: posts, totalPages: Math.ceil(totalPosts / limit), currentPage: page });
     } catch (error: any) {
         console.error(`API GET /university-hubs/${params.universitySlug}/community-posts Error:`, error);
         return NextResponse.json({ success: false, message: error.message || "Failed to fetch posts" }, { status: 500 });
@@ -40,47 +40,67 @@ export async function GET(req: NextRequest, { params }: { params: { universitySl
 
 export async function POST(req: NextRequest, { params }: { params: { universitySlug: string } }) {
     try {
-        const { userId, sessionClaims } = getAuth(req);
-        if (!userId) {
-            return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+        const { userId: adminClerkId, sessionClaims } = getAuth(req);
+        if (!adminClerkId) {
+            return NextResponse.json({ success: false, message: 'Unauthorized: Admin not signed in.' }, { status: 401 });
         }
+        // Implement robust admin check here
+        // const isAdmin = sessionClaims?.publicMetadata?.isAdmin;
+        // if (!isAdmin) {
+        //     return NextResponse.json({ success: false, message: 'Forbidden: User is not an admin.' }, { status: 403 });
+        // }
 
         await dbConnect();
         const { universitySlug } = params;
         const body = await req.json();
-        const { postType, title, content, tags, housingDetails, studyGroupDetails } = body;
+        const {
+            postType, content, tags,
+            originalFacebookUsername,
+            originalFacebookUserAvatarUrl,
+            facebookUserId,
+            isClaimable,
+            originalUserCountry,
+            // title and imageUrl removed from body for post creation
+        } = body;
 
-        if (!postType || !content) {
-            return NextResponse.json({ success: false, message: 'Post type and content are required.' }, { status: 400 });
+        if (!postType || !content || !originalFacebookUsername) {
+            return NextResponse.json({ success: false, message: 'Post type, content, and Facebook username are required.' }, { status: 400 });
+        }
+        if (isClaimable && !facebookUserId) {
+            return NextResponse.json({ success: false, message: 'Facebook User ID is required if the post is claimable.' }, { status: 400 });
         }
 
-        // Fetch user's role from UserProfileDetail
-        const userProfile = await UserProfileDetail.findOne({ userId }).select('role').lean();
-        const userRole = userProfile?.role || 'student'; // Default to student if no profile/role found
+        const adminProfile = await UserProfileDetail.findOne({ userId: adminClerkId }).select('_id').lean();
+        if (!adminProfile) {
+            return NextResponse.json({ success: false, message: 'Admin profile not found.' }, { status: 404 });
+        }
 
-        const newPostData: any = {
+        const newPostData: Partial<IUniversityCommunityPost> = {
             universitySlug: decodeURIComponent(universitySlug),
-            userId,
-            userFullName: sessionClaims?.fullName || `${sessionClaims?.firstName || ''} ${sessionClaims?.lastName || ''}`.trim() || 'Anonymous User',
-            userAvatarUrl: sessionClaims?.imageUrl,
-            userRole, // Include the fetched role
+            userId: adminClerkId,
+            userFullName: originalFacebookUsername,
+            userAvatarUrl: originalFacebookUserAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(originalFacebookUsername)}&background=random&color=fff`,
+            userRole: 'community_member',
             postType,
             content,
+            tags: tags || [],
+            originalFacebookUsername,
+            originalFacebookUserAvatarUrl: originalFacebookUserAvatarUrl || undefined,
+            facebookUserId: facebookUserId || undefined,
+            isClaimable: !!isClaimable,
+            originalUserCountry: originalUserCountry || undefined,
+            postedByAdminId: adminProfile._id,
+            isArchived: false, comments: [], likesCount: 0,
         };
-        if (title) newPostData.title = title;
-        if (tags) newPostData.tags = tags;
-        if (housingDetails) newPostData.housingDetails = housingDetails;
-        if (studyGroupDetails) newPostData.studyGroupDetails = studyGroupDetails;
-
+        
         const newPost = await UniversityCommunityPost.create(newPostData);
-
-        return NextResponse.json({ success: true, data: newPost, message: "Post created successfully!" }, { status: 201 });
+        return NextResponse.json({ success: true, data: newPost, message: "Post created successfully by admin!" }, { status: 201 });
 
     } catch (error: any) {
         console.error(`API POST /university-hubs/${params.universitySlug}/community-posts Error:`, error);
         if (error.name === 'ValidationError') {
             return NextResponse.json({ success: false, message: 'Validation Error', errors: error.errors }, { status: 400 });
         }
-        return NextResponse.json({ success: false, message: error.message || "Failed to create post" }, { status: 500 });
+        return NextResponse.json({ success: false, message: error.message || "Failed to create post by admin" }, { status: 500 });
     }
 }

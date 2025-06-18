@@ -1,179 +1,194 @@
 'use client';
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
-import { Building, BookOpen, Star, Loader2, Trash2 } from 'lucide-react'; // Added Loader2, Trash2
-// Adjust path if types moved. This type represents the structure from your DB's Favorite model.
-// type FavoriteCourse = {
-//   _id: string;
-//   courseLink: string;
-//   courseNome: string;
-//   courseUni: string;
-//   courseComune: string; // You might want to display this too
-//   // ... any other fields you stored and want to display
-// };
-// Or import from a shared types file if you create one e.g. from the FavoriteItem type above
-type FavoriteFromAPI = {
-  _id: string;
-  userId: string;
-  courseUni: string;
-  courseNome: string;
-  courseLink: string;
-  courseComune: string;
-  createdAt: string;
-  updatedAt: string;
-};
+import { Building, BookOpen, Star, Loader2, Trash2, Heart, MapPin, Plus, ChevronRight, GraduationCap } from 'lucide-react';
+
+// --- Types ---
+interface University { id: string; name: string; city: string; country: string; }
+interface Course { id: string; name: string; university: University; duration: string; level: string; language: string; tuitionFee: number; }
+interface Favorite { id: string; course: Course; createdAt: string; }
+type FilterType = 'all' | 'masters' | 'bachelors';
+interface ApiCourse { _id: string; nome: string; uni: string; comune: string; tipo: string; lingua: string; }
+interface ApiFavorite { _id: string; courseId: ApiCourse | null; createdAt: string; }
+interface ApiResponse { success: boolean; data: ApiFavorite[]; }
 
 
-// Assuming FavoriteUniversity is a separate concern for now and its data source is different
-export interface FavoriteUniversity {
-  id: string;
-  name: string;
-  logoUrl?: string;
-  link: string;
-  city: string;
-}
+// ============================================================================
+// Main Component
+// ============================================================================
+const StudyInItalyFavorites = () => {
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<FilterType>('all');
 
-interface FavoritesSectionProps {
-  // universities prop can remain if it's fetched separately or is static
-  universities: FavoriteUniversity[];
-  t: (namespace: string, key: string, options?: any) => string;
-}
-
-const FavoritesSection: React.FC<FavoritesSectionProps> = ({ universities, t }) => {
-  const [favoriteCourses, setFavoriteCourses] = useState<FavoriteFromAPI[]>([]);
-  const [isLoadingCourses, setIsLoadingCourses] = useState(true);
-  const [errorCourses, setErrorCourses] = useState<string | null>(null);
-  const [removingId, setRemovingId] = useState<string | null>(null);
-
-  const fetchFavoriteCourses = async () => {
-    setIsLoadingCourses(true);
-    setErrorCourses(null);
-    try {
-      const response = await fetch('/api/favorites');
-      const result = await response.json();
-      if (response.ok && result.success) {
-        setFavoriteCourses(result.data);
-      } else {
-        throw new Error(result.message || 'Failed to fetch favorite courses');
-      }
-    } catch (err: any) {
-      setErrorCourses(err.message);
-      console.error(err);
-    } finally {
-      setIsLoadingCourses(false);
-    }
-  };
-
+  // --- Data Fetching & Transformation ---
   useEffect(() => {
-    fetchFavoriteCourses();
+    const fetchFavorites = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('/api/favorites');
+        if (!response.ok) throw new Error("Failed to fetch favorites");
+
+        const apiResponse: ApiResponse = await response.json();
+        if (apiResponse.success && Array.isArray(apiResponse.data)) {
+          const transformedData = apiResponse.data
+            .filter(fav => fav.courseId)
+            .map((fav): Favorite => {
+              const courseData = fav.courseId!;
+              const getLevel = (tipo: string) => tipo.toLowerCase().includes('magistrale') ? "Master's" : "Bachelor's";
+              const getLanguage = (lingua: string) => lingua.toUpperCase() === 'EN' ? 'English' : 'Italian';
+              return {
+                id: fav._id, createdAt: fav.createdAt,
+                course: {
+                  id: courseData._id, name: courseData.nome, level: getLevel(courseData.tipo), language: getLanguage(courseData.lingua), duration: '2 Years', tuitionFee: 2500,
+                  university: { id: courseData.uni, name: courseData.uni, city: courseData.comune, country: 'Italy' },
+                },
+              };
+            });
+          setFavorites(transformedData);
+        } else { setFavorites([]); }
+      } catch (error) { console.error('Error fetching favorites:', error); }
+      finally { setLoading(false); }
+    };
+    fetchFavorites();
   }, []);
 
-  const handleRemoveCourse = async (favoriteId: string) => {
-    if (window.confirm(t('profile', 'favoritesConfirmRemoveCourse'))) {
-      setRemovingId(favoriteId);
-      try {
-        const response = await fetch(`/api/favorites?id=${favoriteId}`, {
-          method: 'DELETE',
-        });
-        const result = await response.json();
-        if (response.ok && result.success) {
-          setFavoriteCourses(prev => prev.filter(course => course._id !== favoriteId));
-          // Optionally show a success toast/message
-        } else {
-          throw new Error(result.message || 'Failed to remove course');
-        }
-      } catch (err: any) {
-        alert(`${t('profile', 'favoritesRemoveError')}: ${err.message}`); // Simple alert for error
-        console.error(err);
-      } finally {
-        setRemovingId(null);
+  // --- Actions ---
+  const removeFavorite = useCallback(async (favoriteId: string) => {
+    setDeletingId(favoriteId);
+    try {
+      const response = await fetch(`/api/favorites/${favoriteId}`, { method: 'DELETE' });
+      if (response.ok) {
+        setFavorites(prev => prev.filter(fav => fav.id !== favoriteId));
       }
-    }
-  };
+    } catch (error) { console.error('Error removing favorite:', error); }
+    finally { setDeletingId(null); }
+  }, []);
 
+  // --- Memoized Calculations ---
+  const filteredFavorites = useMemo(() => {
+    if (filter === 'all') return favorites;
+    return favorites.filter(fav => {
+      const courseLevel = fav.course.level?.toLowerCase() || '';
+      if (filter === 'masters') return courseLevel.includes('master');
+      if (filter === 'bachelors') return courseLevel.includes('bachelor');
+      return false;
+    });
+  }, [favorites, filter]);
+
+  const getFilterCount = useCallback((filterType: FilterType) => {
+    if (filterType === 'all') return favorites.length;
+    return favorites.filter(fav => {
+      const courseLevel = fav.course?.level?.toLowerCase() || '';
+      if (filterType === 'masters') return courseLevel.includes('master');
+      if (filterType === 'bachelors') return courseLevel.includes('bachelor');
+      return false;
+    }).length;
+  }, [favorites]);
+
+  // --- Loading State ---
+  if (loading) {
+    return (
+      <div className="w-full flex justify-center items-center p-20">
+        <Loader2 size={32} className="text-blue-500 animate-spin" />
+      </div>
+    );
+  }
+
+  // --- Main Render ---
   return (
-    <div>
-      <h2 className="text-2xl font-semibold text-neutral-700 mb-6">{t('profile', 'favoritesTitle')}</h2>
-
-      {/* Favorite Universities (existing logic, assuming data passed as prop) */}
-      <div className="mb-8">
-        <h3 className="text-xl font-medium text-neutral-600 mb-4 flex items-center gap-2">
-          <Building size={22} className="text-primary" /> {t('profile', 'favoritesUniversities')}
-        </h3>
-        {universities.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {universities.map(uni => (
-              <div key={uni.id} className="bg-neutral-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex items-center gap-4">
-                {uni.logoUrl ? <img src={uni.logoUrl} alt={uni.name} className="w-12 h-12 rounded-md object-contain flex-shrink-0" /> : <div className="w-12 h-12 bg-neutral-200 rounded-md flex items-center justify-center text-neutral-400 flex-shrink-0"><Building size={24} /></div>}
-                <div className="flex-grow">
-                  <a href={uni.link} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline text-base">{uni.name}</a>
-                  <p className="text-xs text-neutral-500">{uni.city}</p>
-                </div>
-                <button title={t('profile', 'favoritesRemove')} className="text-red-500 hover:text-red-700 p-1"> <Star size={18} fill="currentColor" /> </button>
-              </div>
-            ))}
+    <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+      {/* Header */}
+      <div className="p-6 border-b border-slate-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900">Saved Programs</h2>
+            <p className="text-sm text-slate-500 mt-1">Manage and compare programs you are interested in.</p>
           </div>
-        ) : (
-          <p className="text-neutral-500 text-sm">
-            {t('profile', 'favoritesNoUniversities')} {' '}
-            <Link href="/program-search" className="text-primary hover:underline">
-              {t('profile', 'favoritesExploreNow')}
-            </Link>
-          </p>
-        )}
+          <Link href="/courses" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors text-sm whitespace-nowrap">
+            <Plus size={16} /> Add Programs
+          </Link>
+        </div>
+        {/* Filter Controls */}
+        <div className="mt-6 flex items-center gap-2">
+          {[
+            { key: 'all', label: 'All Programs' },
+            { key: 'masters', label: 'Masters' },
+            { key: 'bachelors', label: 'Bachelors' }
+          ].map((tab) => (
+            <button key={tab.key} onClick={() => setFilter(tab.key as FilterType)}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${filter === tab.key
+                ? 'bg-blue-100 text-blue-700'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}>
+              {tab.label}
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${filter === tab.key ? 'bg-blue-200 text-blue-800' : 'bg-slate-200 text-slate-500'}`}>
+                {getFilterCount(tab.key as FilterType)}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Favorite Courses */}
-      <div>
-        <h3 className="text-xl font-medium text-neutral-600 mb-4 flex items-center gap-2">
-          <BookOpen size={22} className="text-primary" /> {t('profile', 'favoritesCourses')}
-        </h3>
-        {isLoadingCourses && (
-          <div className="flex justify-center items-center py-6">
-            <Loader2 size={32} className="animate-spin text-primary" />
-          </div>
-        )}
-        {errorCourses && !isLoadingCourses && (
-          <p className="text-red-500 text-sm bg-red-50 p-3 rounded-md">
-            {t('profile', 'favoritesLoadError', { message: errorCourses })}
-          </p>
-        )}
-        {!isLoadingCourses && !errorCourses && favoriteCourses.length > 0 && (
-          <div className="space-y-3">
-            {favoriteCourses.map(course => (
-              <div key={course._id} className="bg-neutral-50 p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row justify-between sm:items-center gap-3 sm:gap-4">
-                <div className="flex-grow">
-                  <a href={course.courseLink} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:underline text-base line-clamp-2">
-                    {course.courseNome}
-                  </a>
-                  <p className="text-xs text-neutral-500 mt-1">
-                    {course.courseUni} - {course.courseComune} {/* Adjust if you have degreeType */}
-                  </p>
-                </div>
-                <button
-                  onClick={() => handleRemoveCourse(course._id)}
-                  disabled={removingId === course._id}
-                  title={t('profile', 'favoritesRemoveCourse')}
-                  className="text-red-500 hover:text-red-700 p-1.5 rounded-md hover:bg-red-100 transition-colors self-start sm:self-center disabled:opacity-50"
-                >
-                  {removingId === course._id ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-        {!isLoadingCourses && !errorCourses && favoriteCourses.length === 0 && (
-          <p className="text-neutral-500 text-sm">
-            {t('profile', 'favoritesNoCourses')} {' '}
-            <Link href="/program-search" className="text-primary hover:underline">
-              {t('profile', 'favoritesExploreNow')}
+      {/* Content Area */}
+      <div className="p-2 sm:p-4">
+        {filteredFavorites.length === 0 ? (
+          <div className="text-center py-16 px-6">
+            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Heart className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              {filter !== 'all' ? 'No programs match your filter' : 'No saved programs yet'}
+            </h3>
+            <p className="text-slate-500 mb-6 max-w-md mx-auto">
+              {filter !== 'all' ? 'Try selecting a different filter or adding new programs.' : 'Start exploring Italian universities and save programs that interest you.'}
+            </p>
+            <Link href="/courses" className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 text-white font-semibold rounded-lg shadow-sm hover:bg-slate-900 transition-colors">
+              <BookOpen size={18} /> Explore Programs
             </Link>
-          </p>
+          </div>
+        ) : (
+          <div className="flow-root">
+            <ul className="divide-y divide-slate-100">
+              {filteredFavorites.map((favorite) => (
+                <li key={favorite.id} className="p-4 hover:bg-slate-50 rounded-lg">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0 w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <GraduationCap className="w-6 h-6 text-slate-500" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-slate-900 truncate">{favorite.course.name}</p>
+                      <div className="flex items-center gap-4 text-xs text-slate-500 mt-1">
+                        <span className="inline-flex items-center gap-1.5"><Building size={12} /> {favorite.course.university.name}</span>
+                        <span className="inline-flex items-center gap-1.5"><MapPin size={12} /> {favorite.course.university.city}</span>
+                      </div>
+                    </div>
+                    <div className="hidden md:flex items-center gap-3">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${favorite.course.level.toLowerCase().includes('master') ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
+                        {favorite.course.level}
+                      </span>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                        {favorite.course.language}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Link href={`/courses/${favorite.course.id}`} className="px-3 py-2 text-sm font-semibold text-white bg-slate-800 rounded-md hover:bg-slate-900 transition-colors">
+                        Details
+                      </Link>
+                      <button onClick={() => removeFavorite(favorite.id)} disabled={deletingId === favorite.id} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 rounded-md transition-colors">
+                        {deletingId === favorite.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default FavoritesSection;
+export default StudyInItalyFavorites;

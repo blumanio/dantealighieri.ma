@@ -1,13 +1,14 @@
-// client/app/api/users/[userId]/profile/route.ts
-// New file
 import { NextRequest, NextResponse } from 'next/server';
-import { clerkClient } from '@clerk/nextjs/server';
+import { getAuth } from '@clerk/nextjs/server';
+import { clerkClient } from '@clerk/clerk-sdk-node';
 import dbConnect from '@/lib/dbConnect';
 import UserProfileDetail from '@/lib/models/UserProfileDetail';
-import { IUserProfileDetail } from '@/types/types'; // Adjust the import path as necessary
-import mongoose from 'mongoose';
+import UniversityFavorite from '@/lib/models/UniversityFavorite'; // Import Favorite model
+import Application from '@/lib/models/Application'; // Import Application model
 
-interface PublicProfileData {
+// This interface defines all possible data that can be sent to the client.
+// Optional properties are used because the data sent will depend on the viewer's tier.
+interface TieredPublicProfileData {
     userId: string;
     fullName?: string | null;
     firstName?: string | null;
@@ -15,81 +16,96 @@ interface PublicProfileData {
     imageUrl?: string;
     role?: string;
     aboutMe?: string;
-    // Add other fields you want to make public from UserProfileDetail
-    // For example: educationalData.highestLevelOfEducation, specific interests, etc.
-    // Be very careful about what data is exposed publicly.
     profileVisibility?: string;
+    premiumTier?: string; // The tier of the profile owner
+
+    // Data sections controlled by viewer's tier
+    favorites?: any[];
+    applications?: any[];
+    activity?: any[]; // For future activity tracking
+
+    // Counts for lower tiers
+    favoritesCount?: number;
+    applicationsCount?: number;
+
+    // Metadata about the viewer for frontend logic
+    viewerTier: 'guest' | 'michelangelo' | 'dante' | 'davinci';
 }
+
 
 export async function GET(req: NextRequest, { params }: { params: { userId: string } }) {
     try {
-        const targetUserId = await params.userId;
+        await dbConnect();
+        const { userId: targetUserId } = params;
+
+        // 1. Get the viewer's authentication state and userId from the request
+        const { userId: viewerId } = getAuth(req);
 
         if (!targetUserId) {
             return NextResponse.json({ success: false, message: 'User ID is required.' }, { status: 400 });
         }
 
-        await dbConnect();
-        let publicData: Partial<PublicProfileData> = { userId: targetUserId };
-
-        // Fetch from UserProfileDetail first
-        const profileDetail = await UserProfileDetail.findOne({ userId: targetUserId })
-            .select('userId personalData.firstName personalData.lastName role aboutMe profileVisibility educationalData.highestLevelOfEducation') // Select only public fields
+        // 2. Fetch the target user's profile details (owner of the profile)
+        const targetProfile = await UserProfileDetail.findOne({ userId: targetUserId })
+            .select('userId personalData.firstName personalData.lastName role aboutMe profileVisibility premiumTier')
             .lean();
 
-        if (profileDetail) {
-            // Check profile visibility settings from UserProfileDetail
-            // For now, let's assume 'public' allows viewing, otherwise restrict.
-            // You might have more granular settings like 'network_only'.
-            if (profileDetail.profileVisibility === 'private') {
-                // Even if private, we might still want to show basic Clerk info if the user is part of a public interaction
-                // For now, let's restrict if explicitly private.
-                // return NextResponse.json({ success: false, message: 'This profile is private.' }, { status: 403 });
-            }
-
-            publicData.firstName = (profileDetail.personalData as any)?.firstName;
-            publicData.lastName = (profileDetail.personalData as any)?.lastName;
-            publicData.fullName = `${(profileDetail.personalData as any)?.firstName || ''} ${(profileDetail.personalData as any)?.lastName || ''}`.trim();
-            publicData.role = profileDetail.role;
-            publicData.aboutMe = profileDetail.aboutMe;
-            publicData.profileVisibility = profileDetail.profileVisibility;
-            // Example: publicData.highestEducation = profileDetail.educationalData?.highestLevelOfEducation;
+        // 3. Check for privacy
+        if (!targetProfile || (targetProfile.profileVisibility === 'private' && targetUserId !== viewerId)) {
+            return NextResponse.json({ success: false, message: 'User not found or this profile is private.' }, { status: 404 });
         }
 
-        // Augment or fill with Clerk data, especially if UserProfileDetail is minimal or missing
-        try {
-            const clerk = await clerkClient();
-            const clerkUser = await clerk.users.getUser(targetUserId);
-            publicData.imageUrl = clerkUser.imageUrl;
-            if (!publicData.fullName && clerkUser.fullName) {
-                publicData.fullName = clerkUser.fullName;
-            }
-            if (!publicData.firstName && clerkUser.firstName) {
-                publicData.firstName = clerkUser.firstName;
-            }
-            if (!publicData.lastName && clerkUser.lastName) {
-                publicData.lastName = clerkUser.lastName;
-            }
-            if (!publicData.fullName) { // Fallback if still no full name
-                publicData.fullName = `${publicData.firstName || ''} ${publicData.lastName || ''}`.trim() || clerkUser.username || `User ${targetUserId.substring(0, 8)}`;
-            }
-        } catch (clerkError: any) {
-            console.warn(`[API Public Profile] Clerk user not found for ${targetUserId}: ${clerkError.message}. Profile data might be incomplete.`);
-            // If no UserProfileDetail and no Clerk user, then user likely doesn't exist or is inaccessible
-            if (!profileDetail) {
-                return NextResponse.json({ success: false, message: 'User not found.' }, { status: 404 });
+        // 4. Fetch the viewer's profile to determine their tier
+        let viewerTier: TieredPublicProfileData['viewerTier'] = 'guest';
+        if (viewerId) {
+            const viewerProfile = await UserProfileDetail.findOne({ userId: viewerId }).select('premiumTier').lean();
+            // Normalize premiumTier to match allowed values
+            const normalizedTier = (viewerProfile?.premiumTier || '').toLowerCase().replace(/\s/g, '');
+            if (['michelangelo', 'dante', 'davinci'].includes(normalizedTier)) {
+                viewerTier = normalizedTier as TieredPublicProfileData['viewerTier'];
+            } else {
+                viewerTier = 'michelangelo'; // Default logged-in users to free tier
             }
         }
 
-        if (!publicData.fullName) { // Final fallback for name
-            publicData.fullName = `User ${targetUserId.substring(0, 8)}`;
+        // 5. Initialize response data with basic info
+        const clerkUser = await clerkClient.users.getUser(targetUserId);
+        const responseData: TieredPublicProfileData = {
+            userId: targetUserId,
+            fullName: `${clerkUser.firstName || targetProfile.personalData?.firstName || ''} ${clerkUser.lastName || targetProfile.personalData?.lastName || ''}`.trim(),
+            firstName: clerkUser.firstName || targetProfile.personalData?.firstName,
+            imageUrl: clerkUser.imageUrl,
+            role: targetProfile.role,
+            aboutMe: targetProfile.aboutMe,
+            profileVisibility: targetProfile.profileVisibility,
+            premiumTier: targetProfile.premiumTier,
+            viewerTier: viewerTier,
+        };
+
+        // 6. Tier-based logic: Fetch additional data based on the VIEWER's tier
+        if (viewerId) { // Only fetch detailed data if the user is logged in
+            switch (viewerTier) {
+                case 'davinci': // Top tier sees everything
+                    responseData.favorites = await UniversityFavorite.find({ userId: targetUserId }).populate('universityId', 'name').lean();
+                    responseData.applications = await Application.find({ userId: targetUserId }).select('programName universityName status').lean();
+                    break;
+
+                case 'dante': // Premium tier sees recent items
+                    responseData.favorites = await UniversityFavorite.find({ userId: targetUserId }).sort({ createdAt: -1 }).limit(5).populate('universityId', 'name').lean();
+                    responseData.applications = await Application.find({ userId: targetUserId }).sort({ createdAt: -1 }).limit(5).select('programName universityName status').lean();
+                    break;
+
+                case 'michelangelo': // Free tier sees only counts
+                    responseData.favoritesCount = await UniversityFavorite.countDocuments({ userId: targetUserId });
+                    responseData.applicationsCount = await Application.countDocuments({ userId: targetUserId });
+                    break;
+            }
         }
 
-
-        return NextResponse.json({ success: true, data: publicData });
+        return NextResponse.json({ success: true, data: responseData });
 
     } catch (error: any) {
-        console.error(`API GET /api/users/${params.userId}/profile Error:`, error);
+        console.error(`API GET /api/users/[userId]/profile Error:`, error);
         return NextResponse.json({ success: false, message: 'Failed to fetch user profile', error: error.message }, { status: 500 });
     }
 }

@@ -1,5 +1,3 @@
-// lib/i18n/types.ts
-
 export type Locale = 'en' | 'it' | 'fr' | 'ar';
 
 export interface CommonTranslation {
@@ -24,6 +22,7 @@ export interface CommonTranslation {
   moreInfo: string;
   showAllDeadlines: string;
   hideAllDeadlines: string;
+  unknownUser: string;
 }
 
 export interface HeroTranslation {
@@ -62,7 +61,7 @@ export interface ProgramSearchTranslation {
 }
 
 export interface UniversitiesTranslation {
-  comingsoon: string; // From JSON universities.comingsoon
+  comingsoon: string;
   status: string;
   requirements: string;
   deadline: string;
@@ -81,7 +80,7 @@ export interface UniversitiesTranslation {
   free: string;
   open: string;
   closed: string;
-  comingSoon: string; // From JSON universities.comingSoon
+  comingSoon: string;
   availableIntakes: string;
   start: string;
   end: string;
@@ -125,6 +124,19 @@ export interface FounderTranslation {
   connectWith: string;
   imageAltGraduation: string;
   imageAltDiploma: string;
+}
+export interface PaymentSuccessTranslation {
+  pageTitle: string;
+  mainTitle: string;
+  thankYouMessage: string;
+  tierUpgradeMessage: string;
+  accessUpdatedMessage: string;
+  transactionIdLabel: string;
+  emailConfirmation: string;
+  nextStepsTitle: string;
+  goToDashboardButton: string;
+  backToPricingButton: string;
+  contactSupportMessage: string;
 }
 
 export interface AboutTranslation {
@@ -182,11 +194,54 @@ export interface MessagingTranslation {
 }
 
 export interface ProfileTranslations {
+  // Journey Dashboard
+  yourJourney: string;
+  gettingStarted: string;
+  shortlisting: string;
+  documentPreparation: string;
+  applying: string;
+  finances: string;
+  communication: string;
+  preDeparture: string;
+  premiumServices: string;
+  loadingDashboard: string;
+  loadingSection: string;
+  welcomeBack: string;
+  yourProgressOverview: string;
+  level: string;
+  dayStreak: string;
+  xpToNextLevel: string;
+  AmbitiousApplicant: string;
+  Applicant: string;
+  updateProfile: string;
+  readAgain: string;
+  findUniversities: string;
+  viewChecklist: string;
+  searchScholarships: string;
+  explorePremium: string;
+  completeYourProfile: string;
+  provideYourAcademicAndPersonalDetails: string;
+  readTheGuide: string;
+  understandTheItalianApplicationProcess: string;
+  shortlistUniversities: string;
+  findAndSaveYourDreamUniversities: string;
+  prepareDocuments: string;
+  gatherAllRequiredApplicationDocuments: string;
+  findScholarships: string;
+  exploreFundingOptionsForYourStudies: string;
+  goPremium: string;
+  unlockExpertGuidanceAndSupport: string;
+  Completed: string;
+  InProgress: string;
+  ActionRequired: string;
+  NotStarted: string;
+
   // General Page
   pageTitle: string;
   signInPrompt: string;
   loading: string;
   addAnotherTest: string;
+  loadingPage?: string;
 
   // Tabs
   tabsPersonalData: string;
@@ -287,7 +342,7 @@ export interface ProfileTranslations {
   findAndTrackCourses: string;
   upcomingDeadlines: string;
   premiumApplicationHub: string;
-  personalizedDeadlineTracker: string; // Note: value in JSON is "profile details "
+  personalizedDeadlineTracker: string;
 
   // Tracked Universities
   trackedUniversitiesTitle: string;
@@ -297,6 +352,7 @@ export interface ProfileTranslations {
   trackedUniversitiesUntrackTooltip: string;
   trackedUniversitiesNoUpcomingDeadlines: string;
 }
+
 export interface ActionsTranslation {
   unfavorite: string;
   favorite: string;
@@ -309,27 +365,26 @@ export interface ProgramRowTranslation {
   trackedCountTooltip: string;
 }
 export interface IProfileFieldPlaceholders {
-  "firstNamePlaceholder": string
-  "lastNamePlaceholder": string
-  "nationalityPlaceholder": string
-  "countryOfResidencePlaceholder": string
-  "streetAddressPlaceholder": string
-  "countryPlaceholder": string
-  "stateProvincePlaceholder": string
-  "postalCodePlaceholder": string
-  "passportNumberPlaceholder": string
-  "emergencyContactNamePlaceholder": string
-  "emergencyContactRelationshipPlaceholder": string
-  "emergencyContactPhonePlaceholder": string
-  "emergencyContactEmailPlaceholder": string
-  "institutionNamePlaceholder": string
-  "cityPlaceholder": string
-  "degreeNamePlaceholder": string
-  "fieldOfStudyPlaceholder": string
-  "graduationYearPlaceholder": string
-  "gpaPlaceholder": string
-  "gradingScalePlaceholder": string
-  
+  firstNamePlaceholder: string;
+  lastNamePlaceholder: string;
+  nationalityPlaceholder: string;
+  countryOfResidencePlaceholder: string;
+  streetAddressPlaceholder: string;
+  cityPlaceholder: string;
+  stateProvincePlaceholder: string;
+  postalCodePlaceholder: string;
+  countryPlaceholder: string;
+  passportNumberPlaceholder: string;
+  emergencyContactNamePlaceholder: string;
+  emergencyContactRelationshipPlaceholder: string;
+  emergencyContactPhonePlaceholder: string;
+  emergencyContactEmailPlaceholder: string;
+  institutionNamePlaceholder: string;
+  degreeNamePlaceholder: string;
+  fieldOfStudyPlaceholder: string;
+  graduationYearPlaceholder: string;
+  gpaPlaceholder: string;
+  gradingScalePlaceholder: string;
 }
 export interface IProfileFieldLabels {
   // From JSON direct structure
@@ -342,15 +397,15 @@ export interface IProfileFieldLabels {
   no: string;
   tier_Michelangelo: string;
   role_viaggiatore: string;
-  role_studente: string; // Note: distinct from 'role_student' if both exist in JSON
+  role_studente: string;
   role_accademico: string;
-  role_mentore: string;   // Note: distinct from 'role_mentor' if both exist in JSON
+  role_mentore: string;
   role_coordinatore: string;
 
   tier_freetier: string;
   tier_michelangelo: string;
   tier_dante: string;
-  tier_davinci: string; // "da Vinci" in JSON value
+  tier_davinci: string;
   tier_michelangelo_tooltip: string;
   tier_dante_tooltip: string;
   tier_davinci_tooltip: string;
@@ -461,10 +516,9 @@ export interface IProfileFieldLabels {
   notesLabel: string;
   nextDeadline: string;
 
-  // From the second distinct block in JSON (and original TS)
-  role_student: string;  // Distinct key from "role_studente"
+  role_student: string;
   role_alumni: string;
-  role_mentor: string;   // Distinct key from "role_mentore"
+  role_mentor: string;
   role_admin: string;
 
   tier_Amico: string;
@@ -624,7 +678,7 @@ export interface UniversityHubsTranslation {
   viewHub: string;
   noUniversitiesFound: string;
   errorFetchingUniversities: string;
-  errorFetchingCourses: string; // Kept from original TS; verify if still used or if errorFetchingUniversities replaces it
+  errorFetchingCourses: string;
   coursesOfferedTitle: string;
   noCoursesListed: string;
   studentNetworkTitle: string;
@@ -685,9 +739,22 @@ export interface UniversityHubsTranslation {
   noHousingPostsYet: string;
   housingDescription: string;
   postType_discussion_desc: string;
+  // New keys from implementation
+  searchCoursesPlaceholder: string;
+  coursesFound: string;
+  pageInfo: string;
+  showingResults: string;
+  availableCourses: string;
+  discoverPrograms: string;
+  searchPlaceholder: string;
+  advancedFilters: string;
+  deadlinesTab: string;
 }
 
 export interface PremiumHubTranslation {
+
+
+  pageTitle: string;
   title: string;
   subtitle: string;
   overallProgress: string;
@@ -707,7 +774,7 @@ export interface PremiumHubTranslation {
   stepVisaDTitle: string;
   stepVisaDDesc: string;
   stepDoVCIMEATitle: string;
-  'stepDoVCIMEAChứngDesc': string; // Key with special character
+  stepDoVCIMEA: string;
 
   docChecklistSectionTitle: string;
   docChecklistLoadingOrNotApplicable: string;
@@ -738,8 +805,8 @@ export interface PremiumHubTranslation {
   visaGuidanceSectionTitle: string;
   universitalyTitle: string;
   universitalyDesc: string;
-  'dovCIMEAChứngTitle': string; // Key with special character
-  'dovCIMEAChứngDesc': string; // Key with special character
+  'dovCIMEAChứngTitle': string;
+  'dovCIMEAChứngDesc': string;
   visaDTitle: string;
   visaDDesc_NonEU: string;
 
@@ -760,6 +827,64 @@ export interface PremiumHubTranslation {
   needMoreHelpDesc: string;
   exploreServicesButton: string;
 }
+
+// START: New Interfaces for untyped sections
+export interface CreatePostModalTranslation {
+  title: string;
+  errorCommunityRequired: string;
+  errorFetchCommunities: string;
+  contentPlaceholder: string;
+}
+
+export interface AdminPostTranslation {
+  title: string;
+  errorCommunityDetails: string;
+  errorContent: string;
+  errorUserFullName: string;
+  errorUserIdClaimable: string;
+  errorCreateFailed: string;
+  successCreate: string;
+  userFullNameLabel: string;
+  userAvatarUrlLabel: string;
+  userIdLabel: string;
+  userIdHelp: string;
+  contentLabel: string;
+  communityTypeLabel: string;
+  communityIdLabel: string;
+  communityNameLabel: string;
+  communitySlugLabel: string;
+  categoryLabel: string;
+  userCountryLabel: string;
+  tagsLabel: string;
+  claimableLabel: string;
+  submitButton: string;
+}
+
+export interface AdminCommentTranslation {
+  title: string;
+  errorPostId: string;
+  errorCommentContent: string;
+  errorCommenterFullName: string;
+  errorCommenterId: string;
+  errorCreateFailed: string;
+  successCreate: string;
+  targetPostIdLabel: string;
+  commenterFullNameLabel: string;
+  commenterAvatarUrlLabel: string;
+  commenterUserIdLabel: string;
+  commentContentLabel: string;
+  submitButton: string;
+}
+
+export interface PostTypeTranslation {
+  discussion: string;
+  general: string;
+  housingSeeking: string;
+  studyGroup: string;
+  academic: string;
+  career: string;
+}
+// END: New Interfaces
 
 // Main Translation interface
 export interface Translation {
@@ -787,6 +912,12 @@ export interface Translation {
   actions: ActionsTranslation;
   programRow: ProgramRowTranslation;
   profileFieldPlaceholders: IProfileFieldPlaceholders;
+  paymentSuccess: PaymentSuccessTranslation;
+  // Added new types
+  createPostModal: CreatePostModalTranslation;
+  adminPost: AdminPostTranslation;
+  adminComment: AdminCommentTranslation;
+  postType: PostTypeTranslation;
 }
 
 // Type guard for checking valid locale
@@ -800,19 +931,14 @@ export type TranslationKey<
   K extends keyof Translation[T]
 > = `${T}.${K & string}`;
 
-// Note: The CityCostMetric and CityData interfaces seem unrelated to the i18n translations
-// and were at the end of your provided types.ts file. I'm keeping them here as they were.
 export interface CityCostMetric {
   label: string;
   value: string | number;
   unit?: string;
-  icon: React.ElementType; // Consider a more generic type if not React-specific, e.g., string for image path or SVG component type
+  icon: React.ElementType;
   barPercentage?: number;
   barColor?: string;
 }
-
-// Removed the extra semicolon after CityCostMetric's closing brace.
-// }; <-- This was removed
 
 export interface CityData {
   id: string;

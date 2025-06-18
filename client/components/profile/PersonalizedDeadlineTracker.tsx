@@ -1,7 +1,7 @@
 // client/components/profile/PersonalizedDeadlineTracker.tsx
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
 import {
     Loader2, CalendarDays, Trash2, Edit2, AlertTriangle, Info, PlusCircle,
@@ -71,13 +71,18 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
             const result = await response.json();
             if (response.ok && result.success) {
                 // Process deadlines to create dateObj right after fetching
-                const processedData = (result.data || []).map((item: TrackedItemData) => ({
-                    ...item,
-                    universityDeadlines: (item.universityDeadlines || []).map(d => ({
-                        ...d,
-                        dateObj: d.date ? new Date(d.date) : null
-                    })).sort((a,b) => (a.dateObj?.getTime() || 0) - (b.dateObj?.getTime() || 0)) // Ensure sorted
-                }));
+                const processedData = (result.data || []).map((item: any) => {
+                    // FIX: Check if universityDeadlines is an array. If not (e.g., an empty object {}), default to an empty array.
+                    const deadlinesArray = Array.isArray(item.universityDeadlines) ? item.universityDeadlines : [];
+                    
+                    return {
+                        ...item,
+                        universityDeadlines: deadlinesArray.map((d: UniversityDeadline) => ({
+                            ...d,
+                            dateObj: d.date ? new Date(d.date) : null
+                        })).sort((a: UniversityDeadline, b: UniversityDeadline) => (a.dateObj?.getTime() || 0) - (b.dateObj?.getTime() || 0)) // Ensure sorted
+                    };
+                });
                 setTrackedItems(processedData);
             } else {
                 throw new Error(result.message || 'Failed to fetch tracked items');
@@ -100,7 +105,6 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
     }, [isLoaded, isSignedIn, user]);
 
     const handleRemoveItem = async (trackedItemId: string) => {
-        // ... (same as your existing function)
         if (!window.confirm(t('profile', 'confirmRemoveTrackedItem', { defaultValue: "Are you sure you want to stop tracking this item?" }))) {
             return;
         }
@@ -118,14 +122,12 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
     };
 
     const handleEditItem = (item: TrackedItemData) => {
-        // ... (same as your existing function)
         setEditingItemId(item._id);
         setCurrentNotes(item.userNotes || '');
         setCurrentStatus(item.userApplicationStatus);
     };
 
     const handleSaveEditedItem = async (trackedItemId: string) => {
-        // ... (same as your existing function, but ensure API returns enriched data)
         try {
             const response = await fetch(`/api/tracked-items/${trackedItemId}`, {
                 method: 'PUT',
@@ -152,7 +154,6 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
     };
     
     const handleArchiveItem = async (trackedItemId: string, archiveStatus: boolean) => {
-        // ... (same as your existing function)
          try {
             const response = await fetch(`/api/tracked-items/${trackedItemId}`, {
                 method: 'PUT',
@@ -194,7 +195,6 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
         'Applied', 'Awaiting Results', 'Accepted', 'Rejected', 'Enrolled'
     ];
 
-    // ... (isLoading, error, !isSignedIn checks from your existing code) ...
     if (isLoading) {
         return <div className="flex justify-center items-center p-10"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>;
     }
@@ -216,7 +216,7 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
                 <p className="text-sm text-neutral-600">{t('profile', 'deadlineTrackerDescription', {defaultValue: "Deadlines for courses you are actively tracking, based on university intake information."})}</p>
                  <div className="mt-4">
                     <Link href={`/${lang}/program-search`} 
-                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                         <PlusCircle size={18} className="mr-2" />
                         {t('profile', 'findAndTrackCourses', {defaultValue: "Find & Track Courses"})}
                     </Link>
@@ -225,7 +225,7 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
 
             {trackedItems.length === 0 && !isLoading && (
                 <div className="text-center p-10 border-2 border-dashed border-neutral-300 rounded-lg">
-                     <Info size={48} className="mx-auto text-neutral-400 mb-4" />
+                      <Info size={48} className="mx-auto text-neutral-400 mb-4" />
                     <p className="text-lg font-semibold text-neutral-700">{t('profile', 'noTrackedItemsTitle', { defaultValue: "No Deadlines Tracked Yet" })}</p>
                     <p className="text-neutral-600">{t('profile', 'noTrackedItemsPrompt', { defaultValue: "Start by finding programs and adding them to your tracker to see relevant deadlines here." })}</p>
                 </div>
@@ -234,13 +234,10 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
             {trackedItems.length > 0 && (
                  <div className="mt-6 mb-4">
                     <h4 className="text-xl font-medium text-neutral-700">{t('profile', 'trackedCoursesAndDeadlines', {defaultValue: "Your Tracked Courses & Deadlines"})}</h4>
-                 </div>
+                </div>
             )}
             <div className="space-y-6">
                 {trackedItems.map(item => {
-                    // Find the nearest deadline for this item
-                    // The API already sorts universityDeadlines and flags 'isNearest' on the first upcoming one.
-                    // Or, we can just take the first one if the array is guaranteed to be sorted and filtered for upcoming.
                     const nearestDeadline = item.universityDeadlines?.find(d => d.isNearest) || item.universityDeadlines?.[0];
                     const totalUpcomingForThisItem = nearestDeadline?.totalUpcomingIntakesCount || item.universityDeadlines?.length || 0;
                     const daysRemainingForNearest = nearestDeadline?.dateObj ? getDaysRemaining(nearestDeadline.dateObj) : null;
@@ -300,7 +297,7 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
                                             {item.universityDeadlines.map(d => {
                                                 const dDaysRemaining = getDaysRemaining(d.dateObj);
                                                 return (
-                                                <div key={d._id} className={`p-2 rounded ${d.isNearest ? 'bg-primary/5':''}`}>
+                                                <div key={d._id || `${d.deadlineType}-${d.date}`} className={`p-2 rounded ${d.isNearest ? 'bg-primary/5':''}`}>
                                                     <div className="flex justify-between items-start">
                                                         <div>
                                                             <p className="text-sm font-medium text-neutral-700">{d.deadlineType}</p>
@@ -332,12 +329,11 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
                                 </div>
                             )}
                             
-                            {/* Editing UI for status and notes (same as before) */}
+                            {/* Editing UI for status and notes */}
                             <div className="mt-3 pt-3 border-t border-neutral-200">
-                                {/* ... (Your existing editing UI for status and notes - make sure it references `item.userApplicationStatus` and `item.userNotes`) ... */}
                                 {editingItemId === item._id ? (
-                                    <div className="space-y-3"> {/* ... form ... */} 
-                                         <div>
+                                    <div className="space-y-3">
+                                        <div>
                                             <label htmlFor={`status-${item._id}`} className="block text-xs font-medium text-neutral-700">{t('profileFieldLabels', 'applicationStatusLabel', {defaultValue: "Application Status"})}</label>
                                             <select id={`status-${item._id}`} value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}
                                                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-neutral-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md">

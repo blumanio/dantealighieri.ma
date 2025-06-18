@@ -1,10 +1,10 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { clerkMiddleware, ClerkMiddlewareAuthObject } from '@clerk/nextjs/server';
+import { clerkMiddleware, ClerkMiddlewareAuthObject, createRouteMatcher } from '@clerk/nextjs/server';
 
 // --- START OF YOUR i18n CONFIGURATION AND HELPER FUNCTIONS ---
-const LANGUAGES = ['en', 'fr','it', 'ar'] as const;
+const LANGUAGES = ['en', 'fr', 'it', 'ar'] as const;
 type SupportedLanguage = typeof LANGUAGES[number];
 const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
 
@@ -20,6 +20,17 @@ const isUnprefixedPublicPath = (path: string): boolean => {
     path === route || path.startsWith(`${route}/`)
   );
 };
+const isProtectedRoute = createRouteMatcher([
+  '/dashboard(.*)',
+  '/profile(.*)',
+  '/forum(.*)',
+  '/onboarding(.*)',
+]);
+
+const isPublicRoute = createRouteMatcher([
+]);
+
+
 
 // This function checks paths that your i18n logic should specifically skip.
 // API routes are skipped here because i18n prefixing is not needed for them.
@@ -85,7 +96,14 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
 
   // eslint-disable-next-line no-console
   console.log(`[Clerk Middleware] Path: ${pathname}. User ID: ${userId || 'Not signed in'}.`);
-
+  if (isProtectedRoute(req)) {
+    const { userId } = await auth();
+    if (!userId) {
+      const signInUrl = new URL('/sign-in', req.url);
+      return NextResponse.redirect(signInUrl);
+    }
+  }
+  if (isPublicRoute(req)) return;
   // Clerk authentication context is now established.
   // getAuth() will work in your API routes and server components.
 

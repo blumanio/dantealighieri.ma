@@ -158,90 +158,119 @@ export interface IConversation {
 }
 
 export interface IMessage {
-   _id: string;
-    sender: string;
-    content: string;
-    readBy?: string[];
-    createdAt: string | Date;
+  _id: string;
+  sender: string;
+  content: string;
+  readBy?: string[];
+  createdAt: string | Date;
 }
 
 // --- Interface for Custom Personal Data ---
 // This interface should match the structure expected and handled by the frontend and API.
 export interface ICustomPersonalData {
-    firstName?: string;
-    lastName?: string;
-    dateOfBirth?: string; // Consider storing as Date if performing date-based queries, otherwise string is fine for forms
-    gender?: string;
-    nationality?: string;
-    countryOfResidence?: string;
-    streetAddress?: string;
-    city?: string;
-    stateProvince?: string;
-    postalCode?: string;
-    addressCountry?: string;
-    passportNumber?: string;
-    passportExpiryDate?: string; // Consider storing as Date
-    emergencyContactName?: string;
-    emergencyContactRelationship?: string;
-    emergencyContactPhone?: string;
-    emergencyContactEmail?: string;
+  firstName?: string;
+  lastName?: string;
+  dateOfBirth?: string; // Consider storing as Date if performing date-based queries, otherwise string is fine for forms
+  gender?: string;
+  nationality?: string;
+  countryOfResidence?: string;
+  streetAddress?: string;
+  city?: string;
+  stateProvince?: string;
+  postalCode?: string;
+  addressCountry?: string;
+  passportNumber?: string;
+  passportExpiryDate?: string; // Consider storing as Date
+  emergencyContactName?: string;
+  emergencyContactRelationship?: string;
+  emergencyContactPhone?: string;
+  emergencyContactEmail?: string;
+  imageUrl?: string; // Optional field for user profile image URL
+  phoneNumber?: string; // Optional field for user phone number
 }
 
 // --- Interface for Education Entry ---
 export interface IEducationEntry {
-    id: string; // Frontend key, Mongoose will add _id by default if schema has _id: true
-    institutionName?: string;
-    institutionCountry?: string;
-    institutionCity?: string;
-    degreeName?: string;
-    fieldOfStudy?: string;
-    graduationYear?: string;
-    graduationMonth?: string;
-    gpa?: string;
-    gradingScale?: string;
+  id: string; // Frontend key, Mongoose will add _id by default if schema has _id: true
+  institutionName?: string;
+  institutionCountry?: string;
+  institutionCity?: string;
+  degreeName?: string;
+  fieldOfStudy?: string;
+  graduationYear?: string;
+  graduationMonth?: string;
+  gpa?: string;
+  gradingScale?: string;
 }
 
 // --- Interface for Language Proficiency ---
 export interface ILanguageProficiency {
-    isNativeEnglishSpeaker?: 'yes' | 'no' | '';
-    testTaken?: 'TOEFL' | 'IELTS' | 'Duolingo' | 'Cambridge' | 'Other' | '';
-    overallScore?: string;
-    testDate?: string; // Consider storing as Date
+  isNativeEnglishSpeaker?: 'yes' | 'no' | '';
+  testTaken?: 'TOEFL' | 'IELTS' | 'Duolingo' | 'Cambridge' | 'Other' | '';
+  overallScore?: string;
+  testDate?: string; // Consider storing as Date
 }
 
 // --- Interface for Standardized Test ---
 export interface IStandardizedTest {
-    id: string; // Frontend key
-    testName?: string;
-    score?: string;
-    dateTaken?: string; // Consider storing as Date
+  id: string; // Frontend key
+  testName?: string;
+  score?: string;
+  dateTaken?: string; // Consider storing as Date
 }
 
 // --- Interface for Custom Educational Data ---
 export interface ICustomEducationalData {
-    highestLevelOfEducation?: 'High School' | "Associate's Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate (PhD)" | 'Other' | '';
-    previousEducation?: IEducationEntry[];
-    languageProficiency?: ILanguageProficiency;
-    otherStandardizedTests?: IStandardizedTest[];
+  highestLevelOfEducation?: 'High School' | "Associate's Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate (PhD)" | 'Other' | '';
+  previousEducation?: IEducationEntry[];
+  languageProficiency?: ILanguageProficiency;
+  otherStandardizedTests?: IStandardizedTest[];
+}
+export interface IWorkExperience {
+  workExperienceInMonths?: number;
+  workExperienceType?: 'national' | 'international' | 'none';
+  projectsWorkedOn?: number;
+}
+
+// --- Interface for Language Skill ---
+export interface ILanguageSkill {
+  language?: string;
+  score?: string;
 }
 
 // --- Mongoose Document Interface for UserProfileDetail ---
 export interface IUserProfileDetail extends Document {
-    userId: string; // Clerk User ID, unique and indexed
-    personalData?: ICustomPersonalData;
-    educationalData?: ICustomEducationalData;
-    role?: 'student' | 'alumni' | 'mentor' | 'admin';
-    premiumTier?: 'Michelangelo' | 'Dante' | 'da Vinci';
-    profileVisibility?: 'public' | 'private' | 'network_only';
-    languageInterests?: string[];
-    targetUniversities?: {
-        universityId?: string; // Optional reference to a University collection
-        universityName: string;
-        applicationStatus: string; // Consider enum if statuses are fixed
-        programOfInterest?: string;
-    }[];
-    aboutMe?: string;
-    // Timestamps (createdAt, updatedAt) are added by Mongoose option
-    createdAt: Date;
-    updatedAt: Date;
+  userId: string; // Clerk User ID, unique and indexed
+  personalData?: ICustomPersonalData;
+  educationalData?: ICustomEducationalData;
+  role?: 'student' | 'alumni' | 'mentor' | 'admin';
+  premiumTier?: 'Michelangelo' | 'Dante' | 'da Vinci';
+  profileVisibility?: 'public' | 'private' | 'network_only';
+  languageInterests?: string[];
+  targetUniversities?: {
+    universityId?: string; // Optional reference to a University collection
+    universityName: string;
+    applicationStatus: string; // Consider enum if statuses are fixed
+    programOfInterest?: string;
+  }[];
+  workExperience?: IWorkExperience;
+  languages?: ILanguageSkill[];
+  aboutMe?: string;
+  // Timestamps (createdAt, updatedAt) are added by Mongoose option
+  // START: Stripe Subscription Fields
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  stripePriceId?: string; // The ID of the Stripe Price object for the current subscription
+  stripeSubscriptionStatus?: 'active' | 'trialing' | 'past_due' | 'canceled' | 'unpaid' | 'incomplete' | 'incomplete_expired' | 'paused' | null;
+  stripeCurrentPeriodEnd?: Date; // End of the current billing cycle
+  // END: Stripe Subscription Fields
+  createdAt: Date;
+  updatedAt: Date;
+  lastPaymentDate?: Date; // Optional field to track the last payment date
+
+  interest?: "bachelor" | "master" | "phd" | "";
+  userType?: 'student' | 'parent' | '';
+  graduationYear?: string;
+  fieldOfInterest?: string;
+  studyAbroadStage?: 'researching' | 'shortlisting' | 'testing' | 'applied' | 'admitted' | 'Visa Process' | 'enrolled' | '';
 }

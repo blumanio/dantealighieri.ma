@@ -3,7 +3,11 @@
 
 import React from 'react';
 import { CheckCircle, Circle, ExternalLink } from 'lucide-react';
-import type { ChecklistItem } from '@/app/[lang]/profile/[[...userProfile]]/page'; // Adjust path if types moved
+// If ChecklistItem is a default export:
+// import type ChecklistItem from '@/app/[lang]/profile/[[...userProfile]]/page';
+
+// If ChecklistItem is a named export, ensure it is exported as such in the target file:
+import type { ChecklistItem } from '@/types/checklist'; // Adjust path if types moved
 
 interface ChecklistItemUIProps {
     item: ChecklistItem;
@@ -13,7 +17,7 @@ interface ChecklistItemUIProps {
     language: string;
 }
 
-const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onToggleItem, t, language }) => {
+const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onToggleItem, t, language,isFirstIncomplete }) => {
     const ItemIcon = item.icon || Circle;
 
     const handleToggle = () => {
@@ -21,7 +25,7 @@ const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onTogg
         // The onToggleItem prop passed from parent for subitems is already curried
         onToggleItem(phaseId, item.id);
     };
-    
+
     const handleSubItemToggle = (subItemId: string) => {
         onToggleItem(phaseId, item.id, subItemId);
     };
@@ -59,9 +63,9 @@ const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onTogg
                 </div>
             </div>
             {item.subItems && item.subItems.length > 0 && (
-                 <div className={`mt-2 space-y-2 ${language === 'ar' ? 'mr-8 border-r pr-4' : 'ml-8 border-l pl-4'} border-neutral-200 `}>
-                    {item.subItems.map(subItem => (
-                         <ChecklistItemUI
+                <div className={`mt-2 space-y-2 ${language === 'ar' ? 'mr-8 border-r pr-4' : 'ml-8 border-l pl-4'} border-neutral-200 `}>
+                    {item.subItems.map((subItem: ChecklistItem) => (
+                        <ChecklistItemUI
                             key={subItem.id}
                             item={subItem}
                             phaseId={phaseId} // Pass down the same phaseId

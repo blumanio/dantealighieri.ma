@@ -43,7 +43,7 @@ const config = {
           content: '#ffffff',
         },
         neutral: {
-          50:  '#f8fafc', // slate-50
+          50: '#f8fafc', // slate-50
           100: '#f1f5f9', // slate-100 (Used as general background)
           200: '#e2e8f0', // slate-200
           300: '#cbd5e1', // slate-300
@@ -58,7 +58,7 @@ const config = {
         background: '#f1f5f9',      // Same as neutral-100
         textPrimary: '#334155',     // Same as neutral-700
         textSecondary: '#64748b',   // Same as neutral-500
-        
+
         success: '#10b981', // Tailwind emerald-500 (brighter green)
         error: '#ef4444',   // Tailwind red-500 (brighter red)
         warning: '#f59e0b', // Tailwind amber-500
@@ -105,7 +105,7 @@ const config = {
     },
   },
   plugins: [
-    require('tailwindcss-animate'), 
+    require('tailwindcss-animate'),
     typographyPlugin,
     function ({ addUtilities }: { addUtilities: any }) {
       const newUtilities = {
@@ -127,11 +127,17 @@ const config = {
     fadeIn: { // Added for modal
       '0%': { opacity: '0', transform: 'scale(0.95)' },
       '100%': { opacity: '1', transform: 'scale(1)' },
-    }
+    },
+    fadeInUp: {
+      '0%': { opacity: 0, transform: 'translateY(10px)' },
+      '100%': { opacity: 1, transform: 'translateY(0)' },
+    },
   },
   animation: {
     shimmer: 'shimmer 2s infinite linear',
     fadeIn: 'fadeIn 0.3s ease-out forwards', // Added for modal
+    'spin-slow': 'spin 4s linear infinite',
+    'fadeInUp': 'fadeInUp 0.5s ease-out',
   },
 } satisfies Config
 

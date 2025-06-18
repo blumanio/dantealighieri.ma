@@ -74,7 +74,18 @@ const TargetUniversitySchema = new Schema({
     applicationStatus: { type: String, required: true, trim: true }, // Consider an enum
     programOfInterest: { type: String, trim: true },
 }, { _id: false }); // Typically _id: false for simple embedded objects unless individual manipulation is frequent
+// Schema for Work Experience
+const WorkExperienceSchema = new Schema({
+    workExperienceInMonths: { type: Number, default: 0 },
+    workExperienceType: { type: String, enum: ['national', 'international', 'none'], default: 'none' },
+    projectsWorkedOn: { type: Number, default: 0 },
+}, { _id: false });
 
+// Schema for Language Skill
+const LanguageSkillSchema = new Schema({
+    language: { type: String, trim: true },
+    score: { type: String, trim: true },
+}, { _id: true });
 // --- Main UserProfileDetail Schema ---
 const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
     userId: {
@@ -108,6 +119,16 @@ const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
         enum: ['Michelangelo', 'Dante', 'da Vinci'],
         default: 'Michelangelo',
     },
+    workExperience: {
+        type: WorkExperienceSchema,
+        default: () => ({
+            workExperienceInMonths: 0,
+            workExperienceType: 'none',
+            projectsWorkedOn: 0
+        })
+    },
+    languages: [LanguageSkillSchema],
+
     profileVisibility: {
         type: String,
         enum: ['public', 'private', 'network_only'],
@@ -116,6 +137,29 @@ const UserProfileDetailSchema = new Schema<IUserProfileDetail>({
     languageInterests: [{ type: String }], // Array of strings
     targetUniversities: [TargetUniversitySchema],
     aboutMe: { type: String, trim: true, maxlength: 2000 },
+    interest: {
+        type: String,
+        enum: ["bachelor", "master", "phd", ""],
+        default: ""
+    },
+    userType: {
+        type: String,
+        enum: ['student', 'parent', ''],
+        default: 'student'
+    },
+    graduationYear: {
+        type: String,
+        trim: true,
+    },
+    fieldOfInterest: {
+        type: String,
+        trim: true,
+    },
+    studyAbroadStage: {
+        type: String,
+        enum: ['researching', 'shortlisting', 'testing', 'applied', ''],
+        default: 'researching'
+    },
 }, {
     timestamps: true, // Automatically adds createdAt and updatedAt
 });
