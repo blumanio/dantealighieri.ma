@@ -840,8 +840,8 @@ export const translations: Record<Locale, Translation> = {
       "visaGuidanceSectionTitle": "Pre-enrollment & Visa Guidance",
       "universitalyTitle": "Universitaly Portal",
       "universitalyDesc": "The official Italian government portal for international students to manage their pre-enrollment application for higher education institutions.",
-      "dovCIMEAChứngTitle": "Declaration of Value (DoV) / CIMEA Comparability & Verification",
-      "dovCIMEAChứngDesc": "Essential documents to certify your foreign qualifications. Requirements vary; check with your chosen university and the Italian consulate. CIMEA services offer comparability and verification statements.",
+      "dovCIMEATitle": "Declaration of Value (DoV) / CIMEA Comparability & Verification",
+      "dovCIMEADesc": "Essential documents to certify your foreign qualifications. Requirements vary; check with your chosen university and the Italian consulate. CIMEA services offer comparability and verification statements.",
       "visaDTitle": "National Visa (Type D) for Study",
       "visaDDesc_NonEU": "Non-EU students require a Type D visa for long-term study in Italy. Start the process early at the Italian Embassy/Consulate in your country of residence after receiving acceptance and completing pre-enrollment.",
 
@@ -1656,7 +1656,7 @@ export const translations: Record<Locale, Translation> = {
       "visaGuidanceSectionTitle": "Guide de pré-inscription et de visa",
       "universitalyTitle": "Portail Universitaly",
       "universitalyDesc": "Le portail officiel du gouvernement italien pour les étudiants internationaux afin de gérer leur demande de pré-inscription dans les établissements d'enseignement supérieur.",
-      "dovCIMEAChứngTitle": "Déclaration de Valeur (DoV) / Comparabilité & Vérification CIMEA",
+      "dovCIMEATitle": "Déclaration de Valeur (DoV) / Comparabilité & Vérification CIMEA",
       "visaDTitle": "Visa National (Type D) pour études",
       "visaDDesc_NonEU": "Les étudiants non-UE ont besoin d'un visa de type D pour les études de longue durée en Italie. Commencez le processus tôt à l'ambassade/consulat d'Italie dans votre pays de résidence après avoir reçu l'acceptation et complété la pré-inscription.",
       "scholarshipTuitionSectionTitle": "Aperçus des bourses et des frais de scolarité",
@@ -1675,7 +1675,7 @@ export const translations: Record<Locale, Translation> = {
       "exploreServicesButton": "Découvrez nos services Premium"
     }
   },
-  
+
   ar: {
     "common": {
       "showDeadlines": "إظهار المواعيد النهائية ({count})",

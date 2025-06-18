@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import { Comment } from '@/lib/models/Comment';
-import { Post } from '@/lib/models/Post';
+import IComment, { default as Comment } from '@/lib/models/Comment';
+import Post from '@/lib/models/Post';
 import { getAuth } from '@clerk/nextjs/server';
+import mongoose from 'mongoose';
 
 interface IParams {
     postId?: string;

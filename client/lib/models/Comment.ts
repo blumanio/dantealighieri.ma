@@ -1,6 +1,6 @@
 // lib/models/Comment.ts
 import mongoose, { Document, Schema } from 'mongoose';
-import { IComment } from '@/types/post'; // Use the shared IComment interface
+// import { IComment } from '@/types/post'; // Removed to avoid conflict with local IComment interface
 
 // Ensure IComment also includes original author details if needed for comments
 export interface IComment extends Document {

@@ -775,7 +775,8 @@ export interface PremiumHubTranslation {
   stepVisaDDesc: string;
   stepDoVCIMEATitle: string;
   stepDoVCIMEA: string;
-
+  dovCIMEATitle: string;
+  dovCIMEADesc: string;
   docChecklistSectionTitle: string;
   docChecklistLoadingOrNotApplicable: string;
   docPassport: string;

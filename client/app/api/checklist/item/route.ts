@@ -1,11 +1,11 @@
 // app/api/checklist/item/route.js
 
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getAuth } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
 import UserProfileDetail from '@/lib/models/UserProfileDetail';
 
-export async function PUT(req) {
+export async function PUT(req: NextRequest) {
     try {
         await dbConnect();
         const { userId } = getAuth(req);
