@@ -351,14 +351,11 @@ const MetadataField: React.FC<MetadataFieldProps> = ({
     if (!user) return;
 
     try {
-      const client = await clerkClient();
-      await client.users.updateUserMetadata(user.id, { publicMetadata: { [fieldKey]: newPhase } })
-      // await user.updatePublicMetadata({
-      //   [fieldKey]: newPhase
-      // });
+      // Use server action to update metadata
+      await updatePublicMetadata({ [fieldKey]: newPhase });
       setValue(newPhase);
     } catch (err) {
-      console.error("Clerk update failed:", err);
+      console.error("Update failed:", err);
     }
   };
 
