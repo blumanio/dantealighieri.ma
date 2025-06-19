@@ -200,7 +200,7 @@ export async function POST(request: Request) {
 
         // Check if the requesting user is an admin by checking their Clerk metadata
         const clerkUser = await client.users.getUser(requestingUserId);
-        const isAdmin = clerkUser.id == 'user_2jNm312ve6JOhN0YXyzfSolcggp'; // Replace with your actual admin user ID
+        const isAdmin = clerkUser.id == 'user_2yiwr2cfjKqOzVZDYtf59CekAcj'; // Replace with your actual admin user ID
 
 
 
@@ -344,10 +344,10 @@ export async function DELETE(
         // --- Authorization Check ---
         // Allow deletion if:
         // 1. The requesting user is the post author.
-        // 2. The requesting user is a special admin user (user_2jNm312ve6JOhN0YXyzfSolcggp).
+        // 2. The requesting user is a special admin user (user_2yiwr2cfjKqOzVZDYtf59CekAcj).
         //    (For production, a more robust role-based access control (RBAC) check is recommended,
         //     e.g., checking user.publicMetadata.role === 'admin' via Clerk API)
-        const ADMIN_USER_ID = 'user_2jNm312ve6JOhN0YXyzfSolcggp';
+        const ADMIN_USER_ID = 'user_2yiwr2cfjKqOzVZDYtf59CekAcj'; 
 
         if (post.authorId !== userId && userId !== ADMIN_USER_ID) {
             console.log(`❌ Forbidden - User ${userId} is not the author (${post.authorId}) and not admin.`);
