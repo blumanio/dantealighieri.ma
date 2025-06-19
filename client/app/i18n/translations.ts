@@ -384,7 +384,7 @@ export const translations: Record<Locale, Translation> = {
       title: "Create Community Post",
       errorCommunityRequired: "Community Type is required.",
       errorFetchCommunities: "Failed to fetch communities.",
-      contentPlaceholder: "What's on your mind?",
+      contentPlaceholder: "What's on your mind? Share your thoughts, questions, or updates with the community.",
     },
     "adminPost": {
       "title": "Create Community Post (Admin)",
