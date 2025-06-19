@@ -242,8 +242,8 @@ const ScholarshipModal = ({ scholarship, onClose }: ScholarshipModalProps) => {
             </div>
 
             <div className="mt-12">
-              <h4 className="text-2xl font-bold text-center text-gray-800">Don't Just Apply. Succeed.</h4>
-              <p className="text-center text-gray-600 mt-2">See how we've helped students just like you.</p>
+              {/* <h4 className="text-2xl font-bold text-center text-gray-800">Don't Just Apply. Succeed.</h4>
+              <p className="text-center text-gray-600 mt-2">See how we've helped students just like you.</p> */}
               <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                 {premiumServices.successStories.map((story: SuccessStory, i: number) => (
                   <div key={i} className="bg-white p-4 rounded-lg border border-gray-200">

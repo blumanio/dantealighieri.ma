@@ -63,7 +63,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post, formatTimeAgo }) => {
     const roleConfig = getRoleConfig(undefined);
     const postCategoryConfig = getPostCategoryConfig(post.category);
     const postAuthorProfileLink = `/${language}/users/${post.author.id}`;
-const createdAtDate = new Date(post.createdAt);
+    const createdAtDate = new Date(post.createdAt);
     let communityDisplayName = '';
     let communityLink = '';
 
@@ -91,8 +91,8 @@ const createdAtDate = new Date(post.createdAt);
                         </h4>
                     </Link>
                     <time dateTime={createdAtDate.toISOString()} className="text-xs text-gray-500 flex-shrink-0 ml-2">
-    {formatTimeAgo(createdAtDate.toISOString())}
-</time>
+                        {formatTimeAgo(createdAtDate.toISOString())}
+                    </time>
                 </div>
 
                 {/* --- RESTRUCTURED SECTION 2: Author + Role --- */}

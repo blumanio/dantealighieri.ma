@@ -453,30 +453,30 @@ const Header: React.FC = () => {
           align="end"
           sideOffset={12}
         >
-          <div className="relative bg-gradient-to-br from-teal-500/10 via-blue-500/5 to-purple-500/10 px-6 pt-6 pb-4">
+          <div className="relative bg-gradient-to-br from-teal-500/10 via-orange-500/5 to-purple-500/10 px-6 pt-6 pb-4">
             <div className="flex flex-col items-center">
               <div className="relative mb-3">
                 <Avatar className="h-20 w-20 shadow-lg ring-3 ring-white/10">
                   <AvatarImage src={user.imageUrl} alt={user.fullName || "User avatar"} className="object-cover" />
-                  <AvatarFallback className="text-3xl bg-gradient-to-br from-teal-500/20 to-blue-500/20 text-teal-700 dark:text-teal-300 font-bold">{initials}</AvatarFallback>
+                  <AvatarFallback className="text-3xl bg-gradient-to-br from-teal-500/20 to-orange-500/20 text-teal-700 dark:text-teal-300 font-bold">{initials}</AvatarFallback>
                 </Avatar>
                 {premiumTier?.toLowerCase() !== 'free' && (
                   <div className="absolute -top-1 -right-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full p-1 shadow-lg"><Star className="h-3 w-3 text-white" /></div>
                 )}
               </div>
               <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-1 text-center truncate max-w-full">{user.fullName || user.firstName || "User Name"}</h3>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${isAdmin ? 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-300' : premiumTier?.toLowerCase() === 'pro' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'}`}>{isAdmin ? "👑 Admin" : `✨ ${premiumTier}`}</span>
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${isAdmin ? 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-300' : premiumTier?.toLowerCase() === 'pro' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300' : 'bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:text-orange-300'}`}>{isAdmin ? "👑 Admin" : `✨ ${premiumTier}`}</span>
             </div>
           </div>
           <DropdownMenuSeparator className="mx-6 my-0" />
           <div className="py-2">
-            <DropdownMenuItem asChild><Link href={`/${language}/dashboard`} className="group flex items-center cursor-pointer px-6 py-3 text-sm font-medium hover:bg-gray-50/50 dark:hover:bg-orange-500 transition-all duration-200 mx-2 rounded-xl"><div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/20 group-hover:bg-blue-200 dark:group-hover:bg-orange-500 transition-colors duration-200 mr-3"><CircleUserRound className="h-4 w-4 text-blue-600 dark:text-blue-400" /></div><span className="text-gray-700 dark:text-gray-300">My Profile</span><ChevronRight className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-all duration-200 group-hover:translate-x-1" /></Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href={`/${language}/dashboard`} className="group flex items-center cursor-pointer px-6 py-3 text-sm font-medium hover:bg-gray-50/50 dark:hover:bg-orange-500 transition-all duration-200 mx-2 rounded-xl"><div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/20 group-hover:bg-orange-200 dark:group-hover:bg-orange-500 transition-colors duration-200 mr-3"><CircleUserRound className="h-4 w-4 text-orange-600 dark:text-orange-400" /></div><span className="text-gray-700 dark:text-gray-300">My Profile</span><ChevronRight className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-all duration-200 group-hover:translate-x-1" /></Link></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href={isAdmin ? `/${language}/admin` : `/${language}/profile/dashboard`} className="group flex items-center cursor-pointer px-6 py-3 text-sm font-medium hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-all duration-200 mx-2 rounded-xl"><div className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/20 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/30 transition-colors duration-200 mr-3"><LayoutGrid className="h-4 w-4 text-purple-600 dark:text-purple-400" /></div><span className="text-gray-700 dark:text-gray-300">{isAdmin ? "Admin Panel" : "Dashboard"}</span><ChevronRight className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-all duration-200 group-hover:translate-x-1" /></Link></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href={`/${language}/dashboard#applications`} className="group flex items-center cursor-pointer px-6 py-3 text-sm font-medium hover:bg-gray-50/50 dark:hover:bg-gray-800/50 transition-all duration-200 mx-2 rounded-xl"><div className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/20 group-hover:bg-green-200 dark:group-hover:bg-green-800/30 transition-colors duration-200 mr-3"><FileText className="h-4 w-4 text-green-600 dark:text-green-400" /></div><span className="text-gray-700 dark:text-gray-300">My Applications</span><ChevronRight className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-all duration-200 group-hover:translate-x-1" /></Link></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href={`/${language}/profile/settings`} className="group flex items-center cursor-pointer px-6 py-3 text-sm font-medium hover:bg-orange-50 dark:hover:bg-orange-500/20 transition-all duration-200 mx-2 rounded-xl"><div className="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/20 group-hover:bg-orange-200 dark:group-hover:bg-orange-800/30 transition-colors duration-200 mr-3"><SettingsIcon className="h-4 w-4 text-orange-600 dark:text-orange-400" /></div><span className="text-gray-700 dark:text-gray-300">Settings</span><ChevronRight className="ml-auto h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-all duration-200 group-hover:translate-x-1" /></Link></DropdownMenuItem>
           </div>
           {(!isAdmin && premiumTier?.toLowerCase() !== 'pro' && premiumTier?.toLowerCase() !== 'enterprise') && (
-            <><DropdownMenuSeparator className="mx-6 my-2" /><div className="p-4 mx-2 mb-2"><Link href={`/${language}/pricing`} className="group relative flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] overflow-hidden"><div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" /><Star className="mr-2 h-4 w-4" /><span className="relative z-10">Upgrade to Premium</span></Link></div></>
+            <><DropdownMenuSeparator className="mx-6 my-2" /><div className="p-4 mx-2 mb-2"><Link href={`/${language}/pricing`} className="group relative flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-teal-500 to-orange-600 hover:from-teal-600 hover:to-orange-700 text-white rounded-xl text-sm font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] overflow-hidden"><div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" /><Star className="mr-2 h-4 w-4" /><span className="relative z-10">Upgrade to Premium</span></Link></div></>
           )}
           <DropdownMenuSeparator className="mx-6 my-0" />
           <div className="py-2">
@@ -563,8 +563,8 @@ const Header: React.FC = () => {
             </SignedIn>
             <SignedOut>
               <div className="hidden sm:flex items-center gap-2">
-                <SignInButton mode="modal"><Button variant="ghost" size="sm">{currentMenu.signIn.text}</Button></SignInButton>
-                <SignInButton mode="modal"><Button size="sm">{currentMenu.signUp.text}</Button></SignInButton>
+                <SignInButton mode="modal"><Button className='bg-orange-500 text-white' variant="ghost" size="sm">{currentMenu.signIn.text}</Button></SignInButton>
+                {/* <SignInButton mode="modal"><Button className='bg-orange-500 text-white' size="sm">{currentMenu.signUp.text}</Button></SignInButton> */}
               </div>
             </SignedOut>
           </div>

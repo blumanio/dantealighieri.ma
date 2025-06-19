@@ -118,18 +118,18 @@ export const scholarships = [
         }
       ],
       successStories: [
-        {
-          name: "A Student from India",
-          story: "Was about to submit an ISEEUP with incorrect family composition data. Our Gold Tier review caught the error, which would have led to automatic disqualification. They secured the full scholarship."
-        },
-        {
-          name: "A Student from Nigeria",
-          story: "Struggled with the difference between an Apostille and consular legalization for their documents. Our Silver Tier country-specific guide provided the exact addresses and steps needed, saving them weeks of stress."
-        },
-        {
-          name: "A First-Year Master's Student",
-          story: "Felt completely overwhelmed by the portal. Our Platinum service offered peace of mind with a full document review and direct support, allowing them to focus on their exams instead of the application."
-        }
+        // {
+        //   name: "A Student from India",
+        //   story: "Was about to submit an ISEEUP with incorrect family composition data. Our Gold Tier review caught the error, which would have led to automatic disqualification. They secured the full scholarship."
+        // },
+        // {
+        //   name: "A Student from Nigeria",
+        //   story: "Struggled with the difference between an Apostille and consular legalization for their documents. Our Silver Tier country-specific guide provided the exact addresses and steps needed, saving them weeks of stress."
+        // },
+        // {
+        //   name: "A First-Year Master's Student",
+        //   story: "Felt completely overwhelmed by the portal. Our Platinum service offered peace of mind with a full document review and direct support, allowing them to focus on their exams instead of the application."
+        // }
       ],
       contactLink: "/contact"
     }
