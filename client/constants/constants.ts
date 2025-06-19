@@ -151,7 +151,7 @@ export const arabCountries = [
 // API endpoints (if you're using environment variables)
 export const API_BASE_URL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:5000'  // Use HTTP for local development
-  : 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app'; 
+  : 'https://backend-jxkf29se8-mohamed-el-aammaris-projects.vercel.app';
 export const COURSES_ENDPOINT = `${API_BASE_URL}/api/courses`;
 export const APPLICATIONS_ENDPOINT = `${API_BASE_URL}/api/applications`;
 
@@ -205,13 +205,6 @@ export const courseLanguages = [
       en: 'English',
       ar: 'الإنجليزية',
       it: 'Inglese'
-    }
-  },
-  {
-    value: 'IT', label: {
-      en: 'Italian',
-      ar: 'الإيطالية',
-      it: 'Italiano'
     }
   }
 ];

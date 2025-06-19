@@ -10,9 +10,9 @@ import { BlogNavigation } from '@/components/BlogNavigation';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { BlogPageProps as SingleBlogPageProps } from '@/types/types';
 import { PremiumBlogInteractions } from '@/components/blog/PremiumBlogInteractions';
-import { 
-    Clock, User, Calendar, Eye, Heart, MessageCircle, Share2, 
-    Bookmark, Crown, Shield, Star, Award, TrendingUp, Sparkles 
+import {
+    Clock, User, Calendar, Eye, Heart, MessageCircle, Share2,
+    Bookmark, Crown, Shield, Star, Award, TrendingUp, Sparkles
 } from 'lucide-react';
 
 interface PostFrontmatter {
@@ -66,7 +66,7 @@ const getPost = cache(async (lang: string, slug: string): Promise<BlogPost> => {
             console.error(`[SinglePost - getPost] Failed fetch (Status: ${res.status}). Body: ${errorBody}`);
             throw new Error(`Failed to fetch post: ${slug}`);
         }
-        
+
         const response = await res.json();
 
         let postFromApi: any;
@@ -121,7 +121,7 @@ const getAdjacentPosts = cache(async (lang: string, currentSlug: string): Promis
         console.error("[SinglePost - getAdjacentPosts] API_BASE_URL is not defined.");
         return { prev: null, next: null };
     }
-    
+
     const targetUrl = `${API_BASE_URL}/api/generated-posts/${currentSlug}/adjacent?lang=${lang}`;
     try {
         const res = await fetch(targetUrl, { next: { revalidate: 60 } });
@@ -130,7 +130,7 @@ const getAdjacentPosts = cache(async (lang: string, currentSlug: string): Promis
             return { prev: null, next: null };
         }
         const response = await res.json();
-        
+
         if (response.success) {
             return { prev: response.prev || null, next: response.next || null };
         } else if (response.prev !== undefined || response.next !== undefined) {
@@ -148,13 +148,12 @@ export async function generateStaticParams() {
     console.warn("[SinglePost - generateStaticParams] Implement fetching of all lang/slug combinations.");
     const exampleParams = [
         { lang: 'en', slug: 'example-post' },
-        { lang: 'it', slug: 'esempio-post' },
         { lang: 'ar', slug: 'مثال-مشاركة' },
         { lang: 'fr', slug: 'exemple-partage' },
     ];
 
     try {
-        const defaultLangs = ['en', 'it', 'fr', 'ar'];
+        const defaultLangs = ['en','fr', 'ar'];
         // In production, fetch actual slugs from API
         return exampleParams;
     } catch (error) {
@@ -230,8 +229,8 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                 { year: 'numeric', month: 'long', day: 'numeric' }
             );
         }
-    } catch (e) { 
-        console.error("[BlogPost Render] Error formatting date:", e); 
+    } catch (e) {
+        console.error("[BlogPost Render] Error formatting date:", e);
     }
 
     const textDir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -388,7 +387,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                                 {formattedDate}
                                             </time>
                                         </div>
-                                        
+
                                         <div className="flex items-center gap-2 px-3 py-2 bg-blue-100 rounded-xl">
                                             <Clock className="h-4 w-4 text-blue-500" />
                                             <span className="font-semibold text-blue-700">
@@ -413,8 +412,8 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                             <span className="text-sm font-semibold text-slate-600">Topics:</span>
                                         </div>
                                         {frontmatter.tags.map(tag => (
-                                            <span 
-                                                key={tag} 
+                                            <span
+                                                key={tag}
                                                 className="inline-flex items-center gap-1 px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-200 text-blue-800 rounded-full text-sm font-bold hover:from-blue-200 hover:to-indigo-200 transition-all duration-300 cursor-pointer"
                                             >
                                                 <span className="w-2 h-2 bg-blue-500 rounded-full" />
@@ -447,7 +446,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                     <Heart className="h-5 w-5 text-red-500" />
                                     Engage
                                 </h3>
-                                
+
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="text-center p-3 bg-red-50 rounded-xl border border-red-200">
@@ -506,7 +505,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                     {/* Comments Section */}
                     {post._id && (
                         <div className="mt-12">
-                            <PremiumBlogInteractions 
+                            <PremiumBlogInteractions
                                 postId={post._id}
                                 postType="blog"
                                 lang={lang}

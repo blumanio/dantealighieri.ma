@@ -106,7 +106,7 @@ async function getPosts(lang: string): Promise<Post[]> {
 }
 
 export async function generateStaticParams() {
-  const languages = ['en', 'it', 'fr', 'ar'];
+  const languages = ['en', 'fr', 'ar'];
   return languages.map(lang => ({ lang }));
 }
 
