@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    
+
     // Destructure all fields from the updated form data
     const {
       userType,

@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Locale, Translation } from '@/app/i18n/types';
 import { ChevronLeft, ChevronRight, Check, Search, X, User, Users, BookMarked, GraduationCap, School, Loader2 } from 'lucide-react';
 
-// --- INTERFACES ---
+// --- INTERFACES --- (No changes here)
 interface FormData {
     userType: 'student' | 'parent' | '';
     countryOfOrigin: string;
@@ -43,18 +43,13 @@ interface SelectableOption {
     icon: React.ElementType;
 }
 
-// --- CONSTANTS ---
+// --- CONSTANTS --- (No changes here, except MOCK_DATA)
 const COUNTRIES: Country[] = [
     { code: 'MA', name: 'Morocco', flag: '🇲🇦', phoneCode: '+212' },
     { code: 'AL', name: 'Algeria', flag: '🇩🇿', phoneCode: '+213' },
     { code: 'TN', name: 'Tunisia', flag: '🇹🇳', phoneCode: '+216' },
     { code: 'LY', name: 'Libya', flag: '🇱🇾', phoneCode: '+218' },
     { code: 'EG', name: 'Egypt', flag: '🇪🇬', phoneCode: '+20' },
-    // { code: 'IT', name: 'Italy', flag: '🇮🇹', phoneCode: '+39' },
-    // { code: 'FR', name: 'France', flag: '🇫🇷', phoneCode: '+33' },
-    // { code: 'ES', name: 'Spain', flag: '🇪🇸', phoneCode: '+34' },
-    // { code: 'NL', name: 'Netherlands', flag: '🇳🇱', phoneCode: '+31' },
-    // { code: 'IN', name: 'India', flag: '🇮🇳', phoneCode: '+91' },
 ];
 
 const CURRENT_EDUCATION_LEVELS: SelectableOption[] = [
@@ -86,6 +81,8 @@ const ACADEMIC_AREAS: SearchableItem[] = [
     { id: '14', name: 'Political and Social Sciences' }
 ];
 
+// --- CHANGE START ---
+// We remove the mock 'cities' data, as it will now come from the API.
 const MOCK_DATA = {
     academicAreas: ACADEMIC_AREAS,
     universities: [
@@ -94,13 +91,9 @@ const MOCK_DATA = {
         { id: 'stanford', name: 'Stanford University', description: 'Stanford, CA, USA' },
         { id: 'oxford', name: 'University of Oxford', description: 'Oxford, England, UK' },
     ],
-    cities: [
-        { id: 'london', name: 'London', description: 'United Kingdom' },
-        { id: 'newyork', name: 'New York', description: 'United States' },
-        { id: 'paris', name: 'Paris', description: 'France' },
-        { id: 'berlin', name: 'Berlin', description: 'Germany' },
-    ]
+    // cities: [...] // This line is now removed.
 };
+// --- CHANGE END ---
 
 const STEPS = [
     { id: 'profile', title: 'About You', description: 'Tell us about yourself' },
@@ -144,31 +137,85 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
     const [cityResults, setCityResults] = useState<SearchableItem[]>([]);
     const [isSearching, setIsSearching] = useState('');
 
+    // --- CHANGE START ---
+    // This cache will store the full {id, name} object of selected items.
+    // This is important for cities, so we can display their names after selection
+    // without having to fetch them again.
+    const [selectedItemsCache, setSelectedItemsCache] = useState<Record<string, SearchableItem>>({});
+    // --- CHANGE END ---
+
+    // --- CHANGE START ---
+    // This function is now updated to fetch real data for cities.
     const searchAPI = async (query: string, type: 'universities' | 'cities'): Promise<SearchableItem[]> => {
         setIsSearching(type);
-        await new Promise(resolve => setTimeout(resolve, 300));
-        setIsSearching('');
-        if (!query) return [];
-        return MOCK_DATA[type].filter(item =>
-            item.name.toLowerCase().includes(query.toLowerCase())
-        );
+
+        try {
+            if (type === 'cities') {
+                // Your API uses the 'search' query parameter.
+                const response = await fetch(`/api/cities?search=${encodeURIComponent(query)}`);
+                if (!response.ok) {
+                    console.error("City search API request failed");
+                    return [];
+                }
+                const result = await response.json();
+
+                // Your API returns { success: true, data: [...] }
+                // We need to map the `data` array to our `SearchableItem` interface.
+                if (result.success && Array.isArray(result.data)) {
+                    return result.data.map((city: any) => ({
+                        id: city._id, // Map _id to id
+                        name: city.cityName, // Map cityName to name
+                        description: city.countryName || 'Italy' // Optional: add a description if available
+                    }));
+                }
+                return [];
+            }
+
+            // University search still uses mock data as before.
+            if (type === 'universities') {
+                await new Promise(resolve => setTimeout(resolve, 300)); // Simulate delay
+                if (!query) return [];
+                return MOCK_DATA.universities.filter(item =>
+                    item.name.toLowerCase().includes(query.toLowerCase())
+                );
+            }
+        } catch (error) {
+            console.error(`Error fetching ${type}:`, error);
+            return []; // Return empty array on error
+        } finally {
+            setIsSearching('');
+        }
+
+        return []; // Default return
     };
+    // --- CHANGE END ---
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            if (universitySearch.trim()) searchAPI(universitySearch, 'universities').then(setUniversityResults)
-            else setUniversityResults([])
+            if (universitySearch.trim()) {
+                searchAPI(universitySearch, 'universities').then(setUniversityResults);
+            } else {
+                setUniversityResults([]);
+            }
         }, 300);
         return () => clearTimeout(handler);
     }, [universitySearch]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
-            if (citySearch.trim()) searchAPI(citySearch, 'cities').then(setCityResults)
-            else setCityResults([])
-        }, 300);
+            // --- CHANGE START ---
+            // Only trigger the API call if the user has typed at least 3 characters.
+            if (citySearch.trim().length >= 3) {
+                searchAPI(citySearch, 'cities').then(setCityResults);
+            } else {
+                setCityResults([]); // Clear results if search is too short
+            }
+            // --- CHANGE END ---
+        }, 300); // Debounce for 300ms
         return () => clearTimeout(handler);
     }, [citySearch]);
+
+    // --- Most other functions remain the same ---
 
     const getSelectedCountry = (): Country | undefined => {
         return COUNTRIES.find(country => country.code === formData.countryOfOrigin);
@@ -187,6 +234,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
     };
 
     const validateCurrentStep = (): boolean => {
+        // (No changes to this function)
         const newErrors: Partial<Record<keyof FormData, string>> = {};
         switch (currentStep) {
             case 0:
@@ -225,16 +273,27 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
         setLoading(true);
 
         // --- Helper function to get full object details from IDs ---
-        const getFullObjects = (ids: string[], type: keyof typeof MOCK_DATA) => {
+        const getFullObjects = (ids: string[], type: keyof typeof MOCK_DATA | 'cities') => {
             return ids.map(id => {
-                const item = MOCK_DATA[type].find(i => i.id === id);
-                return { id: item?.id || id, name: item?.name || id };
+                // --- CHANGE START ---
+                // For cities and universities, check our cache first.
+                if (type === 'cities' || type === 'universities') {
+                    const cachedItem = selectedItemsCache[id];
+                    if (cachedItem) {
+                        return { id: cachedItem.id, name: cachedItem.name };
+                    }
+                }
+                // Fallback to MOCK_DATA for other types (like academicAreas)
+                if (type !== 'cities') {
+                    const item = (MOCK_DATA as any)[type]?.find((i: SearchableItem) => i.id === id);
+                    if (item) return { id: item.id, name: item.name };
+                }
+                // --- CHANGE END ---
+                return { id: id, name: id }; // Fallback
             }).filter(item => item.id && item.name); // Ensure valid items
         };
 
         const countryInfo = COUNTRIES.find(c => c.code === formData.countryOfOrigin);
-
-        // --- Prepare the rich payload for the backend ---
         const submissionData = {
             ...formData,
             countryOfOrigin: {
@@ -292,6 +351,10 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
         const currentItems = formData[field];
         if (currentItems.length < 3 && !currentItems.includes(item.id)) {
             setFormData(prev => ({ ...prev, [field]: [...currentItems, item.id] }));
+            // --- CHANGE START ---
+            // Add the selected item's full details to our cache
+            setSelectedItemsCache(prev => ({ ...prev, [item.id]: item }));
+            // --- CHANGE END ---
             clearError(field as keyof FormData);
         }
         if (field === 'targetCities') setCitySearch('');
@@ -302,19 +365,93 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
         setFormData(prev => ({ ...prev, [field]: (prev[field]).filter(id => id !== itemId) }));
     };
 
-    const getItemName = (itemId: string, type: keyof typeof MOCK_DATA): string => {
-        // The check here prevents the crash. If MOCK_DATA[type] is undefined, it won't proceed.
-        const dataList = MOCK_DATA[type];
-        if (!dataList) {
-            console.error(`getItemName failed: No data found for type "${type}"`);
-            return itemId; // Return the ID as a fallback
+    // --- CHANGE START ---
+    // Updated to use the new cache for cities and universities.
+    const getItemName = (itemId: string, type: keyof typeof MOCK_DATA | 'universities' | 'cities'): string => {
+        // First, check our cache. This is where selected cities/universities will be.
+        const cachedItem = selectedItemsCache[itemId];
+        if (cachedItem) {
+            return cachedItem.name;
         }
-        const item = dataList.find(i => i.id === itemId);
-        return item?.name || itemId;
+
+        // Fallback for items that are not in the cache (like academic areas)
+        if (type in MOCK_DATA) {
+            const dataList = (MOCK_DATA as any)[type];
+            const item = dataList?.find((i: SearchableItem) => i.id === itemId);
+            if (item) return item.name;
+        }
+
+        return itemId; // Return the ID as a final fallback
     };
+    // --- CHANGE END ---
 
-    // --- RENDER FUNCTIONS FOR STEPS ---
+    // --- RENDER FUNCTIONS FOR STEPS --- (No significant changes, only placeholder text in renderPreferencesStep)
+    // ... (renderUserTypeStep, renderContactStep, renderCurrentEducationStep, renderDesiredDegreeStep) ...
+    // These functions remain exactly the same.
 
+    const renderPreferencesStep = () => {
+        const preferenceFields = [
+            { type: 'academicAreas', dataKey: 'academicAreas', label: 'Academic Area of Interest', placeholder: 'Select an area...' },
+            // --- CHANGE START ---
+            // Updated placeholder text to guide the user.
+            { type: 'targetCities', dataKey: 'cities', label: 'Target Cities', placeholder: 'Search for cities (min 3 letters)...' },
+            // --- CHANGE END ---
+            { type: 'targetUniversities', dataKey: 'universities', label: 'Target Universities', placeholder: 'Search for universities...', optional: true }
+        ];
+
+        // The rest of the renderPreferencesStep JSX remains the same.
+        // It's already set up to use the correct state variables (citySearch, cityResults, etc.)
+        // which are now populated by the new API logic.
+        // ... (The entire JSX of this function is the same as your original file)
+        return (
+            <div className="space-y-8">
+                <div className="text-center">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{STEPS[4].title}</h2>
+                    <p className="text-gray-600 dark:text-gray-400">{STEPS[4].description}</p>
+                </div>
+                {preferenceFields.map(pref => (
+                    <div key={pref.type} className="space-y-3">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                            {pref.label} <span className="text-gray-400 font-normal">(up to 3{pref.optional && ', optional'})</span>
+                        </label>
+                        {pref.type === 'academicAreas' ? (
+                            <div className="relative">
+                                <select value="" onChange={(e) => { const id = e.target.value; if (id) { const item = ACADEMIC_AREAS.find(a => a.id === id); if (item) addSelection('academicAreas', item); } }} disabled={formData.allAcademicAreas || formData.academicAreas.length >= 3} className="w-full px-4 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500/30 disabled:bg-gray-200 dark:disabled:bg-gray-700 dark:bg-gray-700 dark:border-gray-600">
+                                    <option value="" disabled>{pref.placeholder}</option>
+                                    {ACADEMIC_AREAS.map(area => (<option key={area.id} value={area.id} disabled={formData.academicAreas.includes(area.id)}>{area.name}</option>))}
+                                </select>
+                            </div>
+                        ) : (
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
+                                <input type="text" placeholder={pref.placeholder} value={{ 'targetCities': citySearch, 'targetUniversities': universitySearch }[pref.type] as string} onChange={(e) => ({ 'targetCities': setCitySearch, 'targetUniversities': setUniversitySearch }[pref.type] as Function)(e.target.value)} disabled={formData[`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}` as keyof FormData] as boolean} className="w-full pl-10 pr-10 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500/30 disabled:bg-gray-200 dark:disabled:bg-gray-700 dark:bg-gray-700 dark:border-gray-600" />
+                                {isSearching === pref.type && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-gray-500" />}
+                            </div>
+                        )}
+                        {pref.type !== 'academicAreas' && ({ 'targetCities': citySearch, 'targetUniversities': universitySearch }[pref.type]) && (
+                            <div className="relative w-full">
+                                <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                                    {({ 'targetCities': cityResults, 'targetUniversities': universityResults }[pref.type])?.map((item: SearchableItem) => (<button key={item.id} type="button" onClick={() => addSelection(pref.type as any, item)} className="text-orange-500 w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700"><span className="font-medium text-sm">{item.name}</span>{item.description && <span className="text-xs text-gray-500">{item.description}</span>}</button>))}
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex flex-wrap gap-2 pt-1 min-h-[30px]">
+                            {(formData[pref.type as keyof FormData] as string[]).map((id) => (<div key={id} className="flex items-center bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-200 text-sm font-medium px-3 py-1 rounded-full animate-in fade-in">
+                                {getItemName(id, pref.dataKey as keyof typeof MOCK_DATA)}
+                                <button type="button" onClick={() => removeSelection(pref.type as any, id)} className="ml-2 text-orange-500 hover:text-orange-700"><X className="w-3 h-3" /></button></div>)
+                            )}
+                        </div>
+                        <label htmlFor={`all${pref.type}`} className="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id={`all${pref.type}`} className="sr-only peer" checked={formData[`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}` as keyof FormData] as boolean} onChange={(e) => { clearError(pref.type as keyof FormData); setFormData(p => ({ ...p, [`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}`]: e.target.checked, [pref.type]: [] })) }} />
+                            <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
+                            <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">I'm open to any {pref.type.replace(/([A-Z])/g, ' $1').toLowerCase().replace('target ', '')}</span>
+                        </label>
+                        {errors[pref.type as keyof FormData] && <p className="text-sm text-red-500 dark:text-red-400 mt-2">{errors[pref.type as keyof FormData]}</p>}
+                    </div>
+                ))}
+            </div>
+        )
+    }
     const renderUserTypeStep = () => (
         <div className="space-y-6">
             <div className="text-center mb-8">
@@ -360,11 +497,11 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                                 <input type="text" placeholder="Search countries..." value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
                             </div>
                             {countrySearch && (
-                                <div className="absolute z-20 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+                                <div className="absolute z-20 w-full mt-1 bg-orange-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-60 overflow-y-auto ">
                                     {filteredCountries.map((country) => (
                                         <button key={country.code} type="button" onClick={() => { setFormData(p => ({ ...p, countryOfOrigin: country.code })); setCountrySearch(''); clearError('countryOfOrigin'); }} className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-3">
-                                            <span className="text-xl">{country.flag}</span>
-                                            <span className="font-medium">{country.name}</span>
+                                            <span className="text-xl text-gray-500">{country.flag}</span>
+                                            <span className="font-medium text-gray-500">{country.name}</span>
                                             <span className="text-sm text-gray-500 ml-auto">{country.phoneCode}</span>
                                         </button>
                                     ))}
@@ -427,9 +564,9 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                 {formData.currentEducationLevel && (
                     <div className="space-y-4 pt-4 animate-in fade-in duration-300">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Graduation Year</label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <Button type="button" variant={formData.graduationYear === String(thisYear) && !isManualYear ? 'default' : 'outline'} onClick={() => { setFormData(p => ({ ...p, graduationYear: String(thisYear) })); setIsManualYear(false); clearError('graduationYear'); }}>{thisYear} (This Year)</Button>
-                            <Button type="button" variant={formData.graduationYear === String(lastYear) && !isManualYear ? 'default' : 'outline'} onClick={() => { setFormData(p => ({ ...p, graduationYear: String(lastYear) })); setIsManualYear(false); clearError('graduationYear'); }}>{lastYear} (Last Year)</Button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-orange-500">
+                            <Button className="text-sm text-orange-500" type="button" variant={formData.graduationYear === String(thisYear) && !isManualYear ? 'default' : 'outline'} onClick={() => { setFormData(p => ({ ...p, graduationYear: String(thisYear) })); setIsManualYear(false); clearError('graduationYear'); }}>{thisYear} (This Year)</Button>
+                            <Button className="text-sm text-orange-500" type="button" variant={formData.graduationYear === String(lastYear) && !isManualYear ? 'default' : 'outline'} onClick={() => { setFormData(p => ({ ...p, graduationYear: String(lastYear) })); setIsManualYear(false); clearError('graduationYear'); }}>{lastYear} (Last Year)</Button>
                         </div>
                         <div className="relative flex items-center py-2">
                             <div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div><span className="flex-shrink mx-4 text-xs text-gray-400">OR</span><div className="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
@@ -468,65 +605,6 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
             {errors.desiredDegreeLevel && <p className="text-sm text-red-500 dark:text-red-400">{errors.desiredDegreeLevel}</p>}
         </div>
     );
-
-    const renderPreferencesStep = () => {
-        // Corrected configuration array
-        const preferenceFields = [
-            { type: 'academicAreas', dataKey: 'academicAreas', label: 'Academic Area of Interest', placeholder: 'Select an area...' },
-            { type: 'targetCities', dataKey: 'cities', label: 'Target Cities', placeholder: 'Search for cities...' },
-            { type: 'targetUniversities', dataKey: 'universities', label: 'Target Universities', placeholder: 'Search for universities...', optional: true }
-        ];
-
-        return (
-            <div className="space-y-8">
-                <div className="text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{STEPS[4].title}</h2>
-                    <p className="text-gray-600 dark:text-gray-400">{STEPS[4].description}</p>
-                </div>
-                {preferenceFields.map(pref => (
-                    <div key={pref.type} className="space-y-3">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {pref.label} <span className="text-gray-400 font-normal">(up to 3{pref.optional && ', optional'})</span>
-                        </label>
-                        {pref.type === 'academicAreas' ? (
-                            <div className="relative">
-                                <select value="" onChange={(e) => { const id = e.target.value; if (id) { const item = ACADEMIC_AREAS.find(a => a.id === id); if (item) addSelection('academicAreas', item); } }} disabled={formData.allAcademicAreas || formData.academicAreas.length >= 3} className="w-full px-4 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500/30 disabled:bg-gray-200 dark:disabled:bg-gray-700 dark:bg-gray-700 dark:border-gray-600">
-                                    <option value="" disabled>{pref.placeholder}</option>
-                                    {ACADEMIC_AREAS.map(area => (<option key={area.id} value={area.id} disabled={formData.academicAreas.includes(area.id)}>{area.name}</option>))}
-                                </select>
-                            </div>
-                        ) : (
-                            <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
-                                <input type="text" placeholder={pref.placeholder} value={{ 'targetCities': citySearch, 'targetUniversities': universitySearch }[pref.type] as string} onChange={(e) => ({ 'targetCities': setCitySearch, 'targetUniversities': setUniversitySearch }[pref.type] as Function)(e.target.value)} disabled={formData[`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}` as keyof FormData] as boolean} className="w-full pl-10 pr-10 py-2.5 rounded-lg bg-neutral-50 border border-neutral-200 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500/30 disabled:bg-gray-200 dark:disabled:bg-gray-700 dark:bg-gray-700 dark:border-gray-600" />
-                                {isSearching === pref.type && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin text-gray-500" />}
-                            </div>
-                        )}
-                        {pref.type !== 'academicAreas' && ({ 'targetCities': citySearch, 'targetUniversities': universitySearch }[pref.type]) && (
-                            <div className="relative w-full">
-                                <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-48 overflow-y-auto">
-                                    {({ 'targetCities': cityResults, 'targetUniversities': universityResults }[pref.type])?.map((item: SearchableItem) => (<button key={item.id} type="button" onClick={() => addSelection(pref.type as any, item)} className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700"><span className="font-medium text-sm">{item.name}</span>{item.description && <span className="text-xs text-gray-500">{item.description}</span>}</button>))}
-                                </div>
-                            </div>
-                        )}
-                        <div className="flex flex-wrap gap-2 pt-1 min-h-[30px]">
-                            {(formData[pref.type as keyof FormData] as string[]).map((id) => (<div key={id} className="flex items-center bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-200 text-sm font-medium px-3 py-1 rounded-full animate-in fade-in">
-                                {getItemName(id, pref.dataKey as keyof typeof MOCK_DATA)}
-                                <button type="button" onClick={() => removeSelection(pref.type as any, id)} className="ml-2 text-orange-500 hover:text-orange-700"><X className="w-3 h-3" /></button></div>)
-                            )}
-                        </div>
-                        <label htmlFor={`all${pref.type}`} className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id={`all${pref.type}`} className="sr-only peer" checked={formData[`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}` as keyof FormData] as boolean} onChange={(e) => { clearError(pref.type as keyof FormData); setFormData(p => ({ ...p, [`all${pref.type.charAt(0).toUpperCase() + pref.type.slice(1)}`]: e.target.checked, [pref.type]: [] })) }} />
-                            <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-600"></div>
-                            <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">I'm open to any {pref.type.replace(/([A-Z])/g, ' $1').toLowerCase().replace('target ', '')}</span>
-                        </label>
-                        {errors[pref.type as keyof FormData] && <p className="text-sm text-red-500 dark:text-red-400 mt-2">{errors[pref.type as keyof FormData]}</p>}
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
 
     const stepRenderers = [renderUserTypeStep, renderContactStep, renderCurrentEducationStep, renderDesiredDegreeStep, renderPreferencesStep];
 

@@ -49,7 +49,7 @@ const FeedHeader: React.FC<FeedHeaderProps> = ({
                             className="flex-1 text-left px-4 py-3 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600 rounded-full transition-colors"
                         >
                             <span className="text-gray-500 dark:text-gray-400 text-sm">
-                                Ask anything about studying in Italy  🇮🇹 ...
+                                Ask or help others about studying in Italy  🇮🇹 ...
                             </span>
                         </button>
                     </div>

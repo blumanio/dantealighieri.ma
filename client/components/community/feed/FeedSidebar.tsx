@@ -7,7 +7,7 @@ import { Filter, ChevronDown, Zap, TrendingUp, X } from 'lucide-react';
 const TAG_CATEGORIES = {
     'Legal & Administrative': {
         icon: '⚖️',
-        tags: ['visa_application', 'work_permit', 'residence_permit', 'citizenship', 'legal_advice']
+        tags: ['visa_application', 'work_permit', 'residence_permit', 'legal_advice', 'tax_information', 'identity_card', 'residence_registration']
     },
     'Housing & Life': {
         icon: '🏠',
@@ -19,7 +19,7 @@ const TAG_CATEGORIES = {
     },
     'Healthcare': {
         icon: '🏥',
-        tags: ['insurance', 'doctors', 'emergency', 'mental_health', 'pharmacy']
+        tags: ['insurance_visa', 'insurance_italy', 'doctors', 'emergency']
     }
 };
 

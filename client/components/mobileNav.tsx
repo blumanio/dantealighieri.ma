@@ -207,7 +207,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => 
                   onClick={closeSheet}
                 >
                   <Mail className="h-5 w-5 mx-auto mb-1" />
-                  <span className="text-xs font-medium">Messages</span>
+                  {/* <span className="text-xs font-medium">Messages</span> */}
                 </Link>
                 <Link
                   href={`/${language}/profile`}

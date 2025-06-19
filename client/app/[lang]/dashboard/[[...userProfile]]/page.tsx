@@ -131,35 +131,35 @@ const HorizontalPhaseMenu = memo(({ phases, activePhase, onPhaseChange, userXp, 
     };
 
     return (
-// className="lg:hidden"
+        // className="lg:hidden"
         <div >
 
             <nav className="flex space-x-6 overflow-x-auto px-4 scrollbar-hide" aria-label="Tabs">
-        {phases.map((phase) => {
-            const Icon = phaseIcons[phase.id] || Star;
-            const isActive = activePhase === phase.id;
-            const isLocked = userXp < phase.requiredXp;
+                {phases.map((phase) => {
+                    const Icon = phaseIcons[phase.id] || Star;
+                    const isActive = activePhase === phase.id;
+                    const isLocked = userXp < phase.requiredXp;
 
-            return (
-                <a
-                    key={phase.id}
-                    href={`#${phase.id}`}
-                    onClick={(e) => handleLinkClick(e, phase.id, isLocked)}
-                    title={isLocked ? `Requires ${phase.requiredXp} XP` : t(phase.titleKey)}
-                    className={`group flex items-center whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm transition-colors
+                    return (
+                        <a
+                            key={phase.id}
+                            href={`#${phase.id}`}
+                            onClick={(e) => handleLinkClick(e, phase.id, isLocked)}
+                            title={isLocked ? `Requires ${phase.requiredXp} XP` : t(phase.titleKey)}
+                            className={`group flex items-center whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm transition-colors
                         ${isActive ? 'border-blue-500 text-blue-600' : 'border-transparent'}
                         ${isLocked ? 'text-slate-400 cursor-not-allowed' : 'text-slate-500 hover:text-slate-700'}
                     `}
-                    aria-current={isActive ? 'page' : undefined}
-                >
-                    <Icon className={`w-5 h-5 mr-2 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'}`} />
-                    {t(phase.titleKey)}
-                    {isLocked && <Lock className="w-4 h-4 ml-2 text-slate-400 flex-shrink-0" />}
-                </a>
-            );
-        })}
-    </nav>
-</div>
+                            aria-current={isActive ? 'page' : undefined}
+                        >
+                            <Icon className={`w-5 h-5 mr-2 flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'}`} />
+                            {t(phase.titleKey)}
+                            {isLocked && <Lock className="w-4 h-4 ml-2 text-slate-400 flex-shrink-0" />}
+                        </a>
+                    );
+                })}
+            </nav>
+        </div>
     );
 });
 HorizontalPhaseMenu.displayName = 'HorizontalPhaseMenu';
@@ -203,10 +203,17 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
 
     // Effect for user data and redirection
     useEffect(() => {
+        if (!isLoaded) return; // Wait for user data to load completely
+
         if (user?.publicMetadata) {
             setIsOnboardingComplete(!!user.publicMetadata.onboardingComplete);
-        }
-        if (isLoaded && user && !user.publicMetadata.onboardingComplete) {
+
+            // Only redirect if we have metadata and onboarding is NOT complete
+            if (!user.publicMetadata.onboardingComplete) {
+                redirect('/onboarding');
+            }
+        } else if (user) {
+            // If user exists but no publicMetadata, redirect to onboarding
             redirect('/onboarding');
         }
     }, [isLoaded, user]);
