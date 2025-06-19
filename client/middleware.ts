@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 import { clerkMiddleware, ClerkMiddlewareAuthObject, createRouteMatcher } from '@clerk/nextjs/server';
 
 // --- START OF YOUR i18n CONFIGURATION AND HELPER FUNCTIONS ---
-const LANGUAGES = ['en', 'fr', 'it', 'ar'] as const;
+const LANGUAGES = ['en', 'fr', 'ar'] as const;
 type SupportedLanguage = typeof LANGUAGES[number];
 const DEFAULT_LANGUAGE: SupportedLanguage = 'en';
 

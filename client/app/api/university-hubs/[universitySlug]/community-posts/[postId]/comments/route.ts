@@ -57,7 +57,7 @@ export async function POST(request: Request, { params }: { params: { postId: str
         if (userFullName && userId) { // If an external user is provided
             try {
                 const existingClerkUsers = await clerkClient.users.getUserList({ query: userId });
-                let foundClerkUser = existingClerkUsers.data.find(u => u.publicMetadata?.externalId === userId);
+                let foundClerkUser = existingClerkUsers.find(u => u.publicMetadata?.externalId === userId);
 
                 if (foundClerkUser) {
                     commentAuthorClerkId = foundClerkUser.id;
@@ -68,7 +68,7 @@ export async function POST(request: Request, { params }: { params: { postId: str
                         firstName: userFullName.split(' ')[0] || 'Placeholder',
                         lastName: userFullName.split(' ').slice(1).join(' ') || 'User',
                         externalId: userId,
-                        imageUrl: userAvatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(userFullName)}&background=random&color=fff&size=128`,
+                        // imageUrl is not a valid property for CreateUserParams and has been removed
                         publicMetadata: {
                             isPlaceholder: true,
                             externalId: userId,
@@ -140,7 +140,7 @@ export async function PUT(req: NextRequest, { params }: { params: { universitySl
             return NextResponse.json({ success: false, message: 'Comment not found within the post.' }, { status: 404 });
         }
 
-        if (commentToUpdate.userId.toString() !== userId) {
+        if (commentToUpdate.authorId.toString() !== userId) {
             return NextResponse.json({ success: false, message: 'Forbidden: You can only edit your own comments.' }, { status: 403 });
         }
 
@@ -221,7 +221,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { universit
 
         // Authorization: Check if the authenticated user is the owner of the comment
         // You could extend this with role-based permissions (e.g., admin can delete any comment)
-        if (commentToDelete.userId.toString() !== userId) {
+        if (commentToDelete.authorId.toString() !== userId) {
             // Example: Allow admin to delete (you'd need to get admin role from sessionClaims or UserProfileDetail)
             // const { sessionClaims } = getAuth(req);
             // const isAdmin = sessionClaims?.publicMetadata?.role === 'admin';

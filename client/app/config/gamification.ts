@@ -30,8 +30,20 @@ export const tierLimits = {
     Maestro: { shortlist: Infinity, tracking: Infinity },
 };
 
+// Define a type for the tier keys
+export type Tier = keyof typeof tierLimits;
+
+// Define a type for the user object
+export interface User {
+    tier: Tier;
+    unlockedFeatures: {
+        extraShortlistSlots: number;
+        extraTrackingSlots: number;
+    };
+}
+
 // Helper function to calculate total allowed slots for a user
-export const calculateLimits = (user:any) => {
+export const calculateLimits = (user: User) => {
     const baseLimit = tierLimits[user.tier];
     const unlockedBonus = user.unlockedFeatures;
 

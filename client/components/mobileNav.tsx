@@ -32,7 +32,7 @@ interface MobileNavProps {
   menuItems: {
     [langKey: string]: { [itemKey: string]: string };
   };
-  currentLanguage: 'en' | 'ar' | 'it' | 'fr';
+  currentLanguage: 'en' | 'ar' | 'fr';
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => {
@@ -62,13 +62,12 @@ const MobileNav: React.FC<MobileNavProps> = ({ menuItems, currentLanguage }) => 
     { nameKey: 'settings', href: `/profile/settings`, icon: Settings },
   ];
 
-  type Locale = 'en' | 'ar' | 'it' | 'fr';
+  type Locale = 'en' | 'ar' | 'fr';
 
   const languageNames: Record<Locale, Record<Locale, string>> = {
-    en: { ar: 'عربي', en: 'English', it: 'Italiano', fr: 'Français' },
-    ar: { ar: 'عربي', en: 'English', it: 'Italiano', fr: 'Français' },
-    it: { ar: 'عربي', en: 'English', it: 'Italiano', fr: 'Français' },
-    fr: { ar: 'عربي', en: 'English', it: 'Italiano', fr: 'Français' }
+    en: { ar: 'عربي', en: 'English', fr: 'Français' },
+    ar: { ar: 'عربي', en: 'English', fr: 'Français' },
+    fr: { ar: 'عربي', en: 'English', fr: 'Français' }
   };
 
   const getInitials = (fullName?: string | null, firstName?: string | null, lastName?: string | null): string => {

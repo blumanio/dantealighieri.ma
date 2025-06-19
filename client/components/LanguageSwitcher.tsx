@@ -3,7 +3,7 @@ import { Globe } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext'
 import { usePathname, useRouter } from 'next/navigation';
 
-type Locale = 'en' | 'ar' | 'it' | 'fr';
+type Locale = 'en' | 'ar' | 'fr';
 
 const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useLanguage();
@@ -15,30 +15,22 @@ const LanguageSwitcher: React.FC = () => {
     en: {
       ar: 'Arabic',
       en: 'English',
-      it: 'Italian',
       fr: 'French',
     },
     ar: {
       ar: 'عربي',
       en: 'الانجليزية',
-      it: 'الايطالية',
       fr: 'الفرنسية',
     },
-    it: {
-      ar: 'Arabo',
-      en: 'Inglese',
-      it: 'Italiano',
-      fr: 'Francese',
-    },
+
     fr: {
       ar: 'Arabe',
       en: 'Anglais',
-      it: 'Italien',
       fr: 'Français',
     }
   };
 
-  const handleLanguageChange = (selectedLanguage: 'en' | 'ar' | 'fr' | 'it') => {
+  const handleLanguageChange = (selectedLanguage: 'en' | 'ar' | 'fr') => {
     if (selectedLanguage === language) {
       setIsOpen(false);
       return;

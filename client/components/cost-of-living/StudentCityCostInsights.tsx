@@ -12,7 +12,7 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // import { mockItalianStudentCityData as rawMockItalianStudentCityData } from '@/lib/data'; // REMOVE THIS IMPORT
-import { CityData, WeatherData, CityMetric, NomadListStyleTag } from '@/lib/types/city'; // Import updated types
+import { CityData, WeatherData, CityMetric, NomadListStyleTag } from '@/types/city'; // Import updated types
 
 // Map string icon names to Lucide icon components (needs to be consistent with DB strings)
 const iconMap: Record<string, React.ElementType> = {
@@ -405,7 +405,7 @@ const StudentCityCostInsights: React.FC = () => {
     const [displayedCardsCount, setDisplayedCardsCount] = useState(INITIAL_CARDS_TO_SHOW);
     const [isLoadingMoreCards, setIsLoadingMoreCards] = useState(false);
     const observerRef = useRef<IntersectionObserver | null>(null);
-    const loadMoreRef = useRef<HTMLDivElement | null>(loadMoreRef.current); // Initialize with ref.current
+    const loadMoreRef = useRef<HTMLDivElement | null>(null); // Initialize with null
     const { locale: language } = useRouter() as any;
 
     // --- New useEffect to fetch cities from API ---

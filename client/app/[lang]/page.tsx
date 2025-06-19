@@ -4,6 +4,7 @@ import React, { Suspense } from 'react'; // Removed 'use' as it was not used in 
 import { LanguageProvider, defaultLang, supportedLanguages } from '@/context/LanguageContext';
 import ClientLayout from '@/components/ClientLayout';
 import { getValidLanguage } from '../config/i18n';
+import { Locale } from '../i18n/types';
 
 function LangLayoutLoadingFallback() {
   console.log('[LangLayout_LOG] LangLayoutLoadingFallback rendered (Suspense)');
@@ -36,7 +37,7 @@ export default  async function LangSpecificLayout({ children, params }: LangSpec
   const currentLang = getValidLanguage(currentLangInput);
 
   return (
-    <LanguageProvider initialLang={currentLang}>
+    <LanguageProvider initialLang={currentLang as Locale}>
       <Suspense fallback={<LangLayoutLoadingFallback />}>
         <ClientLayout lang={currentLang}>
           {children}

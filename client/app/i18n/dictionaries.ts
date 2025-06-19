@@ -14,10 +14,10 @@ type Dictionary = {
 // Using Record<string, () => Promise<Dictionary>> to allow dynamic imports.
 const dictionaries: Record<string, () => Promise<Dictionary>> = {
     en: () => import('./locales/en.json').then((module) => module.default),
-    it: () => import('./locales/it.json').then((module) => module.default),
-    fr: () => import('./locales/fr.json').then((module) => module.default),
-    es: () => import('./locales/es.json').then((module) => module.default),
-    ar: () => import('./locales/ar.json').then((module) => module.default),
+    // it: () => import('./locales/it.json').then((module) => module.default),
+    // fr: () => import('./locales/fr.json').then((module) => module.default),
+    //    es: () => import('./locales/es.json').then((module) => module.default),
+    // ar: () => import('./locales/ar.json').then((module) => module.default),
     // Add other languages here
 };
 

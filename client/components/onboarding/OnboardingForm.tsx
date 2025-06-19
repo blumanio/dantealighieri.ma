@@ -505,7 +505,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                         {pref.type !== 'academicAreas' && ({ 'targetCities': citySearch, 'targetUniversities': universitySearch }[pref.type]) && (
                             <div className="relative w-full">
                                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-48 overflow-y-auto">
-                                    {({ 'targetCities': cityResults, 'targetUniversities': universityResults }[pref.type]).map((item: SearchableItem) => (<button key={item.id} type="button" onClick={() => addSelection(pref.type as any, item)} className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700"><span className="font-medium text-sm">{item.name}</span>{item.description && <span className="text-xs text-gray-500">{item.description}</span>}</button>))}
+                                    {({ 'targetCities': cityResults, 'targetUniversities': universityResults }[pref.type])?.map((item: SearchableItem) => (<button key={item.id} type="button" onClick={() => addSelection(pref.type as any, item)} className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700"><span className="font-medium text-sm">{item.name}</span>{item.description && <span className="text-xs text-gray-500">{item.description}</span>}</button>))}
                                 </div>
                             </div>
                         )}

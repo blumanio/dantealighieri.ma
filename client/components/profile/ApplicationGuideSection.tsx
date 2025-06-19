@@ -47,9 +47,9 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
 
     // Calculate overall progress
     const calculateProgress = () => {
-        const totalItems = checklistData?.reduce((acc, phase) => acc + phase.items.length, 0);
-        const completedItems = checklistData?.reduce((acc, phase) =>
-            acc + phase.items.filter(item => item.completed).length, 0
+        const totalItems = checklistData?.reduce((acc: number, phase: any) => acc + phase.items.length, 0);
+        const completedItems = checklistData?.reduce((acc: number, phase: any) =>
+            acc + phase.items.filter((item: any) => item.completed).length, 0
         );
         return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
     };
@@ -57,7 +57,7 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
     // Calculate phase progress
     const calculatePhaseProgress = (phase: any) => { // Changed ChecklistPhase to any for broader compatibility
         const totalItems = phase.items.length;
-        const completedItems = phase.items.filter(item => item.completed).length;
+        const completedItems = phase.items.filter((item: any) => item.completed).length;
         return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
     };
 
@@ -72,7 +72,7 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
     // Get next action item
     const getNextAction = () => {
         for (const phase of checklistData) {
-            const nextItem = phase.items.find(item => !item.completed);
+            const nextItem = phase.items.find((item: any) => !item.completed);
             if (nextItem) {
                 return { phase: phase.id, item: nextItem };
             }
@@ -117,12 +117,12 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
         arrival: Trophy
     };
     const handleToggleItem = (phaseId: string, itemId: string, subItemId?: string) => {
-        setChecklistData(currentData =>
+        setChecklistData((currentData: any[]) =>
             currentData.map(phase => {
                 if (phase.id !== phaseId) {
                     return phase;
                 }
-                const updatedItems = phase.items.map(item => {
+                const updatedItems = phase.items.map((item: any) => {
                     if (item.id !== itemId) {
                         return item;
                     }
@@ -195,7 +195,7 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
 
             {/* Phase List */}
             <div className="bg-white rounded-b-2xl overflow-hidden">
-                {checklistData.map((phase, phaseIndex) => {
+                {checklistData.map((phase: any, phaseIndex: number) => {
                     const phaseProgress = calculatePhaseProgress(phase);
                     const phaseStatus = getPhaseStatus(phase);
                     const isActive = activePhase === phase.id;
@@ -257,7 +257,7 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
                                             </div>
                                             {/* Progress Text */}
                                             <span className="text-xs text-gray-500 min-w-0">
-                                                {phase.items.filter(item => item.completed).length}/{phase.items.length}
+                                                {phase.items.filter((item: any) => item.completed).length}/{phase.items.length}
                                             </span>
                                         </div>
                                     </div>
@@ -284,10 +284,11 @@ const ApplicationGuideSection: React.FC<ApplicationGuideSectionProps> = ({
                                             >
                                                 <ChecklistItemUI
                                                     item={item}
-                                                    onToggleItem={(itemId, subItemId) => handleToggleItem(phase.id, itemId, subItemId)} // Use local handler
+                                                    phaseId={phase.id}
+                                                    onToggleItem={(phaseId, itemId, subItemId) => handleToggleItem(phaseId, itemId, subItemId)} // Use local handler
                                                     t={t}
                                                     language={language}
-                                                    isFirstIncomplete={!item.completed && itemIndex === phase.items.findIndex(i => !i.completed)}
+                                                    isFirstIncomplete={!item.completed && itemIndex === phase.items.findIndex((i: any) => !i.completed)}
                                                 />
                                             </div>
                                         ))}

@@ -10,14 +10,14 @@ import { CheckCircle, Circle, ExternalLink } from 'lucide-react';
 import type { ChecklistItem } from '@/types/checklist'; // Adjust path if types moved
 
 interface ChecklistItemUIProps {
-    item: ChecklistItem;
+    item: any;
     phaseId: string;
     onToggleItem: (phaseId: string, itemId: string, subItemId?: string) => void;
     t: (namespace: string, key: string) => string;
     language: string;
+    isFirstIncomplete?: boolean;
 }
-
-const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onToggleItem, t, language,isFirstIncomplete }) => {
+const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onToggleItem, t, language, isFirstIncomplete }) => {
     const ItemIcon = item.icon || Circle;
 
     const handleToggle = () => {
@@ -63,19 +63,16 @@ const ChecklistItemUI: React.FC<ChecklistItemUIProps> = ({ item, phaseId, onTogg
                 </div>
             </div>
             {item.subItems && item.subItems.length > 0 && (
-                <div className={`mt-2 space-y-2 ${language === 'ar' ? 'mr-8 border-r pr-4' : 'ml-8 border-l pl-4'} border-neutral-200 `}>
-                    {item.subItems.map((subItem: ChecklistItem) => (
-                        <ChecklistItemUI
-                            key={subItem.id}
-                            item={subItem}
-                            phaseId={phaseId} // Pass down the same phaseId
-                            // Pass a new specialized handler for sub-items
-                            onToggleItem={() => handleSubItemToggle(subItem.id)}
-                            t={t}
-                            language={language}
-                        />
-                    ))}
-                </div>
+                item.subItems.map((subItem: ChecklistItem) => (
+                    <ChecklistItemUI
+                        key={subItem.id}
+                        item={subItem}
+                        phaseId={phaseId}
+                        onToggleItem={onToggleItem}
+                        t={t}
+                        language={language}
+                    />
+                ))
             )}
         </div>
     );

@@ -24,9 +24,18 @@ import {
   Mail,
   Award
 } from 'lucide-react';
+import { clerkClient } from '@clerk/nextjs/server';
+import { updatePublicMetadata } from '@/lib/actions/updateMetadata';
 
 // Application Phase Modal Component
-const ApplicationPhaseModal = ({ isOpen, onClose, currentPhase, onUpdate }) => {
+type ApplicationPhaseModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  currentPhase: string;
+  onUpdate: (phase: string) => Promise<void>;
+};
+
+const ApplicationPhaseModal: React.FC<ApplicationPhaseModalProps> = ({ isOpen, onClose, currentPhase, onUpdate }) => {
   const [selectedPhase, setSelectedPhase] = useState(currentPhase || '');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -189,7 +198,18 @@ const ApplicationPhaseModal = ({ isOpen, onClose, currentPhase, onUpdate }) => {
 };
 
 // Updated MetadataField component with modal integration
-const MetadataField = ({
+type MetadataFieldProps = {
+  fieldKey: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isEditingEnabled: boolean;
+  fieldType?: 'text' | 'number' | 'tel' | 'select' | 'multiselect' | 'modal';
+  options?: Array<string | { id: string; name: string }>;
+  placeholder?: string;
+  isCompact?: boolean;
+};
+
+const MetadataField: React.FC<MetadataFieldProps> = ({
   fieldKey,
   label,
   icon: Icon,
@@ -203,12 +223,12 @@ const MetadataField = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [isFieldDisabled, setIsFieldDisabled] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   // Helper function to extract display value from complex objects
-  const extractDisplayValue = (data) => {
+  const extractDisplayValue = (data: any) => {
     if (!data) return '';
 
     if (Array.isArray(data)) {
@@ -226,7 +246,7 @@ const MetadataField = ({
   };
 
   // Helper function to extract edit value (for form inputs)
-  const extractEditValue = (data) => {
+  const extractEditValue = (data: any) => {
     if (!data) return '';
 
     if (Array.isArray(data)) {
@@ -244,8 +264,8 @@ const MetadataField = ({
   };
 
   // Map phase IDs to display names
-  const getPhaseDisplayName = (phaseId) => {
-    const phaseMap = {
+  const getPhaseDisplayName = (phaseId: string) => {
+    const phaseMap: Record<string, string> = {
       'research': 'Just starting, research phase',
       'shortlisting': 'Shortlisting colleges, planning tests',
       'finalizing': 'Tests done, finalising shortlist',
@@ -296,7 +316,7 @@ const MetadataField = ({
         }
       }
 
-      let processedValue = value.trim();
+      let processedValue: any = value.trim();
 
       // Handle multiselect fields - convert to array
       if (fieldType === 'multiselect') {
@@ -311,30 +331,31 @@ const MetadataField = ({
         });
 
         if (matchingOption && typeof matchingOption === 'object') {
-          processedValue = matchingOption;
+          processedValue = matchingOption.id || matchingOption.name;
         }
       }
 
-      await user.updatePublicMetadata({
-        [fieldKey]: processedValue
-      });
+      // Use server action to update metadata
+      await updatePublicMetadata({ [fieldKey]: processedValue });
 
       setIsEditing(false);
     } catch (err) {
-      console.error("Clerk update failed:", err);
+      console.error("Update failed:", err);
       setError('Update failed');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleModalUpdate = async (newPhase) => {
+  const handleModalUpdate = async (newPhase: string) => {
     if (!user) return;
 
     try {
-      await user.updatePublicMetadata({
-        [fieldKey]: newPhase
-      });
+      const client = await clerkClient();
+      await client.users.updateUserMetadata(user.id, { publicMetadata: { [fieldKey]: newPhase } })
+      // await user.updatePublicMetadata({
+      //   [fieldKey]: newPhase
+      // });
       setValue(newPhase);
     } catch (err) {
       console.error("Clerk update failed:", err);
@@ -350,7 +371,7 @@ const MetadataField = ({
     setError(null);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSave();
@@ -366,7 +387,7 @@ const MetadataField = ({
 
     // Special handling for application phase
     if (fieldKey === 'applicationPhase') {
-      return fieldValue ? getPhaseDisplayName(fieldValue) : 'Not set';
+      return fieldValue ? getPhaseDisplayName(String(fieldValue)) : 'Not set';
     }
 
     const displayValue = extractDisplayValue(fieldValue);
@@ -523,7 +544,7 @@ const MetadataField = ({
           <ApplicationPhaseModal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
-            currentPhase={user?.publicMetadata?.[fieldKey]}
+            currentPhase={String(user?.publicMetadata?.[fieldKey] ?? '')}
             onUpdate={handleModalUpdate}
           />
         )}
@@ -603,7 +624,7 @@ const MetadataField = ({
         <ApplicationPhaseModal
           isOpen={showModal}
           onClose={() => setShowModal(false)}
-          currentPhase={user?.publicMetadata?.[fieldKey]}
+          currentPhase={String(user?.publicMetadata?.[fieldKey] ?? '')}
           onUpdate={handleModalUpdate}
         />
       )}
@@ -625,7 +646,7 @@ const UserInfoSidebar = ({ isEditingEnabled = true }) => {
 
   // Enhanced metadata fields with application phase and updated structure
   const metadataFields = [
-    { fieldKey: 'applicationPhase', label: 'Application Phase', icon: Route, fieldType: 'modal' },
+    { fieldKey: 'applicationPhase', label: 'Application Phase', icon: Route, fieldType: 'modal', options: undefined },
     // { fieldKey: 'userType', label: 'User Type', icon: User, fieldType: 'select',
     // options: ['student', 'professional', 'academic', 'other'] },
     // { fieldKey: 'countryOfOrigin', label: 'Country', icon: Globe, fieldType: 'select',
@@ -646,19 +667,19 @@ const UserInfoSidebar = ({ isEditingEnabled = true }) => {
     //   options: ['associate', 'bachelor', 'master', 'phd', 'certificate'] },
     {
       fieldKey: 'targetCities', label: 'Target Cities', icon: MapPin, fieldType: 'multiselect',
-      placeholder: 'London, Berlin, Paris'
+      placeholder: 'London, Berlin, Paris', options: undefined
     },
     {
       fieldKey: 'academicAreas', label: 'Academic Areas', icon: BookOpen, fieldType: 'multiselect',
-      placeholder: 'Mathematics, Computer Science'
+      placeholder: 'Mathematics, Computer Science', options: undefined
     },
     {
       fieldKey: 'targetUniversities', label: 'Target Universities', icon: Building, fieldType: 'multiselect',
-      placeholder: 'Harvard, Oxford, MIT'
+      placeholder: 'Harvard, Oxford, MIT', options: undefined
     },
     {
       fieldKey: 'coursesOfInterest', label: 'Courses of Interest', icon: BookOpen, fieldType: 'multiselect',
-      placeholder: 'Medicine, Engineering'
+      placeholder: 'Medicine, Engineering', options: undefined
     }
   ];
 
@@ -671,7 +692,7 @@ const UserInfoSidebar = ({ isEditingEnabled = true }) => {
           label={metadataFields[0].label}
           icon={metadataFields[0].icon}
           isEditingEnabled={false}
-          fieldType={metadataFields[0].fieldType}
+          fieldType={metadataFields[0].fieldType as 'number' | 'modal' | 'multiselect' | 'select' | 'text' | 'tel' | undefined}
           // options={metadataFields[0].options || []}
           placeholder={metadataFields[0].placeholder || ''}
           isCompact={true}
@@ -692,7 +713,7 @@ const UserInfoSidebar = ({ isEditingEnabled = true }) => {
             label={field.label}
             icon={field.icon}
             isEditingEnabled={false}
-            fieldType={field.fieldType}
+            fieldType={field.fieldType as 'number' | 'text' | 'tel' | 'select' | 'multiselect' | 'modal' | undefined}
             options={field.options}
             placeholder={field.placeholder}
             isCompact={true}

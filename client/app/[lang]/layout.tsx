@@ -10,6 +10,7 @@ import { ToastProvider } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import WorkInProgressHeader from '@/components/Toast';
 import RightSidebar from '@/components/RightSidebar';
+import { Locale } from '../i18n/types';
 
 export default async function LangSpecificLayout({
   children,
@@ -25,7 +26,7 @@ export default async function LangSpecificLayout({
 
   return (
     // The LanguageProvider remains as your top-level context provider
-    <LanguageProvider initialLang={validatedLang}>
+    <LanguageProvider initialLang={validatedLang as Locale}>
       {/* The ToastProvider must wrap all the components that will use toasts */}
       <ToastProvider>
         <Header />

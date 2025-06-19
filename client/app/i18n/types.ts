@@ -1,4 +1,6 @@
-export type Locale = 'en' | 'it' | 'fr' | 'ar';
+import { Result } from "postcss";
+
+export type Locale = 'en' | 'fr' | 'ar';
 
 export interface CommonTranslation {
   showDeadlines: string;
@@ -886,6 +888,29 @@ export interface PostTypeTranslation {
   career: string;
 }
 // END: New Interfaces
+export interface FiltersTranslation {
+  'clearAll': string;
+  'studyArea': string;
+  'allAreas': string;
+  'courseType': string;
+  'allTypes': string;
+  'language': string;
+  'allLanguages': string;
+  'clearAllFilters': string;
+}
+
+export interface PaginationTranslation {
+
+  'pageInfo': string;
+  'previous': string;
+  'next': string;
+  'showingResults': string;
+}
+export interface ResultTranslation {
+  'noCoursesFound': string;
+  'noMatchingCourses': string;
+  'adjustCriteria': string;
+}
 
 // Main Translation interface
 export interface Translation {
@@ -919,6 +944,9 @@ export interface Translation {
   adminPost: AdminPostTranslation;
   adminComment: AdminCommentTranslation;
   postType: PostTypeTranslation;
+  filters: FiltersTranslation;
+  results: ResultTranslation;
+  pagination: PaginationTranslation;
 }
 
 // Type guard for checking valid locale

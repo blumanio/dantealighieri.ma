@@ -37,10 +37,10 @@ export async function GET(request: Request) {
             // Ensure metrics.icon is a string as stored in DB and _id is converted
             return {
                 ...city,
-                _id: city._id.toString(), // Convert ObjectId to string
+                _id: (city._id as { toString: () => string }).toString(), // Convert ObjectId to string
                 createdAt: createdAtString,
                 updatedAt: updatedAtString,
-                metrics: city.metrics.map(metric => ({
+                metrics: city.metrics.map((metric: any) => ({
                     ...metric,
                     // If icon is a function (unlikely but defensive), convert to string name.
                     // Otherwise, just use the value as is (assuming it's a string from DB).

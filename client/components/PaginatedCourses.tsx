@@ -5,7 +5,7 @@ import {
   Search, Award, Globe, Star, Zap, TrendingUp
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import CourseCard from './CourseCard.tsx';
+import CourseCard from './CourseCard';
 
 interface Course {
   _id: string;
@@ -41,7 +41,7 @@ interface PaginatedCoursesProps {
   onViewIncrement?: (courseId: string) => void;
 }
 
-const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({ 
+const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({
   filteredCourses,
   userFavorites = [],
   userTrackedItems = [],
@@ -127,7 +127,7 @@ const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({
   const getCourseUserStatus = (courseId: string) => {
     const userFavorite = userFavorites.find(fav => fav.courseId === courseId);
     const userTrackedItem = userTrackedItems.find(item => item.courseId === courseId);
-    
+
     return {
       isFavorite: !!userFavorite,
       favoriteId: userFavorite?._id || null,
@@ -149,9 +149,9 @@ const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({
           </h2>
         </div>
         <p className="text-slate-600 text-lg">
-          {t('universityHubs', 'discoverPrograms', { 
-            count: filteredAndSearchedCourses.length, 
-            defaultValue: `Discover ${filteredAndSearchedCourses.length} programs tailored for your academic journey` 
+          {t('universityHubs', 'discoverPrograms', {
+            count: filteredAndSearchedCourses.length,
+            defaultValue: `Discover ${filteredAndSearchedCourses.length} programs tailored for your academic journey`
           })}
         </p>
       </div>
@@ -274,14 +274,14 @@ const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-emerald-900">
-                {t('universityHubs', 'coursesFound', { 
+                {t('universityHubs', 'coursesFound', {
                   count: filteredAndSearchedCourses.length,
                   defaultValue: `${filteredAndSearchedCourses.length} Course${filteredAndSearchedCourses.length !== 1 ? 's' : ''} Found`
                 })}
               </h3>
               <p className="text-sm text-emerald-700">
-                {t('universityHubs', 'pageInfo', { 
-                  current: currentPage, 
+                {t('universityHubs', 'pageInfo', {
+                  current: currentPage,
                   total: totalPages,
                   defaultValue: `Page ${currentPage} of ${totalPages}`
                 })}
@@ -355,8 +355,8 @@ const PaginatedCourses: React.FC<PaginatedCoursesProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             {/* Page Info - Mobile */}
             <div className="text-sm text-slate-600 font-semibold sm:hidden">
-              {t('pagination', 'pageInfo', { 
-                current: currentPage, 
+              {t('pagination', 'pageInfo', {
+                current: currentPage,
                 total: totalPages,
                 defaultValue: `Page ${currentPage} of ${totalPages}`
               })}

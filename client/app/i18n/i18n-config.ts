@@ -2,7 +2,7 @@
 // This seems to correspond to your uploaded file: client/app/config/i18n.ts
 
 // Defines the supported locales for your application.
-export const locales = ['en', 'it', 'fr', 'es', 'ar'] as const;
+export const locales = ['en', 'fr', 'ar'] as const;
 
 // Defines the default locale if no locale is matched.
 export const defaultLocale = 'en';

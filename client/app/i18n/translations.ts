@@ -45,7 +45,28 @@ export const translations: Record<Locale, Translation> = {
       subtitle: "Get expert guidance, step-by-step resources, and premium services to make your study journey to Italy simple, clear, and successful.",
       ctaButton: "START NOW"
     },
+    filters: {
+      'clearAll': 'Clear All',
+      'studyArea': 'Study Area',
+      'allAreas': 'All Areas',
+      'courseType': 'Course Type',
+      'allTypes': 'All Types',
+      'language': 'Language',
+      'allLanguages': 'All Languages',
+      'clearAllFilters': 'Clear All Filters'
+    },
+    results: {
 
+      noCoursesFound: 'No courses found',
+      noMatchingCourses: 'No matching courses found',
+      adjustCriteria: 'No courses found. Please adjust your search criteria.',
+    },
+    pagination: {
+      'pageInfo': 'Page {page} of {totalPages}',
+      'previous': 'Previous',
+      'next': 'Next',
+      'showingResults': 'Showing results {start} - {end} of {total}',
+    },
     actions: {
       unfavorite: "Unfavorite",
       favorite: "Favorite",
@@ -790,7 +811,10 @@ export const translations: Record<Locale, Translation> = {
       postType_discussion_desc: "Start a discussion about university life, courses, or anything related to your university experience.",
     },
     "premiumHub": {
+      pageTitle: "Premium Application Hub",
+      dovCIMEAChứngTitle: "Declaration of Value (DoV) / CIMEA Comparability & Verification",
       "title": "Welcome, {userName}! Your Personalized Application Hub",
+      dovCIMEAChứngDesc: "Essential documents to certify your foreign qualifications. Requirements vary; check with your chosen university and the Italian consulate. CIMEA services offer comparability and verification statements.",
       "subtitle": "Your step-by-step guide to successfully applying to Italian universities.",
       "overallProgress": "Overall Progress: {progress}%",
       "loadingMessage": "Loading application hub...",
@@ -905,6 +929,28 @@ export const translations: Record<Locale, Translation> = {
       "title": "Commencez votre rêve d'étudier en Italie",
       "subtitle": "Obtenez des conseils d'experts, des ressources étape par étape et des services premium pour rendre votre parcours d'études en Italie simple, clair et réussi.",
       "ctaButton": "COMMENCER MAINTENANT"
+    },
+    filters: {
+      'clearAll': 'Tout effacer',
+      'studyArea': 'Domaine d\'étude',
+      'allAreas': 'Tous les domaines',
+      'courseType': 'Type de cours',
+      'allTypes': 'Tous les types',
+      'language': 'Langue',
+      'allLanguages': 'Toutes les langues',
+      'clearAllFilters': 'Effacer tous les filtres'
+    },
+    results: {
+
+      noCoursesFound: 'Aucun cours trouvé',
+      noMatchingCourses: 'Aucun cours correspondant trouvé',
+      adjustCriteria: 'Aucun cours trouvé. Veuillez ajuster vos critères de recherche.',
+    },
+    pagination: {
+      'pageInfo': 'Page {page} sur {totalPages}',
+      'previous': 'Précédent',
+      'next': 'Suivant',
+      'showingResults': 'Affichage des résultats {start} - {end} sur {total}',
     },
     "actions": {
       "unfavorite": "Retirer des favoris",
@@ -1610,6 +1656,10 @@ export const translations: Record<Locale, Translation> = {
       "postType_discussion_desc": "Commencez une discussion sur la vie universitaire, les cours, ou tout ce qui concerne votre expérience universitaire."
     },
     "premiumHub": {
+      pageTitle: "Espace de candidature premium",
+      dovCIMEADesc: "Obtenez un soutien personnalisé pour votre candidature.",
+      'dovCIMEAChứngTitle': "Déclaration de Valeur (DoV) / CIMEA Comparabilité & Vérification",
+      'dovCIMEAChứngDesc': "Documents essentiels pour certifier vos qualifications étrangères. Les exigences varient ; vérifiez auprès de l'université choisie et du consulat italien. Les services CIMEA offrent des déclarations de comparabilité et de vérification.",
       "title": "Bienvenue, {userName} ! Votre espace de candidature personnalisé",
       "subtitle": "Votre guide étape par étape pour réussir votre candidature dans les universités italiennes.",
       "overallProgress": "Progression globale : {progress}%",
@@ -1724,6 +1774,27 @@ export const translations: Record<Locale, Translation> = {
       "favorite": "إضافة إلى المفضلة",
       "untrack": "إلغاء المتابعة",
       "track": "متابعة"
+    },
+    filters: {
+      'clearAll': 'مسح الكل',
+      'studyArea': 'مجال الدراسة',
+      'allAreas': 'جميع المجالات',
+      'courseType': 'نوع الدورة',
+      'allTypes': 'جميع الأنواع',
+      'language': 'اللغة',
+      'allLanguages': 'جميع اللغات',
+      'clearAllFilters': 'مسح جميع الفلاتر'
+    },
+    results: {
+      noCoursesFound: 'لا توجد دورات متاحة',
+      noMatchingCourses: 'لا توجد دورات مطابقة',
+      adjustCriteria: 'يرجى تعديل معايير البحث الخاصة بك',
+    },
+    pagination: {
+      'pageInfo': "عرض {start} إلى {end} من {total} نتيجة",
+      'previous': "السابق",
+      'next': "التالي",
+      'showingResults': "عرض النتائج {start} - {end} من {total}",
     },
     "programRow": {
       "viewCountTooltip": "عدد المشاهدات",
@@ -2423,6 +2494,10 @@ export const translations: Record<Locale, Translation> = {
       "postType_discussion_desc": "ابدأ نقاشًا حول الحياة الجامعية، المساقات، أو أي شيء يتعلق بتجربتك الجامعية."
     },
     "premiumHub": {
+      pageTitle: "مرحبًا، {userName}! مركز التقديم المخصص لك",
+      dovCIMEADesc: "احصل على دعم مخصص لطلبك.",
+      'dovCIMEAChứngTitle': "إقرار القيمة (DoV) / CIMEA المقارنة والتحقق",
+      'dovCIMEAChứngDesc': "وثائق أساسية لمصادقة مؤهلاتك الأجنبية. تختلف المتطلبات؛ تحقق مع جامعتك المختارة والقنصلية الإيطالية. تقدم خدمات CIMEA بيانات المقارنة والتحقق.",
       "title": "مرحبًا، {userName}! مركز التقديم المخصص لك",
       "subtitle": "دليلك خطوة بخطوة للتقديم بنجاح على الجامعات الإيطالية.",
       "overallProgress": "التقدم العام: {progress}%",
@@ -2470,7 +2545,6 @@ export const translations: Record<Locale, Translation> = {
       "universitalyTitle": "بوابة Universitaly",
       "universitalyDesc": "البوابة الحكومية الإيطالية الرسمية للطلاب الدوليين لإدارة طلبات التسجيل المسبق لمؤسسات التعليم العالي.",
       "dovCIMEATitle": "إقرار القيمة (DoV) / معادلة CIMEA والتحقق",
-      "dovCIMEADesc": "وثائق أساسية للمصادقة على مؤهلاتك الأجنبية. تختلف المتطلبات؛ تحقق مع جامعتك المختارة والقنصلية الإيطالية. تقدم خدمات CIMEA بيانات المعادلة والتحقق.",
       "visaDTitle": "تأشيرة وطنية (النوع D) للدراسة",
       "visaDDesc_NonEU": "يحتاج الطلاب من خارج الاتحاد الأوروبي إلى تأشيرة من النوع D للدراسة طويلة الأمد في إيطاليا. ابدأ العملية مبكرًا في السفارة/القنصلية الإيطالية في بلد إقامتك بعد تلقي القبول وإكمال التسجيل المسبق.",
       "scholarshipTuitionSectionTitle": "رؤى حول المنح الدراسية والرسوم الدراسية",
