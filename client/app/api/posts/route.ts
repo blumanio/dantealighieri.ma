@@ -347,7 +347,7 @@ export async function DELETE(
         // 2. The requesting user is a special admin user (user_2yiwr2cfjKqOzVZDYtf59CekAcj).
         //    (For production, a more robust role-based access control (RBAC) check is recommended,
         //     e.g., checking user.publicMetadata.role === 'admin' via Clerk API)
-        const ADMIN_USER_ID = 'user_2yiwr2cfjKqOzVZDYtf59CekAcj'; 
+        const ADMIN_USER_ID =  'user_2yiwr2cfjKqOzVZDYtf59CekAcj'; 
 
         if (post.authorId !== userId && userId !== ADMIN_USER_ID) {
             console.log(`❌ Forbidden - User ${userId} is not the author (${post.authorId}) and not admin.`);
