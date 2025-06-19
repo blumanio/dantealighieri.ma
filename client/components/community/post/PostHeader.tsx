@@ -63,7 +63,7 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post, formatTimeAgo }) => {
     const roleConfig = getRoleConfig(undefined);
     const postCategoryConfig = getPostCategoryConfig(post.category);
     const postAuthorProfileLink = `/${language}/users/${post.author.id}`;
-
+const createdAtDate = new Date(post.createdAt);
     let communityDisplayName = '';
     let communityLink = '';
 
@@ -90,9 +90,9 @@ const PostHeader: React.FC<PostHeaderProps> = ({ post, formatTimeAgo }) => {
                             {communityDisplayName || t('postType.general' as any, 'General')}
                         </h4>
                     </Link>
-                    <time dateTime={post.createdAt.toISOString()} className="text-xs text-gray-500 flex-shrink-0 ml-2">
-                        {formatTimeAgo(post.createdAt.toISOString())}
-                    </time>
+                    <time dateTime={createdAtDate.toISOString()} className="text-xs text-gray-500 flex-shrink-0 ml-2">
+    {formatTimeAgo(createdAtDate.toISOString())}
+</time>
                 </div>
 
                 {/* --- RESTRUCTURED SECTION 2: Author + Role --- */}

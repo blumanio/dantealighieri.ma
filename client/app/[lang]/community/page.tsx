@@ -1,4 +1,4 @@
-// app/[lang]/feed/page.tsx (Fully Fixed)
+// app/[lang]/feed/page.tsx (Fully Fixed & Updated)
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -6,7 +6,6 @@ import { useUser } from '@clerk/nextjs';
 import { useLanguage } from '@/context/LanguageContext';
 import FeedHeader from '@/components/community/feed/FeedHeader';
 import FeedSidebar from '@/components/community/feed/FeedSidebar';
-// import FeedControls from '@/components/community/feed/FeedControls';
 import PostList from '@/components/community/feed/PostList';
 import CreatePostModal from '@/components/community/feed/CreatePostModal';
 import { IPostWithComments, IComment } from '@/types/post';
@@ -27,7 +26,6 @@ const FeedPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
-    const [loadingProgress, setLoadingProgress] = useState(0);
 
     // State for filters and search
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -45,19 +43,6 @@ const FeedPage = () => {
         return () => clearTimeout(timer);
     }, [debouncedSearchTerm]);
 
-// Add this at the top of your component
-useEffect(() => {
-    console.log('API_BASE_URL:', API_BASE_URL);
-    console.log('Environment:', process.env.NODE_ENV);
-    console.log('All env vars:', Object.keys(process.env).filter(key => key.startsWith('NEXT_PUBLIC_')));
-}, []);
-// Add this to detect mobile issues
-useEffect(() => {
-    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    console.log('Is mobile:', isMobile);
-    console.log('User agent:', navigator.userAgent);
-    console.log('Network status:', navigator.onLine);
-}, []);
     // Function to fetch posts from the API
     const fetchPosts = useCallback(async (page: number, refresh = false) => {
         setIsLoading(true);
@@ -65,16 +50,12 @@ useEffect(() => {
 
         if (refresh) {
             setPosts([]);
+            // We set currentPage to 1 here to ensure the API call is correct
             setCurrentPage(1);
-            setLoadingProgress(0);
-            const progressInterval = setInterval(() => setLoadingProgress(p => Math.min(p + 15, 85)), 150);
-            setTimeout(() => {
-                clearInterval(progressInterval);
-                setLoadingProgress(100);
-            }, 1000);
         }
 
         const queryParams = new URLSearchParams();
+        // Use the correct page number for the request
         queryParams.append('page', String(page));
         queryParams.append('limit', '10');
 
@@ -89,84 +70,90 @@ useEffect(() => {
         }
         const fetchUrl = `${API_BASE_URL}/api/posts?${queryParams.toString()}`;
 
-        // Replace the fetch logic with this safer version
-        const response = await fetch(fetchUrl);
-        console.log('Response status:', response.status);
-        console.log('Response content-type:', response.headers.get('content-type'));
+        try {
+            const response = await fetch(fetchUrl);
 
-        if (!response.ok) {
-            let errorMessage = `HTTP ${response.status}`;
-            try {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
+            if (!response.ok) {
+                let errorMessage = `API Error: ${response.status}`;
+                try {
                     const errorData = await response.json();
                     errorMessage = errorData.message || errorMessage;
-                } else {
-                    const textResponse = await response.text();
-                    console.log('Non-JSON error response:', textResponse);
-                    errorMessage = 'Server returned non-JSON response';
+                } catch {
+                    errorMessage = await response.text();
                 }
-            } catch (parseError) {
-                console.error('Failed to parse error response:', parseError);
+                throw new Error(errorMessage);
             }
-            throw new Error(errorMessage);
-        }
 
-        // Check if response is JSON before parsing
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            throw new Error('Server returned non-JSON response');
-        }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server returned an invalid response format.');
+            }
 
-        const data = await response.json();
-    }, [selectedTags, selectedQuickFilter, searchTerm]);
+            const data = await response.json();
+
+            // <<< FIX START: Update component state with the fetched data
+            setPosts(prevPosts => refresh ? data.posts : [...prevPosts, ...data.posts]);
+            setTotalPages(data.totalPages || 1);
+            setTotalPosts(data.totalPosts || 0);
+            setCurrentPage(data.currentPage || page);
+            // <<< FIX END
+
+        } catch (err: any) {
+            console.error("Failed to fetch posts:", err);
+            setError(err.message || 'An unknown error occurred.');
+            // Ensure posts are cleared on a failed refresh attempt
+            if (refresh) setPosts([]);
+        } finally {
+            // <<< FIX: Always set loading to false after the operation completes
+            setIsLoading(false);
+        }
+    }, [selectedTags, selectedQuickFilter, searchTerm]); // API_BASE_URL is constant, no need for it as a dependency
 
     useEffect(() => {
+        // Fetch posts on initial load or when filters/search change
         fetchPosts(1, true);
-    }, [fetchPosts]);
+    }, [fetchPosts]); // fetchPosts is memoized and only changes when its dependencies do
 
     const loadMore = () => {
         if (!isLoading && currentPage < totalPages) {
-            fetchPosts(currentPage + 1);
+            fetchPosts(currentPage + 1, false); // Fetch the next page, don't refresh
         }
     };
 
-const handleCommentSubmit = async (postId: string, commentText: string) => {
-    if (!isSignedIn || !user) return;
+    const handleCommentSubmit = async (postId: string, commentText: string) => {
+        if (!isSignedIn || !user) return;
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: commentText }),
-        });
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: commentText }),
+            });
 
-        if (!response.ok) {
-            let errorMessage = 'Failed to add comment';
-            try {
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const errorData = await response.json();
-                    errorMessage = errorData.message || errorMessage;
-                }
-            } catch (e) {
-                console.error('Error parsing comment error response:', e);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to add comment');
             }
-            throw new Error(errorMessage);
-        }
 
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            throw new Error('Invalid response format');
-        }
+            const newComment: IComment = await response.json();
 
-        const newCommentRes: IComment = await response.json();
-        // ... rest of the code
-    } catch (err: any) {
-        console.error("Error adding comment:", err);
-        alert(`Error adding comment: ${err.message}`);
-    }
-};
+            // <<< FIX START: Update the post's comments in the state for an instant UI update
+            setPosts(prevPosts =>
+                prevPosts.map(post => {
+                    if (String(post._id) === postId) {
+                        // Only replace the comments property, keep the original post instance
+                        (post.comments ??= []).push(newComment);
+                    }
+                    return post;
+                })
+            );
+            // <<< FIX END
+
+        } catch (err: any) {
+            console.error("Error adding comment:", err);
+            alert(`Error adding comment: ${err.message}`);
+        }
+    };
 
     const handleRefresh = () => fetchPosts(1, true);
     const handleSearchChange = (value: string) => setDebouncedSearchTerm(value);
@@ -177,6 +164,7 @@ const handleCommentSubmit = async (postId: string, commentText: string) => {
         console.log(`🗑️ Post ${deletedPostId} removed from state in FeedPage.`);
     }, []);
 
+    // Initial loading state (shows full page skeleton)
     if (isLoading && posts.length === 0) {
         return (
             <div className="space-y-4 p-4">
@@ -187,6 +175,7 @@ const handleCommentSubmit = async (postId: string, commentText: string) => {
         );
     }
 
+    // Error state when no posts could be loaded
     if (error && posts.length === 0) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 relative flex items-center justify-center">
@@ -202,6 +191,7 @@ const handleCommentSubmit = async (postId: string, commentText: string) => {
         );
     }
 
+    // Main content display
     return (
         <div className="bg-slate-50 dark:bg-gray-900 min-h-screen">
             <div className="container mx-auto px-4 py-8">
@@ -223,6 +213,7 @@ const handleCommentSubmit = async (postId: string, commentText: string) => {
                                     setSelectedTags([]);
                                     setSelectedQuickFilter('recent');
                                     setDebouncedSearchTerm('');
+                                    setSearchTerm(''); // Clear immediately for re-fetch
                                 }}
                             />
                         </div>
@@ -239,7 +230,7 @@ const handleCommentSubmit = async (postId: string, commentText: string) => {
                         />
                         <PostList
                             posts={posts}
-                            isLoading={isLoading}
+                            isLoading={isLoading} // This now correctly reflects loading more posts
                             error={error}
                             currentPage={currentPage}
                             totalPages={totalPages}

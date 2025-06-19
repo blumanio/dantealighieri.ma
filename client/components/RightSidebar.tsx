@@ -51,19 +51,19 @@ const AnimatedLogo = () => {
                     </motion.div>
                 </div>
                 udent
-            <span className="w-1.5"></span> {/* Space */}
-            <span className="flex items-end">
-                {/* Letter i with animated dot */}
-                {/* <div className="relative"> */}
+                <span className="w-1.5"></span> {/* Space */}
+                <span className="flex items-end">
+                    {/* Letter i with animated dot */}
+                    {/* <div className="relative"> */}
                     i
                     {/* <motion.div
                         className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-orange-500 rounded-full"
                         animate={{ y: [0, -3, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                     /> */}
-                {/* </div> */}
-                taly
-            </span>
+                    {/* </div> */}
+                    taly
+                </span>
             </span>
         </Link>
     );
@@ -168,7 +168,7 @@ const PremiumSidebar = () => {
 
                 {/* === DESKTOP FOOTER (RESTORED) === */}
                 <div className="px-3 py-4 border-t border-gray-200/60 space-y-1">
-                    <div className="relative" onMouseEnter={() => handleItemHover('settings')} onMouseLeave={handleItemLeave}>
+                    {/* <div className="relative" onMouseEnter={() => handleItemHover('settings')} onMouseLeave={handleItemLeave}>
                         <a href="/settings" className="group flex items-center p-3 rounded-xl hover:bg-gray-100/80 transition-all duration-200">
                             <Settings className="h-5 w-5 flex-shrink-0 text-gray-600 group-hover:text-orange-600 transition-colors duration-200" />
                             {isDesktopExpanded && <span className="ml-4 font-medium text-gray-700 group-hover:text-gray-900">Settings</span>}
@@ -181,7 +181,7 @@ const PremiumSidebar = () => {
                                 Settings <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-900 rotate-45" />
                             </motion.div>
                         )}
-                    </div>
+                    </div> */}
                     <div className="relative" onMouseEnter={() => handleItemHover('logout')} onMouseLeave={handleItemLeave}>
                         <button onClick={() => signOut()} className="group w-full flex items-center p-3 rounded-xl hover:bg-red-50 transition-all duration-200">
                             <LogOut className="h-5 w-5 flex-shrink-0 text-gray-600 group-hover:text-red-600 transition-colors duration-200" />
@@ -230,35 +230,33 @@ const PremiumSidebar = () => {
                                 </div>
                                 <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
                                     <h2 className="px-2 text-sm font-semibold text-gray-500 uppercase tracking-wider">Menu</h2>
-                                   {menuItems.map(item => (
-    <Link 
-        key={item.id} 
-        href={item.disabled ? '#' : item.href}
-        onClick={e => {
-            if (item.disabled) e.preventDefault();
-            else setIsMobileMenuOpen(false);
-        }}
-        className={`group flex items-center p-3 rounded-xl text-base font-medium transition-all duration-200 ${
-            item.disabled 
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                : 'text-gray-700 hover:bg-gray-100'
-        }`}
-    >
-        <item.icon className={`h-5 w-5 mr-4 ${
-            item.disabled 
-                ? 'text-gray-400' 
-                : 'text-gray-500 group-hover:text-orange-600'
-        }`} />
-        {item.label}
-        {item.disabled && <Lock className="w-4 h-4 ml-auto text-gray-400" />}
-    </Link>
-))}
+                                    {menuItems.map(item => (
+                                        <Link
+                                            key={item.id}
+                                            href={item.disabled ? '#' : item.href}
+                                            onClick={e => {
+                                                if (item.disabled) e.preventDefault();
+                                                else setIsMobileMenuOpen(false);
+                                            }}
+                                            className={`group flex items-center p-3 rounded-xl text-base font-medium transition-all duration-200 ${item.disabled
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                    : 'text-gray-700 hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            <item.icon className={`h-5 w-5 mr-4 ${item.disabled
+                                                    ? 'text-gray-400'
+                                                    : 'text-gray-500 group-hover:text-orange-600'
+                                                }`} />
+                                            {item.label}
+                                            {item.disabled && <Lock className="w-4 h-4 ml-auto text-gray-400" />}
+                                        </Link>
+                                    ))}
                                 </nav>
                                 <div className="p-4 border-t border-gray-200 space-y-2">
-                                    <a href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-center p-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-100 transition-all duration-200">
+                                    {/* <a href="/settings" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-center p-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-100 transition-all duration-200">
                                         <Settings className="h-5 w-5 mr-4 text-gray-500 group-hover:text-orange-600" />
                                         Settings
-                                    </a>
+                                    </a> */}
                                     <button onClick={() => { signOut(); setIsMobileMenuOpen(false); }} className="group w-full flex items-center p-3 rounded-xl text-base font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-200">
                                         <LogOut className="h-5 w-5 mr-4 text-gray-500 group-hover:text-red-600" />
                                         Sign Out

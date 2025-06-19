@@ -37,7 +37,7 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ menuItems }) => {
     { name: 'home', href: `/${language}`, icon: HomeIcon },
     { name: 'universities', href: `/${language}/universities`, icon: School },
     { name: 'programs', href: `/${language}/program-search`, icon: GraduationCap },
-    { name: 'profile', href: '/profile', icon: UserIcon },
+    { name: 'profile', href: '/dashboard', icon: UserIcon },
   ];
 
   const isActivePath = (path: string) => {
