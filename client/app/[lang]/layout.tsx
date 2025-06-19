@@ -37,7 +37,7 @@ export default async function LangSpecificLayout({
                 and does not need to be in a flex container with the main content. */}
         {/* <RightSidebar /> */}
         {/* The page content is rendered here */}
-        <main >{children}</main>
+        <main className='lg:ml-12'>{children}</main>
 
         <Footer />
 
