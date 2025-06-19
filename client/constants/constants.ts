@@ -225,5 +225,5 @@ export const paymentOptions = [
 
 import type { Locale as Lang } from './../app/i18n/types';
 
-export const supportedLanguages: Lang[] = ['en', 'it', 'ar'];
+export const supportedLanguages: Lang[] = ['en', 'fr', 'ar'];
 export const defaultLang: Lang = 'en';
