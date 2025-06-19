@@ -4,24 +4,38 @@
 import React, { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { Pen, Check, X, Loader2, User, Target, Calendar } from 'lucide-react';
+import { updatePublicMetadata } from '@/lib/actions/updateMetadata';
 
 // This sub-component handles the logic for a single editable field.
-const MetadataField = ({ fieldKey, label, icon: Icon, isEditingEnabled }) => {
+type MetadataFieldProps = {
+    fieldKey: string;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    isEditingEnabled: boolean;
+};
+
+const MetadataField: React.FC<MetadataFieldProps> = ({ fieldKey, label, icon: Icon, isEditingEnabled }) => {
     const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     // Initialize value from user.publicMetadata or set to an empty string
-    const [value, setValue] = useState(user.publicMetadata[fieldKey] || '');
+    const [value, setValue] = useState(
+        user && user.publicMetadata && typeof user.publicMetadata[fieldKey] === 'string'
+            ? user.publicMetadata[fieldKey] as string
+            : ''
+    );
 
     const handleSave = async () => {
         setIsLoading(true);
+
         try {
-            await user.update({
-                publicMetadata: {
-                    ...user.publicMetadata,
-                    [fieldKey]: value,
-                },
-            });
+            // Merge with existing metadata and update
+            const updatedMetadata = {
+                ...(user?.publicMetadata ?? {}),
+                [fieldKey]: value,
+            };
+
+            await updatePublicMetadata(updatedMetadata);
             setIsEditing(false);
         } catch (error) {
             console.error("Failed to update user metadata:", error);
@@ -33,7 +47,11 @@ const MetadataField = ({ fieldKey, label, icon: Icon, isEditingEnabled }) => {
 
     const handleCancel = () => {
         // Revert to the original value on cancel
-        setValue(user.publicMetadata[fieldKey] || '');
+        setValue(
+            user && user.publicMetadata && typeof user.publicMetadata[fieldKey] === 'string'
+                ? user.publicMetadata[fieldKey] as string
+                : ''
+        );
         setIsEditing(false);
     };
 
@@ -45,7 +63,9 @@ const MetadataField = ({ fieldKey, label, icon: Icon, isEditingEnabled }) => {
                 {!isEditing ? (
                     <div className="flex justify-between items-center group">
                         <p className="text-sm text-slate-800 font-semibold truncate">
-                            {user.publicMetadata[fieldKey] || 'Not set'}
+                            {typeof user?.publicMetadata?.[fieldKey] === 'string' && user.publicMetadata[fieldKey]
+                                ? user.publicMetadata[fieldKey] as string
+                                : 'Not set'}
                         </p>
                         {isEditingEnabled && (
                             <button onClick={() => setIsEditing(true)} className="opacity-0 group-hover:opacity-100 transition-opacity ml-2 p-1">
@@ -74,7 +94,11 @@ const MetadataField = ({ fieldKey, label, icon: Icon, isEditingEnabled }) => {
     );
 };
 
-const UserInfoSidebar = ({ isEditingEnabled }) => {
+type UserInfoSidebarProps = {
+    isEditingEnabled: boolean;
+};
+
+const UserInfoSidebar: React.FC<UserInfoSidebarProps> = ({ isEditingEnabled }) => {
     const { isLoaded, isSignedIn, user } = useUser();
 
     if (!isLoaded || !isSignedIn) {
@@ -84,7 +108,7 @@ const UserInfoSidebar = ({ isEditingEnabled }) => {
             </div>
         );
     }
-    
+
     // Define the fields from Clerk publicMetadata you want to display
     const metadataFields = [
         { key: 'targetCountry', label: 'Target Country', icon: Target },

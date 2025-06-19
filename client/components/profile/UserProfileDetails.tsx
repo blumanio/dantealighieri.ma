@@ -22,7 +22,62 @@ interface PersonalData {
     stateProvince?: string;
     postalCode?: string;
 }
+interface InputFieldProps {
+    label: string;
+    name: string;
+    value: any;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    type?: string;
+    isRequired?: boolean;
+    placeholder?: string;
+    icon?: React.ComponentType<{ size?: string | number; className?: string }>;
+    options?: { value: string; label: string }[];
+}
 
+interface SaveButtonProps {
+    onClick: () => void;
+    isSaving: boolean;
+    text?: string;
+    icon?: React.ComponentType<{ size?: string | number; className?: string }>;
+}
+
+interface NavButtonProps {
+    onClick: () => void;
+    text: string;
+    icon: React.ComponentType<{ size?: string | number; className?: string }>;
+}
+
+interface HorizontalNavProps {
+    activeTab: string;
+    onTabChange: (tabId: string) => void;
+}
+
+interface EducationSectionProps {
+    data: EducationalData;
+    onEducationalChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    onEntryChange: (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    addEntry: () => void;
+    removeEntry: (index: number) => void;
+    onSave: () => Promise<void>;
+    isSaving: boolean;
+    onNext: () => void;
+    onPrev: () => void;
+    highestLevelOfEducation?: 'High School' | "Associate's Degree" | "Bachelor's Degree" | "Master's Degree" | "Doctorate (PhD)" | 'Other' | '';
+    previousEducation: EducationEntry[]; // Remove the optional ? to make it always an array
+
+}
+
+interface LanguageSectionProps {
+    data: LanguageProficiency;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    onSave: () => Promise<void>;
+    isSaving: boolean;
+    onPrev: () => void;
+}
+
+interface SectionFooterProps {
+    children: React.ReactNode;
+}
 interface EducationEntry {
     id: string;
     institutionName?: string;
@@ -51,6 +106,7 @@ const initialPersonalData: PersonalData = {
 const initialEducationalData: EducationalData = {
     highestLevelOfEducation: '',
     previousEducation: [{ id: Date.now().toString(), institutionName: '', degreeName: '', fieldOfStudy: '', graduationYear: '' }],
+
 };
 const initialLanguageData: LanguageProficiency = {
     isNativeEnglishSpeaker: '', testTaken: '', overallScore: '', testDate: ''
@@ -81,7 +137,7 @@ const saveProfileData = async (data: { personal?: PersonalData, education?: Educ
 // ============================================================================
 // Reusable UI Sub-components
 // ============================================================================
-const Card = ({ children, className = "" }) => (
+const Card: React.FC<React.PropsWithChildren<{ className?: string }>> = ({ children, className = "" }) => (
     <motion.div
         layout="position"
         initial={{ opacity: 0, y: 20 }}
@@ -93,7 +149,13 @@ const Card = ({ children, className = "" }) => (
     </motion.div>
 );
 
-const SectionHeader = ({ title, subtitle, icon: Icon }) => (
+interface SectionHeaderProps {
+    title: string;
+    subtitle?: string;
+    icon: React.ComponentType<{ size?: string | number; className?: string }>;
+}
+
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title, subtitle, icon: Icon }) => (
     <div className="p-6 sm:p-8 border-b border-orange-200">
         <div className="flex items-center gap-4">
             <div className="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
@@ -107,7 +169,10 @@ const SectionHeader = ({ title, subtitle, icon: Icon }) => (
     </div>
 );
 
-const InputField = ({ label, name, value, onChange, type = 'text', isRequired = false, placeholder, icon: Icon, options }) => (
+const InputField: React.FC<InputFieldProps> = ({
+    label, name, value, onChange, type = 'text', isRequired = false,
+    placeholder, icon: Icon, options
+}) => (
     <div>
         <label htmlFor={name} className="block text-sm font-medium text-slate-700 mb-1.5">
             {label}
@@ -129,7 +194,7 @@ const InputField = ({ label, name, value, onChange, type = 'text', isRequired = 
     </div>
 );
 
-const SaveButton = ({ onClick, isSaving, text = "Save Changes", icon: Icon = Save }) => (
+const SaveButton: React.FC<SaveButtonProps> = ({ onClick, isSaving, text = "Save Changes", icon: Icon = Save }) => (
     <button onClick={onClick} disabled={isSaving}
         className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
         {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Icon size={18} />}
@@ -137,15 +202,15 @@ const SaveButton = ({ onClick, isSaving, text = "Save Changes", icon: Icon = Sav
     </button>
 );
 
-const NavButton = ({ onClick, text, icon: Icon }) => (
+const NavButton: React.FC<NavButtonProps> = ({ onClick, text, icon: Icon }) => (
     <button onClick={onClick} type="button"
         className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2">
         <Icon size={18} />
         {text}
     </button>
-)
+);
 
-const HorizontalNav = ({ activeTab, onTabChange }) => {
+const HorizontalNav: React.FC<HorizontalNavProps> = ({ activeTab, onTabChange }) => {
     const navItems = [
         { id: 'personal', label: 'Personal Info', icon: User },
         { id: 'education', label: 'Education', icon: GraduationCap },
@@ -176,29 +241,36 @@ const HorizontalNav = ({ activeTab, onTabChange }) => {
 // Section Components
 // ============================================================================
 
-const SectionFooter = ({ children }) => (
+const SectionFooter: React.FC<SectionFooterProps> = ({ children }) => (
     <div className="border-t border-slate-200 p-4 sm:p-6 flex justify-between items-center  rounded-b-2xl">
         {children}
     </div>
 );
 
-const PersonalInfoSection = ({ data, onChange, onSave, isSaving, onNext }) => (
+interface PersonalInfoSectionProps {
+    data: PersonalData;
+    onChange: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+    onSave: () => Promise<void> | void;
+    isSaving: boolean;
+    onNext: () => void;
+}
+const PersonalInfoSection: React.FC<PersonalInfoSectionProps> = ({ data, onChange, onSave, isSaving, onNext }) => (
     <Card>
         <SectionHeader title="Personal Information" subtitle="Your basic personal details and contact information" icon={User} />
         <div className="p-6 sm:p-8 pt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <InputField label="First Name" name="firstName" value={data.firstName} onChange={onChange} isRequired placeholder="Enter first name" />
-                <InputField label="Last Name" name="lastName" value={data.lastName} onChange={onChange} isRequired placeholder="Enter last name" />
-                <InputField label="Date of Birth" name="dateOfBirth" value={data.dateOfBirth} onChange={onChange} type="date" icon={Calendar} isRequired />
-                <InputField label="Gender" name="gender" value={data.gender} onChange={onChange} options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other' }]} />
-                <InputField label="Nationality" name="nationality" value={data.nationality} onChange={onChange} placeholder="e.g., American" isRequired />
-                <InputField label="Country of Residence" name="countryOfResidence" value={data.countryOfResidence} onChange={onChange} placeholder="e.g., United States" isRequired />
+                <InputField label="First Name" name="firstName" value={data.firstName} onChange={onChange} isRequired placeholder="Enter first name" icon={undefined} options={undefined} />
+                <InputField label="Last Name" name="lastName" value={data.lastName} onChange={onChange} isRequired placeholder="Enter last name" icon={undefined} options={undefined} />
+                <InputField label="Date of Birth" name="dateOfBirth" value={data.dateOfBirth} onChange={onChange} type="date" icon={Calendar} isRequired placeholder="Select date of birth" options={undefined} />
+                <InputField label="Gender" name="gender" value={data.gender} onChange={onChange} options={[{ value: 'male', label: 'Male' }, { value: 'female', label: 'Female' }, { value: 'other', label: 'Other' }]} placeholder={undefined} icon={undefined} />
+                <InputField label="Nationality" name="nationality" value={data.nationality} onChange={onChange} placeholder="e.g., American" isRequired icon={undefined} options={undefined} />
+                <InputField label="Country of Residence" name="countryOfResidence" value={data.countryOfResidence} onChange={onChange} placeholder="e.g., United States" isRequired icon={undefined} options={undefined} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="md:col-span-2"><InputField label="Street Address" name="streetAddress" value={data.streetAddress} onChange={onChange} placeholder="123 Main St" icon={MapPin} /></div>
-                <InputField label="City" name="city" value={data.city} onChange={onChange} placeholder="New York" />
-                <InputField label="State / Province" name="stateProvince" value={data.stateProvince} onChange={onChange} placeholder="NY" />
-                <InputField label="Postal Code" name="postalCode" value={data.postalCode} onChange={onChange} placeholder="10001" />
+                <div className="md:col-span-2"><InputField label="Street Address" name="streetAddress" value={data.streetAddress} onChange={onChange} placeholder="123 Main St" icon={MapPin} options={undefined} /></div>
+                <InputField label="City" name="city" value={data.city} onChange={onChange} placeholder="New York" icon={undefined} options={undefined} />
+                <InputField label="State / Province" name="stateProvince" value={data.stateProvince} onChange={onChange} placeholder="NY" icon={undefined} options={undefined} />
+                <InputField label="Postal Code" name="postalCode" value={data.postalCode} onChange={onChange} placeholder="10001" icon={undefined} options={undefined} />
             </div>
         </div>
         <SectionFooter>
@@ -208,7 +280,7 @@ const PersonalInfoSection = ({ data, onChange, onSave, isSaving, onNext }) => (
     </Card>
 );
 
-const EducationSection = ({ data, onEducationalChange, onEntryChange, addEntry, removeEntry, onSave, isSaving, onNext, onPrev }) => (
+const EducationSection: React.FC<EducationSectionProps> = ({ data, onEducationalChange, onEntryChange, addEntry, removeEntry, onSave, isSaving, onNext, onPrev }) => (
     <Card>
         <SectionHeader title="Educational Background" subtitle="Your academic qualifications" icon={GraduationCap} />
         <div className="p-6 sm:p-8 pt-0 space-y-8">
@@ -226,7 +298,7 @@ const EducationSection = ({ data, onEducationalChange, onEntryChange, addEntry, 
                             <InputField label="Field of Study" name="fieldOfStudy" value={entry.fieldOfStudy} onChange={(e) => onEntryChange(index, e)} placeholder="Computer Science" />
                             <InputField label="Graduation Year" name="graduationYear" value={entry.graduationYear} onChange={(e) => onEntryChange(index, e)} type="number" placeholder="2024" icon={Calendar} />
                         </div>
-                        {data.previousEducation.length > 1 && (
+                        {(data.previousEducation?.length ?? 0) > 1 && (
                             <button type="button" onClick={() => removeEntry(index)} disabled={isSaving}
                                 className="absolute top-3 right-3 p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500">
                                 <Trash2 size={16} />
@@ -247,7 +319,7 @@ const EducationSection = ({ data, onEducationalChange, onEntryChange, addEntry, 
     </Card>
 );
 
-const LanguageSection = ({ data, onChange, onSave, isSaving, onPrev }) => (
+const LanguageSection: React.FC<LanguageSectionProps> = ({ data, onChange, onSave, isSaving, onPrev }) => (
     <Card>
         <SectionHeader title="Language Proficiency" subtitle="Details about your English language skills" icon={Languages} />
         <div className="p-6 sm:p-8 pt-0 space-y-4">
@@ -291,7 +363,7 @@ const UserProfileDetails = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
-    const [saveStatus, setSaveStatus] = useState(null);
+    const [saveStatus, setSaveStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
     // Data Loading Effect
     useEffect(() => {
@@ -307,7 +379,7 @@ const UserProfileDetails = () => {
             }));
             setEducationalData(prev => ({
                 ...prev, ...data.education,
-                previousEducation: (data.education.previousEducation?.length > 0)
+                previousEducation: ((data.education.previousEducation ?? []).length > 0)
                     ? data.education.previousEducation
                     : [{ id: Date.now().toString(), institutionName: '', degreeName: '', fieldOfStudy: '', graduationYear: '' }],
             }));
@@ -317,7 +389,7 @@ const UserProfileDetails = () => {
     }, [isLoaded, user]);
 
     // Handlers
-    const handleTabChange = (tabId) => {
+    const handleTabChange = (tabId: string) => {
         if (TABS.includes(tabId)) {
             setActiveTab(tabId);
         }
@@ -337,19 +409,28 @@ const UserProfileDetails = () => {
         }
     };
 
-    const handlePersonalChange = (e) => setPersonalData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    const handleEducationalChange = (e) => setEducationalData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    const handleLanguageChange = (e) => setLanguageData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handlePersonalChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setPersonalData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleEducationalChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setEducationalData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setLanguageData(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-    const handleEducationEntryChange = (index, e) => {
-        const updatedEntries = [...educationalData.previousEducation];
+    const handleEducationEntryChange = (index: number, e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const updatedEntries = [...(educationalData.previousEducation ?? [])];
         updatedEntries[index] = { ...updatedEntries[index], [e.target.name]: e.target.value };
         setEducationalData(prev => ({ ...prev, previousEducation: updatedEntries }));
     };
-    const addEducationEntry = () => setEducationalData(prev => ({ ...prev, previousEducation: [...prev.previousEducation, { id: Date.now().toString(), institutionName: '', degreeName: '', fieldOfStudy: '', graduationYear: '' }] }));
-    const removeEducationEntry = (index) => setEducationalData(prev => ({ ...prev, previousEducation: prev.previousEducation.filter((_, i) => i !== index) }));
+    const addEducationEntry = () => setEducationalData(prev => ({
+        ...prev,
+        previousEducation: [
+            ...(prev.previousEducation ?? []),
+            { id: Date.now().toString(), institutionName: '', degreeName: '', fieldOfStudy: '', graduationYear: '' }
+        ]
+    }));
+    const removeEducationEntry = (index: number) => setEducationalData(prev => ({
+        ...prev,
+        previousEducation: (prev.previousEducation ?? []).filter((_, i) => i !== index)
+    }));
 
-    const handleSave = async (section) => {
+    const handleSave = async (section: 'personal' | 'education' | 'language') => {
         if (!user) return;
         setIsSaving(true); setSaveStatus(null);
         try {
@@ -415,6 +496,7 @@ const UserProfileDetails = () => {
                             isSaving={isSaving}
                             onNext={goToNextTab}
                             onPrev={goToPrevTab}
+                            previousEducation={educationalData.previousEducation ?? []}
                         />
                     )}
                     {activeTab === 'language' && (
