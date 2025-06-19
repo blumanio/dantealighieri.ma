@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useUser as useClerkUser } from '@clerk/nextjs';
 
 // Assuming IUser is imported from a shared types folder
-import { IUser } from '@/types';
-import { calculateLimits } from '@/config/gamification'; // Share config with frontend
+import { IUser }from '@/lib/models/User';
+import { calculateLimits } from '@/app/config/gamification'; // Share config with frontend
 
 interface IUserContext {
     user: IUser | null;
@@ -15,7 +15,7 @@ interface IUserContext {
 
 const UserContext = createContext<IUserContext | undefined>(undefined);
 
-export const UserProvider = ({ children }) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user: clerkUser, isSignedIn } = useClerkUser();
     const [user, setUser] = useState<IUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
