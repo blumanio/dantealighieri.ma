@@ -19,7 +19,7 @@ const bottomMenuItems = [
     { id: 'planner', icon: Route, label: 'Planner', href: '/dashboard#shortlisting' },
     { id: 'documents', icon: Folder, label: 'Docs', href: '/dashboard#documents' },
     { id: 'applications', icon: BookmarkCheck, label: 'Apps', href: '/dashboard#applications' },
-    { id: 'messages', icon: MessageSquare, label: 'Messages', href: '/dashboard#messages', notification: 3 },
+    { id: 'messages', icon: MessageSquare, label: 'Messages', href: '/dashboard#messages', notification: 3, disabled: true },
     { id: 'profile', icon: User, label: 'Profile', href: '/dashboard#about' },
 ];
 
@@ -46,12 +46,12 @@ const BottomMenu = () => {
                         // Tip 4: Differentiate active and inactive states.
                         // We check if the current path starts with the item's href.
                         const isActive = pathname + (window.location.hash || '') === item.href;
-
+                        const isDisabled = item.disabled;
                         return (
                             <Link
                                 key={item.id}
                                 href={item.href}
-                                className="group flex flex-col items-center justify-center text-center p-2 rounded-lg h-full w-16 transition-colors duration-200"
+                                className={`group flex flex-col items-center justify-center text-center p-2 rounded-lg h-full w-16 transition-colors duration-200 ${isDisabled ? 'pointer-events-none opacity-50' : ''}`}
                             >
                                 {/* Tip 3: Design thumb-friendly tap areas (achieved via padding and item size) */}
                                 <div className="relative">
