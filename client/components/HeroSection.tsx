@@ -18,7 +18,7 @@ const HeroSection: React.FC = () => {
   const currentTranslations = translations[language as Locale] || translations.en;
 
   const handleExplore = () => {
-    router.push(`/${language}/profile`);
+    router.push(`/${language}/dashboard`);
   };
 
   const [imageNumber, setImageNumber] = useState(1);
