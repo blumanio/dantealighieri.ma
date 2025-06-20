@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, BookOpen, Building, ArrowRight, Lock, Sparkles } from 'lucide-react';
+import { Translation } from '@/app/i18n/types';
 
 // --- Configurable Constants ---
 const FREE_COURSES_LIMIT = 3;
@@ -22,7 +23,7 @@ interface Course {
 }
 
 interface SuggestedCoursesProps {
-  t: (key: string) => string;
+  t: (namespace: keyof Translation, key: string, interpolations?: Record<string, string | number>) => string;
 }
 
 interface AcademicArea {
@@ -197,12 +198,17 @@ const SuggestedCourses = ({ t }: SuggestedCoursesProps) => {
   return (
     <div className="bg-white rounded-lg border border-gray-200">
       <div className="px-6 py-4 border-b border-gray-100">
-        <div className="flex items-center gap-2">
-          <BookOpen size={18} className="text-blue-600" />
-          <h2 className="font-semibold text-gray-900">{t('suggestedCourses')}</h2>
-        </div>
-        <p className="text-xs text-gray-500 mt-1">{t('basedOnYourProfile')}</p>
-      </div>
+  <div className="flex items-center gap-2">
+    <BookOpen size={18} className="text-blue-600" />
+    <h2 className="font-semibold text-gray-900">
+      {t('yourRecommendedCourses')}
+    </h2>
+  </div>
+  <p className="text-xs text-gray-500 mt-1">
+    {t('s','theseCoursesMatchYourGoalsAndInterests')}
+  </p>
+</div>
+
       <div className="p-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence mode="popLayout">

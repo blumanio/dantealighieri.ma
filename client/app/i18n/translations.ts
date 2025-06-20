@@ -234,12 +234,13 @@ export const translations: Record<Locale, Translation> = {
       noMessagesYet: "No messages yet. Say hello to {name}!",
     },
     profile: {
-
-      yourJourney: "Your Journey",
-      gettingStarted: "Getting Started",
-      shortlisting: "University Shortlisting",
-      documentPreparation: "Document Preparation",
-      applying: "Application Center",
+      "yourRecommendedCourses": "Your Recommended Courses",
+      "theseCoursesMatchYourGoalsAndInterests": "Curated just for you — based on your interests, progress, and goals.",
+      "yourJourney": "Your Journey",
+      "gettingStarted": "Getting Started",
+      "shortlisting": "University Shortlisting",
+      "documentPreparation": "Document Preparation",
+      "applying": "Application Center",
       "finances": "Scholarships & Finances",
       "communication": "Messages",
       "preDeparture": "Visa & Pre-Departure",
@@ -1113,6 +1114,8 @@ export const translations: Record<Locale, Translation> = {
       "noMessagesYet": "Aucun message pour le moment. Dites bonjour à {name} !"
     },
     "profile": {
+      "yourRecommendedCourses": "Vos cours recommandés",
+      "theseCoursesMatchYourGoalsAndInterests": "Ces cours correspondent à vos objectifs et intérêts académiques.",
       "yourJourney": "Votre parcours",
       "gettingStarted": "Pour commencer",
       "shortlisting": "Présélection d'universités",
@@ -1951,6 +1954,8 @@ export const translations: Record<Locale, Translation> = {
       "noMessagesYet": "لا توجد رسائل حتى الآن. قل مرحبًا لـ {name}!"
     },
     "profile": {
+      "yourRecommendedCourses": "دوراتك الموصى بها",
+      "theseCoursesMatchYourGoalsAndInterests": "تم تنسيقها خصيصًا لك - بناءً على اهتماماتك وتقدمك وأهدافك.",
       "yourJourney": "رحلتك",
       "gettingStarted": "البداية",
       "shortlisting": "قائمة الجامعات المختصرة",

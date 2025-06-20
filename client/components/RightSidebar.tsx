@@ -27,7 +27,7 @@ const menuItems = [
     { id: 'myplanner', icon: Route, label: 'My Planner', href: '/dashboard#shortlisting' },
     { id: 'documents', icon: Folder, label: 'Documents', href: '/dashboard#documents' },
     { id: 'applications', icon: BookmarkCheck, label: 'Applications', href: '/dashboard#applications' },
-    { id: 'scholarships', icon: DollarSign, label: 'Scholarships', href: '/dashboard#scholarships', disabled: true },
+    { id: 'scholarships', icon: DollarSign, label: 'Scholarships', href: '/scholarships', disabled: false },
     { id: 'messages', icon: MessageSquare, label: 'Messages', href: '/dashboard#messages' },
     { id: 'video', icon: Video, label: 'Videobook', href: '/video', disabled: true },
     { id: 'premium', icon: Star, label: 'Premium', href: '/dashboard#premium', disabled: true },

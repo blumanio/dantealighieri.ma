@@ -38,6 +38,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "country-flag-icons": "^1.5.14",
+    "country-list": "^2.3.0",
     "csv-parser": "^3.2.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",

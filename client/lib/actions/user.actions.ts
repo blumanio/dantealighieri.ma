@@ -2,7 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
 import User, { IUser } from '@/lib/models/User';
 
-// Helper function to compare dates by calendar day (remains the same)
+// Helper function to compare dates by calendar day
 function isSameDay(date1: Date, date2: Date): boolean {
     if (!date1 || !date2) return false;
     return date1.getFullYear() === date2.getFullYear() &&
@@ -17,17 +17,15 @@ export async function getOrCreateUser(): Promise<IUser> {
         const { userId } = await auth();
         if (!userId) throw new Error('Unauthorized: User must be signed in.');
 
-        // 1. Fetch the latest user data from Clerk
         const client = await clerkClient()
         const clerkUser = await client.users.getUser(userId);
         if (!clerkUser) throw new Error('User data could not be retrieved from Clerk.');
 
         let user = await User.findOne({ clerkId: userId });
 
-        const currentSignIn = new Date(clerkUser.lastSignInAt || Date.now());
-
+        const currentSignIn = new Date();
+        console.log('Clerk user public metadata: vvvvvvvvvvvv', clerkUser.publicMetadata.countryOfOrigin);
         // --- Path 1: New User ---
-        // If the user does not exist in our DB, create them with a streak of 1.
         if (!user) {
             const newUser = new User({
                 clerkId: clerkUser.id,
@@ -36,39 +34,52 @@ export async function getOrCreateUser(): Promise<IUser> {
                 firstName: clerkUser.firstName || '',
                 lastName: clerkUser.lastName || '',
                 imageUrl: clerkUser.imageUrl || '',
+                country: clerkUser.publicMetadata.countryOfOrigin || '',
                 xp: 0,
                 tier: 'Viaggiatore',
-                streak: 1, // A new user starts with a 1-day streak.
-                processedLastSignInAt: currentSignIn,
+                streak: 1,
+                lastLogin: currentSignIn,
+                lastActiveDate: currentSignIn,
             });
             await newUser.save();
             return newUser;
         }
 
         // --- Path 2: Existing User ---
-        const lastProcessedSignIn = user.processedLastSignInAt;
+        const lastActiveDate = user.lastActiveDate;
 
-        // If the streak has already been updated for today's sign-in, just return the user.    
-        if (lastProcessedSignIn && isSameDay(lastProcessedSignIn, currentSignIn)) {
+        // If the streak has already been updated for today, just return the user
+        if (lastActiveDate && isSameDay(lastActiveDate, currentSignIn)) {
+            // Update lastLogin but keep the same lastActiveDate since it's the same day
+            user.lastLogin = currentSignIn;
+            await user.save();
             return user;
         }
 
-        // If we've reached here, it means we NEED to calculate the streak for a new day.
+        // Calculate streak for a new day
         const yesterday = new Date(currentSignIn);
         yesterday.setDate(currentSignIn.getDate() - 1);
 
-        // Check if the last action was yesterday to continue the streak.
-        if (lastProcessedSignIn && isSameDay(lastProcessedSignIn, yesterday)) {
-            user.streak = (user.streak || 0) + 1; // Increment the streak
+        console.log('Current sign in:', currentSignIn);
+        console.log('Last active date:', lastActiveDate);
+        console.log('Yesterday:', yesterday);
+        console.log('Same day as yesterday check:', lastActiveDate ? isSameDay(lastActiveDate, yesterday) : false);
+
+        // Check if the last active date was yesterday to continue the streak
+        if (lastActiveDate && isSameDay(lastActiveDate, yesterday)) {
+            user.streak = (user.streak || 0) + 1; // Continue streak
+            console.log('Continuing streak:', user.streak);
         } else {
-            // The streak is broken or it's the first action for a user who existed before streaks. Reset to 1.
+            // Streak broken or first time - reset to 1
             user.streak = 1;
+            console.log('Streak reset to 1');
         }
 
-        // Finally, update the last processed sign-in date to today and save.
-        user.processedLastSignInAt = currentSignIn;
+        // Update both login timestamps
+        user.lastLogin = currentSignIn;
+        user.lastActiveDate = currentSignIn;
+        
         const updatedUser = await user.save();
-
         return updatedUser;
 
     } catch (error) {

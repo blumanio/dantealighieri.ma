@@ -197,6 +197,8 @@ export interface MessagingTranslation {
 
 export interface ProfileTranslations {
   // Journey Dashboard
+  yourRecommendedCourses: string;
+  theseCoursesMatchYourGoalsAndInterests: string;
   yourJourney: string;
   gettingStarted: string;
   shortlisting: string;

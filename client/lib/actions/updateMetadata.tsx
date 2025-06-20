@@ -14,9 +14,10 @@ export async function updatePublicMetadata(data: Record<string, any>) {
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
     console.log('Current user data:', user)
-    // await clerkClient.users.updateUser(userId, {
-    //   publicMetadata: data
-    // })
+    // const client = await clerkClient()
+    await client.users.updateUser(userId, {
+      publicMetadata: { ...user.publicMetadata, ...data }
+    })
     return { success: true }
   } catch (error) {
     console.error('Failed to update metadata:', error)

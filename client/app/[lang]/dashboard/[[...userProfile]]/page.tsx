@@ -10,13 +10,15 @@ import {
     GraduationCap,
     List,
     User2,
+    Layers,
     Route,
     BarChart2Icon,
     Crown
-} from 'lucide-react';
-import { MetadataField, UserInfoSidebar } from '@/components/profile/MetadataField';
+} from 'lucide-react'
+import UserInfoSidebar from '@/components/profile/MetadataField';
 import { redirect } from 'next/navigation';
-
+import ReactCountryFlag from "react-country-flag"
+import { ApplicationPhaseManager } from '@/components/profile/ApplicationPhaseManager';
 
 // ============================================================================
 // 1. LAZY-LOADED COMPONENTS (from your project structure)
@@ -61,7 +63,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ rightSidebar, childre
     <div className="max-w-screen-2xl mx-auto sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:space-x-8 py-8">
             <main className="flex-1 min-w-0">{children}</main>
-            <aside className="w-full lg:w-80 lg:flex-shrink-0 mt-8 lg:mt-0 lg:sticky lg:top-8 self-start">{rightSidebar}</aside>
+            {/* <aside className="w-full lg:w-80 lg:flex-shrink-0 mt-8 lg:mt-0 lg:sticky lg:top-8 self-start">{rightSidebar}</aside> */}
         </div>
     </div>
 );
@@ -75,27 +77,95 @@ type UserProgressWidgetProps = {
         userName: string;
         userInitials: string;
         rankKey: string;
+        country: Country;
     };
     t: (key: string) => string;
 };
+interface Country {
+    id: string;
+    name: string;
+}
 
 const UserProgressWidget = memo(({ stats, t }: UserProgressWidgetProps) => {
     if (!stats) return null;
+
     return (
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-6 mb-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">{stats.userInitials}</div>
-                <div className="flex-1 w-full">
-                    <h3 className="text-xl font-bold text-slate-900">{t('welcomeBack')}, {stats.userName}!</h3>
-                    <div className="flex justify-between text-xs text-slate-500 font-medium mt-2">
-                        <div className='flex items-center gap-1'><BarChart2Icon size={14} className='text-orange-500' /><span>{stats.streak} {t('dayStreak')}</span></div>
-                        <div className='flex items-center gap-1'><Sparkles size={14} className='text-orange-500 ' />{stats.xp}  </div>
+        <div className="relative bg-white rounded-3xl border border-slate-200 p-5 sm:p-8 shadow-md">
+            {/* Background Ornaments */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-orange-100/30 to-transparent rounded-full -translate-y-12 translate-x-12 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-blue-100/20 to-transparent rounded-full translate-y-8 -translate-x-8 pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-start gap-6 sm:gap-10">
+                {/* Avatar */}
+                <div className="relative group shrink-0 self-center sm:self-start">
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full blur-sm opacity-10 group-hover:opacity-20 transition-opacity" />
+                    <div
+                        className="relative w-20 h-20 sm:w-20 sm:h-20 rounded-full bg-cover bg-center ring-2 ring-white shadow"
+                        style={{ backgroundImage: `url(${stats.userInitials})` }}
+                    />
+                    <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-full bg-gradient-to-r from-slate-700 to-slate-900 flex items-center justify-center ring-2 ring-white">
+                        <ReactCountryFlag
+                            countryCode={stats.country.id}
+                            svg
+                            style={{
+                                width: '18px',
+                                height: '18px',
+                                borderRadius: '3px'
+                            }}
+                        />
                     </div>
                 </div>
+
+                {/* Info & Stats */}
+                <div className="flex-1 flex flex-col gap-4">
+                    <div>
+                        <h2 className="text-lg sm:text-xl font-semibold text-slate-800">
+                            {t('welcomeBack')}, {stats.userName}! <span className="ml-1">👋</span>
+                        </h2>
+                    </div>
+
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                        {/* Streak */}
+                        <div className="flex items-center gap-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-3 rounded-2xl shadow hover:scale-[1.02] transition-transform duration-150">
+                            <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
+                                <BarChart2Icon size={16} />
+                            </div>
+                            <div>
+                                <div className="text-base font-bold">{stats.streak}</div>
+                                <div className="text-xs">{t('dayStreak')}</div>
+                            </div>
+                        </div>
+
+                        {/* XP */}
+                        <div className="flex items-center gap-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-4 py-3 rounded-2xl shadow hover:scale-[1.02] transition-transform duration-150">
+                            <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center">
+                                <Sparkles size={16} />
+                            </div>
+                            <div>
+                                <div className="text-base font-bold">{stats.xp}</div>
+                                <div className="text-xs">XP</div>
+                            </div>
+                        </div>
+
+                        {/* Phase to right */}
+                        <div className="flex-1 flex justify-end">
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <Layers size={18} className="text-indigo-500" />
+                                <ApplicationPhaseManager />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Sidebar Info */}
+            <div className="mt-6 pt-6 border-t border-slate-200">
+                <UserInfoSidebar />
             </div>
         </div>
     );
 });
+
 UserProgressWidget.displayName = 'UserProgressWidget';
 
 
@@ -207,12 +277,14 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
 
         if (user?.publicMetadata) {
             setIsOnboardingComplete(!!user.publicMetadata.onboardingComplete);
-
+            console.log('cccccccc User public metadata:', user.publicMetadata);
             // Only redirect if we have metadata and onboarding is NOT complete
             if (!user.publicMetadata.onboardingComplete) {
+                console.log('cccccccccRedirecting to onboarding');
                 redirect('/onboarding');
             }
         } else if (user) {
+            console.log('cccccccc User exists but no public metadata:', user);
             // If user exists but no publicMetadata, redirect to onboarding
             redirect('/onboarding');
         }
@@ -235,13 +307,15 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
                 if (result.success && result.data) {
                     const { userStats, profileSections } = result.data;
                     const userName = user?.firstName || 'User';
-                    const userInitials = user?.firstName?.[0] || 'U';
+                    const userInitials = user?.imageUrl || 'U';
+                    const country = user?.publicMetadata?.countryOfOrigin || 'Unknown';
 
                     setProfileData({
                         userStats: {
                             ...userStats,
                             userName,
                             userInitials,
+                            country,
                         },
                         profileSections,
                     });
@@ -270,7 +344,7 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
         const phaseConfig = phaseIds.map(id => ({
             id,
             titleKey: t(id),
-            requiredXp: id === 'finances' ? 111111 : id === 'premium' || id === 'MyCounselors' ? 1000000 : 0
+            requiredXp: id === 'finances' ? 111111 : id === 'premium' || id === 'MySavedPosts' || id === 'MyCounselors' ? 1000000 : 0
         }));
 
         if (!profileData || !profileData.profileSections) return phaseConfig.map(p => ({ ...p, completion: 0 }));
@@ -316,10 +390,11 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
 
     const userStats = profileData?.userStats;
 
+
     return (
         <div className="min-h-screen bg-slate-50">
             <DashboardLayout
-                rightSidebar={<UserInfoSidebar isEditingEnabled={isEditingEnabled} />}
+                rightSidebar={<>    </>}
             >
                 {userStats && <UserProgressWidget stats={userStats} t={t} />}
 

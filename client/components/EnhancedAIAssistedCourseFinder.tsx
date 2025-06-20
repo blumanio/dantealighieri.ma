@@ -696,7 +696,7 @@ const EnhancedAIAssistedCourseFinder: React.FC = () => {
             </div>
           )}
 
-          {debugInfo && (
+          {/* {debugInfo && (
             <Card className="mt-6 bg-slate-50 border-slate-200">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center text-slate-700">
@@ -728,7 +728,7 @@ const EnhancedAIAssistedCourseFinder: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
-          )}
+          )} */}
         </CardContent>
         {/* <CardFooter className="p-4 bg-slate-50 border-t">
             <p className="text-xs text-slate-500 text-center w-full">

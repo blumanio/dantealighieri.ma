@@ -208,6 +208,7 @@ export default function UniversityHubPage() {
             communityName: communityName,
             communitySlug: universitySlug,
         };
+        console.log('Creating post with data:ccccccccccc', universityDetails);
 
         setIsSubmittingPost(true);
         try {

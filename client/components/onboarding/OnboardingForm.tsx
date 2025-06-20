@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, FormEvent, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Locale, Translation } from '@/app/i18n/types';
 import { ChevronLeft, ChevronRight, Check, Search, X, User, Users, BookMarked, GraduationCap, School, Loader2 } from 'lucide-react';
+import ReactCountryFlag from "react-country-flag"
 
 // --- INTERFACES --- (No changes here)
 interface FormData {
@@ -45,11 +46,20 @@ interface SelectableOption {
 
 // --- CONSTANTS --- (No changes here, except MOCK_DATA)
 const COUNTRIES: Country[] = [
+    { code: 'PS', name: 'Palestine', flag: '🇵🇸', phoneCode: '+970' },
     { code: 'MA', name: 'Morocco', flag: '🇲🇦', phoneCode: '+212' },
-    { code: 'AL', name: 'Algeria', flag: '🇩🇿', phoneCode: '+213' },
+    { code: 'DZ', name: 'Algeria', flag: '🇩🇿', phoneCode: '+213' },
     { code: 'TN', name: 'Tunisia', flag: '🇹🇳', phoneCode: '+216' },
     { code: 'LY', name: 'Libya', flag: '🇱🇾', phoneCode: '+218' },
     { code: 'EG', name: 'Egypt', flag: '🇪🇬', phoneCode: '+20' },
+    { code: 'SD', name: 'Sudan', flag: '🇸🇩', phoneCode: '+249' },
+    { code: 'LB', name: 'Lebanon', flag: '🇱🇧', phoneCode: '+961' },
+    { code: 'SY', name: 'Syria', flag: '🇸🇾', phoneCode: '+963' },
+    { code: 'JR', name: 'Jordan', flag: '🇯🇴', phoneCode: '+962' },
+    { code: 'SD', name: 'Sudan', flag: '🇸🇩', phoneCode: '+249' },
+    { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', phoneCode: '+966' },
+    { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', phoneCode: '+971' }
+
 ];
 
 const CURRENT_EDUCATION_LEVELS: SelectableOption[] = [
@@ -334,7 +344,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                 title: 'Welcome aboard!',
                 description: 'Your profile has been created successfully.',
             });
-            router.push(`/${lang}/dashboard`);
+            redirect(`/${lang}/dashboard`);
         } catch (error) {
             console.error('Onboarding submission failed', error);
             toast({
@@ -480,6 +490,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
         </div>
     );
 
+
     const renderContactStep = () => {
         const selectedCountry = getSelectedCountry();
         return (
@@ -500,7 +511,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                                 <div className="absolute z-20 w-full mt-1 bg-orange-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-xl shadow-lg max-h-60 overflow-y-auto ">
                                     {filteredCountries.map((country) => (
                                         <button key={country.code} type="button" onClick={() => { setFormData(p => ({ ...p, countryOfOrigin: country.code })); setCountrySearch(''); clearError('countryOfOrigin'); }} className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-3">
-                                            <span className="text-xl text-gray-500">{country.flag}</span>
+                                            <ReactCountryFlag countryCode={country.code} svg style={{ width: '20px', height: '15px' }} />
                                             <span className="font-medium text-gray-500">{country.name}</span>
                                             <span className="text-sm text-gray-500 ml-auto">{country.phoneCode}</span>
                                         </button>
@@ -510,7 +521,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                         </div>
                         {selectedCountry && (
                             <div className="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center gap-3">
-                                <span className="text-xl">{selectedCountry.flag}</span>
+                                <ReactCountryFlag countryCode={selectedCountry.code} svg style={{ width: '20px', height: '15px' }} />
                                 <span className="font-medium text-orange-900 dark:text-orange-100">{selectedCountry.name}</span>
                                 <button type="button" onClick={() => setFormData(p => ({ ...p, countryOfOrigin: '' }))} className="ml-auto text-orange-600 hover:text-orange-800"><X className="w-4 h-4" /></button>
                             </div>
@@ -522,7 +533,7 @@ export default function OnboardingForm({ dictionary, lang }: { dictionary: Trans
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mobile Number</label>
                             <div className="flex">
                                 <div className="flex items-center px-3 py-3 bg-gray-50 dark:bg-gray-700 border border-r-0 border-gray-300 dark:border-gray-600 rounded-l-xl">
-                                    <span className="text-sm mr-2">{selectedCountry.flag}</span>
+                                    <ReactCountryFlag countryCode={selectedCountry.code} svg style={{ width: '16px', height: '12px' }} className="mr-2" />
                                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{selectedCountry.phoneCode}</span>
                                 </div>
                                 <input type="tel" value={formData.mobileNumber} onChange={(e) => { setFormData(p => ({ ...p, mobileNumber: e.target.value })); clearError('mobileNumber'); }} placeholder="123 456 7890" className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 dark:bg-gray-700 dark:text-white" />

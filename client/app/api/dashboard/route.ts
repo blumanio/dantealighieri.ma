@@ -17,11 +17,14 @@ const generateUserStats = (user: IUser) => {
     if (xp > 2000) rankKey = 'Prodigy';
     if (xp > 5000) rankKey = 'Maestro';
 
+    // Placeholder for streak calculation (e.g., consecutive login days)
+    const streak = user.streak; // TODO: Replace with actual calculation based on login history
+
     return {
         level,
         xp,
         nextLevelXP,
-        streak: 0, // You would calculate this based on login history
+        streak,
         completedSections: 0, // You would calculate this from profileSections
         totalSections: 7, // Total number of sections
         rankKey
