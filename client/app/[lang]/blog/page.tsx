@@ -212,20 +212,20 @@ export default async function BlogPage({ params }: BlogIndexProps) {
               <div className="text-2xl font-black text-slate-900">{new Set(posts.map(p => p.frontmatter.author)).size}</div>
               <div className="text-sm text-slate-600 font-semibold">Writers</div>
             </div>
-            <div className="text-center group">
+            {/* <div className="text-center group">
               <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 mb-3 group-hover:scale-110">
                 <Eye className="h-8 w-8 text-purple-600 mx-auto" />
               </div>
               <div className="text-2xl font-black text-slate-900">{posts.reduce((sum, p) => sum + (p.viewCount || 0), 0)}</div>
               <div className="text-sm text-slate-600 font-semibold">Total Views</div>
-            </div>
-            <div className="text-center group">
+            </div> */}
+            {/* <div className="text-center group">
               <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl shadow-lg group-hover:shadow-xl transition-all duration-300 mb-3 group-hover:scale-110">
                 <Heart className="h-8 w-8 text-red-600 mx-auto" />
               </div>
               <div className="text-2xl font-black text-slate-900">{posts.reduce((sum, p) => sum + (p.likesCount || 0), 0)}</div>
               <div className="text-sm text-slate-600 font-semibold">Total Likes</div>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -356,14 +356,14 @@ export default async function BlogPage({ params }: BlogIndexProps) {
 
                           {/* Stats */}
                           <div className="flex items-center gap-6 pt-4 border-t border-slate-200">
-                            <div className="flex items-center gap-1 text-slate-500">
+                            {/* <div className="flex items-center gap-1 text-slate-500">
                               <Eye className="h-4 w-4" />
                               <span className="text-sm font-semibold">{featuredPost.viewCount}</span>
-                            </div>
-                            <div className="flex items-center gap-1 text-red-500">
+                            </div> */}
+                            {/* <div className="flex items-center gap-1 text-red-500">
                               <Heart className="h-4 w-4" />
                               <span className="text-sm font-semibold">{featuredPost.likesCount}</span>
-                            </div>
+                            </div> */}
                             <div className="flex items-center gap-1 text-blue-500">
                               <MessageCircle className="h-4 w-4" />
                               <span className="text-sm font-semibold">{featuredPost.commentsCount}</span>
@@ -496,14 +496,14 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                             {/* Footer */}
                             <div className="flex items-center justify-between pt-4 border-t border-slate-200">
                               <div className="flex items-center gap-3 text-xs text-slate-500">
-                                <div className="flex items-center gap-1">
+                                {/* <div className="flex items-center gap-1">
                                   <Eye className="h-3 w-3" />
                                   <span>{post.viewCount}</span>
-                                </div>
-                                <div className="flex items-center gap-1">
+                                </div> */}
+                                {/* <div className="flex items-center gap-1">
                                   <Heart className="h-3 w-3" />
                                   <span>{post.likesCount}</span>
-                                </div>
+                                </div> */}
                                 <div className="flex items-center gap-1">
                                   <MessageCircle className="h-3 w-3" />
                                   <span>{post.commentsCount}</span>

@@ -395,12 +395,12 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                             </span>
                                         </div>
 
-                                        <div className="flex items-center gap-2 px-3 py-2 bg-emerald-100 rounded-xl">
+                                        {/* <div className="flex items-center gap-2 px-3 py-2 bg-emerald-100 rounded-xl">
                                             <Eye className="h-4 w-4 text-emerald-500" />
                                             <span className="font-semibold text-emerald-700">
                                                 {post.viewCount || 0} views
                                             </span>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 
