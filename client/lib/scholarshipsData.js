@@ -132,6 +132,48 @@ export const scholarships = [
         // }
       ],
       contactLink: "/contact"
+    },
+        "premiumServices": {
+      "title": "Secure Your Scholarship. We'll Handle The Rest.",
+      "description": "Navigating the Italian scholarship system is a marathon of deadlines, documents, and bureaucracy. Our premium support ensures your application isn't just submitted, but that it's flawless. Choose the level of support that guarantees your peace of mind.",
+      "tiers": [
+        {
+          "name": "Silver",
+          "price": "€149",
+          "features": [
+            "Interactive ISEE/ISEEUP Simulator",
+            "Country-Specific Document & Legalization Guides",
+            "Full Video Walkthrough Library of the Application Portal",
+            "Priority Email Support"
+          ],
+          "cta": "Get the Tools"
+        },
+        {
+          "name": "Gold",
+          "price": "€299",
+          "features": [
+            "Everything in Silver, plus:",
+            "Personalized Application Dashboard & Timeline",
+            "One-on-one 30-minute Strategy Call",
+            "**Pre-submission Review of your Online Application Form**"
+          ],
+          "cta": "Get Guided Support",
+          "popular": true
+        },
+        {
+          "name": "Platinum",
+          "price": "€499",
+          "features": [
+            "Everything in Gold, plus:",
+            "**Full Document Review (ISEE docs, Visa, etc.)**",
+            "Direct Chat Support for Urgent Questions",
+            "Guaranteed 24-hour response time"
+          ],
+          "cta": "Ensure My Success"
+        }
+      ],
+      "successStories": [],
+      "contactLink": "/onboarding"
     }
   },
   {
@@ -272,6 +314,217 @@ export const scholarships = [
   },
   {
     "id": 3,
+    "title": "ERDIS Marche Scholarship 2025/2026",
+    "provider": "ERDIS Marche (Marche Regional Government)",
+    "amount": "Up to €8,132.92 + services",
+    "tags": ["Bachelors", "Masters", "PhD", "Need-Based", "Merit-Based"],
+    "universities": [
+      "Università degli Studi di Camerino ",
+      "Università degli Studi di Macerata ",
+      "Università degli Studi di Urbino \"Carlo Bo\" ",
+      "Università Politecnica delle Marche ",
+      "ISIA di Urbino (Higher Institute for Artistic Industries) ",
+      "Accademia di Belle Arti di Urbino (Academy of Fine Arts) ",
+      "Accademia di Belle Arti di Macerata (Academy of Fine Arts) ",
+      "Conservatorio di musica \"G. Rossini\" di Pesaro (Conservatory of Music) ",
+      "Conservatorio di musica \"G. B. Pergolesi\" di Fermo (Conservatory of Music) ",
+      "Poliarte - Politecnico delle arti applicate all'impresa ",
+      "Scuola Superiore per Mediatori Linguistici di Ancona e di Fermo (Higher School for Linguistic Mediators) ",
+      "Istituti Tecnici Superiori (ITS) ]"
+    ],
+    "keyInfo": {
+      "applicationDeadline": "August 26, 2025 ",
+      "iseeLimit": "€24,000.00 ",
+      "ispeuLimit": "€50,000.00 ",
+      "target": "Students enrolled in eligible higher education institutions in the Marche region. ]"
+    },
+    "overview": {
+      "description": "This is a need and merit-based scholarship provided by the Marche region (ERDIS Marche) to support students enrolled in universities and higher education institutions in the region for the A.Y. 2025/2026. ",
+      "valueHighlight": "A comprehensive package covering university fees and offering cash payments, free meals, and accommodation, making higher education in the Marche region highly accessible."
+    },
+    "financials": {
+      "breakdown": [
+        {
+          "status": "Non-Resident (Fuori Sede)",
+          "isee": "<= €12,000.00",
+          "amount": "€8,132.92 ",
+          "services": "Accommodation & 2 daily meals ",
+          "notes": "Includes 15% increment for low ISEE. ]"
+        },
+        {
+          "status": "Non-Resident (Fuori Sede)",
+          "isee": "€12,000.01 - €16,000.00",
+          "amount": "€7,072.10 ",
+          "services": "Accommodation & 2 daily meals ",
+          "notes": ""
+        },
+        {
+          "status": "Non-Resident (Fuori Sede)",
+          "isee": "> €16,000.00",
+          "amount": "Reduces down to €5,592.00 ",
+          "services": "Accommodation & 2 daily meals ",
+          "notes": "Amount scales down as ISEE increases. ]"
+        },
+        {
+          "status": "Commuter (Pendolare)",
+          "isee": "<= €12,000.00",
+          "amount": "€4,752.78 ",
+          "services": "1 daily meal ",
+          "notes": "Includes 15% increment for low ISEE. ]"
+        },
+        {
+          "status": "Commuter (Pendolare)",
+          "isee": "> €12,000.00",
+          "amount": "€4,132.85 (reduces to €2,066.43) ",
+          "services": "1 daily meal ",
+          "notes": "Amount scales down as ISEE increases. ]"
+        },
+        {
+          "status": "Local (In Sede)",
+          "isee": "<= €12,000.00",
+          "amount": "€3,277.80 ",
+          "services": "Cash only",
+          "notes": "Includes 15% increment for low ISEE. ]"
+        },
+        {
+          "status": "Local (In Sede)",
+          "isee": "> €12,000.00",
+          "amount": "€2,850.26 (reduces to €1,425.13) ",
+          "services": "Cash only",
+          "notes": "Amount scales down as ISEE increases. ]"
+        }
+      ],
+      "additionalBenefits": [
+        "Full exemption from regional and university tuition fees.",
+        "Contribution for international mobility programs (€600/month for up to 10 months). ",
+        "Graduation award (50% of the last year's cash scholarship amount) for graduating on time. ",
+        "+20% for students enrolled simultaneously in two degree courses (if merit requirements are met for both). ",
+        "+20% for female students enrolled in STEM courses. ",
+        "Additional funds for students with disabilities for didactic support (up to €2,000). ]"
+      ]
+    },
+    "eligibility": {
+      "merit": [
+        {
+          "year": "First Year Students",
+          "requirement": "No merit needed to apply. Must earn 20 ECTS credits by August 10, 2026 to confirm the full scholarship, or by November 30, 2026 to keep the first installment. ]"
+        },
+        {
+          "year": "Second Year Students (Full-Time)",
+          "requirement": "25 ECTS (Bachelor's), 30 ECTS (Master's) earned by August 10, 2025. ]"
+        },
+        {
+          "year": "Third Year Students (Full-Time)",
+          "requirement": "80 ECTS credits earned by August 10, 2025. ]"
+        },
+        {
+          "year": "Note",
+          "requirement": "Specific courses may have different ECTS requirements, which are detailed in Annexes A, B, and C of the official announcement. ]"
+        }
+      ],
+      "bonus": "If you do not meet the credit requirement, you can request to use a 'bonus' once in your academic career. The number of bonus credits available (5 for the second year, 12 for the third, and 15 for subsequent years) depends on the year you first use it. ",
+      "economic": "Your family's economic situation must be below the ISEE limit (€24,000.00) and ISPE limit (€50,000.00). ",
+      "other": "Open to all degree levels (Bachelor, Master, PhD). ]"
+    },
+    "application": {
+      "timeline": [
+        {
+          "date": "Until August 26, 2025",
+          "event": "Online Application Submission",
+          "description": "The online application must be completed and submitted through the ERDIS portal using SPID, CIE, or CNS credentials. ]"
+        },
+        {
+          "date": "By August 26, 2025",
+          "event": "DSU Submission for ISEE",
+          "description": "You must have submitted the DSU (Dichiarazione Sostitutiva Unica) to an authorized center (CAF) or online via INPS to generate your ISEE certificate. ]"
+        },
+        {
+          "date": "By September 19, 2025",
+          "event": "Deadline for International Student Documents",
+          "description": "Foreign students must send their original, legalized documents for the ISEE Parificato calculation to ERDIS. ]"
+        },
+        {
+          "date": "Around September 15, 2025",
+          "event": "Provisional Rankings Published",
+          "description": "Check your status on the ERDIS portal. You have 5 days from the publication date to submit an appeal (istanza di revisione) online if you find an error. ]"
+        },
+        {
+          "date": "Mid-October 2025",
+          "event": "Final Rankings Published",
+          "description": "The final list of scholarship winners is published on the ERDIS portal. ]"
+        }
+      ],
+      "documents": {
+        "all": [
+          "SPID (Level 2 or 3), CIE, or CNS credentials for online application. ",
+          "A recent digital passport-style photo to upload. ]"
+        ],
+        "international": [
+          "Certificate of family composition. ",
+          "Income statements for each family member for the tax year 2023. ",
+          "Statements of real estate and movable assets for each family member as of December 31, 2023. ",
+          "All official documents must be original, translated into Italian, and legalized by the competent Italian diplomatic authority (or carry an Apostille where applicable). ",
+          "A copy of your valid residence permit (Permesso di Soggiorno) or the receipt of your application for it. ]"
+        ]
+      },
+      "applicationLink": "https://www.erdis.it/",
+      "officialBandoLink": "erdis_marche_2026.pdf"
+    },
+    "gamification": {
+      "title": "Your Italian Scholarship Is Within Reach!",
+      "points": [
+        "Every year, thousands of students compete for this life-changing scholarship. A single mistake—a missing signature, a wrong document—can mean disqualification.",
+        "The deadlines are strict and non-negotiable. Gathering and legalizing international documents can take weeks. Time is running out!",
+        "The Italian bureaucratic process is famously complex. We have successfully guided countless students through this exact process. Don't leave your future to chance."
+      ],
+      "cta": "Let an Expert Handle the Stress",
+      "contactLink": "/onboarding"
+    },
+    "premiumServices": {
+      "title": "Secure Your Scholarship. We'll Handle The Rest.",
+      "description": "Navigating the Italian scholarship system is a marathon of deadlines, documents, and bureaucracy. Our premium support ensures your application isn't just submitted, but that it's flawless. Choose the level of support that guarantees your peace of mind.",
+      "tiers": [
+        {
+          "name": "Silver",
+          "price": "€149",
+          "features": [
+            "Interactive ISEE/ISEEUP Simulator",
+            "Country-Specific Document & Legalization Guides",
+            "Full Video Walkthrough Library of the Application Portal",
+            "Priority Email Support"
+          ],
+          "cta": "Get the Tools"
+        },
+        {
+          "name": "Gold",
+          "price": "€299",
+          "features": [
+            "Everything in Silver, plus:",
+            "Personalized Application Dashboard & Timeline",
+            "One-on-one 30-minute Strategy Call",
+            "**Pre-submission Review of your Online Application Form**"
+          ],
+          "cta": "Get Guided Support",
+          "popular": true
+        },
+        {
+          "name": "Platinum",
+          "price": "€499",
+          "features": [
+            "Everything in Gold, plus:",
+            "**Full Document Review (ISEE docs, Visa, etc.)**",
+            "Direct Chat Support for Urgent Questions",
+            "Guaranteed 24-hour response time"
+          ],
+          "cta": "Ensure My Success"
+        }
+      ],
+      "successStories": [],
+      "contactLink": "/onboarding"
+    }
+  },
+  {
+    "id": 4,
     "title": "MAEICI Italian Government Scholarship",
     "provider": "Ministry of Foreign Affairs and International Cooperation (MAEICI)",
     "amount": "€900 per month + Tuition Fee Exemption",
@@ -400,10 +653,9 @@ export const scholarships = [
       ],
       contactLink: "/contact"
     }
-  }
-  ,
+  },
   {
-    id: 6,
+    id: 5,
     title: 'DSU Toscana Scholarship (Tuscany)',
     provider: 'Tuscany Regional Government',
     status: 'not-open',
@@ -417,13 +669,13 @@ export const scholarships = [
       target: 'All students in Tuscany',
     },
     overview: {
-        description: "The DSU (Diritto allo Studio Universitario) scholarship for the Tuscany region. The call for applications is not yet open. Check back for updates.",
-        valueHighlight: "Renowned scholarship program for top universities like Florence, Pisa, and Siena."
+      description: "The DSU (Diritto allo Studio Universitario) scholarship for the Tuscany region. The call for applications is not yet open. Check back for updates.",
+      valueHighlight: "Renowned scholarship program for top universities like Florence, Pisa, and Siena."
     }
     // Detailed sections can be added once the official bando is released.
   },
   {
-    id: 4,
+    id: 6,
     title: 'EDISU Piemonte Scholarship (Piedmont)',
     provider: 'Piedmont Regional Government',
     status: 'not-open',
@@ -437,12 +689,12 @@ export const scholarships = [
       target: 'All students in Piedmont',
     },
     overview: {
-        description: "The regional scholarship for students in the Piedmont region, home to major universities in Turin. The call for applications is not yet open. Check back for updates.",
-        valueHighlight: "Key financial support for students at top-ranked technical and general universities."
+      description: "The regional scholarship for students in the Piedmont region, home to major universities in Turin. The call for applications is not yet open. Check back for updates.",
+      valueHighlight: "Key financial support for students at top-ranked technical and general universities."
     }
   },
-   {
-    id: 5,
+  {
+    id: 7,
     title: 'ER.GO Scholarship (Emilia-Romagna)',
     provider: 'Emilia-Romagna Regional Government',
     status: 'not-open',
@@ -455,10 +707,221 @@ export const scholarships = [
       ispeuLimit: '~€57,100',
       target: 'All students in Emilia-Romagna',
     },
-     overview: {
-        description: "The regional scholarship for students in Emilia-Romagna, covering prestigious universities like Bologna. The call for applications is not yet open. Check back for updates.",
-        valueHighlight: 'Comprehensive support for one of the oldest and most famous university regions in the world.'
+    overview: {
+      description: "The regional scholarship for students in Emilia-Romagna, covering prestigious universities like Bologna. The call for applications is not yet open. Check back for updates.",
+      valueHighlight: 'Comprehensive support for one of the oldest and most famous university regions in the world.'
     }
-  }
+  },
+  {
+  "id": 8,
+  "title": "EDISU Piemonte Scholarship (Regional)",
+  "provider": "Ente Regionale per il Diritto allo Studio Universitario del Piemonte (EDISU Piemonte)",
+  "amount": "Up to €8,336.52 + services",
+  "tags": [
+    "Bachelors",
+    "Masters",
+    "PhD",
+    "Need-Based"
+  ],
+  "universities": [
+    "Università di Torino",
+    "Politecnico di Torino",
+    "Università del Piemonte Orientale",
+    "Università di Scienze Gastronomiche",
+    "Accademia delle Belle Arti di Torino",
+    "Conservatorio Giuseppe Verdi di Torino",
+    "Scuola Superiore per Mediatori Linguistici di Torino",
+    "Accademia delle Belle Arti di Cuneo",
+    "Accademia delle Belle Arti Europea dei Media di Novara",
+    "Conservatorio di Alessandria 'A Vivaldi'",
+    "Conservatorio di Novara 'Guido Cantelli'",
+    "Conservatorio Statale di Cuneo 'G.F. Ghedini'",
+    "Scuola Superiore per Mediatori Linguistici 'A. Macagno' di Cuneo",
+    "Scuola del Teatro Musicale di Novara",
+    "IAAD",
+    "And all other state-recognized institutions in the Piemonte region."
+  ],
+  "keyInfo": {
+    "applicationDeadline": "September 9, 2025 (12:00 PM)",
+    "iseeLimit": "€26,306.25 ",
+    "ispeuLimit": "€57,187.53 ",
+    "target": "All students in Piemonte region"
+  },
+  "overview": {
+    "description": "This is a need-based scholarship provided by the Piemonte region to support university students. It is the most common and comprehensive scholarship, covering tuition fees, living costs, and offering access to subsidized meals and accommodation. The final benefit is determined by your family income (ISEE) and your student status (local, commuter, or non-resident).",
+    "valueHighlight": "A comprehensive package covering nearly all student expenses, making university education highly accessible."
+  },
+  "financials": {
+    "breakdown": [
+      {
+        "status": "Non-Resident (Fuori Sede)",
+        "isee": "<= €13,153.12",
+        "amount": "€7,982.92 ",
+        "services": "Free accommodation & subsidized meals ",
+        "notes": "Highest amount for students living away from home."
+      },
+      {
+        "status": "Non-Resident (Fuori Sede)",
+        "isee": "> €13,153.12",
+        "amount": "€6,922.10 (reduces with higher ISEE)",
+        "services": "Free accommodation & subsidized meals",
+        "notes": "Amount scales down towards the ISEE limit."
+      },
+      {
+        "status": "Commuter (Pendolare)",
+        "isee": "<= €13,153.12",
+        "amount": "€4,602.78 ",
+        "services": "Subsidized meals ",
+        "notes": "For students living within a 60-minute commute."
+      },
+      {
+        "status": "Commuter (Pendolare)",
+        "isee": "> €13,153.12",
+        "amount": "€3,982.85 (reduces with higher ISEE) ",
+        "services": "Subsidized meals ",
+        "notes": ""
+      },
+      {
+        "status": "Local (In Sede)",
+        "isee": "<= €13,153.12",
+        "amount": "€3,127.80 ",
+        "services": "Subsidized meals ",
+        "notes": "For students living in the same city as the university."
+      },
+      {
+        "status": "Local (In Sede)",
+        "isee": "> €13,153.12",
+        "amount": "€2,700.26 (reduces with higher ISEE) ",
+        "services": "Subsidized meals ",
+        "notes": ""
+      }
+    ],
+    "additionalBenefits": [
+      "Full exemption from regional and university tuition fees.",
+      "Contribution for international mobility programs (up to €245.45/month).",
+      "Graduation award (50% of last scholarship amount) if you graduate on time.",
+      "+20% for students enrolled in two degree courses.",
+      "Increased amount for female students in STEM courses."
+    ]
+  },
+  "eligibility": {
+    "merit": [
+      {
+        "year": "First Year Students (Matricole)",
+        "requirement": "No merit needed to apply. Must earn 20 ECTS credits by August 10, 2026, to confirm the scholarship."
+      },
+      {
+        "year": "Second Year Students",
+        "requirement": "Approx. 25 ECTS credits earned by August 10, 2025 (varies by course)."
+      },
+      {
+        "year": "Third Year Students",
+        "requirement": "Approx. 80 ECTS credits earned by August 10, 2025 (varies by course)."
+      }
+    ],
+    "bonus": "If you don't meet the credit requirement, you can use a 'bonus' once in your academic career. The amount of bonus credits available (5, 12, or 15) depends on the year you first use it.",
+    "economic": "Your family's economic situation must be below the ISEE and ISPE limits. International students must get an 'ISEE Parificato' from a designated CAF center.",
+    "other": "You cannot receive this scholarship if you are already receiving another similar scholarship. Open to all degree levels (Bachelor, Master, PhD)."
+  },
+  "application": {
+    "timeline": [
+      {
+        "date": "July 25 - Sep 9, 2025 (12:00 PM)",
+        "event": "Application Submission",
+        "description": "Complete and submit the online application form on the EDISU Piemonte portal."
+      },
+      {
+        "date": "Sep 17, 2025",
+        "event": "Provisional Rankings Published (Housing)",
+        "description": "Check your housing application status."
+      },
+      {
+        "date": "Sep 17 - Sep 22, 2025 (12:00 PM)",
+        "event": "Appeals & Corrections (Housing)",
+        "description": "Submit an appeal ('reclamo') online to fix any errors for the housing application."
+      },
+      {
+        "date": "Sep 26, 2025",
+        "event": "Final Rankings Published (Housing)",
+        "description": "The final list of housing winners is published."
+      },
+      {
+        "date": "Oct 22, 2025",
+        "event": "Provisional Rankings Published (Scholarship)",
+        "description": "Check your scholarship application status."
+      },
+      {
+        "date": "Oct 22 - Nov 12, 2025 (12:00 PM)",
+        "event": "Appeals & Corrections (Scholarship)",
+        "description": "Submit an appeal ('reclamo') online to fix any errors for the scholarship application."
+      },
+      {
+        "date": "Dec 16, 2025",
+        "event": "Final Rankings Published (Scholarship)",
+        "description": "The final list of scholarship winners is published."
+      },
+      {
+        "date": "By Nov 12, 2025",
+        "event": "Document Deadline (International Students)",
+        "description": "Non-resident students must ensure their translated and legalized documents have been received by EDISU to be included in the final rankings."
+      }
+    ],
+    "documents": {
+      "all": [
+        "Valid ID Card or Passport.",
+        "SPID/CIE for online application (if resident)."
+      ],
+      "international": [
+        "Documents for ISEE Parificato: Family composition, income statement (2024 for non-EU, 2023 for EU), property and bank statements (Dec 31, 2024 for non-EU, Dec 31, 2023 for EU), all translated and legalized.",
+        "Valid Visa and Permit of Stay (Permesso di Soggiorno). You must have the receipt of your permit application for the check-in process."
+      ]
+    },
+    "applicationLink": "https://www.edisu.piemonte.it/",
+    "officialBandoLink": "https://www.edisu.piemonte.it/it/servizi/borse-di-studio-e-altri-contributi/bando-unico-di-concorso"
+  },
+  "gamification": {},
+      "premiumServices": {
+      "title": "Secure Your Scholarship. We'll Handle The Rest.",
+      "description": "Navigating the Italian scholarship system is a marathon of deadlines, documents, and bureaucracy. Our premium support ensures your application isn't just submitted, but that it's flawless. Choose the level of support that guarantees your peace of mind.",
+      "tiers": [
+        {
+          "name": "Silver",
+          "price": "€149",
+          "features": [
+            "Interactive ISEE/ISEEUP Simulator",
+            "Country-Specific Document & Legalization Guides",
+            "Full Video Walkthrough Library of the Application Portal",
+            "Priority Email Support"
+          ],
+          "cta": "Get the Tools"
+        },
+        {
+          "name": "Gold",
+          "price": "€299",
+          "features": [
+            "Everything in Silver, plus:",
+            "Personalized Application Dashboard & Timeline",
+            "One-on-one 30-minute Strategy Call",
+            "**Pre-submission Review of your Online Application Form**"
+          ],
+          "cta": "Get Guided Support",
+          "popular": true
+        },
+        {
+          "name": "Platinum",
+          "price": "€499",
+          "features": [
+            "Everything in Gold, plus:",
+            "**Full Document Review (ISEE docs, Visa, etc.)**",
+            "Direct Chat Support for Urgent Questions",
+            "Guaranteed 24-hour response time"
+          ],
+          "cta": "Ensure My Success"
+        }
+      ],
+      "successStories": [],
+      "contactLink": "/onboarding"
+    }
+}
   // You can add other scholarships here
 ];

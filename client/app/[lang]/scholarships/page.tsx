@@ -102,7 +102,7 @@ const StarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-
 // --- Scholarship Modal Component ---
 const ScholarshipModal = ({ scholarship, onClose }: ScholarshipModalProps) => {
   const [activeTab, setActiveTab] = useState('Overview');
-  const tabs = ['Overview', 'Financial Details', 'Eligibility & Merit', 'Application Guide', 'Universities', 'Premium Support'];
+  const tabs = ['Overview', 'Financial Details', 'Eligibility & Merit', 'Application Guide', 'Universities', 'Need help ?'];
 
   const renderContent = () => {
     switch (activeTab) {
@@ -207,56 +207,56 @@ const ScholarshipModal = ({ scholarship, onClose }: ScholarshipModalProps) => {
             </ul>
           </div>
         );
-      // case 'Premium Support':
-      //   const { premiumServices } = scholarship;
-      //   return (
-      //     <div className="bg-gray-50 p-6 rounded-lg">
-      //       <div className="text-center">
-      //         <h3 className="text-3xl font-extrabold text-indigo-900">{premiumServices.title}</h3>
-      //         <p className="mt-2 max-w-2xl mx-auto text-gray-600">{premiumServices.description}</p>
-      //       </div>
+      case 'Need help ?':
+        const { premiumServices } = scholarship;
+        return (
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <div className="text-center">
+              <h3 className="text-3xl font-extrabold text-indigo-900">{premiumServices.title}</h3>
+              <p className="mt-2 max-w-2xl mx-auto text-gray-600">{premiumServices.description}</p>
+            </div>
 
-      //       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-      //         {premiumServices.tiers.map((tier: Tier) => (
-      //           <div key={tier.name} className={`rounded-xl border ${tier.popular ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-gray-200'} bg-white shadow-lg flex flex-col`}>
-      //             {tier.popular && <div className="text-center py-1 bg-indigo-500 text-white font-bold text-sm rounded-t-xl">Most Popular</div>}
-      //             <div className="p-6 flex-grow">
-      //               <h4 className="text-2xl font-bold text-center text-gray-900">{tier.name}</h4>
-      //               <p className="mt-2 text-4xl font-extrabold text-center text-gray-900">{tier.price}</p>
-      //               <ul className="mt-6 space-y-3 text-gray-600">
-      //                 {tier.features.map((feature: string) => (
-      //                   <li key={feature} className="flex items-start">
-      //                     <CheckCircleIcon />
-      //                     <span dangerouslySetInnerHTML={{ __html: feature.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}></span>
-      //                   </li>
-      //                 ))}
-      //               </ul>
-      //             </div>
-      //             <div className="p-6 bg-gray-50 rounded-b-xl mt-auto">
-      //               <a href={premiumServices.contactLink} className={`w-full text-center block font-bold py-3 px-6 rounded-lg transition-colors ${tier.popular ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'}`}>
-      //                 {tier.cta}
-      //               </a>
-      //             </div>
-      //           </div>
-      //         ))}
-      //       </div>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+              {premiumServices.tiers.map((tier: Tier) => (
+                <div key={tier.name} className={`rounded-xl border ${tier.popular ? 'border-indigo-500 ring-2 ring-indigo-500' : 'border-gray-200'} bg-white shadow-lg flex flex-col`}>
+                  {tier.popular && <div className="text-center py-1 bg-indigo-500 text-white font-bold text-sm rounded-t-xl">Most Popular</div>}
+                  <div className="p-6 flex-grow">
+                    <h4 className="text-2xl font-bold text-center text-gray-900">{tier.name}</h4>
+                    <p className="mt-2 text-4xl font-extrabold text-center text-gray-900">{tier.price}</p>
+                    <ul className="mt-6 space-y-3 text-gray-600">
+                      {tier.features.map((feature: string) => (
+                        <li key={feature} className="flex items-start">
+                          <CheckCircleIcon />
+                          <span dangerouslySetInnerHTML={{ __html: feature.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}></span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="p-6 bg-gray-50 rounded-b-xl mt-auto">
+                    <a href={premiumServices.contactLink} className={`w-full text-center block font-bold py-3 px-6 rounded-lg transition-colors ${tier.popular ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'}`}>
+                      {tier.cta}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-      //       <div className="mt-12">
-      //         {/* <h4 className="text-2xl font-bold text-center text-gray-800">Don't Just Apply. Succeed.</h4>
-      //         <p className="text-center text-gray-600 mt-2">See how we've helped students just like you.</p> */}
-      //         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      //           {premiumServices.successStories.map((story: SuccessStory, i: number) => (
-      //             <div key={i} className="bg-white p-4 rounded-lg border border-gray-200">
-      //               <p className="font-bold text-gray-700">{story.name}</p>
-      //               <div className="flex my-1"><StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /></div>
-      //               <p className="text-sm text-gray-600 italic">"{story.story}"</p>
-      //               <p className="text-xs text-right mt-2 text-gray-400">- Illustrative Example</p>
-      //             </div>
-      //           ))}
-      //         </div>
-      //       </div>
-      //     </div>
-      //   );
+            <div className="mt-12">
+              {/* <h4 className="text-2xl font-bold text-center text-gray-800">Don't Just Apply. Succeed.</h4>
+              <p className="text-center text-gray-600 mt-2">See how we've helped students just like you.</p> */}
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {premiumServices.successStories.map((story: SuccessStory, i: number) => (
+                  <div key={i} className="bg-white p-4 rounded-lg border border-gray-200">
+                    <p className="font-bold text-gray-700">{story.name}</p>
+                    <div className="flex my-1"><StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /></div>
+                    <p className="text-sm text-gray-600 italic">"{story.story}"</p>
+                    <p className="text-xs text-right mt-2 text-gray-400">- Illustrative Example</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
       default:
         return null;
     }
