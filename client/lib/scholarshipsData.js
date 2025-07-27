@@ -922,6 +922,166 @@ export const scholarships = [
       "successStories": [],
       "contactLink": "/onboarding"
     }
+},
+{
+  "id": 9,
+  "title": "ADSU Teramo Scholarship (Regional)",
+  "provider": "Azienda per il Diritto agli Studi Universitari di Teramo (ADSU Teramo)",
+  "amount": "Up to €5,732.80 + services",
+  "tags": [
+    "Bachelors",
+    "Masters",
+    "PhD",
+    "Need-Based"
+  ],
+  "universities": [
+    "Università degli Studi di Teramo",
+    "Istituto Statale Superiore di Studi Musicali e Coreutici 'G. Braga'"
+  ],
+  "keyInfo": {
+    "applicationDeadline": "September 15, 2025 (1:00 PM)",
+    "iseeLimit": "€24,335.11",
+    "ispeuLimit": "€52,902.43",
+    "target": "Students of University of Teramo and Istituto 'G. Braga'"
+  },
+  "overview": {
+    "description": "This is a need-based scholarship provided by the regional authority of Teramo to support students enrolled at the University of Teramo and the 'G. Braga' Music Institute. The scholarship covers tuition fees, living costs, and provides access to free meals and accommodation services, with benefits determined by the student's family income (ISEE) and residence status.",
+    "valueHighlight": "A comprehensive package covering all major student expenses, making university education highly accessible in the Abruzzo region."
+  },
+  "financials": {
+    "breakdown": [
+      {
+        "status": "Non-Resident (Fuori Sede)",
+        "isee": "<= €16,223.40",
+        "amount": "€5,064.54",
+        "services": "2 free daily meals",
+        "notes": "Highest amount for students living away from home who provide a rental contract. Amount is composed of a cash quota (€3,341.28) and a monetized accommodation quota (€1,723.26)."
+      },
+      {
+        "status": "Commuter (Pendolare)",
+        "isee": "<= €16,223.40",
+        "amount": "€3,129.07",
+        "services": "1 free daily meal",
+        "notes": "For students living between 21km and 49km from the university."
+      },
+      {
+        "status": "Local (In Sede)",
+        "isee": "<= €16,223.40",
+        "amount": "€2,850.26",
+        "services": "1 free daily meal",
+        "notes": "For students living within 20km of the university."
+      }
+    ],
+    "additionalBenefits": [
+      "Full exemption from regional and university tuition fees.",
+      "Contribution for international mobility programs (€600/month) plus travel reimbursement.",
+      "Graduation award (50% of the cash portion of the last scholarship amount) for graduating on time.",
+      "+20% for students enrolled in two degree courses simultaneously.",
+      "+20% for female students in STEM courses.",
+      "+15% for students with a very low ISEE (<= €12,167.56)."
+    ]
+  },
+  "eligibility": {
+    "merit": [
+      {
+        "year": "First Year Students (Matricole)",
+        "requirement": "No merit needed to apply. Must earn 20 ECTS credits by August 10, 2026, to receive the second scholarship installment and confirm the benefit."
+      },
+      {
+        "year": "Second Year Students",
+        "requirement": "25 ECTS credits earned by August 10, 2025."
+      },
+      {
+        "year": "Third Year Students",
+        "requirement": "80 ECTS credits earned by August 10, 2025."
+      }
+    ],
+    "bonus": "If you don't meet the credit requirement, you can use a 'bonus' once in your academic career. The amount of bonus credits available (5, 12, or 15) depends on your year of study.",
+    "economic": "Your family's economic situation must be below the ISEE and ISPE limits. International students must provide specific consular documents regarding their family's income from 2024 and assets as of Dec 31, 2024.",
+    "other": "You cannot receive this scholarship if you are already receiving another major scholarship. Open to all degree levels (Bachelor, Master, PhD, Specialization Schools)."
+  },
+  "application": {
+    "timeline": [
+      {
+        "date": "Now - Sep 15, 2025 (1:00 PM)",
+        "event": "Online Application Submission",
+        "description": "Complete and submit the online application form via the ADSU Teramo portal."
+      },
+      {
+        "date": "By Oct 15, 2025",
+        "event": "Document Upload Deadline (International Students)",
+        "description": "Upload all required translated and legalized consular documents to your personal profile on the portal."
+      },
+      {
+        "date": "By October 2025",
+        "event": "Provisional Rankings Published",
+        "description": "Check your status. If 'excluded' or 'suspended', you have 15 days to submit an appeal."
+      },
+      {
+        "date": "Within 15 days of provisional rankings",
+        "event": "Appeals & Corrections (Domanda di Riesame)",
+        "description": "Submit an appeal online to fix any errors or provide missing information."
+      },
+      {
+        "date": "By December 2025",
+        "event": "Final Rankings Published",
+        "description": "The final list of scholarship winners is published."
+      }
+    ],
+    "documents": {
+      "all": [
+        "SPID identity (for Italian residents and EU students)."
+      ],
+      "international": [
+        "Documents for economic evaluation: Family composition, income statement for **2024**, property and bank statements as of **December 31, 2024**. All documents must be officially translated into Italian and legalized by the Italian Embassy/Consulate."
+      ]
+    },
+    "applicationLink": "http://www.adsuteramo.it",
+    "officialBandoLink": "http://www.adsuteramo.it/categoria/bandi-e-graduatorie/borse-di-studio/"
+  },
+  "gamification": {},
+     "premiumServices": {
+      "title": "Secure Your Scholarship. We'll Handle The Rest.",
+      "description": "Navigating the Italian scholarship system is a marathon of deadlines, documents, and bureaucracy. Our premium support ensures your application isn't just submitted, but that it's flawless. Choose the level of support that guarantees your peace of mind.",
+      "tiers": [
+        {
+          "name": "Silver",
+          "price": "€149",
+          "features": [
+            "Interactive ISEE/ISEEUP Simulator",
+            "Country-Specific Document & Legalization Guides",
+            "Full Video Walkthrough Library of the Application Portal",
+            "Priority Email Support"
+          ],
+          "cta": "Get the Tools"
+        },
+        {
+          "name": "Gold",
+          "price": "€299",
+          "features": [
+            "Everything in Silver, plus:",
+            "Personalized Application Dashboard & Timeline",
+            "One-on-one 30-minute Strategy Call",
+            "**Pre-submission Review of your Online Application Form**"
+          ],
+          "cta": "Get Guided Support",
+          "popular": true
+        },
+        {
+          "name": "Platinum",
+          "price": "€499",
+          "features": [
+            "Everything in Gold, plus:",
+            "**Full Document Review (ISEE docs, Visa, etc.)**",
+            "Direct Chat Support for Urgent Questions",
+            "Guaranteed 24-hour response time"
+          ],
+          "cta": "Ensure My Success"
+        }
+      ],
+      "successStories": [],
+      "contactLink": "/onboarding"
+    }
 }
   // You can add other scholarships here
 ];
