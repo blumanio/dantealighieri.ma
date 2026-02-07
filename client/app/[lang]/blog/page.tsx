@@ -74,7 +74,7 @@ async function getPosts(lang: string): Promise<Post[]> {
           title: frontmatter.title || p.title || 'Untitled',
           date: frontmatter.date || p.date || new Date().toISOString(),
           excerpt: frontmatter.excerpt || p.excerpt || 'No excerpt available.',
-          author: frontmatter.author || p.author || 'Studentitaly Staff',
+          author: frontmatter.author || p.author || 'Amari',
           authorId: frontmatter.authorId || p.authorId,
           authorRole: frontmatter.authorRole || p.authorRole,
           coverImage: frontmatter.coverImage || p.coverImage || undefined,
@@ -159,7 +159,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
   };
 
   // Get featured post (first post)
-  const featuredPost = posts[9];
+  const featuredPost = posts[0];
   const regularPosts = posts.slice(1);
 
   // Line 164 in the original error context.
@@ -244,7 +244,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                 <Link href={`/${lang}/blog/${featuredPost.slug}`} className="group block">
                   <article className="relative overflow-hidden bg-white rounded-3xl shadow-2xl border-2 border-slate-200 hover:border-blue-300 transition-all duration-500 hover:-translate-y-2">
                     {/* Premium gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className=" inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                     {/* Premium accent line */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -406,7 +406,7 @@ export default async function BlogPage({ params }: BlogIndexProps) {
                       <Link key={post.slug} href={`/${lang}/blog/${post.slug}`} className="group block">
                         <article className="h-full bg-white rounded-3xl shadow-lg hover:shadow-2xl border-2 border-slate-200 hover:border-blue-300 transition-all duration-500 hover:-translate-y-1 overflow-hidden">
                           {/* Premium gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className=" inset-0 bg-gradient-to-br from-transparent via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                           {/* Image */}
                           {absoluteCoverImageUrl && (
