@@ -113,11 +113,11 @@ const TypingPlaceholder = () => {
 const menuItems = {
   en: {
     universities: { text: 'Universities', icon: School },
-    cityExplorer: { text: 'City Explorer', icon: MapPin },
+    // cityExplorer: { text: 'City Explorer', icon: MapPin },
     community: { text: 'Community', icon: Users },
     scholarships: { text: 'Scholarships', icon: DollarSign },
     explore: { text: 'Explore', icon: Globe },
-    courseFinder: { text: 'Course Finder', icon: Brain },
+    // courseFinder: { text: 'Course Finder', icon: Brain },
     admitsRejects: { text: 'Admits & Rejects', icon: CircleCheck },
     products: { text: 'Products', icon: LayoutGrid },
     premium: { text: 'Premium', icon: Crown },
@@ -383,10 +383,10 @@ const Header: React.FC = () => {
   }, [isMobileMenuOpen]);
 
   const navigationLinks = [
-    { href: `/${language}/community`, text: currentMenu.community.text, icon: currentMenu.community.icon, hasDropdown: false },
-    { href: `/${language}/ai-advisor`, text: currentMenu.courseFinder.text, icon: currentMenu.courseFinder.icon, hasDropdown: false },
+    // { href: `/${language}/community`, text: currentMenu.community.text, icon: currentMenu.community.icon, hasDropdown: false },
+    // { href: `/${language}/ai-advisor`, text: currentMenu.courseFinder.text, icon: currentMenu.courseFinder.icon, hasDropdown: false },
     { href: `/${language}/university`, text: currentMenu.universities.text, icon: currentMenu.universities.icon, hasDropdown: false },
-    { href: `/${language}/italian-university-city-cost-explorer/`, text: currentMenu.cityExplorer.text, icon: currentMenu.cityExplorer.icon, hasDropdown: false },
+    // { href: `/${language}/italian-university-city-cost-explorer/`, text: currentMenu.cityExplorer.text, icon: currentMenu.cityExplorer.icon, hasDropdown: false },
     { href: `/${language}/scholarships`, text: currentMenu.scholarships.text, icon: currentMenu.scholarships.icon, hasDropdown: false },
     { href: `/${language}/blog`, text: currentMenu.blog.text, icon: currentMenu.blog.icon, hasDropdown: false },
   ];

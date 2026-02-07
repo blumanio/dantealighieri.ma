@@ -26,7 +26,7 @@ export default function ClientLayout({
       <main className="flex-grow w-full pb-[56px]">
         <div className="transition-all duration-300 ease-in-out">
           <HeroSection />
-          <Services />
+          {/* <Services /> */}
           <AboutFounder />
           <BlogNavigation
             prevPost={null}

@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`font-poppins ${inter.className}`}>
         <ClerkProviderWrapper>
-          {isMobile ? <BottomMenu /> : <PremiumSidebar />}
+          {/* {isMobile ? <BottomMenu /> : <PremiumSidebar />} */}
           <Suspense fallback={<LoadingFallback />}>
             {children}
           </Suspense>

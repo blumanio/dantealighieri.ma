@@ -25,62 +25,62 @@ const config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#0d9488', // Main Teal
-          light: '#14b8a6',
-          dark: '#0f766e',
-          content: '#ffffff', // White text for primary backgrounds
+          DEFAULT: '#006747', // Deep Italian Green
+          light: '#00855c',
+          dark: '#004d35',
+          content: '#ffffff',
         },
         secondary: {
-          DEFAULT: '#0d7994', // Blue-Teal
-          light: '#17a2b8', // Slightly lighter for hover effects
-          dark: '#075985',
+          DEFAULT: '#D4836A', // Warm Terracotta
+          light: '#df9c88',
+          dark: '#c46b50',
           content: '#ffffff',
         },
         accent: {
-          DEFAULT: '#940d15', // Complementary Red
-          light: '#b91c1c',
-          dark: '#7f1d1d',
-          content: '#ffffff',
+          DEFAULT: '#FFD700', // Gold
+          light: '#ffdf33',
+          dark: '#ccac00',
+          content: '#333333',
         },
         neutral: {
-          50: '#f8fafc', // slate-50
-          100: '#f1f5f9', // slate-100 (Used as general background)
-          200: '#e2e8f0', // slate-200
-          300: '#cbd5e1', // slate-300
-          400: '#94a3b8', // slate-400
-          500: '#64748b', // slate-500 (Good for secondary text)
-          600: '#475569', // slate-600
-          700: '#334155', // slate-700 (Good for primary text)
-          800: '#1e293b', // slate-800 (Darker elements)
-          900: '#0f172a', // slate-900
-          950: '#020617', // slate-950
+          50: '#F9F7F4', // Off-white Background
+          100: '#f2eee9',
+          200: '#e5ddd3',
+          300: '#d1c4b3',
+          400: '#a3927d',
+          500: '#736656',
+          600: '#5c5245',
+          700: '#333333', // Dark Gray Text
+          800: '#262626',
+          900: '#1a1a1a',
+          950: '#0d0d0d',
         },
-        background: '#f1f5f9',      // Same as neutral-100
-        textPrimary: '#334155',     // Same as neutral-700
-        textSecondary: '#64748b',   // Same as neutral-500
+        background: '#F9F7F4',      // Off-white
+        textPrimary: '#333333',     // Dark Gray
+        textSecondary: '#5c5245',   // Muted brown-gray for contrast
 
-        success: '#10b981', // Tailwind emerald-500 (brighter green)
-        error: '#ef4444',   // Tailwind red-500 (brighter red)
-        warning: '#f59e0b', // Tailwind amber-500
+        success: '#006747',
+        error: '#b91c1c',
+        warning: '#D4836A',
 
         // Tier Colors
         'stone-grey': {
-          light: '#f3f4f6',      // Tailwind gray-100 (for BG of Michelangelo card)
-          DEFAULT: '#d1d5db',    // Tailwind gray-300 (for borders, subtle elements)
-          dark: '#6b7280',        // Tailwind gray-500 (for text on light stone, or darker accents)
-          content: '#1f2937',     // Tailwind gray-800 (for text on stone-grey-light)
+          light: '#f2eee9',
+          DEFAULT: '#d1c4b3',
+          dark: '#736656',
+          content: '#333333',
         },
         'deep-blue': {
-          light: '#3b82f6',      // Tailwind blue-500 (for accents or hover)
-          DEFAULT: '#2563eb',    // Tailwind blue-600 (main color for Dante tier)
-          dark: '#1d4ed8',        // Tailwind blue-700 (for darker accents or hover)
-          content: '#ffffff',     // White text for deep blue backgrounds
+          light: '#00855c',
+          DEFAULT: '#006747',
+          dark: '#004d35',
+          content: '#ffffff',
         },
         'rich-gold': {
-          light: '#fde68a',      // Tailwind amber-200 (for light gold backgrounds)
-          DEFAULT: '#facc15',    // Tailwind yellow-400 (main color for da Vinci, a bit brighter gold)
-          dark: '#eab308',        // Tailwind yellow-500 (for darker accents)
-          content: '#422006',     // Dark brown for text on gold (better contrast than pure black)
+          light: '#ffdf33',
+          DEFAULT: '#FFD700',
+          dark: '#ccac00',
+          content: '#333333',
         },
       },
       fontFamily: {
@@ -88,19 +88,17 @@ const config = {
         body: ['Source Sans Pro', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 4px 12px rgba(0, 0, 0, 0.08)',
-        medium: '0 8px 20px rgba(0, 0, 0, 0.1)',
-        hard: '0 12px 30px rgba(0, 0, 0, 0.12)',
-        // Specific for tiers if needed
-        'tier-michelangelo': '0 6px 15px rgba(156, 163, 175, 0.2)', // stone-grey-dark with alpha
-        'tier-dante': '0 8px 20px rgba(37, 99, 235, 0.25)',      // deep-blue with alpha
-        'tier-davinci': '0 10px 25px rgba(245, 158, 11, 0.3)',    // rich-gold with alpha
+        soft: '0 4px 12px rgba(0, 0, 0, 0.05)',
+        medium: '0 8px 20px rgba(0, 0, 0, 0.08)',
+        hard: '0 12px 30px rgba(0, 0, 0, 0.1)',
+        'tier-michelangelo': '0 6px 15px rgba(115, 102, 86, 0.15)',
+        'tier-dante': '0 8px 20px rgba(0, 103, 71, 0.2)',
+        'tier-davinci': '0 10px 25px rgba(255, 215, 0, 0.25)',
       },
       backgroundImage: {
-        // You'd define actual image URLs or more complex gradients here
         'marble-texture-light': "linear-gradient(to bottom right, theme('colors.stone-grey.light / 0.05'), transparent), url('/textures/subtle-marble.png')",
-        'parchment-texture-light': "linear-gradient(to bottom right, theme('colors.amber.50 / 0.1'), transparent), url('/textures/subtle-parchment.png')",
-        'blueprint-texture-light': "linear-gradient(to bottom right, theme('colors.sky.100 / 0.05'), transparent), url('/textures/subtle-blueprint.png')",
+        'parchment-texture-light': "linear-gradient(to bottom right, theme('colors.secondary.light / 0.05'), transparent), url('/textures/subtle-parchment.png')",
+        'blueprint-texture-light': "linear-gradient(to bottom right, theme('colors.primary.light / 0.05'), transparent), url('/textures/subtle-blueprint.png')",
       }
     },
   },
@@ -110,35 +108,15 @@ const config = {
     function ({ addUtilities }: { addUtilities: any }) {
       const newUtilities = {
         '.text-shadow-sm': {
-          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+          textShadow: '1px 1px 2px rgba(0, 0, 0, 0.05)',
         },
         '.text-shadow-md': {
-          textShadow: '1px 1px 3px rgba(0, 0, 0, 0.15)',
+          textShadow: '1px 1px 3px rgba(0, 0, 0, 0.1)',
         },
       }
       addUtilities(newUtilities, ['responsive', 'hover'])
     }
   ],
-  keyframes: {
-    shimmer: {
-      '0%': { 'background-position': '-1000px 0' },
-      '100%': { 'background-position': '1000px 0' },
-    },
-    fadeIn: { // Added for modal
-      '0%': { opacity: '0', transform: 'scale(0.95)' },
-      '100%': { opacity: '1', transform: 'scale(1)' },
-    },
-    fadeInUp: {
-      '0%': { opacity: 0, transform: 'translateY(10px)' },
-      '100%': { opacity: 1, transform: 'translateY(0)' },
-    },
-  },
-  animation: {
-    shimmer: 'shimmer 2s infinite linear',
-    fadeIn: 'fadeIn 0.3s ease-out forwards', // Added for modal
-    'spin-slow': 'spin 4s linear infinite',
-    'fadeInUp': 'fadeInUp 0.5s ease-out',
-  },
 } satisfies Config
 
 export default config
