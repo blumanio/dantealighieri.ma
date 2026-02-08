@@ -43,11 +43,11 @@ const ContactCTA = () => {
             </li>
             <li className="flex items-start gap-2 text-sm text-textSecondary">
               <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-              Start with "How I Won €30K in Scholarships"
+              Start with "How I Won 25K in Scholarships"
             </li>
           </ul>
           <a 
-            href="#blog" 
+            href="/blog" 
             className="w-full py-3 text-center font-bold text-primary border-2 border-primary rounded-xl hover:bg-primary hover:text-white transition-all"
           >
             SEE ALL GUIDES
@@ -129,7 +129,7 @@ const ContactCTA = () => {
             <button className="w-full py-3 bg-neutral-900 text-white font-bold rounded-xl hover:bg-secondary transition-all">
               SUBSCRIBE FREE
             </button>
-            <p className="text-[10px] text-center text-textSecondary mt-2">Join 500+ students already inside</p>
+            <p className="text-[10px] text-center text-textSecondary mt-2">Join 1000+ students already inside</p>
           </div>
         </motion.div>
 

@@ -13,11 +13,12 @@ const AboutFounder = () => {
     const timeline = [
         {
             year: "2019",
-            title: "Arrived in Cagliari with €[X] in my pocket",
+            title: "Arrived in Cagliari with €500 in my pocket",
             items: [
-                "No Italian language (literally zero)",
-                "Chose Sardinia because low cost of living",
-                "First week: couldn't even order coffee 😅"
+                "No Italian language (literally zero) less than A1",
+                "Chose Sardinia because low cost of living and scholarship",
+                "First week: couldn't even order coffee 😅",
+                "Won SARDEGNA FORMED scholarship (€500/month) for 2 years"
             ],
             icon: <Globe className="w-5 h-5" />
         },
@@ -26,16 +27,17 @@ const AboutFounder = () => {
             title: "Won ERSU Scholarship (€6,500/year)",
             items: [
                 "Applied with strategy I'll teach you",
-                "This alone saved me €19,500 over 3 years"
+                "I read the entire ERSU website and application instructions (many students skip this step)",
+                
             ],
             icon: <TrendingUp className="w-5 h-5" />
         },
         {
             year: "2021",
-            title: "Won Farnesina Scholarship for thesis",
+            title: "Won MAECI Scholarship for thesis",
             items: [
-                "Researched [Your Topic]",
-                "Total scholarships: €30,000+"
+                "Researched Groundwater Modelling in Ethiopia rift valley",
+                "Total scholarships: €25,000+"
             ],
             icon: <CheckCircle2 className="w-5 h-5" />
         },
@@ -44,7 +46,6 @@ const AboutFounder = () => {
             title: "Graduated 110/110 in Geological Sciences",
             items: [
                 "While working part-time as developer",
-                "Earned €[X]/month (helped pay rent)"
             ],
             icon: <GraduationCap className="w-5 h-5" />
         },
@@ -167,7 +168,7 @@ const AboutFounder = () => {
                                                 <div className="w-16 h-16 rounded-2xl bg-secondary text-white flex items-center justify-center text-2xl font-black flex-shrink-0">2</div>
                                                 <div>
                                                     <h3 className="text-2xl font-bold mb-2">Scholarship Stacking</h3>
-                                                    <p className="text-textSecondary">Most students stop at ERSU. I show you how to stack DSU, regional grants, and university-specific waivers to hit the €30k mark.</p>
+                                                    <p className="text-textSecondary">Most students stop at ERSU. I show you how to stack DSU, regional grants, and university-specific waivers to hit the €25k mark.</p>
                                                 </div>
                                             </div>
 
