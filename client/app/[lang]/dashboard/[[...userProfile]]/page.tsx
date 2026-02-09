@@ -244,8 +244,8 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [activePhase, setActivePhase] = useState('About');
     const [profileData, setProfileData] = useState<any>(null);
-    const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
-    console.log('YocketProfileDashboard rendered', profileData, isOnboardingComplete);
+    // const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
+    // console.log('YocketProfileDashboard rendered', profileData, isOnboardingComplete);
     const phaseIds = useMemo(() => ['MyPlanner',
         'About', 'shortlisting', 'documents',
         'MySavedPosts', 'MyCounselors', 'premium'
@@ -276,7 +276,7 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
         if (!isLoaded) return; // Wait for user data to load completely
 
         if (user?.publicMetadata) {
-            setIsOnboardingComplete(!!user.publicMetadata.onboardingComplete);
+            // setIsOnboardingComplete(!!user.publicMetadata.onboardingComplete);
             console.log('cccccccc User public metadata:', user.publicMetadata);
             // Only redirect if we have metadata and onboarding is NOT complete
             if (!user.publicMetadata.onboardingComplete) {

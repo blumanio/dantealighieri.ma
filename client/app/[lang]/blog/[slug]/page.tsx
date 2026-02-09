@@ -297,12 +297,12 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                     {/* Hero Section */}
                     <div className="relative overflow-hidden bg-white rounded-3xl shadow-2xl border border-slate-200 mb-8">
                         {/* Premium Badge */}
-                        <div className="absolute top-6 right-6 z-10">
+                        {/* <div className="absolute top-6 right-6 z-10">
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full shadow-lg">
                                 <Sparkles className="h-4 w-4 text-white" />
                                 <span className="text-white font-bold text-sm">Premium Content</span>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Cover Image */}
                         {absoluteCoverImageUrl && (

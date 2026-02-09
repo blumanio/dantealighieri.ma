@@ -45,7 +45,7 @@ export async function GET(request, { params }) { // { params } gives access to d
         title: postFromDb.frontmatter?.title || 'Untitled',
         date: postFromDb.frontmatter?.date?.toISOString() || null,
         excerpt: postFromDb.frontmatter?.excerpt || '',
-        author: postFromDb.frontmatter?.author || 'Studentitaly Staff',
+        author: postFromDb.frontmatter?.author || 'Ammari',
         tags: postFromDb.frontmatter?.tags || [],
         coverImage: postFromDb.frontmatter?.coverImage || null
       }
