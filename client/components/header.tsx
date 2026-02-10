@@ -346,7 +346,7 @@ type SupportedLang = keyof typeof menuItems;
 
 const AnimatedLogo = () => {
   return (
-    <Link href="/" className="flex items-center" aria-label="StudentItaly Homepage">
+    <Link href="/" className="flex items-center" aria-label="Study in Italy for Moroccan & Arab Students | Scholarships & Visa Guide">
       <motion.div
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -556,17 +556,17 @@ const Header: React.FC = () => {
           {/* ====== Right Side: Actions & User Menu ====== */}
           <div className="flex items-center gap-2 sm:gap-4">
             <div className="hidden sm:block">
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
             </div>
-            <SignedIn>
+            {/* <SignedIn>
               <UserDropdown />
             </SignedIn>
             <SignedOut>
               <div className="hidden sm:flex items-center gap-2">
                 <SignInButton mode="modal"><Button className='bg-orange-500 text-white' variant="ghost" size="sm">{currentMenu.signIn.text}</Button></SignInButton>
-                {/* <SignInButton mode="modal"><Button className='bg-orange-500 text-white' size="sm">{currentMenu.signUp.text}</Button></SignInButton> */}
+                <SignInButton mode="modal"><Button className='bg-orange-500 text-white' size="sm">{currentMenu.signUp.text}</Button></SignInButton>
               </div>
-            </SignedOut>
+            </SignedOut> */}
           </div>
         </nav>
       </motion.header>

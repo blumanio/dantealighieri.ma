@@ -12,7 +12,7 @@ const AboutFounder = () => {
 
     const timeline = [
         {
-            year: "2019",
+            year: "2015",
             title: "Arrived in Cagliari with €500 in my pocket",
             items: [
                 "No Italian language (literally zero) less than A1",
@@ -23,7 +23,7 @@ const AboutFounder = () => {
             icon: <Globe className="w-5 h-5" />
         },
         {
-            year: "2020",
+            year: "2017",
             title: "Won ERSU Scholarship (€6,500/year)",
             items: [
                 "Applied with strategy I'll teach you",
@@ -33,7 +33,7 @@ const AboutFounder = () => {
             icon: <TrendingUp className="w-5 h-5" />
         },
         {
-            year: "2021",
+            year: "2018",
             title: "Won MAECI Scholarship for thesis",
             items: [
                 "Researched Groundwater Modelling in Ethiopia rift valley",
@@ -42,15 +42,7 @@ const AboutFounder = () => {
             icon: <CheckCircle2 className="w-5 h-5" />
         },
         {
-            year: "2022",
-            title: "Graduated 110/110 in Geological Sciences",
-            items: [
-                "While working part-time as developer",
-            ],
-            icon: <GraduationCap className="w-5 h-5" />
-        },
-        {
-            year: "2023",
+            year: "2018",
             title: "Erasmus Traineeship in Barcelona",
             items: [
                 "Learned even more about studying in EU"
@@ -58,7 +50,15 @@ const AboutFounder = () => {
             icon: <Globe className="w-5 h-5" />
         },
         {
-            year: "2024-Now",
+            year: "2018",
+            title: "Graduated 110/110 in Geological Sciences",
+            items: [
+                "While working part-time as developer",
+            ],
+            icon: <GraduationCap className="w-5 h-5" />
+        },
+        {
+            year: "2019-Now",
             title: "Working as Environmental Geologist",
             items: [
                 "At top Italian remediation company",

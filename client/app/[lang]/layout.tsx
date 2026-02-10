@@ -3,14 +3,13 @@ import { getValidLanguage } from '@/app/config/i18n';
 import { supportedLanguages, defaultLang } from '@/constants/constants';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import UpgradeBanner from '@/components/Toast';
 
 // Imports required for the toast notification system
 import { ToastProvider } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import WorkInProgressHeader from '@/components/Toast';
 import RightSidebar from '@/components/RightSidebar';
 import { Locale } from '../i18n/types';
+import UrgencyBar from '@/components/UrgencyBar';
 
 export default async function LangSpecificLayout({
   children,
@@ -30,8 +29,9 @@ export default async function LangSpecificLayout({
       {/* The ToastProvider must wrap all the components that will use toasts */}
       <ToastProvider>
         <Header />
+        <UrgencyBar />
+
         {/* <UpgradeBanner /> */}
-        <WorkInProgressHeader />
 
         {/* The RightSidebar is likely positioned independently (e.g., fixed or absolute)
                 and does not need to be in a flex container with the main content. */}

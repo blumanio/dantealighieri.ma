@@ -2,16 +2,17 @@
 'use client';
 
 import React from 'react';
-import { School, BookOpen, MessageSquare, Home as HomeIcon, Clock } from 'lucide-react';
+import { School, BookOpen, MessageSquare, Home as HomeIcon, Clock, FileText } from 'lucide-react';
 import { Translation } from '@/app/i18n/types';
 
-export type TabId = 'about' | 'courses' | 'network_discussion' | 'network_housing' | 'deadlines';
+export type TabId = 'about' | 'courses' | 'deadlines' | 'entrance_exams' | 'network_discussion' | 'network_housing';
 
 interface Tab {
   id: TabId;
   labelKey: string;
+  fallbackLabel: string;
   icon: React.ElementType;
-  color: string;
+  isNew?: boolean;
 }
 
 interface TabNavigationProps {
@@ -20,53 +21,61 @@ interface TabNavigationProps {
   t: (namespace: keyof Translation, key: string, interpolations?: Record<string, string | number>) => string;
 }
 
+// Info-first flow: About → Courses → Deadlines → Exams → Community
 const tabs: Tab[] = [
-  { id: 'about', labelKey: 'aboutTab', icon: School, color: 'blue' },
-  { id: 'courses', labelKey: 'coursesTab', icon: BookOpen, color: 'emerald' },
-  { id: 'network_discussion', labelKey: 'discussionsTab', icon: MessageSquare, color: 'purple' },
-  { id: 'network_housing', labelKey: 'housingTab', icon: HomeIcon, color: 'orange' },
-  { id: 'deadlines', labelKey: 'deadlinesTab', icon: Clock, color: 'red' },
+  // { id: 'about', labelKey: 'aboutTab', fallbackLabel: 'About', icon: School },
+  { id: 'courses', labelKey: 'coursesTab', fallbackLabel: 'Courses', icon: BookOpen },
+  { id: 'deadlines', labelKey: 'deadlinesTab', fallbackLabel: 'Deadlines', icon: Clock },
+  { id: 'entrance_exams', labelKey: 'entranceExamsTab', fallbackLabel: 'Entrance Exams', icon: FileText, isNew: true },
+  { id: 'network_discussion', labelKey: 'discussionsTab', fallbackLabel: 'Discussions', icon: MessageSquare },
+  { id: 'network_housing', labelKey: 'housingTab', fallbackLabel: 'Housing', icon: HomeIcon },
 ];
 
 const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabChange, t }) => {
   return (
-    <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
-      {/* Tab Headers */}
-      <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 p-2">
-        <div className="flex items-center justify-start overflow-x-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => onTabChange(tab.id)}
-              className={`text-white flex-shrink-0 flex items-center gap-3 px-6 py-4 mx-1 rounded-2xl font-bold transition-all duration-300 transform whitespace-nowrap ${
-                activeTab === tab.id
-                  ? `bg-gradient-to-r from-${tab.color}-500 to-${tab.color}-600 text-white shadow-lg scale-105`
-                  : 'text-slate-600 hover:bg-white hover:text-slate-800 hover:shadow-md hover:scale-[1.02]'
-              }`}
-            >
-              <tab.icon className="h-5 w-5" />
-              <span className="text-sm">
-                {t('universityHubs', tab.labelKey, {
-                  defaultValue: tab.id.charAt(0).toUpperCase() + tab.id.slice(1).replace('_', ' ')
-                })}
-              </span>
-            </button>
-          ))}
+    <div className="bg-white rounded-t-2xl border border-b-0 border-slate-200 overflow-hidden">
+      <div className="border-b border-slate-200 bg-slate-50 px-2 pt-2">
+        <div className="flex items-center gap-1 overflow-x-auto pb-0 tab-scroll">
+          {tabs.map(tab => {
+            const isActive = activeTab === tab.id;
+            const Icon = tab.icon;
+
+            return (
+              <button
+                key={tab.id}
+                onClick={() => onTabChange(tab.id)}
+                className={[
+                  'flex-shrink-0 flex items-center gap-2 px-4 py-3 rounded-t-xl text-sm font-semibold',
+                  'transition-all duration-200 whitespace-nowrap border-b-2',
+                  isActive
+                    ? 'bg-white text-slate-900 border-slate-900 shadow-sm'
+                    : 'text-slate-500 border-transparent hover:text-slate-700 hover:bg-white/60',
+                ].join(' ')}
+              >
+                <Icon className={`h-4 w-4 ${isActive ? 'text-slate-900' : 'text-slate-400'}`} />
+                <span>
+                  {t('universityHubs', tab.labelKey) || tab.fallbackLabel}
+                </span>
+                {tab.isNew && (
+                  <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-700 rounded">
+                    NEW
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Custom CSS for scrollbar */}
       <style jsx>{`
-        .scrollbar-thin::-webkit-scrollbar {
-          height: 6px;
+        .tab-scroll::-webkit-scrollbar {
+          height: 4px;
         }
-        
-        .scrollbar-thumb-slate-300::-webkit-scrollbar-thumb {
+        .tab-scroll::-webkit-scrollbar-thumb {
           background-color: rgb(203 213 225);
-          border-radius: 3px;
+          border-radius: 2px;
         }
-        
-        .scrollbar-track-transparent::-webkit-scrollbar-track {
+        .tab-scroll::-webkit-scrollbar-track {
           background: transparent;
         }
       `}</style>

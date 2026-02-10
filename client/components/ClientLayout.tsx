@@ -10,6 +10,8 @@ import Services from './services';
 import AboutFounder from './AboutFounder';
 import { BlogNavigation } from './BlogNavigation';
 import { getValidLanguage } from '@/app/config/i18n';
+import SimpleEmailCapture from './SimpleEmailCapture';
+import UrgencyBar from './UrgencyBar';
 
 export default function ClientLayout({
   children,
@@ -22,7 +24,7 @@ export default function ClientLayout({
   return (
     <div className="flex flex-col min-h-screen bg-neutral-50">
       {/* Use only one toast component */}
-      
+
       <main className="flex-grow w-full pb-[56px]">
         <div className="transition-all duration-300 ease-in-out">
           <HeroSection />
@@ -34,8 +36,9 @@ export default function ClientLayout({
             lang={getValidLanguage(lang)}
           />
         </div>
+       
       </main>
-      
+
       {/* <WhatsAppButton /> */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-primary/20 z-[1001] loading-bar"></div>
     </div>

@@ -1,0 +1,341 @@
+[
+  {
+    "id": "university-of-pavia-44",
+    "title": "University of Pavia - 1st Call",
+    "university": "University of Pavia",
+    "country": "Italie",
+    "date": "2025-11-20",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "politecnico-di-milano-0",
+    "title": "Politecnico di Milano - 1st Call (Early Bird)",
+    "university": "Politecnico di Milano",
+    "country": "Italie",
+    "date": "2025-12-01",
+    "level": "Master",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-messina-27",
+    "title": "University of Messina - 1st Call",
+    "university": "University of Messina",
+    "country": "Italie",
+    "date": "2025-12-22",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "ca'-foscari-university-of-venice-31",
+    "title": "Ca' Foscari University of Venice - Main Call",
+    "university": "Ca' Foscari University of Venice",
+    "country": "Italie",
+    "date": "2026-01-14",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-trieste-22",
+    "title": "University of Trieste - 1st Call",
+    "university": "University of Trieste",
+    "country": "Italie",
+    "date": "2026-01-15",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-bergamo-47",
+    "title": "University of Bergamo - 1st Call",
+    "university": "University of Bergamo",
+    "country": "Italie",
+    "date": "2026-01-15",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-milano-bicocca-32",
+    "title": "University of Milano-Bicocca - 1st Call",
+    "university": "University of Milano-Bicocca",
+    "country": "Italie",
+    "date": "2026-01-16",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-pavia-45",
+    "title": "University of Pavia - 2nd Call",
+    "university": "University of Pavia",
+    "country": "Italie",
+    "date": "2026-01-20",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-turin-11",
+    "title": "University of Turin - Main Call",
+    "university": "University of Turin",
+    "country": "Italie",
+    "date": "2026-01-29",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "marche-polytechnic-university-24",
+    "title": "Marche Polytechnic University - 1st Call",
+    "university": "Marche Polytechnic University",
+    "country": "Italie",
+    "date": "2026-01-30",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-bergamo-48",
+    "title": "University of Bergamo - 2nd Call",
+    "university": "University of Bergamo",
+    "country": "Italie",
+    "date": "2026-01-30",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-padua-4",
+    "title": "University of Padua - 1st Call",
+    "university": "University of Padua",
+    "country": "Italie",
+    "date": "2026-02-02",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Closed"
+  },
+  {
+    "id": "university-of-florence-12",
+    "title": "University of Florence - 1st Call",
+    "university": "University of Florence",
+    "country": "Italie",
+    "date": "2026-02-06",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "polytechnic-university-of-turin-19",
+    "title": "Polytechnic University of Turin - 1st Call",
+    "university": "Polytechnic University of Turin",
+    "country": "Italie",
+    "date": "2026-02-14",
+    "level": "Master",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-l'aquila-43",
+    "title": "University of L'Aquila - Main Call",
+    "university": "University of L'Aquila",
+    "country": "Italie",
+    "date": "2026-02-25",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "politecnico-di-milano-2",
+    "title": "Politecnico di Milano - Engineering 2nd Call",
+    "university": "Politecnico di Milano",
+    "country": "Italie",
+    "date": "2026-02-26",
+    "level": "Master",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-genoa-14",
+    "title": "University of Genoa - Main Call",
+    "university": "University of Genoa",
+    "country": "Italie",
+    "date": "2026-03-20",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-trento-21",
+    "title": "University of Trento - Main Call",
+    "university": "University of Trento",
+    "country": "Italie",
+    "date": "2026-03-23",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "politecnico-di-milano-1",
+    "title": "Politecnico di Milano - 2nd Call (Arch & Design)",
+    "university": "Politecnico di Milano",
+    "country": "Italie",
+    "date": "2026-03-31",
+    "level": "Master",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "university-of-camerino-15",
+    "title": "University of Camerino - Pre-admission",
+    "university": "University of Camerino",
+    "country": "Italie",
+    "date": "2026-03-31",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-messina-28",
+    "title": "University of Messina - 2nd Call",
+    "university": "University of Messina",
+    "country": "Italie",
+    "date": "2026-03-31",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-milano-bicocca-33",
+    "title": "University of Milano-Bicocca - Limited Programs",
+    "university": "University of Milano-Bicocca",
+    "country": "Italie",
+    "date": "2026-03-31",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "polytechnic-university-of-turin-20",
+    "title": "Polytechnic University of Turin - 2nd Call",
+    "university": "Polytechnic University of Turin",
+    "country": "Italie",
+    "date": "2026-04-02",
+    "level": "Master",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "university-of-milano-bicocca-34",
+    "title": "University of Milano-Bicocca - 2nd Call",
+    "university": "University of Milano-Bicocca",
+    "country": "Italie",
+    "date": "2026-04-16",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "university-of-macerata-17",
+    "title": "University of Macerata - Main Call",
+    "university": "University of Macerata",
+    "country": "Italie",
+    "date": "2026-04-24",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-pisa-16",
+    "title": "University of Pisa - Main Call",
+    "university": "University of Pisa",
+    "country": "Italie",
+    "date": "2026-04-30",
+    "level": "Master",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-trieste-23",
+    "title": "University of Trieste - 2nd Call",
+    "university": "University of Trieste",
+    "country": "Italie",
+    "date": "2026-04-30",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "marche-polytechnic-university-25",
+    "title": "Marche Polytechnic University - 2nd Call",
+    "university": "Marche Polytechnic University",
+    "country": "Italie",
+    "date": "2026-04-30",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "university-of-siena-18",
+    "title": "University of Siena - Main Call",
+    "university": "University of Siena",
+    "country": "Italie",
+    "date": "2026-05-06",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "university-of-messina-29",
+    "title": "University of Messina - 3rd Call",
+    "university": "University of Messina",
+    "country": "Italie",
+    "date": "2026-05-10",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  },
+  {
+    "id": "sapienza-university-of-rome-10",
+    "title": "Sapienza University of Rome - Single Window",
+    "university": "Sapienza University of Rome",
+    "country": "Italie",
+    "date": "2026-05-15",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Open"
+  },
+  {
+    "id": "maeci-2026",
+    "title": "Bourse MAECI (Gouvernement Italien)",
+    "country": "Italie",
+    "date": "2026-05-15",
+    "level": "Master / PhD",
+    "type": "scholarship",
+    "status": "Upcoming"
+  },
+  {
+    "id": "politecnico-di-milano-3",
+    "title": "Politecnico di Milano - Bachelor (BSc)",
+    "university": "Politecnico di Milano",
+    "country": "Italie",
+    "date": "2026-06-01",
+    "level": "Bachelor",
+    "type": "university",
+    "status": "TBD"
+  },
+  {
+    "id": "marche-polytechnic-university-26",
+    "title": "Marche Polytechnic University - 3rd Call",
+    "university": "Marche Polytechnic University",
+    "country": "Italie",
+    "date": "2026-06-30",
+    "level": "Master + Bachelor",
+    "type": "university",
+    "status": "Upcoming"
+  }
+]

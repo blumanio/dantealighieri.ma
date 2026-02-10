@@ -14,6 +14,7 @@ import {
     Clock, User, Calendar, Eye, Heart, MessageCircle, Share2,
     Bookmark, Crown, Shield, Star, Award, TrendingUp, Sparkles
 } from 'lucide-react';
+import LeadMagnetSidebar from '@/components/LeadMagnetSidebar';
 
 interface PostFrontmatter {
     title: string;
@@ -440,8 +441,14 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
 
                         {/* Sidebar */}
                         <div className="lg:col-span-1 space-y-6">
+                             {/* SIDEBAR (Monetization & Lead Gen) */}
+                    <div className="lg:col-span-4">
+                      <div className="sticky top-8 space-y-6">
+                        <LeadMagnetSidebar />
+                      </div>
+                    </div>
                             {/* Article Actions */}
-                            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sticky top-6">
+                            {/* <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sticky top-6">
                                 <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
                                     <Heart className="h-5 w-5 text-red-500" />
                                     Engage
@@ -476,10 +483,10 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* Quick Stats */}
-                            <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200">
+                            {/* <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200">
                                 <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
                                     <TrendingUp className="h-4 w-4 text-emerald-600" />
                                     Article Stats
@@ -498,12 +505,12 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                         <span className="font-bold text-slate-900">{formattedDate}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
                     {/* Comments Section */}
-                    {post._id && (
+                    {/* {post._id && (
                         <div className="mt-12">
                             <PremiumBlogInteractions
                                 postId={post._id}
@@ -513,7 +520,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                                 initialComments={post.commentsCount || 0}
                             />
                         </div>
-                    )}
+                    )} */}
 
                     {/* Navigation */}
                     {(prev || next) && (
@@ -523,6 +530,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                             </div>
                         </div>
                     )}
+           
                 </article>
             </div>
         </div>
