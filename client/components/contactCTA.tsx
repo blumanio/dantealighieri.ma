@@ -58,7 +58,7 @@ const ContactCTA = () => {
             <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-3">
               <FileText className="h-5 w-5" />
             </div>
-            <h3 className="font-bold text-slate-900 mb-2">Free 2025 Guide</h3>
+            <h3 className="font-bold text-slate-900 mb-2">Free 2026/27 Guide</h3>
             <p className="text-slate-600 text-sm mb-4">
               Download our cheat sheet with IMAT cut-off scores for every medical school.
             </p>
