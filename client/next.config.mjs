@@ -2,7 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-eslint: {
+  eslint: {
     ignoreDuringBuilds: true,
   },
   async headers() {
