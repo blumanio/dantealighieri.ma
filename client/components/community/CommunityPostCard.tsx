@@ -16,7 +16,7 @@ import toast from 'react-hot-toast';
 
 interface CommunityPostCardProps {
     post: IPostWithComments;
-    onCommentSubmit: (postId: string, commentText: string) => Promise<void>;
+    onCommentSubmit: (postId: any, commentText: string) => Promise<void>;
     onDeletePost?: (postId: string) => void;
 }
 

@@ -1,13 +1,16 @@
 import { MapPin, ArrowRight, Euro } from 'lucide-react';
 import Link from 'next/link';
 
-interface UniversityCardProps {
+export interface UniversityCardProps {
+  
   university: {
     _id: string;
     name: string;
     location: string;
     admission_fee?: number;
     acceptance_rate?: string; // Optional field
+    favoriteCount?: number; // Optional field for future use
+    trackedCount?: number; // Optional field for future use
   };
   index: number;
 }

@@ -233,8 +233,8 @@ export default function UniversityHubPage() {
 
     return (
         <div className="min-h-screen bg-slate-50/50">
-            <UniversityHeader 
-                universityDetails={universityDetails} 
+            <UniversityHeader
+                universityDetails={universityDetails}
                 universityName={universityName}
                 coursesCount={courses.length}
                 communityPostsCount={posts.length}
@@ -244,7 +244,7 @@ export default function UniversityHubPage() {
                 <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} t={t} />
 
                 <div className="bg-white rounded-b-2xl border border-t-0 border-slate-200 p-4 md:p-8 min-h-[600px] shadow-sm">
-                    
+
                     {/* COURSES TAB WITH GATE */}
                     {activeTab === 'courses' && (
                         <div className="relative">
@@ -252,7 +252,7 @@ export default function UniversityHubPage() {
                                 <CoursesTab courses={visibleCourses} isLoading={false} universityName={universityName} />
                                 {isSignedIn && <LeadMagnetCapture universityName={universityName} />}
                             </div>
-                            
+
                             {isLocked && courses.length > FREE_COURSE_LIMIT && (
                                 <ContentGate count={courses.length - FREE_COURSE_LIMIT} type="Degree Programs" />
                             )}
@@ -281,7 +281,7 @@ export default function UniversityHubPage() {
                                     {activeTab === 'network_discussion' ? 'Student Discussions' : 'Housing Board'}
                                 </h2>
                                 {isSignedIn && (
-                                    <button 
+                                    <button
                                         onClick={() => setShowNewPostForm(true)}
                                         className="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl hover:bg-slate-800 transition-all font-medium shadow-md"
                                     >
@@ -290,7 +290,7 @@ export default function UniversityHubPage() {
                                 )}
                             </div>
 
-                            <div className="space-y-6">
+                            {/* <div className="space-y-6">
                                 {posts.length > 0 ? (
                                     posts.map(post => (
                                         <CommunityPostCard 
@@ -306,7 +306,7 @@ export default function UniversityHubPage() {
                                         openForm={() => setShowNewPostForm(true)} 
                                     />
                                 )}
-                            </div>
+                            </div> */}
                             <LeadMagnetCapture universityName={universityName} />
                         </div>
                     )}

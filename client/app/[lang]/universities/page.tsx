@@ -3,9 +3,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import UniversityTable from '@/components/UniversityTable';
 import { useUser } from '@clerk/nextjs';
-import { University as UniversityCardType } from '@/components/UniversityCard';
-import { 
-  Sparkles, Award, TrendingUp, Users, Target, Clock, 
+import { UniversityCardProps as UniversityCardType } from '@/components/UniversityCard';
+import {
+  Sparkles, Award, TrendingUp, Users, Target, Clock,
   Shield, Zap, Star, Globe, Heart, Calendar, Loader2,
   CheckCircle, XCircle, AlertCircle
 } from 'lucide-react';
@@ -34,7 +34,7 @@ export default function UniversitiesPage() {
       if (!uniResponse.ok) {
         throw new Error(`Failed to fetch universities: ${uniResponse.statusText}`);
       }
-      
+
       const fetchedUniData = await uniResponse.json();
       setLoadingProgress(90);
 
@@ -71,8 +71,7 @@ export default function UniversitiesPage() {
 
           uniDataFromApi = uniDataFromApi.map(uni => ({
             ...uni,
-            isFavoriteInitial: favoriteUniIds.has(uni._id),
-            isTrackedInitial: trackedUniIds.has(uni._id),
+           
           }));
         } catch (userSpecificError) {
           console.warn('Failed to fetch user-specific favorites/tracked status:', userSpecificError);
@@ -99,25 +98,7 @@ export default function UniversitiesPage() {
     fetchUniversities();
   }, [fetchUniversities]);
 
-  const handleFavoriteUpdate = useCallback((universityId: string, isFavorite: boolean, newCount?: number) => {
-    setUniversities(prevUnis =>
-      prevUnis.map(uni =>
-        uni._id === universityId
-          ? { ...uni, isFavoriteInitial: isFavorite, favoriteCount: newCount !== undefined ? newCount : uni.favoriteCount }
-          : uni
-      )
-    );
-  }, []);
 
-  const handleTrackUpdate = useCallback((universityId: string, isTracked: boolean, newCount?: number) => {
-    setUniversities(prevUnis =>
-      prevUnis.map(uni =>
-        uni._id === universityId
-          ? { ...uni, isTrackedInitial: isTracked, trackedCount: newCount !== undefined ? newCount : uni.trackedCount }
-          : uni
-      )
-    );
-  }, []);
 
   // Premium Loading State
   if (isLoading) {
@@ -152,7 +133,7 @@ export default function UniversitiesPage() {
             {/* Premium Progress Bar */}
             <div className="relative mb-6">
               <div className="w-full bg-slate-200 rounded-full h-3 shadow-inner">
-                <div 
+                <div
                   className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-500 ease-out relative overflow-hidden"
                   style={{ width: `${loadingProgress}%` }}
                 >
@@ -213,7 +194,7 @@ export default function UniversitiesPage() {
                 {error}
               </p>
             </div>
-            
+
             <button
               onClick={fetchUniversities}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-xl"
@@ -254,10 +235,10 @@ export default function UniversitiesPage() {
                 Italian Universities
               </span>
             </h1>
-            
+
             {/* Subtitle */}
             <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-8">
-              Discover world-class educational opportunities with our 
+              Discover world-class educational opportunities with our
               <span className="font-bold text-blue-600"> premium collection </span>
               of partner universities in Italy
             </p>
@@ -287,10 +268,10 @@ export default function UniversitiesPage() {
       <div className="relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200/60 overflow-hidden">
-            <UniversityTable
+            {/* <UniversityTable
               universities={universities}
               isSignedIn={isSignedIn ?? false}
-            />
+            /> */}
           </div>
 
           {/* Bottom CTA Section */}
