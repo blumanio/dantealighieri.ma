@@ -11,13 +11,13 @@ const HeroSection = () => {
 
   return (
     <>
-      <ScholarshipCalculator 
-        isOpen={isCalculatorOpen} 
-        onClose={() => setIsCalculatorOpen(false)} 
+      <ScholarshipCalculator
+        isOpen={isCalculatorOpen}
+        onClose={() => setIsCalculatorOpen(false)}
       />
 
       <section className="relative min-h-[90vh] bg-neutral-50 pt-24 pb-12 overflow-hidden">
-        
+
         {/* REAL URGENCY BANNER */}
         {/* <div className="absolute top-20 left-0 right-0 z-20 flex justify-center px-4">
           <motion.div 
@@ -34,9 +34,9 @@ const HeroSection = () => {
 
           {/* Left: Copy & Conversion */}
           <div className="lg:w-3/5 z-10 pt-8">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-bold text-xs uppercase tracking-wide mb-6 border border-blue-100"
             >
               <ShieldCheck className="w-4 h-4" />
@@ -48,23 +48,36 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-xl text-slate-600 mb-8 max-w-2xl leading-relaxed">
-              I moved from Morocco to Italy with <span className="font-bold text-slate-900">€500 and zero Italian</span>. 
+              I moved from Morocco to Italy with <span className="font-bold text-slate-900">€500 and zero Italian</span>.
               I won €25,000+ in scholarships and graduated 110/110. Now I’ll show you exactly how to do the same — step by step.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
               {/* PRIMARY CTA: Open Calculator */}
-              <button 
+              {/* <button
                 onClick={() => setIsCalculatorOpen(true)}
                 className="px-8 py-4 bg-orange-600 text-white font-black rounded-xl hover:bg-orange-700 transition-all transform hover:scale-[1.02] shadow-xl shadow-orange-200/50 flex items-center justify-center gap-3 text-lg"
               >
-                Download Free Scholarship Calculator
+                 Download Free Scholarship Calculator
+                Download free guide
                 <ArrowRight className="w-5 h-5" />
-              </button>
+              </button> */}
 
               {/* SECONDARY CTA: Book Call */}
               <a
+                // href="https://calendly.com/dantema/dante-alighieri-consulting"
+                href="https://studentitaly.gumroad.com/l/EtudierenItalie"
+
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 bg-orange-600 text-white font-black rounded-xl hover:bg-orange-700 transition-all transform hover:scale-[1.02] shadow-xl shadow-orange-200/50 flex items-center justify-center gap-3 text-lg"
+              >
+                Download free guide
+              </a>
+              <a
                 href="https://calendly.com/dantema/dante-alighieri-consulting"
+                // href="https://studentitaly.gumroad.com/l/EtudierenItalie"
+
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-white text-slate-700 font-bold rounded-xl border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex items-center justify-center"
@@ -76,15 +89,15 @@ const HeroSection = () => {
             {/* TRUST INDICATORS */}
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-slate-500">
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" /> 
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 Real 2026 Strategy
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" /> 
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 Documents that actually work
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" /> 
+                <CheckCircle className="w-4 h-4 text-green-500" />
                 No AI-generated advice
               </div>
             </div>
@@ -93,15 +106,15 @@ const HeroSection = () => {
           {/* Right: The Proof Image */}
           <div className="lg:w-2/5 mt-16 lg:mt-0 relative hidden md:block">
             <div className="relative rounded-[2.5rem] overflow-hidden border-8 border-white shadow-2xl rotate-3 hover:rotate-0 transition-all duration-500 group">
-              <Image 
-                src="/hero/laurea.jpg" 
-                width={500} 
-                height={650} 
-                alt="Graduation Day in Italy" 
-                className="object-cover h-[550px] w-full transform group-hover:scale-105 transition-transform duration-700" 
+              <Image
+                src="/hero/laurea.jpg"
+                width={500}
+                height={650}
+                alt="Graduation Day in Italy"
+                className="object-cover h-[550px] w-full transform group-hover:scale-105 transition-transform duration-700"
                 priority
               />
-              
+
               {/* Badge: The "Unfair Advantage" */}
               <div className="absolute top-6 right-6 bg-white/95 backdrop-blur text-slate-900 px-5 py-3 rounded-2xl shadow-lg border border-slate-100">
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Scholarships Won</p>
@@ -115,8 +128,8 @@ const HeroSection = () => {
                 <div className="flex -space-x-3">
                   {[1, 2, 3].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full bg-slate-200 border-2 border-white overflow-hidden relative">
-                       {/* Placeholder avatars */}
-                       <div className="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400"></div>
+                      {/* Placeholder avatars */}
+                      <div className="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400"></div>
                     </div>
                   ))}
                 </div>

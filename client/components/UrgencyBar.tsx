@@ -64,7 +64,12 @@ export default function UrgencyBar() {
                             <div className="flex items-center gap-2">
                                 <span className="hidden md:inline text-white/30">|</span>
                                 <span className="bg-red-500/10 text-red-400 text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded border border-red-500/20">
-                                    J-{daysLeft} jours
+                                    Deadline : {current.date}
+                                </span>
+                                <span className="bg-red-500/10 text-red-400 text-[10px] uppercase tracking-widest font-bold px-2 py-0.5 rounded border border-red-500/20">
+                                    {/* J-{daysLeft} jours */}
+                                    {daysLeft} Days left
+
                                 </span>
                             </div>
                         </div>
