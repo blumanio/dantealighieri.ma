@@ -78,19 +78,19 @@ export default function UrgencyBar() {
                     {/* Professional Trigger (CTA) */}
                     <div className="flex items-center gap-4">
                         <a
-                            href="#guide-section"
+                            href="/university"
                             className="group relative inline-flex items-center gap-2 px-4 py-1.5 bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold rounded-full transition-all hover:scale-105 active:scale-95 shadow-md shadow-orange-900/20"
                         >
-                            <span>Saisir l'opportunité</span>
+                            <span>Full list</span>
                             <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                         </a>
-
+{/* 
                         <a
                             href="/deadlines"
                             className="text-xs text-slate-400 hover:text-white underline underline-offset-4 transition-colors"
                         >
                             Calendrier complet
-                        </a>
+                        </a> */}
                     </div>
                 </div>
             </div>

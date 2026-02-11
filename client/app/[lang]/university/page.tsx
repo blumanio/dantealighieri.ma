@@ -92,7 +92,7 @@ export default function UniversitiesPage() {
           <p className="text-lg text-slate-600 max-w-2xl mb-6">
             We track acceptance rates, tuition fees, and IMAT requirements for international students.
             <span className="block mt-2 text-sm font-medium text-emerald-700 bg-emerald-50 w-fit px-2 py-1 rounded">
-              Verified for 2025/2026 Admissions
+              Verified for 2026/2027 Admissions
             </span>
           </p>
           

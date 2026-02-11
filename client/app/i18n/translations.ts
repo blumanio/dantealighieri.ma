@@ -745,6 +745,7 @@ export const translations: Record<Locale, Translation> = {
       discussionsTab: "Discussions",
       advancedFilters: "Advanced Filters",
       deadlinesTab: "Deadlines",
+      entranceExamsTab: "Entrance Exams",
       pageTitle: "University Hubs",
       pageSubtitle: "Connect with students and explore courses at your chosen Italian university.",
       coursesAvailable: " courses available",

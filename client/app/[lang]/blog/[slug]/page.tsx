@@ -154,7 +154,7 @@ export async function generateStaticParams() {
     ];
 
     try {
-        const defaultLangs = ['en','fr', 'ar'];
+        const defaultLangs = ['en', 'fr', 'ar'];
         // In production, fetch actual slugs from API
         return exampleParams;
     } catch (error) {
@@ -441,12 +441,12 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
 
                         {/* Sidebar */}
                         <div className="lg:col-span-1 space-y-6">
-                             {/* SIDEBAR (Monetization & Lead Gen) */}
-                    <div className="lg:col-span-4">
-                      <div className="sticky top-8 space-y-6">
-                        <LeadMagnetSidebar />
-                      </div>
-                    </div>
+                            {/* SIDEBAR (Monetization & Lead Gen) */}
+                            <div className="lg:col-span-4">
+                                <div className="sticky top-8 space-y-6">
+                                    <LeadMagnetSidebar />
+                                </div>
+                            </div>
                             {/* Article Actions */}
                             {/* <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 sticky top-6">
                                 <h3 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
@@ -530,7 +530,7 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                             </div>
                         </div>
                     )}
-           
+
                 </article>
             </div>
         </div>

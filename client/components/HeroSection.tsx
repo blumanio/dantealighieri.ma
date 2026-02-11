@@ -5,6 +5,7 @@ import { ShieldCheck, ArrowRight, CheckCircle, AlertTriangle } from 'lucide-reac
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ScholarshipCalculator from './ScholarshipCalculator';
+import NewsletterForm from './NewsletterForm';
 
 const HeroSection = () => {
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
@@ -54,30 +55,17 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
               {/* PRIMARY CTA: Open Calculator */}
-              {/* <button
+              <button
                 onClick={() => setIsCalculatorOpen(true)}
                 className="px-8 py-4 bg-orange-600 text-white font-black rounded-xl hover:bg-orange-700 transition-all transform hover:scale-[1.02] shadow-xl shadow-orange-200/50 flex items-center justify-center gap-3 text-lg"
               >
-                 Download Free Scholarship Calculator
-                Download free guide
+                Download Free Scholarship Calculator
                 <ArrowRight className="w-5 h-5" />
-              </button> */}
+              </button>
 
               {/* SECONDARY CTA: Book Call */}
               <a
-                // href="https://calendly.com/dantema/dante-alighieri-consulting"
-                href="https://studentitaly.gumroad.com/l/EtudierenItalie"
-
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-orange-600 text-white font-black rounded-xl hover:bg-orange-700 transition-all transform hover:scale-[1.02] shadow-xl shadow-orange-200/50 flex items-center justify-center gap-3 text-lg"
-              >
-                Download free guide
-              </a>
-              <a
                 href="https://calendly.com/dantema/dante-alighieri-consulting"
-                // href="https://studentitaly.gumroad.com/l/EtudierenItalie"
-
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-white text-slate-700 font-bold rounded-xl border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex items-center justify-center"
@@ -85,7 +73,7 @@ const HeroSection = () => {
                 Book Strategy Call
               </a>
             </div>
-
+            {/* <NewsletterForm /> */}
             {/* TRUST INDICATORS */}
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-slate-500">
               <div className="flex items-center gap-2">

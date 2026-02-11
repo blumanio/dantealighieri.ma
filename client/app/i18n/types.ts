@@ -676,6 +676,7 @@ export interface AdminUsersPageTranslation {
 }
 
 export interface UniversityHubsTranslation {
+  entranceExamsTab: string;
   pageTitle: string;
   pageSubtitle: string;
   coursesAvailable: string;

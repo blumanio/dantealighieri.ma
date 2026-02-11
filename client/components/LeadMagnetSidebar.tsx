@@ -1,27 +1,35 @@
+'use client';
 import { FileText, Calendar, CheckCircle } from 'lucide-react';
-
+const handleBookingClick = () => {
+  // Analytics tracking
+  window.gtag?.('event', 'click', {
+    event_category: 'CTA',
+    event_label: 'Free Guide Download - i want this guide - Lead Magnet Sidebar',
+    value: 47,
+  });
+};
 export default function LeadMagnetSidebar() {
   return (
     <>
       {/* 1. The Upsell (Consulting) - High Priority */}
-      <div className="bg-slate-900 rounded-xl p-6 text-white shadow-xl ring-1 ring-white/10">
+      <div className=" rounded-xl p-6 text-white shadow-xl ring-1 ring-white/10">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Limited Spots</span>
         </div>
-        
-        <h3 className="text-xl font-bold mb-2">
+
+        <h3 className="text-orange-600 text-xl font-bold mb-2">
           Worried about rejection?
         </h3>
-        <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+        <p className="text-black text-sm mb-6 leading-relaxed">
           The bureaucracy in Italy is complex. Book a 20-min strategy call with an expert to review your documents.
         </p>
-        
-        <button className="w-full py-3 bg-white text-slate-900 font-bold rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center gap-2">
+
+        <button className="w-full py-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2">
           <Calendar className="h-4 w-4" />
           Book Audit (€29)
         </button>
-        
+
         <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-center gap-3 text-[10px] text-slate-400">
           <span className="flex items-center gap-1"><CheckCircle className="h-3 w-3" /> Money-back guarantee</span>
         </div>
@@ -34,19 +42,28 @@ export default function LeadMagnetSidebar() {
         </div>
         <h3 className="font-bold text-slate-900 mb-2">Free 2026/27 Guide</h3>
         <p className="text-slate-600 text-sm mb-4">
-          Download our cheat sheet with IMAT cut-off scores for every medical school.
+          Download my complete guide to study in italy, including all the essential information you need to know.
         </p>
-        
+
         {/* Simple Email Capture Form */}
         <div className="space-y-2">
-          <input 
+          {/* <input 
             type="email" 
             placeholder="Your email address" 
             className="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-          <button className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors">
-            Send me the PDF
-          </button>
+          /> */}
+          <a
+            href="https://studentitaly.gumroad.com/l/EtudierenItalie"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleBookingClick}
+          // className="px-8 py-4 bg-white text-slate-700 font-bold rounded-xl border-2 border-slate-200 hover:border-slate-400 hover:bg-slate-50 transition-all flex items-center justify-center"
+          >
+            {/* Book Strategy Call */}
+            <button  className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-sm transition-colors">
+              I want this guide
+            </button>
+          </a>
         </div>
       </div>
     </>
