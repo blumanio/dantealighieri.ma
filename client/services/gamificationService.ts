@@ -1,59 +1,65 @@
-// import User from '../lib/models/User';
-// import { actions, unlocks } from '../app/config/gamification';
-
-// class GamificationService {
-//     public static async handleAction(userId: string, actionType: keyof typeof actions) {
-//         const user = await User.findById(userId);
-//         if (!user) throw new Error('User not found');
-
-//         const action = actions[actionType];
-//         if (!action) return user;
-
-//         // 1. Award XP
-//         const oldXp = user.xp;
-//         user.xp += action.xp;
-
-//         // 2. Check for new unlocks
-//         this.checkForUnlocks(user, oldXp);  
-
-//         await user.save();
-//         return user;
-//     }
-
-//     private static checkForUnlocks(user: any, oldXp: number) {
-//         // Check for shortlist slot unlocks
-//         if (user.xp >= unlocks.SHORTLIST_SLOT_1.xp && oldXp < unlocks.SHORTLIST_SLOT_1.xp) {
-//             user.unlockedFeatures.extraShortlistSlots += unlocks.SHORTLIST_SLOT_1.slots;
-//         }
-//         if (user.xp >= unlocks.SHORTLIST_SLOT_2.xp && oldXp < unlocks.SHORTLIST_SLOT_2.xp) {
-//             user.unlockedFeatures.extraShortlistSlots += unlocks.SHORTLIST_SLOT_2.slots;
-//         }
-//         // ... add more unlock checks here (e.g., for tracking slots)
-//     }
-// }
-
-// export default GamificationService;
-
-import { ActionType } from "@/app/config/gamification";
+import { ActionType, actions } from '@/app/config/gamification';
+import { gamification } from '@/app/utils/analytics';
 
 /**
- * Triggers a gamification action on the backend.
- * This is a "fire-and-forget" function for simplicity.
- * @param action - The type of action to record (e.g., 'LIKE_POST').
+ * Triggers a gamification action on the backend and fires the matching GA4 event.
+ * Fire-and-forget — does not block UI.
  */
 export const triggerGamificationAction = (action: ActionType): void => {
-    fetch('/api/user/actions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action }),
-    })
-        .then(response => {
-            if (!response.ok) {
-                console.error(`Gamification action '${action}' failed.`);
-            }
-            // You can optionally handle the response here if needed
-        })
-        .catch(error => {
-            console.error(`Error triggering gamification action '${action}':`, error);
+  fetch('/api/user/actions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action }),
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        console.error(`Gamification action '${action}' failed.`);
+        return;
+      }
+
+      const data = await response.json();
+
+      // ── Fire GA4 xp_gained event ─────────────────────────────────────
+      if (data.xpGained && data.newXpTotal !== undefined) {
+        gamification.xpGained({
+          action,
+          xp_gained: data.xpGained,
+          new_xp_total: data.newXpTotal,
         });
+
+        // ── Detect level-up ──────────────────────────────────────────
+        const xpPerLevel = 1000;
+        const oldLevel = Math.floor((data.newXpTotal - data.xpGained) / xpPerLevel) + 1;
+        const newLevel = Math.floor(data.newXpTotal / xpPerLevel) + 1;
+
+        if (newLevel > oldLevel) {
+          gamification.levelUp({
+            old_level: oldLevel,
+            new_level: newLevel,
+            xp: data.newXpTotal,
+          });
+        }
+
+        // ── Detect feature unlocks ───────────────────────────────────
+        const unlockThresholds: Record<number, string> = {
+          500: 'SHORTLIST_SLOT_1',
+          750: 'TRACKING_SLOT_1',
+          1000: 'SHORTLIST_SLOT_2',
+        };
+
+        const prevXp = data.newXpTotal - data.xpGained;
+        for (const [threshold, featureName] of Object.entries(unlockThresholds)) {
+          const t = Number(threshold);
+          if (prevXp < t && data.newXpTotal >= t) {
+            gamification.featureUnlocked({
+              feature_name: featureName,
+              xp_at_unlock: data.newXpTotal,
+            });
+          }
+        }
+      }
+    })
+    .catch((error) => {
+      console.error(`Error triggering gamification action '${action}':`, error);
+    });
 };

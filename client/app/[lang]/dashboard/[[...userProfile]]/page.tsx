@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useEffect, useMemo, Suspense, lazy, memo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense, lazy, memo, useRef } from 'react';
 import { useUser } from '@clerk/nextjs';
+import { engagement, goals, setUserProperties, identifyUser } from '@/app/utils/analytics';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
     Loader2, Star, CheckCircle2, Lock, Target, Heart, FileText,
@@ -244,6 +245,7 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [activePhase, setActivePhase] = useState('About');
     const [profileData, setProfileData] = useState<any>(null);
+    const prevPhaseRef = useRef<string>('About');
     // const [isOnboardingComplete, setIsOnboardingComplete] = useState(false);
     // console.log('YocketProfileDashboard rendered', profileData, isOnboardingComplete);
     const phaseIds = useMemo(() => ['MyPlanner',
@@ -310,6 +312,19 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
                     const userInitials = user?.imageUrl || 'U';
                     const country = user?.publicMetadata?.countryOfOrigin || 'Unknown';
 
+                    // Identify user and set GA4 user properties
+                    if (user?.id) {
+                        identifyUser(user.id);
+                        setUserProperties({
+                            user_tier: (user.publicMetadata?.tier as any) || 'Viaggiatore',
+                            user_level: userStats.level,
+                            user_xp: userStats.xp,
+                            user_country: String(country),
+                            language: String(user.publicMetadata?.preferredLanguage || 'en'),
+                            onboarding_complete: true,
+                        });
+                    }
+
                     setProfileData({
                         userStats: {
                             ...userStats,
@@ -335,8 +350,8 @@ const YocketProfileDashboard = ({ isEditingEnabled = true }) => {
 
     // Function to handle phase changes and update URL
     const handlePhaseChange = (phaseId: string) => {
-        // Update state, which will be picked up by the other effect
-        // or directly set the hash for immediate URL update.
+        engagement.dashboardTabChanged({ from_tab: prevPhaseRef.current, to_tab: phaseId });
+        prevPhaseRef.current = phaseId;
         window.location.hash = phaseId;
     };
 

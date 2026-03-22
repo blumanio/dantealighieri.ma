@@ -4,6 +4,7 @@ import { useUser as useClerkUser } from '@clerk/nextjs';
 // Assuming IUser is imported from a shared types folder
 import { IUser }from '@/lib/models/User';
 import { calculateLimits } from '@/app/config/gamification'; // Share config with frontend
+import { goals } from '@/app/utils/analytics';
 
 interface IUserContext {
     user: IUser | null;
@@ -47,6 +48,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         const updatedUser = await res.json();
         setUser(updatedUser); // Update global state
+
+        // Goal: university shortlisted (major conversion goal)
+        goals.universityShortlisted({ university_name: '', university_id: universityId });
     };
 
     const value = { user, isLoading, limits, addToShortlist };

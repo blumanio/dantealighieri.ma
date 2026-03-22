@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 import RightSidebar from '@/components/RightSidebar';
 import { Locale } from '../i18n/types';
 import UrgencyBar from '@/components/UrgencyBar';
+import AnalyticsProvider from '@/components/AnalyticsProvider';
 
 export default async function LangSpecificLayout({
   children,
@@ -37,6 +38,7 @@ export default async function LangSpecificLayout({
                 and does not need to be in a flex container with the main content. */}
         {/* <RightSidebar /> */}
         {/* The page content is rendered here */}
+        <AnalyticsProvider />
         <main className='lg:ml-12'>{children}</main>
 
         <Footer />

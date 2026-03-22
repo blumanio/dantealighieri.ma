@@ -8,6 +8,7 @@ import {
     Archive, ExternalLink as LinkIcon, ChevronDown, ChevronUp
 } from 'lucide-react';
 import Link from 'next/link';
+import { goals } from '@/app/utils/analytics';
 
 // Interfaces (ensure these match your actual API response structure)
 interface UniversityDeadline {
@@ -128,6 +129,7 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
     };
 
     const handleSaveEditedItem = async (trackedItemId: string) => {
+        const prevItem = trackedItems.find(i => i._id === trackedItemId);
         try {
             const response = await fetch(`/api/tracked-items/${trackedItemId}`, {
                 method: 'PUT',
@@ -145,6 +147,16 @@ const PersonalizedDeadlineTracker: React.FC<PersonalizedDeadlineTrackerProps> = 
                 };
                 setTrackedItems(prev => prev.map(item => item._id === trackedItemId ? updatedItemWithDateObjs : item));
                 setEditingItemId(null);
+
+                // Goal: application status changed
+                const courseName = prevItem?.courseDetails?.nome || trackedItemId;
+                const oldStatus = prevItem?.userApplicationStatus || '';
+                goals.applicationStatusChanged({
+                    course_id: trackedItemId,
+                    course_name: courseName,
+                    old_status: oldStatus,
+                    new_status: currentStatus,
+                });
             } else {
                 throw new Error(result.message || 'Failed to update item');
             }

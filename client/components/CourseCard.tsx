@@ -6,6 +6,7 @@ import {
   School, ArrowRight, Lock
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { goals, discovery, funnel } from '@/app/utils/analytics';
 
 interface Course {
   _id: string;
@@ -121,6 +122,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
         throw new Error('Failed to increment view count');
       }
 
+      // Track course view in GA4
+      discovery.courseViewed({ course_id: course._id, course_name: course.nome, university: course.uni, area: course.area });
+      funnel.courseDetailViewed({ course_id: course._id, course_name: course.nome, university: course.uni });
+
       // Notify parent component
       if (onViewIncrement) {
         onViewIncrement(course._id);
@@ -208,6 +213,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
           setDisplayedFavoriteCount(prev => prev + 1);
           showFeedback(result.message || t('profile', 'favoritesAdded', { defaultValue: 'Added to favorites!' }));
 
+          // Goal: course favorited
+          discovery.courseFavorited({ course_id: course._id, course_name: course.nome, university: course.uni });
+          funnel.courseSaved({ course_id: course._id, course_name: course.nome });
+
           if (onFavoriteToggle) {
             onFavoriteToggle(course._id, true, result.data._id);
           }
@@ -293,6 +302,15 @@ const CourseCard: React.FC<CourseCardProps> = ({
           setTrackedItemId(result.data._id);
           setDisplayedTrackedCount(prev => prev + 1);
           showFeedback(result.message || t('profile', 'trackingStarted', { defaultValue: 'Deadlines now tracked!' }));
+
+          // Goal: course tracked (major conversion goal)
+          goals.courseTracked({
+            course_id: course._id,
+            course_name: course.nome,
+            university: course.uni,
+            status: 'Researching',
+          });
+          funnel.applicationStarted({ course_id: course._id, course_name: course.nome });
 
           if (onTrackToggle) {
             onTrackToggle(course._id, true, result.data._id);

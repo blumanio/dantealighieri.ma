@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Search, Filter, Loader, GraduationCap } from 'lucide-react';
 import _ from 'lodash';
 import PaginatedCourses from './PaginatedCourses';
 import { useLanguage } from '@/context/LanguageContext'
 import { academicAreas, accessTypes, courseLanguages, degreeTypes } from '../constants/constants';
 import AnimatedLogos from './AnimatedLogos';
+import { discovery, funnel } from '@/app/utils/analytics';
 
 interface Course {
   _id: string;
@@ -42,10 +43,28 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const hasStartedSearch = useRef(false);
 
   useEffect(() => {
     setFormData(prev => ({ ...prev }));
   }, [language]);
+
+  // Debounced search analytics — fires 800 ms after user stops typing/filtering
+  const trackSearch = useCallback(
+    _.debounce((term: string, results: number, filters: typeof formData) => {
+      const hasAnyFilter = term || filters.degreeType || filters.accessType || filters.courseLanguage || filters.academicArea;
+      if (!hasAnyFilter) return;
+      discovery.searchPerformed({
+        search_term: term,
+        results_count: results,
+        degree_type: filters.degreeType || undefined,
+        academic_area: filters.academicArea || undefined,
+        course_language: filters.courseLanguage || undefined,
+        access_type: filters.accessType || undefined,
+      });
+    }, 800),
+    []
+  );
   const API_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'; // Fallback to localhost for local dev
   const fetchAllCourses = async () => {
     const targetUrl = `${API_BASE_URL}/api/courses`;
@@ -68,6 +87,12 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
     fetchAllCourses();
   }, []);
 
+  // Fire search analytics when term/filters/results change (after courses loaded)
+  useEffect(() => {
+    if (allCourses.length === 0) return;
+    trackSearch(searchTerm, filteredCourses.length, formData);
+  }, [searchTerm, formData, filteredCourses.length, allCourses.length, trackSearch]);
+
   const filteredCourses = useMemo(() => {
     return allCourses.filter(course => {
       const matchesFilters = (
@@ -87,10 +112,23 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
   }, [allCourses, formData, searchTerm]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    const { name, value } = e.target;
+    if (!hasStartedSearch.current) {
+      hasStartedSearch.current = true;
+      funnel.searchStarted();
+    }
+    if (value) {
+      discovery.filterApplied({ filter_name: name, filter_value: value });
+    }
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!hasStartedSearch.current) {
+      hasStartedSearch.current = true;
+      funnel.searchStarted();
+    }
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -161,7 +199,7 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
             <input
               type="text"
               placeholder={t('programSearch', 'searchPlaceholder')}
-              onChange={e => setSearchTerm(e.target.value)}
+              onChange={handleSearchInput}
               className={`w-full rounded-full px-12 py-3 bg-neutral-50 border border-neutral-200
                        text-textPrimary placeholder-textSecondary
                        focus:ring-2 focus:ring-primary/20 focus:border-primary/30
