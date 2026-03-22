@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
       tag,
     });
 
+    console.log('[LEADS API] Lead saved:', lead._id, 'tag:', tag);
+
     // Send emails in parallel — failures must not block the API response
     const leadAlert = { name: name ?? '', email, whatsapp, country, tag };
 
@@ -53,7 +55,9 @@ export async function POST(req: NextRequest) {
         ? sendColdLeadEmail(email, name ?? '')
         : sendHotLeadEmail(email, name ?? ''),
       sendOwnerAlert(leadAlert),
-    ]).catch((err) => {
+    ]).then((emailResults) => {
+      console.log('[LEADS API] Email results:', JSON.stringify(emailResults));
+    }).catch((err) => {
       console.error('[leads/route] background email error:', err);
     });
 

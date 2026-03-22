@@ -21,6 +21,7 @@ export async function sendColdLeadEmail(
   to: string,
   name: string,
 ): Promise<EmailResult> {
+  console.log('[EMAIL] Attempting to send to:', to, 'key present:', !!process.env.RESEND_API_KEY);
   const resend = getClient();
   if (!resend) return { success: false, error: 'RESEND_API_KEY not set' };
 
@@ -67,6 +68,7 @@ export async function sendColdLeadEmail(
     });
     return { success: true };
   } catch (err) {
+    console.log('[EMAIL] Error:', JSON.stringify(err));
     const message = err instanceof Error ? err.message : String(err);
     console.error('[email] sendColdLeadEmail failed:', message);
     return { success: false, error: message };
@@ -79,6 +81,7 @@ export async function sendHotLeadEmail(
   to: string,
   name: string,
 ): Promise<EmailResult> {
+  console.log('[EMAIL] Attempting to send to:', to, 'key present:', !!process.env.RESEND_API_KEY);
   const resend = getClient();
   if (!resend) return { success: false, error: 'RESEND_API_KEY not set' };
 
@@ -119,6 +122,7 @@ export async function sendHotLeadEmail(
     });
     return { success: true };
   } catch (err) {
+    console.log('[EMAIL] Error:', JSON.stringify(err));
     const message = err instanceof Error ? err.message : String(err);
     console.error('[email] sendHotLeadEmail failed:', message);
     return { success: false, error: message };
@@ -136,10 +140,10 @@ interface LeadAlert {
 }
 
 export async function sendOwnerAlert(lead: LeadAlert): Promise<EmailResult> {
+  const ownerEmail = process.env.OWNER_EMAIL ?? 'med@studentitaly.it';
+  console.log('[EMAIL] Attempting to send to:', ownerEmail, 'key present:', !!process.env.RESEND_API_KEY);
   const resend = getClient();
   if (!resend) return { success: false, error: 'RESEND_API_KEY not set' };
-
-  const ownerEmail = process.env.OWNER_EMAIL ?? 'med@studentitaly.it';
 
   try {
     await resend.emails.send({
@@ -173,6 +177,7 @@ export async function sendOwnerAlert(lead: LeadAlert): Promise<EmailResult> {
     });
     return { success: true };
   } catch (err) {
+    console.log('[EMAIL] Error:', JSON.stringify(err));
     const message = err instanceof Error ? err.message : String(err);
     console.error('[email] sendOwnerAlert failed:', message);
     return { success: false, error: message };
