@@ -55,7 +55,7 @@ const ALL_POST_CATEGORIES: PostCategory[] = [
 const CreateAdminPostPage = () => { // Renamed component for clarity
     const { isSignedIn, user } = useUser();
     const router = useRouter();
-    const { t, language } = useLanguage();
+    const { language } = useLanguage();
 
     const [postFormData, setPostFormData] = useState<PostFormData>({
         userFullName: '',
@@ -135,18 +135,18 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
             return;
         }
         if (!postFormData.content) {
-            setPostError(t('adminPost.errorContent', 'Content is required.'));
+            setPostError('Content is required.');
             setIsLoadingPost(false);
             return;
         }
         if (!postFormData.userFullName) {
-            setPostError(t('adminPost.errorUserFullName', 'Original User Full Name is required.'));
+            setPostError('Original User Full Name is required.');
             setIsLoadingPost(false);
             return;
         }
         // UserId is required if post is claimable
         if (postFormData.isClaimable && !postFormData.userId) {
-            setPostError(t('adminPost.errorUserIdClaimable', 'Original User ID is required if post is claimable.'));
+            setPostError('Original User ID is required if post is claimable.');
             setIsLoadingPost(false);
             return;
         }
@@ -173,7 +173,7 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
             // For the preview, we'll simulate a successful API call.
             setTimeout(() => {
                 const mockResult = { _id: `post_${new Date().getTime()}` };
-                setPostSuccessMessage(t('adminPost.successCreate', 'Post created successfully! Post ID: ') + mockResult._id);
+                setPostSuccessMessage('Post created successfully! Post ID: ' + mockResult._id);
                 setPostFormData(prev => ({ // Reset all fields except for convenience fields like community
                     userFullName: '', userAvatarUrl: '', userId: '',
                     content: '', category: 'discussion',
@@ -200,22 +200,22 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
 
         // Validation logic updated for new field names and added userId
         if (!commentFormData.targetPostId) {
-            setCommentError(t('adminComment.errorPostId', 'Target Post ID is required.'));
+            setCommentError('Target Post ID is required.');
             setIsLoadingComment(false);
             return;
         }
         if (!commentFormData.content) {
-            setCommentError(t('adminComment.errorCommentContent', 'Comment content is required.'));
+            setCommentError('Comment content is required.');
             setIsLoadingComment(false);
             return;
         }
         if (!commentFormData.userFullName) {
-            setCommentError(t('adminComment.errorCommenterFullName', 'Commenter Full Name is required.'));
+            setCommentError('Commenter Full Name is required.');
             setIsLoadingComment(false);
             return;
         }
         if (!commentFormData.userId) {
-            setCommentError(t('adminComment.errorCommenterId', 'Commenter User ID is required.'));
+            setCommentError('Commenter User ID is required.');
             setIsLoadingComment(false);
             return;
         }
@@ -234,7 +234,7 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
             // For the preview, we'll simulate a successful API call.
             setTimeout(() => {
                 const mockResult = { _id: `comment_${new Date().getTime()}` };
-                setCommentSuccessMessage(t('adminComment.successCreate', 'Comment added successfully! Comment ID: ') + mockResult._id);
+                setCommentSuccessMessage('Comment added successfully! Comment ID: ' + mockResult._id);
                 setCommentFormData({
                     targetPostId: commentFormData.targetPostId, // Keep target ID for convenience
                     userFullName: '', userAvatarUrl: '', content: '', userId: ''
@@ -257,39 +257,39 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
 
     // TODO: Add robust admin role check (e.g., based on user.publicMetadata.role)
     // if (!user.publicMetadata?.role === 'admin') {
-    //    return <div className="container mx-auto p-4 text-center text-red-500">Access Denied</div>;
+    //    return <div className="container mx-auto p-4 text-center text-red-500">Access Denied</div>;
     // }
 
     return (
         <div className="container mx-auto p-4 md:p-8">
             {/* Create Post Section */}
             <section className="mb-12">
-                <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-gray-800">{t('adminPost.title', 'Create Community Post (Admin)')}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-gray-800">Create Community Post (Admin)</h1>
                 <form onSubmit={handlePostSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-xl shadow-xl">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Original User Details */}
                         <div>
-                            <label htmlFor="userFullName" className={labelStyle}>{t('adminPost.userFullNameLabel', 'Original User Full Name')}*</label>
+                            <label htmlFor="userFullName" className={labelStyle}>Original User Full Name*</label>
                             <input type="text" name="userFullName" id="userFullName" value={postFormData.userFullName} onChange={handlePostFormChange} required className={inputStyle} />
                         </div>
                         <div>
-                            <label htmlFor="userAvatarUrl" className={labelStyle}>{t('adminPost.userAvatarUrlLabel', "Original User Avatar URL (Optional)")}</label>
+                            <label htmlFor="userAvatarUrl" className={labelStyle}>Original User Avatar URL (Optional)</label>
                             <input type="url" name="userAvatarUrl" id="userAvatarUrl" value={postFormData.userAvatarUrl} onChange={handlePostFormChange} className={inputStyle} placeholder="https://..." />
                         </div>
                         <div>
-                            <label htmlFor="userId" className={labelStyle}>{t('adminPost.userIdLabel', 'Original User External ID (e.g., Facebook ID)')}</label>
+                            <label htmlFor="userId" className={labelStyle}>Original User External ID (e.g., Facebook ID)</label>
                             <input type="text" name="userId" id="userId" value={postFormData.userId} onChange={handlePostFormChange} className={inputStyle} aria-describedby="userIdHelp" />
-                            <p id="userIdHelp" className="mt-1 text-xs text-gray-500">{t('adminPost.userIdHelp', 'Required if post is claimable (e.g., Facebook ID).')}</p>
+                            <p id="userIdHelp" className="mt-1 text-xs text-gray-500">Required if post is claimable (e.g., Facebook ID).</p>
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="content" className={labelStyle}>{t('adminPost.contentLabel', 'Post Content')}*</label>
+                        <label htmlFor="content" className={labelStyle}>Post Content*</label>
                         <textarea name="content" id="content" rows={8} value={postFormData.content} onChange={handlePostFormChange} required className={inputStyle}></textarea>
                     </div>
                     {/* Community Details */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="communityType" className={labelStyle}>{t('adminPost.communityTypeLabel', 'Community Type')}*</label>
+                            <label htmlFor="communityType" className={labelStyle}>Community Type*</label>
                             <select name="communityType" id="communityType" value={postFormData.communityType} onChange={handlePostFormChange} required className={inputStyle}>
                                 <option value="University">University</option>
                                 <option value="Course">Course</option>
@@ -299,24 +299,24 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="communityId" className={labelStyle}>{t('adminPost.communityIdLabel', 'Community ID')}*</label>
+                            <label htmlFor="communityId" className={labelStyle}>Community ID*</label>
                             <input type="text" name="communityId" id="communityId" value={postFormData.communityId} onChange={handlePostFormChange} required className={inputStyle} placeholder="e.g., sapienza-university-of-rome or a country code" />
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="communityName" className={labelStyle}>{t('adminPost.communityNameLabel', 'Community Name')}*</label>
+                            <label htmlFor="communityName" className={labelStyle}>Community Name*</label>
                             <input type="text" name="communityName" id="communityName" value={postFormData.communityName} onChange={handlePostFormChange} required className={inputStyle} placeholder="e.g., Sapienza University of Rome" />
                         </div>
                         <div>
-                            <label htmlFor="communitySlug" className={labelStyle}>{t('adminPost.communitySlugLabel', 'Community Slug')}*</label>
+                            <label htmlFor="communitySlug" className={labelStyle}>Community Slug*</label>
                             <input type="text" name="communitySlug" id="communitySlug" value={postFormData.communitySlug} onChange={handlePostFormChange} required className={inputStyle} placeholder="e.g., sapienza-university-of-rome" />
                         </div>
                     </div>
                     {/* Post Category and Tags */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="category" className={labelStyle}>{t('adminPost.categoryLabel', 'Post Category')}*</label>
+                            <label htmlFor="category" className={labelStyle}>Post Category*</label>
                             <select name="category" id="category" value={postFormData.category} onChange={handlePostFormChange} required className={inputStyle}>
                                 {ALL_POST_CATEGORIES.map(cat => (
                                     <option key={cat} value={cat}>{cat.replace(/_/g, ' ')}</option>
@@ -324,12 +324,12 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="originalUserCountry" className={labelStyle}>{t('adminPost.userCountryLabel', 'Original User Country (Optional)')}</label>
+                            <label htmlFor="originalUserCountry" className={labelStyle}>Original User Country (Optional)</label>
                             <input type="text" name="originalUserCountry" id="originalUserCountry" value={postFormData.originalUserCountry} onChange={handlePostFormChange} className={inputStyle} />
                         </div>
                     </div>
                     <div>
-                        <label className={labelStyle}>{t('adminPost.tagsLabel', 'Tags (select relevant topics)')}</label>
+                        <label className={labelStyle}>Tags (select relevant topics)</label>
                         <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-2 max-h-60 overflow-y-auto p-2 border rounded-md">
                             {PREDEFINED_TAGS.map(tag => (
                                 <div key={tag} className="flex items-center">
@@ -342,13 +342,13 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
                     {/* Claimable checkbox */}
                     <div className="flex items-center pt-6">
                         <input type="checkbox" name="isClaimable" id="isClaimable" checked={postFormData.isClaimable} onChange={handlePostFormChange} className="h-5 w-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
-                        <label htmlFor="isClaimable" className="ml-2 block text-sm font-medium text-gray-800">{t('adminPost.claimableLabel', 'User can claim this post (Requires Original User External ID)')}</label>
+                        <label htmlFor="isClaimable" className="ml-2 block text-sm font-medium text-gray-800">User can claim this post (Requires Original User External ID)</label>
                     </div>
                     <div className="pt-4">
                         {postError && <p className="text-red-600 text-sm mb-3 bg-red-50 p-3 rounded-md">{postError}</p>}
                         {postSuccessMessage && <p className="text-green-600 text-sm mb-3 bg-green-50 p-3 rounded-md">{postSuccessMessage}</p>}
                         <button type="submit" disabled={isLoadingPost} className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
-                            {isLoadingPost ? <Loader2 className="h-5 w-5 animate-spin" /> : t('adminPost.submitButton', 'Create Post')}
+                            {isLoadingPost ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Create Post'}
                         </button>
                     </div>
                 </form>
@@ -356,35 +356,35 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
 
             {/* Add Comment Section */}
             <section className="mt-16">
-                <h2 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-gray-800 border-t pt-8">{t('adminComment.title', 'Add Comment to Existing Post')}</h2>
+                <h2 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-gray-800 border-t pt-8">Add Comment to Existing Post</h2>
                 <form onSubmit={handleCommentSubmit} className="space-y-6 bg-white p-6 md:p-8 rounded-xl shadow-xl">
                     <div>
-                        <label htmlFor="targetPostId" className={labelStyle}>{t('adminComment.targetPostIdLabel', 'Target Post ID')}*</label>
+                        <label htmlFor="targetPostId" className={labelStyle}>Target Post ID*</label>
                         <input type="text" name="targetPostId" id="targetPostId" value={commentFormData.targetPostId} onChange={handleCommentFormChange} required className={inputStyle} placeholder="Enter MongoDB _id of the post" />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label htmlFor="commenter-userFullName" className={labelStyle}>{t('adminComment.commenterFullNameLabel', 'Commenter Full Name')}*</label>
+                            <label htmlFor="commenter-userFullName" className={labelStyle}>Commenter Full Name*</label>
                             <input type="text" name="userFullName" id="commenter-userFullName" value={commentFormData.userFullName} onChange={handleCommentFormChange} required className={inputStyle} />
                         </div>
                         <div>
-                            <label htmlFor="commenter-userAvatarUrl" className={labelStyle}>{t('adminComment.commenterAvatarUrlLabel', "Commenter Avatar URL (Optional)")}</label>
+                            <label htmlFor="commenter-userAvatarUrl" className={labelStyle}>Commenter Avatar URL (Optional)</label>
                             <input type="url" name="userAvatarUrl" id="commenter-userAvatarUrl" value={commentFormData.userAvatarUrl} onChange={handleCommentFormChange} className={inputStyle} placeholder="https://..." />
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="commenter-userId" className={labelStyle}>{t('adminComment.commenterUserIdLabel', 'Commenter External ID')}*</label>
+                        <label htmlFor="commenter-userId" className={labelStyle}>Commenter External ID*</label>
                         <input type="text" name="userId" id="commenter-userId" value={commentFormData.userId} onChange={handleCommentFormChange} required className={inputStyle} placeholder="Enter the commenter's external ID" />
                     </div>
                     <div>
-                        <label htmlFor="comment-content" className={labelStyle}>{t('adminComment.commentContentLabel', 'Comment Content')}*</label>
+                        <label htmlFor="comment-content" className={labelStyle}>Comment Content*</label>
                         <textarea name="content" id="comment-content" rows={5} value={commentFormData.content} onChange={handleCommentFormChange} required className={inputStyle}></textarea>
                     </div>
                     <div className="pt-4">
                         {commentError && <p className="text-red-600 text-sm mb-3 bg-red-50 p-3 rounded-md">{commentError}</p>}
                         {commentSuccessMessage && <p className="text-green-600 text-sm mb-3 bg-green-50 p-3 rounded-md">{commentSuccessMessage}</p>}
                         <button type="submit" disabled={isLoadingComment} className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50">
-                            {isLoadingComment ? <Loader2 className="h-5 w-5 animate-spin" /> : t('adminComment.submitButton', 'Add Comment')}
+                            {isLoadingComment ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Add Comment'}
                         </button>
                     </div>
                 </form>
