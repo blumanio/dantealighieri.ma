@@ -297,6 +297,7 @@ export default function LandingPage({ params }: LandingPageProps) {
   const [email, setEmail] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
+  const [leadTag, setLeadTag] = useState<'COLD' | 'WARM' | 'HOT'>('WARM');
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [deadlineCountdown, setDeadlineCountdown] = useState({ days: 0, hours: 0 });
 
@@ -314,9 +315,19 @@ export default function LandingPage({ params }: LandingPageProps) {
     e.preventDefault();
     if (!email || emailLoading) return;
     setEmailLoading(true);
-    // TODO: Connect to your email provider (Brevo/MailerLite)
-    // await fetch('/api/subscribe', { method: 'POST', body: JSON.stringify({ email }) });
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setLeadTag(data.tag ?? 'WARM');
+      }
+    } catch {
+      // silently fall through — still show success
+    }
     setEmailSubmitted(true);
     setEmailLoading(false);
   };
@@ -689,13 +700,39 @@ export default function LandingPage({ params }: LandingPageProps) {
               <h3 className="text-xl font-bold text-white mb-2">C'est envoyé ! 🎉</h3>
               <p className="text-emerald-100">Vérifiez votre boîte mail (et les spams). La checklist arrive dans 2 minutes.</p>
               <div className="mt-6 pt-6 border-t border-white/20">
-                <p className="text-emerald-200 text-sm mb-3">En attendant, découvrez le guide complet :</p>
-                <a
-                  href="#guide-section"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
-                >
-                  Voir le guide — 9€ <ArrowRight className="h-4 w-4" />
-                </a>
+                {leadTag === 'COLD' && (
+                  <>
+                    <p className="text-emerald-200 text-sm mb-3">Commencez par explorer nos ressources gratuites :</p>
+                    <a
+                      href={`/fr/blog`}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
+                    >
+                      Lire le blog gratuit <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </>
+                )}
+                {leadTag === 'WARM' && (
+                  <>
+                    <p className="text-emerald-200 text-sm mb-3">En attendant, découvrez le guide complet :</p>
+                    <a
+                      href="#guide-section"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
+                    >
+                      Voir le guide — 9€ <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </>
+                )}
+                {leadTag === 'HOT' && (
+                  <>
+                    <p className="text-emerald-200 text-sm mb-3">Vous semblez prêt — réservez une consultation personnalisée :</p>
+                    <a
+                      href={`/fr/consultation`}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
+                    >
+                      Réserver une consultation <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </>
+                )}
               </div>
             </div>
           ) : (
