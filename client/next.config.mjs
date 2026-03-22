@@ -43,6 +43,8 @@ const nextConfig = {
     ];
   },
 
+  serverExternalPackages: ['resend'],
+
   images: {
     remotePatterns: [
       {
