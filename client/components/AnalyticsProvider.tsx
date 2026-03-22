@@ -43,7 +43,7 @@ export default function AnalyticsProvider() {
   // ── Page view on every route change ───────────────────────────────────────
   useEffect(() => {
     if (pathname === prevPathname.current) return;
-    prevPathname.current = pathname;
+    if (pathname) prevPathname.current = pathname;
 
     if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
 
