@@ -93,7 +93,7 @@ const ClerkPhoneNumberSchema = new Schema<IClerkPhoneNumber>({
 }, { _id: false });
 
 const ClerkUserRawSchema = new Schema<IClerkUserRaw>({
-    clerkId: { type: String, required: true, unique: true, index: true },
+    clerkId: { type: String, required: true, unique: true },
     firstName: { type: String, default: null },
     lastName: { type: String, default: null },
     username: { type: String, default: null },

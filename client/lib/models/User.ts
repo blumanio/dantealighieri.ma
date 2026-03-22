@@ -86,13 +86,6 @@ const UserSchema: Schema = new Schema({
 
 }, {
     timestamps: true,
-    // Add indexes for better performance
-    indexes: [
-        { clerkId: 1 },
-        { email: 1 },
-        { tier: 1 },
-        { lastActiveDate: -1 }
-    ]
 });
 
 // Add methods for common operations

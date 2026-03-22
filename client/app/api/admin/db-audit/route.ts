@@ -20,7 +20,7 @@ const EXPECTED_KEYS: Record<string, string[]> = {
   courses: ['nome', 'link', 'tipo', 'uni', 'uniSlug', 'accesso', 'area', 'lingua', 'comune', 'deadlines', 'academicYear', 'intake', 'viewCount', 'favoriteCount', 'trackedCount', 'createdAt', 'updatedAt'],
   favorites: ['userId', 'courseId', 'courseUni', 'courseNome', 'courseLink', 'courseComune', 'createdAt', 'updatedAt'],
   generatedposts: ['slug', 'lang', 'content', 'frontmatter', 'createdAt', 'updatedAt'],
-  leads: ['name', 'email', 'whatsapp', 'country', 'quiz_answers', 'tag', 'created_at', 'contacted_at', 'converted'],
+  leads: ['name', 'email', 'whatsapp', 'country', 'quiz_answers', 'tag', 'createdAt', 'updatedAt', 'contacted_at', 'converted'],
   memberships: ['userId', 'communityId', 'joinedAt'],
   messages: ['conversationId', 'senderId', 'senderFullName', 'senderAvatarUrl', 'senderRole', 'content', 'readBy', 'createdAt'],
   posts: ['authorId', 'communityId', 'communityType', 'communityName', 'communitySlug', 'content', 'category', 'originalAuthorFullName', 'originalAuthorAvatarUrl', 'originalAuthorExternalId', 'isClaimable', 'originalUserCountry', 'commentsCount', 'likesCount', 'bookmarksCount', 'likedBy', 'bookmarkedBy', 'createdAt', 'updatedAt'],

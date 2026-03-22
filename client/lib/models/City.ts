@@ -39,9 +39,9 @@ export interface ICity extends Document {
 
 const CitySchema: Schema = new Schema(
   {
-    id: { type: String, required: true, unique: true, index: true },
+    id: { type: String, required: true, unique: true },
     cityName: { type: String, required: true, unique: true },
-    slug: { type: String, required: true, unique: true, index: true },
+    slug: { type: String, required: true, unique: true },
     region: { type: String, required: true },
     country: { type: String, required: true },
     latitude: { type: Number, required: true },

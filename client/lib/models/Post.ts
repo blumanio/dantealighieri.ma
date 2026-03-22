@@ -44,7 +44,7 @@ const PostSchema: Schema = new Schema(
     communityName: { type: String, required: true },
     communitySlug: { type: String, required: true },
 
-    content: { type: String, required: true, text: true },
+    content: { type: String, required: true },
     category: { type: String, required: true, enum: ['discussion', 'housing', 'scholarships', 'event', 'other', 'academic', 'career', 'visa_process'] },
 
     // Admin-specific fields for seeded content

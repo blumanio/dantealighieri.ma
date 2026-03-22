@@ -9,7 +9,8 @@ export interface ILead extends Document {
   country?: string;
   quiz_answers?: Record<string, string>;
   tag: LeadTag;
-  created_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
   contacted_at: Date | null;
   converted: boolean;
 }
@@ -21,10 +22,9 @@ const LeadSchema = new Schema<ILead>({
   country: { type: String, trim: true },
   quiz_answers: { type: Schema.Types.Mixed },
   tag: { type: String, enum: ['COLD', 'WARM', 'HOT'], default: 'WARM' },
-  created_at: { type: Date, default: Date.now },
   contacted_at: { type: Date, default: null },
   converted: { type: Boolean, default: false },
-});
+}, { timestamps: true });
 
 const Lead: Model<ILead> =
   mongoose.models.Lead || mongoose.model<ILead>('Lead', LeadSchema);
