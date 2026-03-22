@@ -5,6 +5,7 @@ import {
   sendColdLeadEmail,
   sendHotLeadEmail,
   sendOwnerAlert,
+  sendStudentConfirmation,
 } from '@/lib/email';
 
 function computeTag(answers?: Record<string, string>): LeadTag {
@@ -48,13 +49,22 @@ export async function POST(req: NextRequest) {
     console.log('[LEADS API] Lead saved:', lead._id, 'tag:', tag);
 
     // Send emails in parallel — failures must not block the API response
-    const leadAlert = { name: name ?? '', email, whatsapp, country, tag };
+    const leadAlert = {
+      name: name ?? '',
+      email,
+      whatsapp,
+      country,
+      tag,
+      quiz_answers: answers,
+      createdAt: lead.createdAt,
+    };
 
     Promise.all([
       tag === 'COLD'
         ? sendColdLeadEmail(email, name ?? '')
         : sendHotLeadEmail(email, name ?? ''),
       sendOwnerAlert(leadAlert),
+      sendStudentConfirmation(email, name ?? '', tag),
     ]).then((emailResults) => {
       console.log('[LEADS API] Email results:', JSON.stringify(emailResults));
     }).catch((err) => {
