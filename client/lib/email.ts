@@ -145,7 +145,7 @@ interface LeadAlert {
   whatsapp?: string;
   country?: string;
   tag: string;
-  quiz_answers?: Record<string, string>;
+  quiz_answers?: Record<string, string | string[]>;
   createdAt?: Date;
 }
 
@@ -166,15 +166,26 @@ export async function sendOwnerAlert(lead: LeadAlert): Promise<EmailResult> {
         hour: '2-digit', minute: '2-digit', hour12: false,
       });
 
+  const waNumber = lead.whatsapp ? lead.whatsapp.replace(/\s+/g, '') : '';
+  const waLink = waNumber
+    ? `<a href="https://wa.me/${waNumber.replace(/^\+/, '')}" style="color:#16a34a;font-weight:bold">${lead.whatsapp}</a>`
+    : 'Not provided';
+
+  const helpNeeded = qa.helpNeeded;
+  const helpNeededStr = Array.isArray(helpNeeded)
+    ? helpNeeded.join(', ')
+    : (helpNeeded as string | undefined) ?? '—';
+
   const rows: [string, string][] = [
     ['Name', lead.name || '—'],
     ['Email', lead.email],
-    ['WhatsApp', lead.whatsapp || 'Not provided'],
+    ['WhatsApp', waLink],
     ['Country', lead.country || '—'],
     ['Tag', `<strong style="color:#ea580c">${lead.tag}</strong>`],
-    ['Budget', qa.budget || '—'],
-    ['Timeline', qa.timeline || '—'],
-    ['Challenge', qa.challenge || '—'],
+    ['Timeline', (qa.timeline as string | undefined) || '—'],
+    ['Challenge', (qa.challenge as string | undefined) || '—'],
+    ['Budget', (qa.budget as string | undefined) || '—'],
+    ['Help needed', helpNeededStr || '—'],
     ['Date', dateStr],
   ];
 

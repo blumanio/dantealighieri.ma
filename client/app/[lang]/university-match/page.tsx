@@ -294,11 +294,16 @@ export default function LandingPage({ params }: LandingPageProps) {
   const copy = COPY.fr; // French-first for North African audience
   const textDir = lang === 'ar' ? 'rtl' : 'ltr';
 
-  const [quizStep, setQuizStep] = useState<0 | 1 | 2 | 3>(0);
+  const [quizStep, setQuizStep] = useState<0 | 1 | 2 | 3 | 4>(0);
   const [timeline, setTimeline] = useState('');
   const [challenge, setChallenge] = useState('');
   const [budget, setBudget] = useState('');
+  const [helpNeeded, setHelpNeeded] = useState<string[]>([]);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [country, setCountry] = useState('');
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
   const [leadTag, setLeadTag] = useState<'COLD' | 'WARM' | 'HOT'>('WARM');
@@ -317,13 +322,32 @@ export default function LandingPage({ params }: LandingPageProps) {
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || emailLoading) return;
+    if (emailLoading) return;
+
+    // Validate required fields
+    const errors: Record<string, string> = {};
+    if (!name.trim()) errors.name = 'This field is required';
+    if (!email.trim()) errors.email = 'This field is required';
+    if (!whatsapp.trim()) errors.whatsapp = 'This field is required';
+    if (!country) errors.country = 'This field is required';
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    setFormErrors({});
+
     setEmailLoading(true);
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, answers: { timeline, challenge, budget } }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          whatsapp: whatsapp.trim(),
+          country,
+          answers: { timeline, challenge, budget, helpNeeded },
+        }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -334,6 +358,12 @@ export default function LandingPage({ params }: LandingPageProps) {
     }
     setEmailSubmitted(true);
     setEmailLoading(false);
+  };
+
+  const toggleHelp = (option: string) => {
+    setHelpNeeded((prev) =>
+      prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option],
+    );
   };
 
   return (
@@ -753,9 +783,9 @@ export default function LandingPage({ params }: LandingPageProps) {
             </div>
           ) : (
             <div className="max-w-lg mx-auto">
-              {/* Step progress dots */}
+              {/* Step progress dots — 5 steps (0–4) */}
               <div className="flex items-center justify-center gap-2 mb-8">
-                {[0, 1, 2, 3].map((s) => (
+                {[0, 1, 2, 3, 4].map((s) => (
                   <div
                     key={s}
                     className={`h-2 rounded-full transition-all duration-300 ${
@@ -835,24 +865,112 @@ export default function LandingPage({ params }: LandingPageProps) {
                 </div>
               )}
 
-              {/* STEP D — Email */}
+              {/* STEP D — What do you need help with? (multi-select) */}
               {quizStep === 3 && (
                 <div>
-                  <p className="text-white font-bold text-xl mb-2">Presque là — où envoyer la checklist ?</p>
+                  <p className="text-white font-bold text-xl mb-2">What do you need help with?</p>
+                  <p className="text-emerald-200 text-sm mb-6">Select all that apply.</p>
+                  <div className="space-y-3 mb-6">
+                    {[
+                      'Choosing the right university and program',
+                      'Understanding the application process (Universitaly)',
+                      'Scholarship applications (DSU, MAEICI)',
+                      'Documents preparation and visa',
+                      'Statement of Purpose (SOP) writing',
+                      'Everything — full hand-holding',
+                    ].map((option) => {
+                      const checked = helpNeeded.includes(option);
+                      return (
+                        <button
+                          key={option}
+                          type="button"
+                          onClick={() => toggleHelp(option)}
+                          className={`w-full text-left px-5 py-4 border rounded-xl transition-all duration-200 flex items-center gap-3 ${
+                            checked
+                              ? 'bg-white/20 border-white/60 text-white'
+                              : 'bg-white/10 border-white/20 hover:bg-white/15 hover:border-white/40 text-white'
+                          }`}
+                        >
+                          <span className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center ${
+                            checked ? 'bg-emerald-400 border-emerald-400' : 'border-white/50'
+                          }`}>
+                            {checked && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+                          </span>
+                          <span className="font-medium">{option}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setQuizStep(4)}
+                    disabled={helpNeeded.length === 0}
+                    className="w-full px-6 py-4 bg-white text-slate-900 font-bold rounded-xl transition-colors hover:bg-emerald-100 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    Continue →
+                  </button>
+                  <button onClick={() => setQuizStep(2)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
+                </div>
+              )}
+
+              {/* STEP E — Contact info (all required fields) */}
+              {quizStep === 4 && (
+                <div>
+                  <p className="text-white font-bold text-xl mb-2">Almost there — where should we send your matches?</p>
                   <p className="text-emerald-200 text-sm mb-6">{copy.emailCapture.subtitle}</p>
-                  <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 mb-4">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={copy.emailCapture.placeholder}
-                      required
-                      className="flex-1 px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                    />
+                  <form onSubmit={handleEmailSubmit} className="flex flex-col gap-3 mb-4">
+                    {/* Full Name */}
+                    <div>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => { setName(e.target.value); setFormErrors((err) => ({ ...err, name: '' })); }}
+                        placeholder="Full Name"
+                        className={`w-full px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 ${formErrors.name ? 'ring-2 ring-red-400' : ''}`}
+                      />
+                      {formErrors.name && <p className="text-red-300 text-xs mt-1 ml-1">{formErrors.name}</p>}
+                    </div>
+                    {/* Email */}
+                    <div>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); setFormErrors((err) => ({ ...err, email: '' })); }}
+                        placeholder="Email address"
+                        className={`w-full px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 ${formErrors.email ? 'ring-2 ring-red-400' : ''}`}
+                      />
+                      {formErrors.email && <p className="text-red-300 text-xs mt-1 ml-1">{formErrors.email}</p>}
+                    </div>
+                    {/* WhatsApp */}
+                    <div>
+                      <input
+                        type="tel"
+                        value={whatsapp}
+                        onChange={(e) => { setWhatsapp(e.target.value); setFormErrors((err) => ({ ...err, whatsapp: '' })); }}
+                        placeholder="+212 6XX XXX XXX"
+                        className={`w-full px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300 ${formErrors.whatsapp ? 'ring-2 ring-red-400' : ''}`}
+                      />
+                      {formErrors.whatsapp && <p className="text-red-300 text-xs mt-1 ml-1">{formErrors.whatsapp}</p>}
+                    </div>
+                    {/* Country */}
+                    <div>
+                      <select
+                        value={country}
+                        onChange={(e) => { setCountry(e.target.value); setFormErrors((err) => ({ ...err, country: '' })); }}
+                        className={`w-full px-5 py-4 rounded-xl text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300 ${formErrors.country ? 'ring-2 ring-red-400' : ''} ${!country ? 'text-slate-400' : 'text-slate-800'}`}
+                      >
+                        <option value="" disabled>Country</option>
+                        {['Morocco', 'Algeria', 'Tunisia', 'Egypt', 'Pakistan', 'India', 'Bangladesh', 'Other'].map((c) => (
+                          <option key={c} value={c}>{c}</option>
+                        ))}
+                      </select>
+                      {formErrors.country && <p className="text-red-300 text-xs mt-1 ml-1">{formErrors.country}</p>}
+                    </div>
+                    {/* Submit */}
                     <button
                       type="submit"
                       disabled={emailLoading}
-                      className="px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+                      className="px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70 mt-1"
                     >
                       {emailLoading ? (
                         <Loader2 className="h-5 w-5 animate-spin" />
@@ -866,7 +984,7 @@ export default function LandingPage({ params }: LandingPageProps) {
                   </form>
                   <p className="text-emerald-200 text-sm">{copy.emailCapture.privacy}</p>
                   <p className="text-emerald-300 text-xs mt-2 font-medium">{copy.emailCapture.bonus}</p>
-                  <button onClick={() => setQuizStep(2)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
+                  <button onClick={() => setQuizStep(3)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
                 </div>
               )}
             </div>

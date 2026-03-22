@@ -7,7 +7,7 @@ export interface ILead extends Document {
   email: string;
   whatsapp?: string;
   country?: string;
-  quiz_answers?: Record<string, string>;
+  quiz_answers?: Record<string, string | string[]>;
   tag: LeadTag;
   createdAt: Date;
   updatedAt: Date;

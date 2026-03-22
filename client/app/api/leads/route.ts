@@ -9,11 +9,11 @@ import {
 } from '@/lib/email';
 import { subscribeToConvertKit } from '@/lib/convertkit';
 
-function computeTag(answers?: Record<string, string>): LeadTag {
+function computeTag(answers?: Record<string, string | string[]>): LeadTag {
   if (!answers) return 'WARM';
 
-  const budget = answers.budget ?? '';
-  const timeline = answers.timeline ?? '';
+  const budget = (answers.budget as string | undefined) ?? '';
+  const timeline = (answers.timeline as string | undefined) ?? '';
 
   const isLowBudget = budget.startsWith('Under €200');
   const isJustExploring = timeline.startsWith('Just exploring');
