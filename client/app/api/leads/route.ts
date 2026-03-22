@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Lead, { LeadTag } from '@/lib/models/Lead';
+import {
+  sendColdLeadEmail,
+  sendHotLeadEmail,
+  sendOwnerAlert,
+} from '@/lib/email';
 
 function computeTag(answers?: Record<string, string>): LeadTag {
   if (!answers) return 'WARM';
@@ -38,6 +43,18 @@ export async function POST(req: NextRequest) {
       country,
       quiz_answers: answers,
       tag,
+    });
+
+    // Send emails in parallel — failures must not block the API response
+    const leadAlert = { name: name ?? '', email, whatsapp, country, tag };
+
+    Promise.all([
+      tag === 'COLD'
+        ? sendColdLeadEmail(email, name ?? '')
+        : sendHotLeadEmail(email, name ?? ''),
+      sendOwnerAlert(leadAlert),
+    ]).catch((err) => {
+      console.error('[leads/route] background email error:', err);
     });
 
     return NextResponse.json({ success: true, tag: lead.tag }, { status: 201 });

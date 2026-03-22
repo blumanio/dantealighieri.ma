@@ -67,6 +67,7 @@
     "react-scroll": "^1.9.0",
     "react-toastify": "^10.0.5",
     "react-world-flags": "^1.6.0",
+    "resend": "^6.9.4",
     "stripe": "^18.2.0",
     "svix": "^1.25.0",
     "tailwind-merge": "^2.3.0",
