@@ -2,43 +2,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-// import { useUser } from '@clerk/nextjs'; // Mocked below for preview
-// import { useRouter } from 'next/navigation'; // Mocked below for preview
-// import { useLanguage } from '@/context/LanguageContext'; // Mocked below for preview
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 import { Loader2 } from 'lucide-react';
-// import { PostCategory } from '@/lib/models/Post'; // Mocked below for preview
-
-// --- MOCKS FOR PREVIEW ENVIRONMENT ---
-// These mocks simulate the behavior of external dependencies for the preview.
-
-const useUser = () => ({
-    isSignedIn: true,
-    user: {
-        publicMetadata: { role: 'admin' },
-        fullName: 'Admin User',
-        id: 'mock_user_123',
-    },
-});
-
-const useRouter = () => ({
-    push: (path: string) => {
-        console.log(`Mock navigation: Pushing to ${path}`);
-        // In a real app, this would change the URL.
-        // For the preview, we can show an alert or log to the console.
-    },
-});
-
-const useLanguage = () => ({
-    t: (key: string, fallback?: string) => fallback || key,
-    language: 'en',
-});
 
 const ALL_POST_CATEGORIES_VALUES = [
     'discussion', 'housing', 'scholarships', 'event', 'other', 'academic', 'career', 'visa_process'
 ] as const;
 type PostCategory = typeof ALL_POST_CATEGORIES_VALUES[number];
-
-// --- END MOCKS ---
 
 
 // Matches the IPost schema structure for creation (with original author fields)
@@ -117,10 +89,14 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
     const [commentSuccessMessage, setCommentSuccessMessage] = useState<string | null>(null);
 
     useEffect(() => {
-        // Basic admin check: Redirect if not signed in.
-        // TODO: Implement more robust admin role check (e.g., user.publicMetadata?.role !== 'admin')
-        if (isSignedIn === false) router.push(`/${language}/sign-in`);
-    }, [isSignedIn, router, language]);
+        if (isSignedIn === false) {
+            router.push(`/${language}/sign-in`);
+            return;
+        }
+        if (isSignedIn && (user?.publicMetadata?.role as string) !== 'admin') {
+            router.push(`/${language}`);
+        }
+    }, [isSignedIn, user, router, language]);
 
     const handlePostFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;

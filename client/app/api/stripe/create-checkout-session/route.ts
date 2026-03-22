@@ -7,13 +7,9 @@ import Stripe from 'stripe';
 // Do NOT use '.basil' or any other non-date suffix.
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil', // Use the required Stripe API version
+  apiVersion: '2025-05-28.basil',
 });
-// Stripe's Node.js SDK does not expose apiVersion property directly
-console.log('[STRIPE API] Initialized Stripe',process.env.STRIPE_SECRET_KEY);
-// Fallback base URL - ideally from an environment variable
 const APP_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://yourdomain.com';
-console.log('[STRIPE API] App Base URL:', APP_BASE_URL);
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -27,28 +23,16 @@ export async function POST(req: NextRequest) {
     if (!origin) {
       origin = req.headers.get('origin') || APP_BASE_URL;
     }
-    console.log('[STRIPE API] Origin:', origin);
-    // Ensure origin doesn't have a trailing slash to avoid double slashes in URLs
     if (origin.endsWith('/')) {
-        origin = origin.slice(0, -1);
+      origin = origin.slice(0, -1);
     }
-// Validate that priceId is provided
-if (!priceId) {
-      console.error('[STRIPE API] Error: Price ID is required in the request body.');
+
+    if (!priceId) {
       return NextResponse.json({ error: { message: 'Price ID is required' } }, { status: 400 });
     }
 
-    // 3. Construct success_url and cancel_url using TEMPLATE LITERALS (backticks `` ` ``):
-    // This ensures the `origin` and `lang` variables are correctly interpolated.
     const successUrl = `${origin}/${lang}/payment-success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${origin}/${lang}/pricing?payment_cancelled=true`;
-
-    // For debugging - you can log these values in your server logs
-    console.log('[STRIPE API] Price ID:', priceId);
-    console.log('[STRIPE API] Language:', lang);
-    console.log('[STRIPE API] Origin:', origin);
-    console.log('[STRIPE API] Success URL:', successUrl);
-    console.log('[STRIPE API] Cancel URL:', cancelUrl);
 
     const sessionPayload: Stripe.Checkout.SessionCreateParams = {
       mode: 'subscription', // Or 'payment' for one-time purchases

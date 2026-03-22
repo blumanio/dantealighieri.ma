@@ -1,7 +1,20 @@
 // app/api/universities/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
 import dbConnect from '@/lib/dbConnect';
 import University, { IUniversity } from '@/lib/models/University'; // Adjust path as needed
+
+async function requireAdmin(): Promise<NextResponse | null> {
+  const { userId, sessionClaims } = await auth();
+  if (!userId) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const role = (sessionClaims as any)?.metadata?.role ?? (sessionClaims as any)?.publicMetadata?.role;
+  if (role !== 'admin') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+  return null;
+}
 
 // --- GET Handler ---
 export async function GET(request: NextRequest) {
@@ -109,7 +122,8 @@ export async function GET(request: NextRequest) {
 // --- POST Handler (Admin: Create University) ---
 export async function POST(request: NextRequest) {
   const requestUrl = request.url;
-  console.log(`[API/UNIVERSITIES] POST request received for ${requestUrl} to create university`);
+  const authError = await requireAdmin();
+  if (authError) return authError;
 
   try {
     await dbConnect();
@@ -146,7 +160,8 @@ export async function POST(request: NextRequest) {
 // --- PUT Handler (Admin: Update University) ---
 export async function PUT(request: NextRequest) {
   const requestUrl = request.url;
-  console.log(`[API/UNIVERSITIES] PUT request received for ${requestUrl} to update university`);
+  const authError = await requireAdmin();
+  if (authError) return authError;
 
   try {
     await dbConnect();
@@ -191,7 +206,8 @@ export async function PUT(request: NextRequest) {
 // --- DELETE Handler (Admin: Delete University) ---
 export async function DELETE(request: NextRequest) {
   const requestUrl = request.url;
-  console.log(`[API/UNIVERSITIES] DELETE request received for ${requestUrl} to delete university`);
+  const authError = await requireAdmin();
+  if (authError) return authError;
 
   try {
     await dbConnect();
