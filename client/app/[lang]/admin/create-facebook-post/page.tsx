@@ -130,7 +130,7 @@ const CreateAdminPostPage = () => { // Renamed component for clarity
 
         // Validation logic updated to use new field names
         if (!postFormData.communityId || !postFormData.communityType || !postFormData.communityName || !postFormData.communitySlug) {
-            setPostError(t('adminPost.errorCommunityDetails', 'Community details are required.'));
+            setPostError('Community details are required.');
             setIsLoadingPost(false);
             return;
         }
