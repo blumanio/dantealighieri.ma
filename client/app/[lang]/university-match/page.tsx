@@ -376,7 +376,7 @@ export default function LandingPage({ params }: LandingPageProps) {
         <div className="max-w-5xl mx-auto flex items-center justify-center gap-3 text-sm font-medium">
           <Clock className="h-4 w-4 flex-shrink-0 animate-pulse" />
           <span>
-            Deadline MAECI : <strong>Mai 2026</strong> — Plus que <strong>{deadlineCountdown.days} jours</strong> pour postuler
+            Deadline MAECI : <strong>26 Mars 2026</strong> — Plus que <strong>{deadlineCountdown.days} jours</strong> pour postuler
           </span>
           <a
             href="#guide-section"
