@@ -7,6 +7,7 @@ import {
   sendOwnerAlert,
   sendStudentConfirmation,
 } from '@/lib/email';
+import { subscribeToConvertKit } from '@/lib/convertkit';
 
 function computeTag(answers?: Record<string, string>): LeadTag {
   if (!answers) return 'WARM';
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
       createdAt: lead.createdAt,
     };
 
+    // Background emails — failures must not block the API response
     Promise.all([
       tag === 'COLD'
         ? sendColdLeadEmail(email, name ?? '')
@@ -70,6 +72,15 @@ export async function POST(req: NextRequest) {
     }).catch((err) => {
       console.error('[leads/route] background email error:', err);
     });
+
+    // ConvertKit — WARM and HOT only; COLD gets one Resend email and nothing more
+    if (tag === 'WARM' || tag === 'HOT') {
+      subscribeToConvertKit(email, name ?? '', tag).then((ckResult) => {
+        console.log('[LEADS API] ConvertKit result:', JSON.stringify(ckResult));
+      }).catch((err) => {
+        console.error('[leads/route] ConvertKit error:', err);
+      });
+    }
 
     return NextResponse.json({ success: true, tag: lead.tag }, { status: 201 });
   } catch (error) {
