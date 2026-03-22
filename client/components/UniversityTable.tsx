@@ -100,7 +100,7 @@ export default function UniversityTable({ universities, isSignedIn }: University
                 {visibleUniversities.length > 0 ? (
                     visibleUniversities.map((uni, index) => (
                         <UniversityCard
-                            key={uni.id ?? index}
+                            key={uni._id ?? index}
                             index={index}
                             university={uni}
                         />

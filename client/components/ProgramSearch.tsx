@@ -87,12 +87,6 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
     fetchAllCourses();
   }, []);
 
-  // Fire search analytics when term/filters/results change (after courses loaded)
-  useEffect(() => {
-    if (allCourses.length === 0) return;
-    trackSearch(searchTerm, filteredCourses.length, formData);
-  }, [searchTerm, formData, filteredCourses.length, allCourses.length, trackSearch]);
-
   const filteredCourses = useMemo(() => {
     return allCourses.filter(course => {
       const matchesFilters = (
@@ -110,6 +104,12 @@ const ProgramSearch: React.FC<ProgramSearchProps> = ({ initialFilters }) => {
       return matchesFilters && matchesSearch;
     });
   }, [allCourses, formData, searchTerm]);
+
+  // Fire search analytics when term/filters/results change (after courses loaded)
+  useEffect(() => {
+    if (allCourses.length === 0) return;
+    trackSearch(searchTerm, filteredCourses.length, formData);
+  }, [searchTerm, formData, filteredCourses.length, allCourses.length, trackSearch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
