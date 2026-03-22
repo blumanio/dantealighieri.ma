@@ -554,19 +554,23 @@ const Header: React.FC = () => {
           </div>
 
           {/* ====== Right Side: Actions & User Menu ====== */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden sm:block">
-              {/* <LanguageSwitcher /> */}
-            </div>
-            {/* <SignedIn>
-              <UserDropdown />
-            </SignedIn>
-            <SignedOut>
-              <div className="hidden sm:flex items-center gap-2">
-                <SignInButton mode="modal"><Button className='bg-orange-500 text-white' variant="ghost" size="sm">{currentMenu.signIn.text}</Button></SignInButton>
-                <SignInButton mode="modal"><Button className='bg-orange-500 text-white' size="sm">{currentMenu.signUp.text}</Button></SignInButton>
-              </div>
-            </SignedOut> */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="https://wa.me/393519000615"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-colors"
+              aria-label="Chat on WhatsApp"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span className="hidden md:inline">WhatsApp</span>
+            </a>
+            <Link
+              href={`/${language}/university-match`}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              <span>Get Started</span>
+            </Link>
           </div>
         </nav>
       </motion.header>

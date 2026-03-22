@@ -5,7 +5,7 @@ import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowRight, MessageCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext'; //
 import { Button } from '@/components/ui/button'; //
 
@@ -116,7 +116,23 @@ const PaymentSuccessPage: React.FC = () => {
                         </div>
                     </div>
 
-                    <p className="mt-10 text-xs text-textSecondary"
+                    <div className="mt-8 p-5 bg-green-50 border border-green-200 rounded-xl text-center">
+                        <p className="text-sm font-semibold text-green-900 mb-1">Need help getting started?</p>
+                        <p className="text-sm text-green-700 mb-3">
+                            Message us on WhatsApp — we reply within a few hours.
+                        </p>
+                        <a
+                            href="https://wa.me/393519000615"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors text-sm"
+                        >
+                            <MessageCircle className="h-4 w-4" />
+                            Chat on WhatsApp
+                        </a>
+                    </div>
+
+                    <p className="mt-8 text-xs text-textSecondary"
                         dangerouslySetInnerHTML={{
                             __html: t('paymentSuccess', 'contactSupportMessage', { lang: language }) ||
                                 `If you have any questions or need assistance, please don't hesitate to <a href='/${language}/contact' class='font-semibold text-primary hover:text-primary-dark underline'>contact our support team</a>.`

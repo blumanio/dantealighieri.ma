@@ -522,6 +522,33 @@ export default async function BlogPostPage({ params }: SingleBlogPageProps) {
                         </div>
                     )} */}
 
+                    {/* Bottom CTA */}
+                    <div className="mt-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl shadow-xl p-8 text-center">
+                        <p className="text-orange-100 text-sm font-semibold uppercase tracking-wide mb-2">Ready to study in Italy?</p>
+                        <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
+                            Get your free university match
+                        </h3>
+                        <p className="text-orange-100 mb-6 max-w-md mx-auto">
+                            Answer 3 quick questions and we'll tell you exactly which Italian universities fit your profile — free.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                            <Link
+                                href={`/${lang}/university-match`}
+                                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-orange-600 font-bold rounded-xl hover:bg-orange-50 transition-colors"
+                            >
+                                Start Free Quiz →
+                            </Link>
+                            <a
+                                href="https://wa.me/393519000615"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl transition-colors"
+                            >
+                                Ask on WhatsApp
+                            </a>
+                        </div>
+                    </div>
+
                     {/* Navigation */}
                     {(prev || next) && (
                         <div className="mt-16">

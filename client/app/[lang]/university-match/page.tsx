@@ -729,12 +729,24 @@ export default function LandingPage({ params }: LandingPageProps) {
                 {leadTag === 'HOT' && (
                   <>
                     <p className="text-emerald-200 text-sm mb-3">Vous semblez prêt — réservez une consultation personnalisée :</p>
-                    <a
-                      href={`/fr/consultation`}
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
-                    >
-                      Réserver une consultation <ArrowRight className="h-4 w-4" />
-                    </a>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <a
+                        href="https://calendly.com/dantema/dante"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"
+                      >
+                        Réserver un appel gratuit <ArrowRight className="h-4 w-4" />
+                      </a>
+                      <a
+                        href="https://wa.me/393519000615"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl transition-colors"
+                      >
+                        WhatsApp
+                      </a>
+                    </div>
                   </>
                 )}
               </div>
