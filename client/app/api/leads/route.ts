@@ -8,10 +8,10 @@ function computeTag(answers?: Record<string, string>): LeadTag {
   const budget = answers.budget ?? '';
   const timeline = answers.timeline ?? '';
 
-  const isLowBudget = budget === 'Under €200';
-  const isJustExploring = timeline === 'Just exploring';
-  const isUrgent = timeline === 'This year' || timeline === 'Next 3 months';
-  const isHighBudget = budget === '€400+' || budget === '€200-€400';
+  const isLowBudget = budget.startsWith('Under €200');
+  const isJustExploring = timeline.startsWith('Just exploring');
+  const isUrgent = timeline.includes('urgent') || timeline.includes('September 2026');
+  const isHighBudget = budget.startsWith('€400') || budget.startsWith('€700') || budget.startsWith('€200–€400');
 
   if (isLowBudget && isJustExploring) return 'COLD';
   if (isHighBudget && isUrgent) return 'HOT';

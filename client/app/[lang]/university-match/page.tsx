@@ -294,6 +294,10 @@ export default function LandingPage({ params }: LandingPageProps) {
   const copy = COPY.fr; // French-first for North African audience
   const textDir = lang === 'ar' ? 'rtl' : 'ltr';
 
+  const [quizStep, setQuizStep] = useState<0 | 1 | 2 | 3>(0);
+  const [timeline, setTimeline] = useState('');
+  const [challenge, setChallenge] = useState('');
+  const [budget, setBudget] = useState('');
   const [email, setEmail] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [emailLoading, setEmailLoading] = useState(false);
@@ -319,7 +323,7 @@ export default function LandingPage({ params }: LandingPageProps) {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, answers: { timeline, challenge, budget } }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -736,33 +740,123 @@ export default function LandingPage({ params }: LandingPageProps) {
               </div>
             </div>
           ) : (
-            <div>
-              <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={copy.emailCapture.placeholder}
-                  required
-                  className="flex-1 px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300"
-                />
-                <button
-                  type="submit"
-                  disabled={emailLoading}
-                  className="px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
-                >
-                  {emailLoading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <>
-                      <Mail className="h-5 w-5" />
-                      {copy.emailCapture.cta}
-                    </>
-                  )}
-                </button>
-              </form>
-              <p className="text-emerald-200 text-sm">{copy.emailCapture.privacy}</p>
-              <p className="text-emerald-300 text-xs mt-2 font-medium">{copy.emailCapture.bonus}</p>
+            <div className="max-w-lg mx-auto">
+              {/* Step progress dots */}
+              <div className="flex items-center justify-center gap-2 mb-8">
+                {[0, 1, 2, 3].map((s) => (
+                  <div
+                    key={s}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      s === quizStep ? 'w-6 bg-white' : s < quizStep ? 'w-2 bg-emerald-300' : 'w-2 bg-white/30'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* STEP A — Timeline */}
+              {quizStep === 0 && (
+                <div>
+                  <p className="text-white font-bold text-xl mb-6">What's your timeline?</p>
+                  <div className="space-y-3">
+                    {[
+                      'I want to start in September 2026 (urgent)',
+                      'I want to start in 2027',
+                      'Just exploring for now',
+                    ].map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => { setTimeline(option); setQuizStep(1); }}
+                        className="w-full text-left px-5 py-4 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white font-medium rounded-xl transition-all duration-200"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* STEP B — Challenge */}
+              {quizStep === 1 && (
+                <div>
+                  <p className="text-white font-bold text-xl mb-6">What's your biggest challenge?</p>
+                  <div className="space-y-3">
+                    {[
+                      'Choosing the right university or program',
+                      'Understanding the application process',
+                      'Documents and visa help',
+                      'I want someone to handle everything',
+                    ].map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => { setChallenge(option); setQuizStep(2); }}
+                        className="w-full text-left px-5 py-4 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white font-medium rounded-xl transition-all duration-200"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                  <button onClick={() => setQuizStep(0)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
+                </div>
+              )}
+
+              {/* STEP C — Budget */}
+              {quizStep === 2 && (
+                <div>
+                  <p className="text-white font-bold text-xl mb-6">What's your budget for guidance?</p>
+                  <div className="space-y-3">
+                    {[
+                      'Under €200 (I need free resources)',
+                      '€200–€400 (Starter guidance)',
+                      '€400–€700 (Full guidance)',
+                      '€700+ (VIP — full hand-holding)',
+                    ].map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => { setBudget(option); setQuizStep(3); }}
+                        className="w-full text-left px-5 py-4 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white font-medium rounded-xl transition-all duration-200"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                  <button onClick={() => setQuizStep(1)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
+                </div>
+              )}
+
+              {/* STEP D — Email */}
+              {quizStep === 3 && (
+                <div>
+                  <p className="text-white font-bold text-xl mb-2">Presque là — où envoyer la checklist ?</p>
+                  <p className="text-emerald-200 text-sm mb-6">{copy.emailCapture.subtitle}</p>
+                  <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 mb-4">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={copy.emailCapture.placeholder}
+                      required
+                      className="flex-1 px-5 py-4 rounded-xl text-slate-800 font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                    />
+                    <button
+                      type="submit"
+                      disabled={emailLoading}
+                      className="px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+                    >
+                      {emailLoading ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : (
+                        <>
+                          <Mail className="h-5 w-5" />
+                          {copy.emailCapture.cta}
+                        </>
+                      )}
+                    </button>
+                  </form>
+                  <p className="text-emerald-200 text-sm">{copy.emailCapture.privacy}</p>
+                  <p className="text-emerald-300 text-xs mt-2 font-medium">{copy.emailCapture.bonus}</p>
+                  <button onClick={() => setQuizStep(2)} className="mt-4 text-emerald-300 text-sm hover:text-white transition-colors">← Back</button>
+                </div>
+              )}
             </div>
           )}
         </div>
