@@ -761,7 +761,7 @@ export default function LandingPage({ params }: LandingPageProps) {
                     <p className="text-emerald-200 text-sm mb-3">Vous semblez prêt — réservez une consultation personnalisée :</p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                       <a
-                        href="https://calendly.com/dantema/dante"
+                        href="https://calendly.com/dantema/dante-alighieri-consulting"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-white text-emerald-800 font-bold rounded-xl hover:bg-emerald-50 transition-colors"

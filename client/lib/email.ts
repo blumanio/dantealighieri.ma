@@ -110,7 +110,7 @@ export async function sendHotLeadEmail(
             Book your free 20-minute strategy call:
           </p>
           <a
-            href="https://calendly.com/dantema/dante"
+            href="https://calendly.com/dantema/dante-alighieri-consulting"
             style="display:inline-block;margin-top:8px;padding:12px 24px;background:#ea580c;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold"
           >
             Book Now →
@@ -266,7 +266,7 @@ export async function sendStudentConfirmation(
         <p>Based on your answers, you qualify for our guidance program.</p>
         <p style="margin-top:24px"><strong>Next step:</strong> Book your free 20-minute strategy call:</p>
         <a
-          href="https://calendly.com/dantema/dante"
+          href="https://calendly.com/dantema/dante-alighieri-consulting"
           style="display:inline-block;margin-top:8px;padding:12px 24px;background:#ea580c;color:#fff;border-radius:8px;text-decoration:none;font-weight:bold"
         >
           Book Now →
